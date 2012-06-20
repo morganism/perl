@@ -1,3 +1,4 @@
+<pre>
  db2csv Version: : 1.36 
 
  USAGE:
@@ -70,3 +71,4 @@
             2) next check for commas, fields with commas will be enclosed by the OPTIONALLY ENCLOSED BY character
             3) if for some reason OPTIONALLY ENCLOSED BY has not been specified use --enclose CHAR (defaults to: ")
 
+</pre>
