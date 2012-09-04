@@ -36,10 +36,30 @@ sub new
 	return $self;
 } 
 
+sub get
+{
+	my $self = shift;
+	my $xpath = shift;
+	my $offset = shift || 0;
+
+	# avoid out of bounds
+	my $lastOffset = $#{$self->{xpath}->{$xpath}};
+	if ($offset > $lastOffset)
+	{
+		$offset = $lastOffset;
+	}
+	elsif ($offset < (-1 * $lastOffset))
+	{
+		$offset = 0;
+	}
+	my $value = $self->{xpath}->{$xpath}->[$offset];
+	return $value;
+}
+
 sub _init
 {
 	my $self = shift;
-	if (defined $self->{filename})
+	if (defined $self->{filename} and -f $self->{filename})
 	{
 		$self->_read();
 	}
@@ -48,7 +68,7 @@ sub _init
 sub _read
 {
 	my $self = shift;
-	$self->{config} = XMLin($self->{filename}, ForceArray => 1, KeepRoot => 1, ForceContent => 1);
+	$self->{config} = XMLin($self->{filename}, ForceArray => 1, KeepRoot => 1, ForceContent => 1, KeyAttr => 0);
 	$self->_buildXpathLookup({tree => $self->{config}})
 }
 

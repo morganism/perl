@@ -29,3 +29,5 @@ my $file = shift || "/home/morgan/src/git/perl/config/bin/test.xml";
 
 my $c = new ConfigFile({filename=>$file});
 print Dumper($c->{xpath});
+my $v = $c->get("/top/three");
+print "C=[$v]\n";

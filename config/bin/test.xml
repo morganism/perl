@@ -1,8 +1,8 @@
 <top topattr="TopAttr" xxx="XXX">
 	<one>One</one>
 	<two attr="twoattr1" attr2="twoattr22">content Two</two>
-	<three>content Three</three>
-	<three>content Three 2</three>
+	<three id="1">content Three</three>
+	<three id="2">content Three 2</three>
 	<four attr="fourattr"></four>
 	<five></five>
 </top>
