@@ -1,0 +1,418 @@
+#!/usr/bin/perl
+
+##################################################
+# script   : parseASN.1Def
+# author   : Cartesian Limited
+# author   : msziraki
+# date     : Tue Apr 15 14:25:59 BST 2014
+# $Revision: 1.7 
+##################################################
+$version = "$Revision: 1.7 $number";
+
+use Data::Dumper;
+
+# vars for getArgs
+my $file;
+my $pdu;
+usage() unless (@ARGV);
+getArgs(@ARGV);
+
+usage("ASN.1 definition file [$file] not specified correctly") unless (-f $file);
+usage("PDU not set") unless ($pdu);
+
+my @UNIVERSAL_CLASS_TAGS =
+(
+	"EOC",
+	"BOOLEAN",
+	"INTEGER",
+	"BIT STRING",
+	"OCTET STRING",
+	"NULL",
+	"OBJECT IDENTIFIER",
+	"Object Descriptor",
+	"EXTERNAL",
+	"REAL",
+	"ENUMERATED",
+	"EMBEDDED PDV",
+	"UTF8String",
+	"RELATIVE-OID",
+	"SEQUENCE OF",
+	"SEQUENCE",
+	"SET OF",
+	"SET",
+	"NumericString",
+	"PrintableString",
+	"T61String",
+	"VideotexString",
+	"IA5String",
+	"UTCTime",
+	"GeneralizedTime",
+	"GraphicString",
+	"VisibleString",
+	"GeneralString",
+	"UniversalString",
+	"CHARACTER STRING",
+	"BMPString"
+);
+
+
+
+#------------------------------------------------------------------------------
+# STEP 1 : read ASN.1 def file into array
+#------------------------------------------------------------------------------
+my @fileLines = ();
+my $BEGIN = 0; #parse control
+my $END = 0; #parse control
+# read the input file 
+open IN, $file;
+while (<IN>)
+{
+	chomp;
+
+	#-------------------------------------------
+	# control parsing
+	#-------------------------------------------
+	if (/BEGIN/)
+	{
+		$BEGIN = 1;
+		next;
+	}
+	elsif (/END/)
+	{
+		$END = 1;
+		next;
+	}
+	next if ($END);
+	next unless ($BEGIN);
+	#-------------------------------------------
+
+	next if (/^\s*$/);  # ignore blank lines
+	next if (/^\s*--/); # ignore comment lines
+	s/\s+/ /g;
+	s/^\s*//;
+	s/^\s*//;
+	s/,$//;
+	if (/\{\s*$/) # remove trailing '{' and put on next line
+	{
+		s/\{\s*//;
+		push @fileLines, $_;
+		push @fileLines, '{';
+	}
+	else
+	{
+		push @fileLines, $_;
+	}
+}
+close IN;
+
+
+#------------------------------------------------------------------------------
+# STEP 2 : process array and create Elements
+#------------------------------------------------------------------------------
+
+my $elements = {};
+my $current_oElement;
+my $processingElement = 0;
+my $fileLinesCount = scalar(@fileLines);
+for (my $i = 0; $i < $fileLinesCount; $i++)
+{
+	my $currentLine = $fileLines[$i];
+	my $nextLine = $fileLines[$i + 1];
+
+	if ($processingElement)
+	{
+		if ($currentLine =~ /\}/)
+		{
+			$processingElement = 0;
+			my $name = $current_oElement->getElementName();
+			$elements->{$name} = $current_oElement;
+			$i++;next; # advance counter to skip '}'
+		}
+		my ($name, $tag, $elementName) = split / /, $currentLine;
+		$current_oElement->addChild($name, $elementName);
+	}
+	elsif ($currentLine =~ /::=/)
+	{
+		if ($nextLine =~ /\{/)
+		{
+			$processingElement = 1;
+
+			# TAG CLASS WORDS
+			# could look like 
+			# LevelOfCAMELService ::= BIT STRING
+			# DefaultSMS-Handling ::= ENUMERATED
+			#
+			# so one of UNIVERSAL_CLASS_TAGS
+			#
+			my ($name, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
+			my $tagClass = join " ", @tagClassWords;
+
+			my $oElement = new Element({name => $name, tag_class => $tagClass, is_leaf => 0});
+			$current_oElement = $oElement;
+			$i++;next; # advance counter to skip '{'
+		}
+		else
+		{
+			my ($name, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
+			my $tagClass = join " ", @tagClassWords;
+
+			my $isLeaf = 0; # this will be a value .. one of UNIVERSAL_CLASS_TAGS
+			foreach my $uct (@UNIVERSAL_CLASS_TAGS)
+			{
+				if ($tagClass =~ /$uct/)
+				{
+					$isLeaf = 1;	
+				}
+			}
+
+			my $oElement = new Element({name => $name, tag_class => $tagClass, is_leaf => $isLeaf});
+			$elements->{$name} = $oElement;
+			$current_oElement = $oElement;
+		}
+	}
+} 
+
+print Dumper($elements);
+
+#------------------------------------------------------------------------------
+# STEP 3 : walk the Element tree .. starting with PDU
+#------------------------------------------------------------------------------
+
+if (not defined $elements->{$pdu})
+{
+	print "PDU [$pdu] is not present in the ASN.1 definition file [$file].\nAborting!\n";
+	exit 2;
+}
+
+print "PDU is $pdu\n";
+
+my $oElement = $elements->{$pdu};
+print Dumper($oElement);
+
+	
+
+
+
+#------------------------------------------------------------------------------
+# SUBS
+#------------------------------------------------------------------------------
+# display some help
+sub usage
+{
+	my $msg = shift;
+
+	my $script = $0;
+	my @parts = split /\//, $script;
+	$script = pop(@parts);
+	$script =~ s/\.\///;
+	print "	$script Version: $version\n\n";
+	print "	USAGE:\n\n";
+	print "		$script [{-h|--help}] [{-v|--version}] {-f|--file} filename\n\n";
+	print "\n";
+	print "	ARGUMENTS:\n";
+	print "		 -h, --help        Display this usage screen.\n";
+	print "		 -v, --version     Display version information.\n";
+	print "		 -f, --file        Specify ASN.1 definition filename.\n";
+	print "		 -p, --pdu         Specify PDU Element name.\n";
+	print "\n";
+	print "	NOTES:\n";
+
+	if (defined $msg)
+	{
+		print "\n\n\nERROR MESSAGE: $msg\n\n\n";
+	}
+
+	exit 1;
+}
+
+# process the arguments -- add as necessary
+sub getArgs
+{
+	while (@_)
+	{
+		my $arg = shift;
+		if ($arg eq '-h' || $arg eq '--help')
+		{
+			usage();
+			exit;
+		}
+		elsif ($arg eq '-v' || $arg eq '--version')
+		{
+			print "Version: $version\n";
+			exit;
+		}
+		elsif ($arg eq '-f' || $arg eq '--file')
+		{
+			$file = shift;
+		}
+		elsif ($arg eq '-p' || $arg eq '--pdu')
+		{
+			$pdu = shift;
+		}
+	}
+}
+
+#------------------------------------------------------------------------------
+# CLASSES
+#------------------------------------------------------------------------------
+=head1
+
+Each of CallEventRecord, CallReferenceNumber is an Element
+CallReferenceNumber will be a value too
+
+CallEventRecord ::= CHOICE {
+    sgsnPDPRecord  [20] SGSNPDPRecord,
+    ggsnPDPRecord  [21] GGSNPDPRecord,
+    sgsnMMRecord   [22] SGSNMMRecord,
+    sgsnSMORecord  [23] SGSNSMORecord,
+    sgsnSMTRecord  [24] SGSNSMTRecord,
+    sgsnLCTRecord  [25] SGSNLCTRecord,
+    sgsnLCORecord  [26] SGSNLCORecord,
+    sgsnLCNRecord  [27] SGSNLCNRecord,
+    egsnPDPRecord  [70] EGSNPDPRecord,
+    sgsnMBMSRecord   [76] SGSNMBMSRecord,
+    ggsnMBMSRecord   [77] GGSNMBMSRecord,
+    pGWRecord  [79] PGWRecord
+}
+
+in the example above CallEventRecord will be one of the CHOICEs .. if for example the record is PGWRecord
+then it's name will be 'pGWRecord' which is defined by the element PGWRecord
+
+
+CallReferenceNumber ::= OCTET STRING (SIZE(1..8))
+
+}
+=cut
+package Element;
+
+sub new
+{
+	my $class = shift;
+	my $self = shift;
+
+
+	bless $self, $class;
+	return $self;
+}
+
+sub addChild
+{
+	my $self = shift;
+	my $childName = shift;
+	my $childElementName = shift;
+	push @{$self->{children}}, {name => $childName, element_name => $childElementName}; # so we can get the Element name from the child name
+}
+
+sub getChildren
+{
+	$self = shift;
+	return @{$self->{children}};
+}
+
+sub getChildByName
+{
+	my $self = shift;
+	my $childName = shift;
+	my $child;
+	foreach my $c (@{$self->{children}})
+	{
+		return $c->{element_name} if ($c->{name} eq $childName);
+	}
+}
+
+sub getElementName
+{
+	my $self = shift;
+	return $self->{name};
+}
+
+sub getTagClass
+{
+	my $self = shift;
+	return $self->{tag_class};
+}
+
+sub isLeaf
+{
+	my $self = shift;
+	return $self->{is_leaf};
+}
+
+
+#------------------------------------------------------------------------------
+# POD
+#------------------------------------------------------------------------------
+=head1 NAME
+
+parseASN.1Def - Some short description
+
+
+=head1 SYNOPSIS
+
+B<parseASN.1Def> [OPTION] ...
+
+=head1 DESCRIPTION
+
+Place a desription of this here.
+
+=head2 OPTIONS        
+
+Should include options and parameters.
+
+
+B<-h, --help>
+        display some help and usage.
+
+B<-v, --version>
+        display version information.
+
+
+=head1 USAGE
+
+Usage information goes here.
+
+
+=head1 EXAMPLES
+
+Place examples here.
+
+=head1 RETURN VALUES  
+
+Sections two and three function calls.
+
+=head1 ENVIRONMENT    
+
+Describe environment variables.
+
+=head1 FILES          
+
+Files associated with the subject.
+
+=head1 DIAGNOSTICS    
+
+Normally used for section 4 device interface diagnostics.
+
+=head1 ERRORS         
+
+Sections two and three error and signal handling.
+
+=head1 SEE ALSO       
+
+Cross references and citations.
+
+=head1 STANDARDS      
+
+Conformance to standards if applicable.
+
+=head1 BUGS           
+
+Gotchas and caveats.
+
+=head1 SECURITY CONSIDERATIONS
+
+=head1 COPYRIGHT
+
+Copyright 2014, Cartesian Limited
+
+=cut
+
