@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use warnings;
+use strict;
+
 ##################################################
 # script   : parseASN.1Def
 # author   : Cartesian Limited
@@ -7,7 +10,9 @@
 # date     : Tue Apr 15 14:25:59 BST 2014
 # $Revision: 1.7 
 ##################################################
-$version = "$Revision: 1.7 $number";
+my $Revision = "";
+my $number = "";
+my $version = "$Revision: 1.7 $number";
 
 use Data::Dumper;
 
@@ -148,6 +153,12 @@ for (my $i = 0; $i < $fileLinesCount; $i++)
 			my ($elementName, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
 			my $tagClass = join " ", @tagClassWords;
 
+			my $isLeaf = 0;
+			if ($tagClass =~ /INTEGER|ENUMERATED/)
+			{
+				$isLeaf = 1;
+			}
+
 			my $oElement = new Element({element_name => $elementName, tag_class => $tagClass, is_leaf => 0});
 			$current_oElement = $oElement;
 			next; # advance counter to skip '{'
@@ -189,9 +200,6 @@ print "PDU is $pdu\n";
 my $oElement = $elements->{$pdu};
 $oElement->setName("PDU");
 $elements->{$pdu} = $oElement;
-print "DONKEY0\n";
-print Dumper($oElement);
-print $oElement . "\n";
 my @names;
 my @elementNames;
 my @locationTypes;
@@ -206,32 +214,28 @@ foreach my $child ($oElement->getChildren())
 	push @names, $name;
 	push @elementNames, $elementName;
 	my $oChild = $elements->{$elementName};
-print "elementName $elementName\n";
-print "name $name\n";
 	$oChild->setName($name);
 	$elements->{$elementName} = $oChild; # store with set name
-print "NNNN[$name]\n";
-	traverse($oChild, $oElement, "PDU");
+	traverse($oChild, $oElement);
 }
 
-my $x = join ":", @elementNames;
-print "XXX[$x]\n";
-my $y = join ":", @names;
-print "XXX[$y]\n";
+my $nl = join ":", @names;
+my $enl = join ":", @elementNames;
+print "$nl\n";
+print "$enl\n";
+
 
 sub traverse
 {
-	my ($oElement, $oParent, $parentName) = @_;
+	my ($oElement, $oParent) = @_;
+	my $parentName = $oParent->getName();
 	my $parentElementName = $oParent->getElementName();
-print "PEN[$parentElementName]\n";
-print "PN1[$parentName]\n";
-print $oParent . "\n";
 	if ($oElement->isLeaf())
 	{
 		my $name = $oElement->getName();
 		my $elementName = $oElement->getElementName();
-		push @names, "$parentName.$name";
-		push @elementNames, "$parentElementName.$elementName";
+		push @names, "$parentName.$name" unless($parentName eq "PDU");
+		push @elementNames, "$parentElementName.$elementName" unless($parentName eq "PDU");
 		return;
 
 	}
@@ -239,13 +243,20 @@ print $oParent . "\n";
 	{
 		my $name = $oElement->getName();
 		my $elementName = $oElement->getElementName();
-print "PN[$parentName]N[$name]\n";
-		push @names, "$parentName.$name";
-		push @elementNames, "$parentElementName.$elementName";
-		my $oChild = $elements->{$elementName};
-		$oChild->setName($name);
-		$elements->{$elementName} = $oChild; # store with set name
+		push @names, "$parentName.$name" unless($parentName eq "PDU");
+		push @elementNames, "$parentElementName.$elementName" unless($parentName eq "PDU");
 
+		foreach my $child ($oElement->getChildren())
+		{
+			my $childName = $child->{name};
+			my $childElementName = $child->{element_name};
+#print Dumper($elements);
+#print "CN[$childName]CEN[$childElementName]\n";
+			my $oChild = $elements->{$childElementName};
+			$oChild->setName($childName);
+			$elements->{$elementName} = $oChild; # store with set name
+			traverse($oChild, $oElement);
+		}
 		#traverse($oChild, $oParent);
 	}
 }
@@ -349,9 +360,13 @@ package Element;
 sub new
 {
 	my $class = shift;
-	my $self = shift;
-
-	$self->{_name} = "default";
+	my $argsRef = shift;
+	my $self = {};
+	$self->{name} = $argsRef->{name};
+	$self->{element_name} = $argsRef->{element_name};
+	$self->{frog_name} = $argsRef->{frog_name};
+	$self->{tag_class} = $argsRef->{tag_class};
+	$self->{is_leaf} = $argsRef->{is_leaf};
 
 
 	bless $self, $class;
@@ -368,7 +383,7 @@ sub addChild
 
 sub getChildren
 {
-	$self = shift;
+	my $self = shift;
 	return @{$self->{children}};
 }
 
@@ -385,21 +400,26 @@ sub getChildByName
 
 sub getName
 {
-	my $self => shift;
-	return $self->{_name};
+	my $self = shift;
+	return $self->{name};
 }
 
 sub setName
 {
 	my $self = shift;
 	my $name = shift;
-	$self->{_name} = $name;
+	$self->{name} = $name;
 }
 
 sub getElementName
 {
 	my $self = shift;
 	return $self->{element_name};
+}
+sub getFrogName
+{
+	my $self = shift;
+	return $self->{frog_name};
 }
 
 sub getTagClass
