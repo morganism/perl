@@ -121,15 +121,16 @@ for (my $i = 0; $i < $fileLinesCount; $i++)
 
 	if ($processingElement)
 	{
+		next if ($currentLine =~ /\{/);
 		if ($currentLine =~ /\}/)
 		{
 			$processingElement = 0;
-			my $name = $current_oElement->getElementName();
-			$elements->{$name} = $current_oElement;
-			$i++;next; # advance counter to skip '}'
+			my $elementName = $current_oElement->getElementName();
+			$elements->{$elementName} = $current_oElement;
+			next; 
 		}
-		my ($name, $tag, $elementName) = split / /, $currentLine;
-		$current_oElement->addChild($name, $elementName);
+		my ($pathName, $tag, $elementName) = split / /, $currentLine;
+		$current_oElement->addChild($pathName, $elementName);
 	}
 	elsif ($currentLine =~ /::=/)
 	{
@@ -144,16 +145,16 @@ for (my $i = 0; $i < $fileLinesCount; $i++)
 			#
 			# so one of UNIVERSAL_CLASS_TAGS
 			#
-			my ($name, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
+			my ($elementName, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
 			my $tagClass = join " ", @tagClassWords;
 
-			my $oElement = new Element({name => $name, tag_class => $tagClass, is_leaf => 0});
+			my $oElement = new Element({element_name => $elementName, tag_class => $tagClass, is_leaf => 0});
 			$current_oElement = $oElement;
-			$i++;next; # advance counter to skip '{'
+			next; # advance counter to skip '{'
 		}
 		else
 		{
-			my ($name, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
+			my ($elementName, $tagSymbol, @tagClassWords) = split /\s+/, $currentLine;
 			my $tagClass = join " ", @tagClassWords;
 
 			my $isLeaf = 0; # this will be a value .. one of UNIVERSAL_CLASS_TAGS
@@ -165,14 +166,13 @@ for (my $i = 0; $i < $fileLinesCount; $i++)
 				}
 			}
 
-			my $oElement = new Element({name => $name, tag_class => $tagClass, is_leaf => $isLeaf});
-			$elements->{$name} = $oElement;
+			my $oElement = new Element({element_name => $elementName, tag_class => $tagClass, is_leaf => $isLeaf});
+			$elements->{$elementName} = $oElement;
 			$current_oElement = $oElement;
 		}
 	}
 } 
 
-print Dumper($elements);
 
 #------------------------------------------------------------------------------
 # STEP 3 : walk the Element tree .. starting with PDU
@@ -187,7 +187,68 @@ if (not defined $elements->{$pdu})
 print "PDU is $pdu\n";
 
 my $oElement = $elements->{$pdu};
+$oElement->setName("PDU");
+$elements->{$pdu} = $oElement;
+print "DONKEY0\n";
 print Dumper($oElement);
+print $oElement . "\n";
+my @names;
+my @elementNames;
+my @locationTypes;
+my $locationType = $oElement->getTagClass();
+push @locationTypes, $locationType;
+
+
+foreach my $child ($oElement->getChildren())
+{
+	my $name = $child->{name};
+	my $elementName = $child->{element_name};
+	push @names, $name;
+	push @elementNames, $elementName;
+	my $oChild = $elements->{$elementName};
+print "elementName $elementName\n";
+print "name $name\n";
+	$oChild->setName($name);
+	$elements->{$elementName} = $oChild; # store with set name
+print "NNNN[$name]\n";
+	traverse($oChild, $oElement, "PDU");
+}
+
+my $x = join ":", @elementNames;
+print "XXX[$x]\n";
+my $y = join ":", @names;
+print "XXX[$y]\n";
+
+sub traverse
+{
+	my ($oElement, $oParent, $parentName) = @_;
+	my $parentElementName = $oParent->getElementName();
+print "PEN[$parentElementName]\n";
+print "PN1[$parentName]\n";
+print $oParent . "\n";
+	if ($oElement->isLeaf())
+	{
+		my $name = $oElement->getName();
+		my $elementName = $oElement->getElementName();
+		push @names, "$parentName.$name";
+		push @elementNames, "$parentElementName.$elementName";
+		return;
+
+	}
+	else
+	{
+		my $name = $oElement->getName();
+		my $elementName = $oElement->getElementName();
+print "PN[$parentName]N[$name]\n";
+		push @names, "$parentName.$name";
+		push @elementNames, "$parentElementName.$elementName";
+		my $oChild = $elements->{$elementName};
+		$oChild->setName($name);
+		$elements->{$elementName} = $oChild; # store with set name
+
+		#traverse($oChild, $oParent);
+	}
+}
 
 	
 
@@ -290,6 +351,8 @@ sub new
 	my $class = shift;
 	my $self = shift;
 
+	$self->{_name} = "default";
+
 
 	bless $self, $class;
 	return $self;
@@ -320,16 +383,35 @@ sub getChildByName
 	}
 }
 
+sub getName
+{
+	my $self => shift;
+	return $self->{_name};
+}
+
+sub setName
+{
+	my $self = shift;
+	my $name = shift;
+	$self->{_name} = $name;
+}
+
 sub getElementName
 {
 	my $self = shift;
-	return $self->{name};
+	return $self->{element_name};
 }
 
 sub getTagClass
 {
 	my $self = shift;
 	return $self->{tag_class};
+}
+
+sub getLocationType
+{
+	my $self = shift;
+	return $self->{location_type};
 }
 
 sub isLeaf
