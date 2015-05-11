@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /usr/revo/datafeed/um/
+echo Error File Counts
+find DS*/err* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c

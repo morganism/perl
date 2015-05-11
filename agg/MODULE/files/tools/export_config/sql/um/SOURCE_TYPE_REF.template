@@ -1,0 +1,1 @@
+select * from UM.SOURCE_TYPE_REF where SOURCE_TYPE_ID > 99999 ;

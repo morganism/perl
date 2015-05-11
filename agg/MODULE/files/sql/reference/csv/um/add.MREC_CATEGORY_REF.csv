@@ -1,0 +1,11 @@
+100000,General,General
+100010,Prepaid SMS,Prepaid SMS
+100011,Postpaid SMS,Postpaid SMS
+100012,Prepaid Voice,Prepaid Voice
+100013,Postpaid Voice,Postpaid Voice
+100014,Prepaid MMS,Prepaid MMS
+100015,Postpaid MMS,Postpaid MMS
+100016,Prepaid Data,Prepaid Data
+100017,Postpaid Data,Postpaid Data
+100018,Roaming,Roaming
+100019,Content,Content

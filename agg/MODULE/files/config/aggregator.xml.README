@@ -1,0 +1,3 @@
+These XML files must be renamed to "."<filename>, so that they are 'hidden' and placed in the home directory of the revo user.
+
+They drive the behaviour of the /usr/revo/ASCERTAIN_BUILD/bin program.

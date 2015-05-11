@@ -1,0 +1,15 @@
+# you can add comments
+
+ # this is also a comment
+#--------------
+DS11:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS11 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS28_P01_ODD:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS28 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS28_P01_ODD.xml
+DS28_P03_ODD:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS28 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS28_P03_ODD.xml
+DS33_P02:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS33 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS33_P02.xml
+DS39:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS39 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS4:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS4 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS44:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS44 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS49:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS49 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS56:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS56 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS56_23.xml
+DS56:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS56 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS56_89.xml
+

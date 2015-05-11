@@ -1,0 +1,1 @@
+select * from GDL.EX_TRANSFORM_REF where TRANSFORM_ID > 99999 ;

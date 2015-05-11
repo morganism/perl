@@ -1,0 +1,34 @@
+<aggregator>
+    <!-- There is no logical reason for DS45 to have its own -->
+    <!-- aggregator.xml file, but due to a strange bug where the config block -->
+    <!-- wasn't being identified as DS45 (t was blank) it has been set up as a -->
+    <!-- workaround. -->
+
+    <!--General configuration -->
+    <general>
+        <binary name="uncompress" path="/usr/bin/uncompress -c"></binary>
+        <binary name="gunzip" path="/bin/gunzip -c"></binary>
+        <parameter name="timeslot_validity_window" value="999"></parameter><!-- discard records older than this -->
+        <parameter name="validate_files" value="yes"></parameter><!-- perform header/trailer validation -->
+        <parameter name="data_dir_base" value="/usr/revo/datafeed/um"></parameter><!-- all dirs relative to this -->
+        <parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
+        <parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
+        <parameter name="input_batch_size" value="100"></parameter><!-- number of files to process before writing results -->
+    </general>
+
+  <datasource name="DS45" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_ipcm_20101217_03538.csv -->
+        <regex>^ccn_ipcm_(\d{8})_(\d*)\.csv</regex>
+    <neid type="value" value="DS45"></neid>
+    <input_dir>DS45/in</input_dir>
+    <work_dir>DS45/work</work_dir>
+    <error_dir>DS45/err</error_dir>
+    <output_dir>DS45/out</output_dir>
+    <archive_dir>DS45/arc</archive_dir>
+    <log_dir>DS45/log</log_dir>
+  </datasource>
+
+  <datasource name="DUMMY" type="DUMMY" />
+
+</aggregator>

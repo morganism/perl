@@ -1,0 +1,1 @@
+select * from UTILS.ASCERTAIN_GROUP where GROUP_ID > 99999 ;

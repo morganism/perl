@@ -1,0 +1,1 @@
+select * from GDL.FMT_MAP_ACTION_TYPE_REF where ACTION_TYPE > 99999 ;

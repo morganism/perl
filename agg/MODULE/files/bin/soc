@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /usr/revo/datafeed/um/
+echo Output File Counts
+find DS*/out* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c

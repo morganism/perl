@@ -1,0 +1,802 @@
+<Schema name="UM">
+
+    <Dimension name="Issue Type">
+      <Hierarchy name="Issue_Type" hasAll="true" primaryKey="ISSUE_TYPE_ID" allMemberName="All Issue Types" >
+        <Table name="D_ISSUE_TYPE_MV" />
+        <Level name="Type" column="NAME" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Day" type="TimeDimension">
+      <Hierarchy hasAll="true" primaryKey="D_DAY_ID">
+        <Table name="D_DAY" />
+        <Level name="Year" column="YEAR" type="Numeric" uniqueMembers="true" levelType="TimeYears" />
+        <Level name="Quarter" column="QUARTER" type="Numeric" uniqueMembers="true" ordinalColumn="QUARTER" nameColumn="QUARTER_NAME" levelType="TimeQuarters" />
+        <Level name="Month" column="MONTH" type="Numeric" uniqueMembers="true" ordinalColumn="MONTH" nameColumn="MONTH_NAME" levelType="TimeMonths" />
+        <Level name="Day" column="DAY" type="Numeric" uniqueMembers="true" levelType="TimeDays"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Sample Date" type="TimeDimension">
+      <Hierarchy hasAll="true" primaryKey="D_DAY_ID">
+        <Table name="D_DAY" />
+        <Level name="Year" column="YEAR" type="Numeric" uniqueMembers="true" levelType="TimeYears" />
+        <Level name="Quarter" column="QUARTER" type="Numeric" uniqueMembers="true" ordinalColumn="QUARTER" nameColumn="QUARTER_NAME" levelType="TimeQuarters" />
+        <Level name="Month" column="MONTH" type="Numeric" uniqueMembers="true" ordinalColumn="MONTH" nameColumn="MONTH_NAME" levelType="TimeMonths" />
+        <Level name="Day" column="DAY" type="Numeric" uniqueMembers="true" levelType="TimeDays"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Issue Date" type="TimeDimension">
+      <Hierarchy hasAll="true" primaryKey="D_DAY_ID">
+        <Table name="D_DAY" />
+        <Level name="Year" column="YEAR" type="Numeric" uniqueMembers="true" levelType="TimeYears" />
+        <Level name="Quarter" column="QUARTER" type="Numeric" uniqueMembers="true" ordinalColumn="QUARTER" nameColumn="QUARTER_NAME" levelType="TimeQuarters" />
+        <Level name="Month" column="MONTH" type="Numeric" uniqueMembers="true" ordinalColumn="MONTH" nameColumn="MONTH_NAME" levelType="TimeMonths" />
+        <Level name="Day" column="DAY" type="Numeric" uniqueMembers="true" levelType="TimeDays"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Period" caption="Sample Date">
+      <Hierarchy hasAll="true" primaryKey="D_PERIOD_ID">
+        <Table name="D_PERIOD" />
+        <Level name="Year" column="YEAR" type="Numeric" uniqueMembers="true"  />
+        <Level name="Quarter" column="QUARTER" type="Numeric" uniqueMembers="false" ordinalColumn="QUARTER" nameColumn="QUARTER_NAME" />
+        <Level name="Month" column="MONTH" type="Numeric" uniqueMembers="false" ordinalColumn="MONTH" nameColumn="MONTH_NAME" />
+        <Level name="Day" column="DAY" type="Numeric" uniqueMembers="false" />
+        <Level name="Hour" column="HOUR" type="Numeric" uniqueMembers="false" />
+        <Level name="Timeslot" column="TIMESLOT" type="Numeric" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Metric Reconciliation">
+      <Hierarchy hasAll="true" primaryKey="D_MREC_LINE_ID">
+        <Table name="D_MREC_LINE_MV" />
+        <Level name="Reconciliation Name" column="MREC_NAME" type="String" uniqueMembers="false" />
+        <Level name="Line Type" column="MREC_LINE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Line Name" column="MREC_LINE_NAME" type="String" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Volumetric Reconciliation">
+      <Hierarchy hasAll="true" primaryKey="D_MREC_LINE_ID">
+        <Table name="D_MREC_LINE_TIME_MV" />
+        <Level name="Reconciliation Name" column="MREC_NAME" type="String" uniqueMembers="false" />
+        <Level name="Line Type" column="MREC_LINE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Line Name" column="MREC_LINE_NAME" type="String" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Fileset Reconciliation">
+      <Hierarchy hasAll="true" primaryKey="D_MREC_LINE_ID">
+        <Table name="D_MREC_LINE_FILE_MV" />
+        <Level name="Reconciliation Name" column="MREC_NAME" type="String" uniqueMembers="false" />
+        <Level name="Line Type" column="MREC_LINE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Line Name" column="MREC_LINE_NAME" type="String" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Edge by Type">
+      <Hierarchy name="Edge by Type" hasAll="true" primaryKey="D_EDGE_ID" caption="Edge By Type" allMemberName="All Edge Types">
+        <Table name="D_EDGE_MV" />
+        <Level name="Type" column="EDGE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Edge" column="EDGE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Edge">
+      <Hierarchy name="Edge" hasAll="true" primaryKey="D_EDGE_ID" caption="Edges" allMemberName="All Edges">
+        <Table name="D_EDGE_MV" />
+        <Level name="Edge" column="EDGE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Node by Type">
+      <Hierarchy name="Node by Type" hasAll="true" primaryKey="D_NODE_ID" caption="Node By Type" allMemberName="All Node Types">
+        <Table name="D_NODE_MV" />
+        <Level name="Type" column="NODE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Node" column="NODE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Node by System">
+      <Hierarchy name="Node by System" hasAll="true" primaryKey="D_NODE_ID" caption="Node by System" allMemberName="All Node Systems">
+        <Table name="D_NODE_MV" />
+        <Level name="System" column="SYSTEM" type="String" uniqueMembers="false" />
+        <Level name="Node" column="NODE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Node">
+      <Hierarchy name="Node" hasAll="true" primaryKey="D_NODE_ID" caption="Nodes" allMemberName="All Nodes">
+        <Table name="D_NODE_MV" />
+        <Level name="Node" column="NODE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="EdgeNode">
+      <Hierarchy name="EdgeNode" hasAll="true" primaryKey="D_EDGE_NODE_ID" caption="Edge/Node" allMemberName="All EdgeNodes">
+        <Table name="D_EDGE_NODE_MV" />
+        <Level name="Type" column="TYPE" type="String" uniqueMembers="false" />
+        <Level name="Name" column="NAME" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Source by Type">
+      <Hierarchy name="Source by Type" hasAll="true" primaryKey="D_SOURCE_ID" caption="Source by Type" allMemberName="All Source by Types">
+        <Table name="D_SOURCE_MV" />
+        <Level name="Type" column="SOURCE_TYPE" type="String" uniqueMembers="false" />
+        <Level name="Source" column="SOURCE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Source by System">
+      <Hierarchy name="Source by System" hasAll="true" primaryKey="D_SOURCE_ID" caption="Source by System" allMemberName="All Source by Systems">
+        <Table name="D_SOURCE_MV" />
+        <Level name="System" column="SYSTEM" type="String" uniqueMembers="false" />
+        <Level name="Source" column="SOURCE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Source by Region">
+      <Hierarchy name="Source by Region" hasAll="true" primaryKey="D_SOURCE_ID" caption="Source by Region" allMemberName="All Source by Region">
+        <Table name="D_SOURCE_MV" />
+        <Level name="Region" column="REGION" type="String" uniqueMembers="false" />
+        <Level name="Source" column="SOURCE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="EDR Type">
+      <Hierarchy hasAll="true" primaryKey="D_EDR_TYPE_ID">
+        <Table name="D_EDR_TYPE_MV" />
+        <Level name="EDR Direction" column="EDR_DIRECTION" type="String" uniqueMembers="false" />
+        <Level name="EDR Type" column="EDR_TYPE" type="String" uniqueMembers="true" />
+        <Level name="EDR Sub Type" column="EDR_SUB_TYPE" type="String" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="EDR Sub Type">
+      <Hierarchy hasAll="true" primaryKey="EDR_SUB_TYPE_ID">
+        <Table name="D_EDR_TYPE_MV" />
+        <Level name="EDR Direction" column="EDR_DIRECTION" type="String" uniqueMembers="false" />
+        <Level name="EDR Type" column="EDR_TYPE" type="String" uniqueMembers="true" />
+        <Level name="EDR Sub Type" column="EDR_SUB_TYPE" type="String" uniqueMembers="false" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Measure Type">
+      <Hierarchy hasAll="true" primaryKey="D_MEASURE_TYPE_ID">
+        <Table name="D_MEASURE_TYPE" />
+        <Level name="Measure" column="MEASURE_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Payment Type">
+      <Hierarchy hasAll="true" primaryKey="D_PAYMENT_TYPE_ID">
+        <Table name="D_PAYMENT_TYPE_REF" />
+        <Level name="Payment Type" column="PAYMENT_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Call Type" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CALL_TYPE_ID">
+        <Table name="D_CALL_TYPE_REF" />
+        <Level name="Call Type" column="CALL_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Customer Type" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOMER_TYPE_ID">
+        <Table name="D_CUSTOMER_TYPE_REF" />
+        <Level name="Customer Type" column="CUSTOMER_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Service Provider" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_SERVICE_PROVIDER_ID">
+        <Table name="D_SERVICE_PROVIDER_REF" />
+        <Level name="Service Provider" column="SERVICE_PROVIDER" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 01" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_01_ID">
+        <Table name="D_CUSTOM_01" />
+        <Level name="Custom 01" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 02" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_02_ID">
+        <Table name="D_CUSTOM_02" />
+        <Level name="Custom 02" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 03" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_03_ID">
+        <Table name="D_CUSTOM_03" />
+        <Level name="Custom 03" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 04" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_04_ID">
+        <Table name="D_CUSTOM_04" />
+        <Level name="Custom 04" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 05" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_05_ID">
+        <Table name="D_CUSTOM_05" />
+        <Level name="Custom 05" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 06" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_06_ID">
+        <Table name="D_CUSTOM_06" />
+        <Level name="Custom 06" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 07" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_07_ID">
+        <Table name="D_CUSTOM_07" />
+        <Level name="Custom 07" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 08" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_08_ID">
+        <Table name="D_CUSTOM_08" />
+        <Level name="Custom 08" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 09" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_09_ID">
+        <Table name="D_CUSTOM_09" />
+        <Level name="Custom 09" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 10" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_10_ID">
+        <Table name="D_CUSTOM_10" />
+        <Level name="Custom 10" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 11" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_11_ID">
+        <Table name="D_CUSTOM_11" />
+        <Level name="Custom 11" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 12" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_12_ID">
+        <Table name="D_CUSTOM_12" />
+        <Level name="Custom 12" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 13" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_13_ID">
+        <Table name="D_CUSTOM_13" />
+        <Level name="Custom 13" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 14" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_14_ID">
+        <Table name="D_CUSTOM_14" />
+        <Level name="Custom 14" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 15" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_15_ID">
+        <Table name="D_CUSTOM_15" />
+        <Level name="Custom 15" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 16" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_16_ID">
+        <Table name="D_CUSTOM_16" />
+        <Level name="Custom 16" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 17" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_17_ID">
+        <Table name="D_CUSTOM_17" />
+        <Level name="Custom 17" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 18" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_18_ID">
+        <Table name="D_CUSTOM_18" />
+        <Level name="Custom 18" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 19" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_19_ID">
+        <Table name="D_CUSTOM_19" />
+        <Level name="Custom 19" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Custom 20" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_CUSTOM_20_ID">
+        <Table name="D_CUSTOM_20" />
+        <Level name="Custom 20" column="CUSTOM_TYPE" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Issue Category" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="D_ISSUE_CATEGORY_ID">
+        <Table name="D_ISSUE_CATEGORY_MV" />
+        <Level name="Category" column="CATEGORY" type="String" uniqueMembers="true" />
+        <Level name="Definition" column="DEFINITION" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Issue Severity" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="SEVERITY_ID">
+        <Table schema="IMM" name="SEVERITY_REF" />
+        <Level name="Severity" column="NAME" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Issue Priority" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="PRIORITY_ID">
+        <Table schema="IMM" name="PRIORITY_REF" />
+        <Level name="Priority" column="NAME" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Issue State" hasAll="true">
+      <Hierarchy hasAll="true" primaryKey="STATE_ID">
+        <Table schema="IMM" name="STATE_REF" />
+        <Level name="State" column="NAME" type="String" uniqueMembers="true" />
+      </Hierarchy>
+    </Dimension>
+    
+    <Dimension name="Measure Types">
+        <Hierarchy hasAll="false" primaryKey="measure_id">
+            <InlineTable alias="measure_types">
+                <ColumnDefs>
+                    <ColumnDef name="measure_id" type="String" />
+                    <ColumnDef name="measure"    type="String" />
+                </ColumnDefs>
+                <Rows>
+                    <Row>
+                    	<Value column="measure_id">B</Value>
+						<Value column="measure">Bytes</Value>
+					</Row>                    
+                    <Row>
+                    	<Value column="measure_id">C</Value>
+                    	<Value column="measure">Count</Value>
+                    </Row>
+                    <Row>
+                    	<Value column="measure_id">D</Value>
+                    	<Value column="measure">Duration</Value>
+                    </Row>                    
+                    <Row>
+                    	<Value column="measure_id">V</Value>
+                    	<Value column="measure">Volume</Value>
+                    </Row>                    
+                </Rows>
+            </InlineTable>
+            <Level name="Measure Types" column="measure" uniqueMembers="true" />
+        </Hierarchy>
+    </Dimension>    
+
+    <Cube name="FILE">
+      <Table name="MV_F_FILE"/>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <Measure name="EDRs" column="EDR_COUNT" aggregator="sum" formatString="#,##0" />
+      <Measure name="Duration" column="EDR_DURATION" aggregator="sum" formatString="#,##0" />
+      <Measure name="Value" column="EDR_VALUE" aggregator="sum" formatString="#,##0.0000" />
+      <Measure name="Bytes" column="EDR_BYTES" aggregator="sum" formatString="#,##0" />
+      <CalculatedMember name="Mb" dimension="Measures" visible="true">
+        <Formula>[Measures].[Bytes] / 1048576 </Formula>
+        <CalculatedMemberProperty name="FORMAT_STRING" value="#,##0" />
+      </CalculatedMember>
+    </Cube>
+	
+    <Cube name="FILE_VIEW">
+      <View alias="FILE">
+        <SQL dialect="oracle">
+          <![CDATA[
+select
+ f.d_period_id,
+ nvl(a.d_node_id, -1) d_node_id,
+ nvl(a.d_source_id, -1) d_source_id,
+ nvl(a.d_edr_type_id, -1) d_edr_type_id,
+ nvl(a.d_measure_type_id, -1) d_measure_type_id,
+ nvl(a.d_billing_type_id, -1) d_billing_type_id,
+ nvl(a.d_payment_type_id, -1) d_payment_type_id,
+ nvl(a.d_call_type_id, -1) d_call_type_id,
+ nvl(a.d_customer_type_id, -1) d_customer_type_id,
+ nvl(a.d_service_provider_id, -1) d_service_provider_id,
+ nvl(a.d_custom_01_id, -1) d_custom_01_id,
+ f.edr_count,
+ f.edr_value,
+ f.edr_duration,
+ f.edr_bytes
+from 
+ f_attribute a, 
+ f_file f
+where f.f_attribute_id = a.f_attribute_id
+            ]]>
+        </SQL> 
+      </View>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <Measure name="EDRs" column="EDR_COUNT" aggregator="sum" formatString="#,##0" />
+      <Measure name="Duration" column="EDR_DURATION" aggregator="sum" formatString="#,##0" />
+      <Measure name="Value" column="EDR_VALUE" aggregator="sum" formatString="#,##0.0000" />
+      <Measure name="Bytes" column="EDR_BYTES" aggregator="sum" formatString="#,##0" />
+      <CalculatedMember name="Mb" dimension="Measures" visible="true">
+        <Formula>[Measures].[Bytes] / 1048576 </Formula>
+        <CalculatedMemberProperty name="FORMAT_STRING" value="#,##0" />
+      </CalculatedMember>
+    </Cube>
+	
+    <Cube name="AGG_FILE">
+      <Table name="AGG_F_FILE"/>
+      <DimensionUsage name="Sample Date" source="Day" foreignKey="D_DAY_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <Measure name="EDRs" column="EDR_COUNT" aggregator="sum" formatString="#,##0" />
+      <Measure name="Duration" column="EDR_DURATION" aggregator="sum" formatString="#,##0" />
+      <Measure name="Value" column="EDR_VALUE" aggregator="sum" formatString="#,##0.0000" />
+      <Measure name="Bytes" column="EDR_BYTES" aggregator="sum" formatString="#,##0" />
+      <CalculatedMember name="Mb" dimension="Measures" visible="true">
+        <Formula>[Measures].[Bytes] / 1048576 </Formula>
+        <CalculatedMemberProperty name="FORMAT_STRING" value="#,##0" />
+      </CalculatedMember>
+    </Cube>
+
+    <Cube name="MREC_FILE">
+      <Table name="MV_F_MREC_FILE"/>
+      <DimensionUsage name="Fileset Reconciliation" source="Fileset Reconciliation" foreignKey="D_MREC_LINE_ID"/>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Edge" source="Edge" foreignKey="D_EDGE_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <DimensionUsage name="Custom 02" source="Custom 02" foreignKey="D_CUSTOM_02_ID"/>
+      <DimensionUsage name="Custom 03" source="Custom 03" foreignKey="D_CUSTOM_03_ID"/>
+      <DimensionUsage name="Custom 04" source="Custom 04" foreignKey="D_CUSTOM_04_ID"/>
+      <DimensionUsage name="Custom 05" source="Custom 05" foreignKey="D_CUSTOM_05_ID"/>
+      <DimensionUsage name="Custom 06" source="Custom 06" foreignKey="D_CUSTOM_06_ID"/>
+      <DimensionUsage name="Custom 07" source="Custom 07" foreignKey="D_CUSTOM_07_ID"/>
+      <DimensionUsage name="Custom 08" source="Custom 08" foreignKey="D_CUSTOM_08_ID"/>
+      <DimensionUsage name="Custom 09" source="Custom 09" foreignKey="D_CUSTOM_09_ID"/>
+      <DimensionUsage name="Custom 10" source="Custom 10" foreignKey="D_CUSTOM_10_ID"/>
+      <DimensionUsage name="Custom 11" source="Custom 11" foreignKey="D_CUSTOM_11_ID"/>
+      <DimensionUsage name="Custom 12" source="Custom 12" foreignKey="D_CUSTOM_12_ID"/>
+      <DimensionUsage name="Custom 13" source="Custom 13" foreignKey="D_CUSTOM_13_ID"/>
+      <DimensionUsage name="Custom 14" source="Custom 14" foreignKey="D_CUSTOM_14_ID"/>
+      <DimensionUsage name="Custom 15" source="Custom 15" foreignKey="D_CUSTOM_15_ID"/>
+      <DimensionUsage name="Custom 16" source="Custom 16" foreignKey="D_CUSTOM_16_ID"/>
+      <DimensionUsage name="Custom 17" source="Custom 17" foreignKey="D_CUSTOM_17_ID"/>
+      <DimensionUsage name="Custom 18" source="Custom 18" foreignKey="D_CUSTOM_18_ID"/>
+      <DimensionUsage name="Custom 19" source="Custom 19" foreignKey="D_CUSTOM_19_ID"/>
+      <DimensionUsage name="Custom 20" source="Custom 20" foreignKey="D_CUSTOM_20_ID"/>
+      <DimensionUsage name="Measure Types" source="Measure Types" foreignKey="MEASURE_TYPE"/>
+      <Measure name="MREC" column="MREC" aggregator="sum" />
+    </Cube>
+	
+    <Cube name="MREC_FILE_VIEW">
+      <View alias="MREC">
+        <SQL dialect="oracle">
+          <![CDATA[
+select
+ m.d_period_id,
+ m.d_mrec_line_id,
+ nvl(m.d_edge_id, -1) d_edge_id,
+ nvl(a.d_node_id, -1) d_node_id,
+ nvl(a.d_source_id, -1) d_source_id,
+ nvl(a.d_edr_type_id, -1) d_edr_type_id,
+ nvl(a.d_measure_type_id, -1) d_measure_type_id,
+ nvl(a.d_billing_type_id, -1) d_billing_type_id,
+ nvl(a.d_payment_type_id, -1) d_payment_type_id,
+ nvl(a.d_call_type_id, -1) d_call_type_id,
+ nvl(a.d_customer_type_id, -1) d_customer_type_id,
+ nvl(a.d_service_provider_id, -1) d_service_provider_id,
+ nvl(a.d_custom_01_id, -1) d_custom_01_id,
+ nvl(a.d_custom_02_id, -1) d_custom_02_id,
+ nvl(a.d_custom_03_id, -1) d_custom_03_id,
+ nvl(a.d_custom_04_id, -1) d_custom_04_id,
+ nvl(a.d_custom_05_id, -1) d_custom_05_id,
+ nvl(a.d_custom_06_id, -1) d_custom_06_id,
+ nvl(a.d_custom_07_id, -1) d_custom_07_id,
+ nvl(a.d_custom_08_id, -1) d_custom_08_id,
+ nvl(a.d_custom_09_id, -1) d_custom_09_id,
+ nvl(a.d_custom_10_id, -1) d_custom_10_id,
+ nvl(a.d_custom_11_id, -1) d_custom_11_id,
+ nvl(a.d_custom_12_id, -1) d_custom_12_id,
+ nvl(a.d_custom_13_id, -1) d_custom_13_id,
+ nvl(a.d_custom_14_id, -1) d_custom_14_id,
+ nvl(a.d_custom_15_id, -1) d_custom_15_id,
+ nvl(a.d_custom_16_id, -1) d_custom_16_id,
+ nvl(a.d_custom_17_id, -1) d_custom_17_id,
+ nvl(a.d_custom_18_id, -1) d_custom_18_id,
+ nvl(a.d_custom_19_id, -1) d_custom_19_id,
+ nvl(a.d_custom_20_id, -1) d_custom_20_id,
+ m.mrec
+from 
+ f_attribute a, 
+ f_mrec m
+where m.f_attribute_id = a.f_attribute_id
+and m.mrec_set != 0
+and m.mrec_type = 'F'
+            ]]>
+        </SQL>
+      </View>
+      <DimensionUsage name="Fileset Reconciliation" source="Fileset Reconciliation" foreignKey="D_MREC_LINE_ID"/>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Edge" source="Edge" foreignKey="D_EDGE_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <DimensionUsage name="Custom 02" source="Custom 02" foreignKey="D_CUSTOM_02_ID"/>
+      <DimensionUsage name="Custom 03" source="Custom 03" foreignKey="D_CUSTOM_03_ID"/>
+      <DimensionUsage name="Custom 04" source="Custom 04" foreignKey="D_CUSTOM_04_ID"/>
+      <DimensionUsage name="Custom 05" source="Custom 05" foreignKey="D_CUSTOM_05_ID"/>
+      <DimensionUsage name="Custom 06" source="Custom 06" foreignKey="D_CUSTOM_06_ID"/>
+      <DimensionUsage name="Custom 07" source="Custom 07" foreignKey="D_CUSTOM_07_ID"/>
+      <DimensionUsage name="Custom 08" source="Custom 08" foreignKey="D_CUSTOM_08_ID"/>
+      <DimensionUsage name="Custom 09" source="Custom 09" foreignKey="D_CUSTOM_09_ID"/>
+      <DimensionUsage name="Custom 10" source="Custom 10" foreignKey="D_CUSTOM_10_ID"/>
+      <DimensionUsage name="Custom 11" source="Custom 11" foreignKey="D_CUSTOM_11_ID"/>
+      <DimensionUsage name="Custom 12" source="Custom 12" foreignKey="D_CUSTOM_12_ID"/>
+      <DimensionUsage name="Custom 13" source="Custom 13" foreignKey="D_CUSTOM_13_ID"/>
+      <DimensionUsage name="Custom 14" source="Custom 14" foreignKey="D_CUSTOM_14_ID"/>
+      <DimensionUsage name="Custom 15" source="Custom 15" foreignKey="D_CUSTOM_15_ID"/>
+      <DimensionUsage name="Custom 16" source="Custom 16" foreignKey="D_CUSTOM_16_ID"/>
+      <DimensionUsage name="Custom 17" source="Custom 17" foreignKey="D_CUSTOM_17_ID"/>
+      <DimensionUsage name="Custom 18" source="Custom 18" foreignKey="D_CUSTOM_18_ID"/>
+      <DimensionUsage name="Custom 19" source="Custom 19" foreignKey="D_CUSTOM_19_ID"/>
+      <DimensionUsage name="Custom 20" source="Custom 20" foreignKey="D_CUSTOM_20_ID"/>
+      <DimensionUsage name="Measure Types" source="Measure Types" foreignKey="MEASURE_TYPE"/>
+      <Measure name="MREC" column="MREC" aggregator="sum" />
+    </Cube>
+
+    <Cube name="MREC_TIME">
+      <Table name="MV_F_MREC_TIME"/>
+      <DimensionUsage name="Volumetric Reconciliation" source="Volumetric Reconciliation" foreignKey="D_MREC_LINE_ID"/>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <DimensionUsage name="Custom 02" source="Custom 02" foreignKey="D_CUSTOM_02_ID"/>
+      <DimensionUsage name="Custom 03" source="Custom 03" foreignKey="D_CUSTOM_03_ID"/>
+      <DimensionUsage name="Custom 04" source="Custom 04" foreignKey="D_CUSTOM_04_ID"/>
+      <DimensionUsage name="Custom 05" source="Custom 05" foreignKey="D_CUSTOM_05_ID"/>
+      <DimensionUsage name="Custom 06" source="Custom 06" foreignKey="D_CUSTOM_06_ID"/>
+      <DimensionUsage name="Custom 07" source="Custom 07" foreignKey="D_CUSTOM_07_ID"/>
+      <DimensionUsage name="Custom 08" source="Custom 08" foreignKey="D_CUSTOM_08_ID"/>
+      <DimensionUsage name="Custom 09" source="Custom 09" foreignKey="D_CUSTOM_09_ID"/>
+      <DimensionUsage name="Custom 10" source="Custom 10" foreignKey="D_CUSTOM_10_ID"/>
+      <DimensionUsage name="Custom 11" source="Custom 11" foreignKey="D_CUSTOM_11_ID"/>
+      <DimensionUsage name="Custom 12" source="Custom 12" foreignKey="D_CUSTOM_12_ID"/>
+      <DimensionUsage name="Custom 13" source="Custom 13" foreignKey="D_CUSTOM_13_ID"/>
+      <DimensionUsage name="Custom 14" source="Custom 14" foreignKey="D_CUSTOM_14_ID"/>
+      <DimensionUsage name="Custom 15" source="Custom 15" foreignKey="D_CUSTOM_15_ID"/>
+      <DimensionUsage name="Custom 16" source="Custom 16" foreignKey="D_CUSTOM_16_ID"/>
+      <DimensionUsage name="Custom 17" source="Custom 17" foreignKey="D_CUSTOM_17_ID"/>
+      <DimensionUsage name="Custom 18" source="Custom 18" foreignKey="D_CUSTOM_18_ID"/>
+      <DimensionUsage name="Custom 19" source="Custom 19" foreignKey="D_CUSTOM_19_ID"/>
+      <DimensionUsage name="Custom 20" source="Custom 20" foreignKey="D_CUSTOM_20_ID"/>
+      <DimensionUsage name="Measure Types" source="Measure Types" foreignKey="MEASURE_TYPE"/>
+      <Measure name="MREC" column="MREC" aggregator="sum" />
+    </Cube>
+	
+    <Cube name="MREC_TIME_VIEW">
+      <View alias="MREC">
+        <SQL dialect="oracle">
+          <![CDATA[
+select
+ m.d_period_id,
+ m.d_mrec_line_id,
+ nvl(a.d_node_id, -1) d_node_id,
+ nvl(a.d_source_id, -1) d_source_id,
+ nvl(a.d_edr_type_id, -1) d_edr_type_id,
+ nvl(a.d_measure_type_id, -1) d_measure_type_id,
+ nvl(a.d_billing_type_id, -1) d_billing_type_id,
+ nvl(a.d_payment_type_id, -1) d_payment_type_id,
+ nvl(a.d_call_type_id, -1) d_call_type_id,
+ nvl(a.d_customer_type_id, -1) d_customer_type_id,
+ nvl(a.d_service_provider_id, -1) d_service_provider_id,
+ nvl(a.d_custom_01_id, -1) d_custom_01_id,
+ nvl(a.d_custom_02_id, -1) d_custom_02_id,
+ nvl(a.d_custom_03_id, -1) d_custom_03_id,
+ nvl(a.d_custom_04_id, -1) d_custom_04_id,
+ nvl(a.d_custom_05_id, -1) d_custom_05_id,
+ nvl(a.d_custom_06_id, -1) d_custom_06_id,
+ nvl(a.d_custom_07_id, -1) d_custom_07_id,
+ nvl(a.d_custom_08_id, -1) d_custom_08_id,
+ nvl(a.d_custom_09_id, -1) d_custom_09_id,
+ nvl(a.d_custom_10_id, -1) d_custom_10_id,
+ nvl(a.d_custom_11_id, -1) d_custom_11_id,
+ nvl(a.d_custom_12_id, -1) d_custom_12_id,
+ nvl(a.d_custom_13_id, -1) d_custom_13_id,
+ nvl(a.d_custom_14_id, -1) d_custom_14_id,
+ nvl(a.d_custom_15_id, -1) d_custom_15_id,
+ nvl(a.d_custom_16_id, -1) d_custom_16_id,
+ nvl(a.d_custom_17_id, -1) d_custom_17_id,
+ nvl(a.d_custom_18_id, -1) d_custom_18_id,
+ nvl(a.d_custom_19_id, -1) d_custom_19_id,
+ nvl(a.d_custom_20_id, -1) d_custom_20_id,
+ m.mrec
+from 
+ f_attribute a, 
+ f_mrec m
+where m.f_attribute_id = a.f_attribute_id
+and m.mrec_set != 0
+and m.mrec_type = 'T'
+            ]]>
+        </SQL>
+      </View>
+      <DimensionUsage name="Volumetric Reconciliation" source="Volumetric Reconciliation" foreignKey="D_MREC_LINE_ID"/>
+      <DimensionUsage name="Period" source="Period" foreignKey="D_PERIOD_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Payment Type" source="Payment Type" foreignKey="D_PAYMENT_TYPE_ID"/>
+      <DimensionUsage name="Call Type" source="Call Type" foreignKey="D_CALL_TYPE_ID"/>
+      <DimensionUsage name="Customer Type" source="Customer Type" foreignKey="D_CUSTOMER_TYPE_ID"/>
+      <DimensionUsage name="Service Provider" source="Service Provider" foreignKey="D_SERVICE_PROVIDER_ID"/>
+      <DimensionUsage name="Custom 01" source="Custom 01" foreignKey="D_CUSTOM_01_ID"/>
+      <DimensionUsage name="Custom 02" source="Custom 02" foreignKey="D_CUSTOM_02_ID"/>
+      <DimensionUsage name="Custom 03" source="Custom 03" foreignKey="D_CUSTOM_03_ID"/>
+      <DimensionUsage name="Custom 04" source="Custom 04" foreignKey="D_CUSTOM_04_ID"/>
+      <DimensionUsage name="Custom 05" source="Custom 05" foreignKey="D_CUSTOM_05_ID"/>
+      <DimensionUsage name="Custom 06" source="Custom 06" foreignKey="D_CUSTOM_06_ID"/>
+      <DimensionUsage name="Custom 07" source="Custom 07" foreignKey="D_CUSTOM_07_ID"/>
+      <DimensionUsage name="Custom 08" source="Custom 08" foreignKey="D_CUSTOM_08_ID"/>
+      <DimensionUsage name="Custom 09" source="Custom 09" foreignKey="D_CUSTOM_09_ID"/>
+      <DimensionUsage name="Custom 10" source="Custom 10" foreignKey="D_CUSTOM_10_ID"/>
+      <DimensionUsage name="Custom 11" source="Custom 11" foreignKey="D_CUSTOM_11_ID"/>
+      <DimensionUsage name="Custom 12" source="Custom 12" foreignKey="D_CUSTOM_12_ID"/>
+      <DimensionUsage name="Custom 13" source="Custom 13" foreignKey="D_CUSTOM_13_ID"/>
+      <DimensionUsage name="Custom 14" source="Custom 14" foreignKey="D_CUSTOM_14_ID"/>
+      <DimensionUsage name="Custom 15" source="Custom 15" foreignKey="D_CUSTOM_15_ID"/>
+      <DimensionUsage name="Custom 16" source="Custom 16" foreignKey="D_CUSTOM_16_ID"/>
+      <DimensionUsage name="Custom 17" source="Custom 17" foreignKey="D_CUSTOM_17_ID"/>
+      <DimensionUsage name="Custom 18" source="Custom 18" foreignKey="D_CUSTOM_18_ID"/>
+      <DimensionUsage name="Custom 19" source="Custom 19" foreignKey="D_CUSTOM_19_ID"/>
+      <DimensionUsage name="Custom 20" source="Custom 20" foreignKey="D_CUSTOM_20_ID"/>
+	  <DimensionUsage name="Measure Types" source="Measure Types" foreignKey="MEASURE_TYPE"/>      
+      <Measure name="MREC" column="MREC" aggregator="sum" />
+    </Cube>
+
+    <Cube name="AGG_MREC">
+      <Table name="AGG_F_MREC"/>
+      <DimensionUsage name="Sample Date" source="Day" foreignKey="D_DAY_ID"/>
+      <DimensionUsage name="Metric Reconciliation" source="Metric Reconciliation" foreignKey="D_MREC_LINE_ID"/>
+      <DimensionUsage name="Node by System" source="Node by System" foreignKey="D_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Type" foreignKey="D_EDR_TYPE_ID"/>
+      <DimensionUsage name="Measure Type" source="Measure Type" foreignKey="D_MEASURE_TYPE_ID"/>
+      <DimensionUsage name="Measure Types" source="Measure Types" foreignKey="MEASURE_TYPE"/>
+      <Measure name="MREC" column="MREC" aggregator="sum" />
+    </Cube>
+	
+    <Cube name="ISSUE">
+      <Table name="MV_F_ISSUE" schema="IMM"/>
+      <DimensionUsage name="Issue Date" source="Day" foreignKey="D_DAY_ID"/>
+      <DimensionUsage name="Issue Category" source="Issue Category" foreignKey="D_ISSUE_CATEGORY_ID"/>
+      <DimensionUsage name="Issue Type" source="Issue Type" foreignKey="D_ISSUE_TYPE_ID"/>
+      <DimensionUsage name="Severity" source="Issue Severity" foreignKey="D_SEVERITY_ID"/>
+      <DimensionUsage name="Priority" source="Issue Priority" foreignKey="D_PRIORITY_ID"/>
+      <DimensionUsage name="State" source="Issue State" foreignKey="D_STATE_ID"/>
+      <DimensionUsage name="EdgeNode" source="EdgeNode" foreignKey="D_EDGE_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Sub Type" foreignKey="D_EDR_SUB_TYPE_ID"/>
+      <Measure name="Issues" aggregator="count">
+        <MeasureExpression>
+          <SQL dialect="oracle"><![CDATA['<a href="/imm/issueDetailsSetup.do?issue_id='||ISSUE_ID||'&dateRaisedForURL='||to_char(DATE_RAISED,'dd-mm-yyyy-hh24-mi-ss')||'&transaction_id='||ISSUE_ID||'" target="issue_details_drill_through_'||ISSUE_ID||'" title="View Issue Details" onclick="autoResizePopUp(''issue_details_drill_through_'||ISSUE_ID||''',''800'',''1050'',''0'',''0'',''1'',''1'',''0'',''1'',''0'');">'||ISSUE_ID||'</a>']]></SQL>
+        </MeasureExpression>
+      </Measure>
+    </Cube>
+
+    <Cube name="ISSUE_VIEW">
+      <View alias="MREC">
+        <SQL dialect="oracle">
+          <![CDATA[
+select
+    i.issue_id,
+    i.d_day_id,
+    i.date_raised,
+    case
+      when cat.attribute_id = 35000
+        then ora_hash(cat.value || 'Metric')
+      when cat.attribute_id = 35004
+        then ora_hash(cat.value || 'MRec')
+      when cat.attribute_id = 35008
+        then ora_hash(cat.value || 'FileMatch')
+    end d_issue_category_id,
+    nvl(i.severity_id, -1) as d_severity_id,
+    nvl(i.priority_id, -1) as d_priority_id,
+    nvl(i.state_id, -1) as d_state_id,
+    nvl(to_number((select value from imm.issue_attribute where issue_id=i.issue_id and attribute_id=35010)), -1) as d_edge_id,
+    nvl(to_number((select value from imm.issue_attribute where issue_id=i.issue_id and attribute_id=35012)), -1) as d_node_id,
+    nvl(to_number((select value from imm.issue_attribute where issue_id = i.issue_id and attribute_id = 35010)), -1)
+    	|| ':' ||
+	    nvl(to_number((select value from imm.issue_attribute where issue_id = i.issue_id and attribute_id = 35012)), -1) as d_edge_node_id,
+    nvl(to_number((select value from imm.issue_attribute where issue_id=i.issue_id and attribute_id=35014)), -1) as d_source_id,
+    nvl(to_number((select value from imm.issue_attribute where issue_id=i.issue_id and attribute_id=35020)), -1) as d_edr_sub_type_id
+  from
+    imm.issue i
+  join
+    imm.issue_attribute cat on
+      cat.issue_id = i.issue_id and cat.attribute_id in (35000, 35004, 35008);
+            ]]>
+        </SQL>
+      </View>
+
+      <DimensionUsage name="Issue Date" source="Day" foreignKey="D_DAY_ID"/>
+      <DimensionUsage name="Issue Category" source="Issue Category" foreignKey="D_ISSUE_CATEGORY_ID"/>
+      <DimensionUsage name="Severity" source="Issue Severity" foreignKey="D_SEVERITY_ID"/>
+      <DimensionUsage name="Priority" source="Issue Priority" foreignKey="D_PRIORITY_ID"/>
+      <DimensionUsage name="State" source="Issue State" foreignKey="D_STATE_ID"/>
+      <DimensionUsage name="EdgeNode" source="EdgeNode" foreignKey="D_EDGE_NODE_ID"/>
+      <DimensionUsage name="Source by Type" source="Source by Type" foreignKey="D_SOURCE_ID"/>
+      <DimensionUsage name="EDR Type" source="EDR Sub Type" foreignKey="D_EDR_SUB_TYPE_ID"/>
+      <Measure name="Issue" aggregator="count">
+        <MeasureExpression>
+          <SQL dialect="oracle"><![CDATA['<a href="/imm/issueDetailsSetup.do?issue_id='||ISSUE_ID||'&dateRaisedForURL='||to_char(DATE_RAISED,'dd-mm-yyyy-hh24-mi-ss')||'&transaction_id='||ISSUE_ID||'" target="issue_details_drill_through_'||ISSUE_ID||'" title="View Issue Details" onclick="autoResizePopUp(''issue_details_drill_through_'||ISSUE_ID||''',''800'',''1050'',''0'',''0'',''1'',''1'',''0'',''1'',''0'');">'||ISSUE_ID||'</a>']]></SQL>
+        </MeasureExpression>
+      </Measure>
+    </Cube>
+
+</Schema>

@@ -1,0 +1,1 @@
+select * from UM.D_MEASURE_TYPE where D_MEASURE_TYPE_ID > 99999 ;

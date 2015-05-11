@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /usr/revo/datafeed/um/
+echo Archive File Counts
+find DS*/arc -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c

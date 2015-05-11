@@ -1,0 +1,3 @@
+100000,Metric Reconciliation Issues by Category,UMCP,CUSTOMER,V_MREC_CAT_OPEN_ISSUES,,3,35000,,,,,,,,,,,,,,,Y,,,
+100001,Metric Issues by severity,UMCP,CUSTOMER,V_METRIC_ISSUES_BY_SEVERITY,,2,35000,,,,,,,,,,,,,,,Y,,,
+100003,EDR Aggregator Status,UMCP,CUSTOMER,AGGREGATOR_STATUS,,4,1001,,,,,,,,,,,,,,,Y,,,

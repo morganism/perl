@@ -1,0 +1,147 @@
+100210,(M) Import ICCS Billing file,-daemon no -load_type 1 -mapping 100000,5000
+100211,(M) Import SMSC/MR importer,-daemon no -load_type 1 -mapping 100001,5000
+100212,(M) Import Mediation SMS Postpaid file importer,-daemon no -load_type 1 -mapping 100002,5000
+100213,(M) Import Mediation SMS Postpaid strip file importer,-daemon no -load_type 1 -mapping 100003,5000
+100214,(M) Import ICCS Rating file,-daemon no -load_type 1 -mapping 100004,5000
+100263,(M) Import Discarded ICCS 2G non rated data - Jupiter TAP 1 Format,-daemon no -load_type 1 -mapping 100053,5000
+100264,(M) Import Basset Extract (Tapout),-daemon no -load_type 1 -mapping 100054,5000
+100267,"(M) Import MSS Output, Ericsson R13",-daemon no -load_type 1 -mapping 100057,5000
+100268,(M) Import Xacct Files Output - MIS ASCII Format,-daemon no -load_type 1 -mapping 100058,5000
+100270,(M) Import Xacct Files Output - WAP Jupiter TAP1 Output,-daemon no -load_type 1 -mapping 100060,5000
+100271,(M) Import ER4 Files Jupiter TAP 1 Output ,-daemon no -load_type 1 -mapping 100061,5000
+100272,(M) Import ER4 Files MIS Output ,-daemon no -load_type 1 -mapping 100062,5000
+100273,(M) Import CCN Prepaid Data,-daemon no -load_type 1 -mapping 100063,5000
+100274,(M) Import MMSC Files Output (Nokia),-daemon no -load_type 1 -mapping 100064,5000
+100275,(M) Import CCN Prepaid MMS,-daemon no -load_type 1 -mapping 100065,5000
+100276,(M) Import EMM stripped records ,-daemon no -load_type 1 -mapping 100066,5000
+100277,(M) Import EMM Session to Mediation,-daemon no -load_type 1 -mapping 100067,5000
+100278,(M) Import GPRS ICCS records,-daemon no -load_type 1 -mapping 100068,5000
+100279,(M) Import NGME e-GCDR  Records,-daemon no -load_type 1 -mapping 100069,5000
+100280,(M) Import MMS ICCS TAP1,-daemon no -load_type 1 -mapping 100070,5000
+100281,(M) Import Eircom / BT Usage,-daemon no -load_type 1 -mapping 100071,5000
+100286,(M) Import Syniverse,-daemon no -load_type 1 -mapping 100076,5000
+100287,(M) Import EMM NGIN raw,-daemon no -load_type 1 -mapping 100077,5000
+100288,(M) Import EMM NGIN correlated,-daemon no -load_type 1 -mapping 100078,5000
+100510,(M) Node DS65,-node 100100 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100511,(M) Node DS49,-node 100101 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100512,(M) Node DS28,-node 100102 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100513,(M) Node DS44,-node 100103 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100514,(M) Node DS56,-node 100104 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100515,(M) Node DS20,-node 100105 -match 100000 -daemon no -offset 3 --terminatetime 23:59:59,1
+100516,(M) Node DS8,-node 100106 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100517,(M) Node DS54,-node 100107 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100518,(M) Node DS48,-node 100108 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100519,(M) Node DS53,-node 100109 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100520,(M) Node DS23,-node 100110 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
+100530,(M) Node DS6,-node 100120 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
+100531,(M) Node DS81,-node 100121 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100532,(M) Node DS40,-node 100122 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100533,(M) Node DS80,-node 100123 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100534,(M) Node DS12,-node 100124 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100550,(M) Node DS5,-node 100140 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100551,(M) Node DS55,-node 100141 -match 100000 -daemon no -offset 2 --terminatetime 23:59:59,1
+100552,(M) Node DS4,-node 100142 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100553,(M) Node DS11,-node 100143 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100554,(M) Node DS39,-node 100144 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100555,(M) Node DS33,-node 100145 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100556,(M) Node DS64,-node 100146 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100557,(M) Node DS45,-node 100147 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
+100710,(M) Forecasts multi-job for node 100100,-node_id 100100 -offset 1,35004
+100711,(M) Forecasts multi-job for node 100101,-node_id 100101 -offset 1,35004
+100712,(M) Forecasts multi-job for node 100102,-node_id 100102 -offset 1,35004
+100713,(M) Forecasts multi-job for node 100103,-node_id 100103 -offset 1,35004
+100714,(M) Forecasts multi-job for node 100104,-node_id 100104 -offset 1,35004
+100715,(M) Forecasts multi-job for node 100105,-node_id 100105 -offset 3,35004
+100716,(M) Forecasts multi-job for node 100106,-node_id 100106 -offset 1,35004
+100717,(M) Forecasts multi-job for node 100107,-node_id 100107 -offset 1,35004
+100718,(M) Forecasts multi-job for node 100108,-node_id 100108 -offset 1,35004
+100719,(M) Forecasts multi-job for node 100109,-node_id 100109 -offset 1,35004
+100720,(M) Forecasts multi-job for node 100110,-node_id 100110 -offset 7,35004
+100730,(M) Forecasts multi-job for node 100120,-node_id 100120 -offset 7,35004
+100731,(M) Forecasts multi-job for node 100121,-node_id 100121 -offset 1,35004
+100732,(M) Forecasts multi-job for node 100122,-node_id 100122 -offset 1,35004
+100733,(M) Forecasts multi-job for node 100123,-node_id 100123 -offset 1,35004
+100734,(M) Forecasts multi-job for node 100124,-node_id 100124 -offset 1,35004
+100750,(M) Forecasts multi-job for node 100140,-node_id 100140 -offset 1,35004
+100751,(M) Forecasts multi-job for node 100141,-node_id 100141 -offset 2,35004
+100752,(M) Forecasts multi-job for node 100142,-node_id 100142 -offset 1,35004
+100753,(M) Forecasts multi-job for node 100143,-node_id 100143 -offset 1,35004
+100754,(M) Forecasts multi-job for node 100144,-node_id 100144 -offset 1,35004
+100755,(M) Forecasts multi-job for node 100145,-node_id 100145 -offset 1,35004
+100756,(M) Forecasts multi-job for node 100146,-node_id 100146 -offset 1,35004
+100757,(M) Forecasts multi-job for node 100147,-node_id 100147 -offset 7,35004
+101000,(M) Run All,,1
+102000,(M) Import Multi-job,,5000
+103000,(M) Post-Import Multi Job,-daemon no -gatherStatsOption 3,1
+104000,(M) All Node Multi Job,-rerun no -weekday -1,1
+105000,(M) All Metric Reconciliations Multi Job,-mrec_graph_id 100001,35005
+105100,(M) MSS vs MIS (count) - ST_VOICE_PREPAID_HOME_MO - EDR Count,-mrec_id 100000 -num_days 21 -offset 22,35005
+105101,(M) MSS vs MIS (value) - ST_VOICE_PREPAID_HOME_MO - EDR Value,-mrec_id 100001 -num_days 21 -offset 22,35005
+105102,(M) MSS vs MIS (duration) - ST_VOICE_PREPAID_HOME_MO - EDR Duration,-mrec_id 100002 -num_days 21 -offset 22,35005
+105103,(M) MSS vs MIS (count) - ST_VOICE_PREPAID_HOME_CALL_FWD - EDR Count,-mrec_id 100003 -num_days 21 -offset 22,35005
+105104,(M) MSS vs MIS (value) - ST_VOICE_PREPAID_HOME_CALL_FWD - EDR Value,-mrec_id 100004 -num_days 21 -offset 22,35005
+105105,(M) MSS vs MIS (duration) - ST_VOICE_PREPAID_HOME_CALL_FWD - EDR Duration,-mrec_id 100005 -num_days 21 -offset 22,35005
+105112,(M) MSS vs GSM (count) - ST_VOICE_POSTPAID_HOME_MO - EDR Count,-mrec_id 100012 -num_days 21 -offset 28,35005
+105113,(M) MSS vs GSM (duration) - ST_VOICE_POSTPAID_HOME_MO - EDR Duration,-mrec_id 100013 -num_days 21 -offset 28,35005
+105116,(M) GSM vs ICCS Unbilled (count) - ST_VOICE_POSTPAID_HOME_MO - EDR Count,-mrec_id 100016 -num_days 21 -offset 28,35005
+105117,(M) GSM vs ICCS Unbilled (duration) - ST_VOICE_POSTPAID_HOME_MO - EDR Duration,-mrec_id 100017 -num_days 21 -offset 28,35005
+105118,(M) GSM vs ICCS Unbilled (count) - ST_VOICE_POSTPAID_HOME_CALL_FWD - EDR Count,-mrec_id 100018 -num_days 21 -offset 28,35005
+105119,(M) GSM vs ICCS Unbilled (duration) - ST_VOICE_POSTPAID_HOME_CALL_FWD - EDR Duration,-mrec_id 100019 -num_days 21 -offset 28,35005
+105120,(M) MSS vs MIS (count) - ST_SMS_PREPAID - EDR Count,-mrec_id 100020 -num_days 21 -offset 22,35005
+105122,(M) MSS vs MIS (count) - ST_SMS_HOME_MO - EDR Count,-mrec_id 100022 -num_days 21 -offset 28,35005
+105124,(M) SMSC vs SMS ICCS + SMS Strip (count) - ST_SMS - EDR Count,-mrec_id 100024 -num_days 21 -offset 28,35005
+105125,(M) SMS ICCS vs ICCS Unbilled (count) - ST_SMS_HOME_MO - EDR Count,-mrec_id 100025 -num_days 21 -offset 28,35005
+105126,(M) Raw MMS vs CCN MMS (count) - ST_MMS_PREPAID_HOME_MO - EDR Count,-mrec_id 100026 -num_days 21 -offset 22,35005
+105127,(M) Raw MMS vs MMS ICCS (count) - ST_MMS_POSTPAID_HOME_MO - EDR Count,-mrec_id 100027 -num_days 21 -offset 28,35005
+105128,(M) MMS ICCS vs ICCS Unbilled (count) - ST_MMS_POSTPAID_HOME_MO - EDR Count,-mrec_id 100028 -num_days 21 -offset 28,35005
+105129,(M) EMM data vs CCN Data (bytes) - ST_DATA_GPRS_PREPAID - EDR Bytes,-mrec_id 100029 -num_days 21 -offset 28,35005
+105130,(M) EMM data vs CCN Data (bytes) - ST_DATA_WAP_PREPAID - EDR Bytes,-mrec_id 100030 -num_days 21 -offset 28,35005
+105131,(M) NGME vs EMM data (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100031 -num_days 21 -offset 28,35005
+105132,(M) NGME vs EMM data (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100032 -num_days 21 -offset 28,35005
+105133,(M) EMM data vs GPRS ICCS (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes,-mrec_id 100033 -num_days 21 -offset 28,35005
+105134,(M) EMM data vs WAP ICCS (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes,-mrec_id 100034 -num_days 21 -offset 28,35005
+105135,(M) GPRS ICCS vs ICCS Unbilled (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes,-mrec_id 100035 -num_days 21 -offset 28,35005
+105136,(M) WAP ICCS vs ICCS Unbilled (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes,-mrec_id 100036 -num_days 21 -offset 28,35005
+105137,(M) Tapin vs ICCS Unbilled (count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count,-mrec_id 100037 -num_days 21 -offset 28,35005
+105138,(M) Tapin vs ICCS Unbilled (duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration,-mrec_id 100038 -num_days 21 -offset 28,35005
+105140,(M) Tapin vs ICCS Unbilled (count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count,-mrec_id 100040 -num_days 21 -offset 28,35005
+105141,(M) Tapin vs ICCS Unbilled (duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration,-mrec_id 100041 -num_days 21 -offset 28,35005
+105143,(M) Tapin vs ICCS Unbilled (count) - ST_SMS_OTHER_OUTBOUND_ROAMERS_MO - EDR Count,-mrec_id 100043 -num_days 21 -offset 28,35005
+105146,(M) Tapin vs ICCS Unbilled (count) - ST_SMS_OTHER_OUTBOUND_ROAMERS_MT - EDR Count,-mrec_id 100046 -num_days 21 -offset 28,35005
+105148,(M) MSS vs Tapout (count) - ST_VOICE_INBOUND_ROAMERS_MO - EDR Count,-mrec_id 100048 -num_days 21 -offset 24,35005
+105149,(M) MSS vs Tapout (count) - ST_VOICE_INBOUND_ROAMERS_MT - EDR Count,-mrec_id 100049 -num_days 21 -offset 24,35005
+105150,(M) ER MIS vs ER ICCS (count) - ST_CONTENT_POSTPAID - EDR Count,-mrec_id 100050 -num_days 21 -offset 28,35005
+105151,(M) ER MIS vs ER ICCS (value) - ST_CONTENT_POSTPAID - EDR Value,-mrec_id 100051 -num_days 21 -offset 28,35005
+105152,(M) ER ICCS vs ICCS Unbilled (count) - ST_CONTENT_POSTPAID - EDR Count,-mrec_id 100052 -num_days 21 -offset 28,35005
+105153,(M) ER ICCS vs ICCS Unbilled (value) - ST_CONTENT_POSTPAID - EDR Value,-mrec_id 100053 -num_days 21 -offset 28,35005
+106000,(M) Regeneration Multi-job,,1
+107000,(M) Housekeeping Multi Job,-window 90 -months 1,4
+105154,(M) MSS vs GSM (count) - ST_ONXP_VOICE_POSTPAID_HOME_MO - EDR Count,-mrec_id 100054 -num_days 21 -offset 28,35005
+105155,(M) MSS vs GSM (duration) - ST_ONXP_VOICE_POSTPAID_HOME_MO - EDR Duration,-mrec_id 100055 -num_days 21 -offset 28,35005
+105156,(M) GSM vs ICCS Unbilled (count) - ST_ONXP_VOICE_POSTPAID_HOME_MO - EDR Count,-mrec_id 100056 -num_days 21 -offset 28,35005
+105157,(M) GSM vs ICCS Unbilled (duration) - ST_ONXP_VOICE_POSTPAID_HOME_MO - EDR Duration,-mrec_id 100057 -num_days 21 -offset 28,35005
+105158,(M) GSM vs ICCS Unbilled (count) - ST_ONXP_VOICE_POSTPAID_HOME_CALL_FWD - EDR Count,-mrec_id 100058 -num_days 21 -offset 28,35005
+105159,(M) GSM vs ICCS Unbilled (duration) - ST_ONXP_VOICE_POSTPAID_HOME_CALL_FWD - EDR Duration,-mrec_id 100059 -num_days 21 -offset 28,35005
+100289,(M) Import PGW,-daemon no -load_type 1 -mapping 100079,5000
+100290,(M) Import SGW,-daemon no -load_type 1 -mapping 100080,5000
+100291,(M) Import SGSN,-daemon no -load_type 1 -mapping 100081,5000
+100558,(M) Node DS70,-node 100150 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100559,(M) Node DS71,-node 100151 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100560,(M) Node DS72,-node 100152 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
+100758,(M) Forecasts multi-job for node 100150,-node_id 100150 -offset 1,35004
+100759,(M) Forecasts multi-job for node 100151,-node_id 100151 -offset 1,35004
+100760,(M) Forecasts multi-job for node 100152,-node_id 100152 -offset 1,35004
+105160,(M) PGW vs SGSN (bytes) - ST_DATA_2G - EDR Bytes,-mrec_id 100060 -num_days 7 -offset 8,35005
+105161,(M) PGW vs SGSN (bytes) - ST_DATA_3G - EDR Bytes,-mrec_id 100061 -num_days 7 -offset 8,35005
+105162,(M) PGW vs SGW (bytes) - ST_DATA_4G - EDR Bytes,-mrec_id 100062 -num_days 7 -offset 8,35005
+105163,(M) PGW vs SGW (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100063 -num_days 7 -offset 8,35005
+105164,(M) PGW vs SGSN (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100064 -num_days 7 -offset 8,35005
+105165,(M) SGSN vs SGW (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100065 -num_days 7 -offset 8,35005
+105166,(M) PGW vs SGW (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100066 -num_days 7 -offset 8,35005
+105167,(M) PGW vs SGSN (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100067 -num_days 7 -offset 8,35005
+105168,(M) SGSN vs SGW (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100068 -num_days 7 -offset 8,35005
+105169,(M) PGW vs EMM Data (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100069 -num_days 7 -offset 8,35005
+105170,(M) PGW vs EMM Data (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100070 -num_days 7 -offset 8,35005
+105171,(M) PGW vs EMM Data (bytes) - ST_DATA_2G - EDR Bytes,-mrec_id 100071 -num_days 7 -offset 8,35005
+105172,(M) PGW vs EMM Data (bytes) - ST_DATA_3G - EDR Bytes,-mrec_id 100072 -num_days 7 -offset 8,35005
+105173,(M) PGW vs EMM Data (bytes) - ST_DATA_4G - EDR Bytes,-mrec_id 100073 -num_days 7 -offset 8,35005

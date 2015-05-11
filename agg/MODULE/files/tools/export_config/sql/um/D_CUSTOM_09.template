@@ -1,0 +1,1 @@
+select * from UM.D_CUSTOM_09 where D_CUSTOM_09_ID > 99999 ;

@@ -1,0 +1,1 @@
+select * from DGF.GRAPH_TYPE_REF where GRAPH_TYPE_ID > 99999 ;

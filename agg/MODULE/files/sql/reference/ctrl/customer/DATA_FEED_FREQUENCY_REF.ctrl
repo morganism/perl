@@ -1,0 +1,18 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.DATA_FEED_FREQUENCY_REF
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.DATA_FEED_FREQUENCY_REF
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+   NODE
+  ,ALARM_PERIOD_TYPE
+  ,EXPECTED_FILES_PER_PERIOD
+  ,ALARM_THRESHOLD
+  ,LATENCY
+)

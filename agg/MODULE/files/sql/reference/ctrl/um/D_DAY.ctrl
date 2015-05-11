@@ -1,0 +1,23 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: UM.D_DAY
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE UM.D_DAY
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+  D_DAY_ID DATE "YYYYMMDD",
+  YEAR,
+  QUARTER,
+  QUARTER_NAME CHAR (2),
+  MONTH,
+  MONTH_NAME CHAR (9),
+  DAY,
+  DAY_OF_MONTH,
+  WEEK_DAY,
+  WEEK_DAY_NAME CHAR (20)
+)

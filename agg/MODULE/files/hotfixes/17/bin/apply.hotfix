@@ -1,0 +1,66 @@
+#!/bin/bash
+##############################################
+#Check the current OS to choose right commands
+#for options compatibility
+##############################################
+OS=`uname -a | grep Linux`
+if [ "$OS" != "" ]; then
+        ##Linux commands
+        AWK_CMD="awk"
+        DIFF_CMD="diff"
+else
+        #Solaris commands
+        AWK_CMD="nawk"
+        DIFF_CMD="sdiff"
+fi
+
+##############################################
+# check to see that ASCERTAIN_BUILD is set
+##############################################
+if [ -z $ASCERTAIN_BUILD ]; then
+  echo "ASCERTAIN_BUILD environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# check to see that ORACLE_SID is set
+##############################################
+if [ -z $ORACLE_SID ]; then
+  echo "ORACLE_SID environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# check to see that CARTESIAN_PROPERTIES is set
+##############################################
+if [ -z $CARTESIAN_PROPERTIES ]; then
+  echo "CARTESIAN_PROPERTIES environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# function to get passwords from .cpm.xml
+##############################################
+setPasswords(){
+  cpm=`grep CPM_CONFIG_FILE $CARTESIAN_PROPERTIES | $AWK_CMD '{print $2}' FS="\="`
+  for line in $(egrep "(user=|password=)" $cpm) ; do
+        lower_line=`echo $line | tr "[:upper:]" "[:lower:]"`
+    eval "$lower_line"
+    if [ "$password" != "" ] ; then
+      eval "export ${user}_pass=\"$password\""
+      user=""
+      password=""
+    fi
+  done
+}
+
+##############################################
+# load passwords using password function
+##############################################
+setPasswords
+
+
+sqlplus jobs/$jobs_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/hotfixes/17/bin/sql/OPTION_SQL_REF.sql
+
+echo "HF17 installed."
+

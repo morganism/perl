@@ -1,0 +1,7 @@
+36000,36000,-ds,"select n.description || ' (' || n.name || ')', n.description from dgf.node_ref n, dgf.node_type_ref t where t.node_type_id = n.node_type_id and t.node_type = 'Data Source' order by n.description"
+36001,36001,-st,"select regexp_replace(t.name, ' - EDR Count', ''), regexp_replace(t.name, ' - EDR Count', '') from um.metric_definition_ref t where t.name like '%EDR Count'"
+36002,36002,-start_date,"select  to_char((sysdate -(level-1)), 'DD-MON-YYYY'), to_char((sysdate -(level-1)), 'YYYYMMDD')  from dual connect by level < 22 order by sysdate -(level-1) desc"
+36003,36003,-start_hour,"select  to_char(level-1,'00'),to_char(level-1,'00')  from dual connect by level < 25 order by level asc"
+36004,36004,-end_date,"select  to_char((sysdate -(level-1)), 'DD-MON-YYYY'), to_char((sysdate -(level-1)), 'YYYYMMDD')  from dual connect by level < 22 order by sysdate -(level-1) desc
+36005,36005,-end_hour,"select  to_char(level-1,'00'),to_char(level-1,'00')  from dual connect by level < 25 order by level asc"
+36006,36006,-max_records,"select  power(10,level+1),power(10,level+1)  from dual connect by level < 8 order by level asc"

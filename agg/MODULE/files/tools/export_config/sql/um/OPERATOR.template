@@ -1,0 +1,1 @@
+select * from UM.OPERATOR where OPERATOR_ID > 99999 ;

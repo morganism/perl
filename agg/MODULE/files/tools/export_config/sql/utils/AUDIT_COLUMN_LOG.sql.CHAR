@@ -1,0 +1,1 @@
+select * from UTILS.AUDIT_COLUMN_LOG where COLUMN_NAME > 99999 ;

@@ -1,0 +1,1 @@
+select * from UM.MREC_CATEGORY_REF where MREC_CATEGORY_ID > 99999 ;

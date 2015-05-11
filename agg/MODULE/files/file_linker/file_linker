@@ -1,0 +1,131 @@
+#!/usr/revo/bin/perl
+
+#use lib "$ENV{ASCERTAIN_BUILD}/lib";
+use lib "/usr/revo/ASCERTAIN_BUILD/lib";
+
+use Ascertain::UM::VFI::StopWatch;
+
+use English qw( -no_match_vars );
+
+use constant BASE => '/usr/revo/ASCERTAIN_BUILD/file_linker/';
+use constant CONF => BASE . 'file_linker.conf';
+use constant LOGFILE => BASE . 'file_linker.log';
+use constant LAST_RUN => BASE . 'LAST_RUN_MARKER.';
+use constant LOGGER_NAME => 'FileLinker';
+
+my $oSW_Log = new StopWatch(LOGGER_NAME);
+
+
+open LOG, ">>" . LOGFILE;
+logger("-" x 50);
+logger("BEGIN Polling");
+
+my $total = 0;
+process();
+
+my $elapsedTime = $oSW_Log->getElapsedTime();
+my $hms = $oSW_Log->hms($elapsedTime);
+logger("FINISH Polling: Linked a total of: $total files");
+logger("TOTAL ELAPSED TIME: $hms");
+logger("-" x 50);
+logger("\n");
+close LOG;
+
+
+sub process
+{
+	open IN, CONF;
+	my $lastDataSource = "NULL";
+	while (<IN>)
+	{
+		chomp;
+		next if (/^\s*#/);
+		next if (/^\s*$/);
+		my ($ds, $source, $target, $regex) = split /,/;
+
+		#print "$ds, $source, $target, $regex\n";
+		my $count;
+		eval
+		{
+			logger("  $ds : SOURCE[$source] REGEX[$regex]");
+			my $files_ref = getFiles($ds, $source, $target, $regex);
+			$count = linkFiles($files_ref, $ds, $target);
+			logger("    Linked [$count] files");
+		};
+		if ($EVAL_ERROR)
+		{
+			logger("ERROR  $ds : SOURCE[$source] REGEX[$regex]");
+			logger("Oops, an error occured: $EVAL_ERROR");
+		}
+		if ($ds ne $lastDataSource)
+		{
+			my $elapsedTime = $oSW_Log->getElapsedTime();
+			my $hms = $oSW_Log->hms($elapsedTime);
+			logger("$ds ELAPSED TIME: $hms COUNT: $count");
+		}
+		$lastDataSource = $ds;
+	}
+	close IN;
+}
+
+sub getFiles
+{
+	my ($ds, $source, $target, $regex) = @_;
+	logger("    Polling: $ds");
+	my $lastRunMarker = LAST_RUN . "$ds";
+	my $cmd = "find $source -type f -newer $lastRunMarker";
+	my @candidates = `$cmd`;
+	logger("    Reseting LAST_RIN_MARKER: $lastRunMarker");
+	my $cmd = "touch $lastRunMarker";
+	system($cmd);
+
+	my $r = qr/$regex/;
+
+	my @fileList;
+	foreach my $file (@candidates)
+	{
+		chomp $file;
+		$file =~ s/\;/\\;/;
+		next unless ($file =~ $r);
+		#next if ($file =~ /processed/);
+		next if ($file =~ /\.gz/); # compressed files will appear to have a recent date
+		next if ($file =~ /\.Z/); # compressed files will appear to have a recent date
+		next if ($file =~ /tmp_/);
+		next if ($file =~ /InProcess/);
+		next if ($file =~ /duplicates/);
+		next if ($file =~ /empty/);
+		next if ($file =~ /errors/);
+		next if ($file =~ /old/);
+		next if ($file =~ /queued/);
+		next if ($file =~ /staging/);
+		next if ($file =~ /xml/);
+		push @fileList, $file;
+	}
+	my $fc = scalar(@fileList);
+	logger("    Found [$fc] files, using regex [$regex]");
+	return \@fileList;
+}
+
+sub linkFiles
+{
+	my ($files_ref, $ds, $target) = @_;
+	logger("    Linking files for: $ds");
+	my $counter = 0;
+	#chdir($target);
+	foreach my $f (@{$files_ref})
+	{
+		my $cmd = "ln -s $f $target";
+		`$cmd`;
+		$total++;
+		$counter++;
+	}
+	return $counter;
+}
+
+sub logger
+{
+  my $msg = shift;
+  my $ts = $oSW_Log->stamp();
+  print LOG "$ts: $msg\n";
+}
+

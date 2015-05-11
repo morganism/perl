@@ -1,0 +1,1 @@
+select * from GDL.LOADABLE_TABLES_REF where LOADABLE_TABLE_ID > 99999 ;

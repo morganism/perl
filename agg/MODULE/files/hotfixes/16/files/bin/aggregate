@@ -1,0 +1,1441 @@
+#!/usr/bin/perl
+##################################################
+# script   : aggregate
+# author   : Cartesian Limited
+# author   : msziraki
+# date     : Thu Oct 28 11:55:58 BST 2010
+# $Revision: 1.2 $
+##################################################
+my $Revision = "";
+my $number = "";
+my $version = "$Revision: 1.2 $number";
+
+# N.B.: add lexically scoped variables and assign them in getArgs ($file, below)
+#use DBI;
+#use strict;
+#use diagnostics;
+#use warnings;
+
+use Data::Dumper;
+use English qw( -no_match_vars );
+use File::Copy;
+use IO::File;;
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+
+use XML::Simple;
+use Ascertain::UM::Readers::Reader;
+use Ascertain::UM::Readers::CSV;
+use Ascertain::UM::Readers::FixedWidth;
+use Ascertain::UM::Readers::ASN1_Simple;
+use Ascertain::UM::Readers::ASN1;
+use Ascertain::UM::VFI::Format;
+use Ascertain::UM::VFI::MultiFormat;
+use Ascertain::UM::VFI::Aggregator;
+use Ascertain::UM::VFI::StopWatch;
+use Ascertain::UM::VFI::InputFile;
+use Ascertain::UM::VFI::Task;
+
+use constant TRUE => 1;
+use constant FALSE => undef;
+use constant YES => "yes";
+
+use constant READER_CSV   => "csv";
+use constant READER_FIXED => "fixedwidth";
+use constant READER_ASN1  => "asn1";
+
+use constant LOGGER_NAME => "AggregatorLog";
+use constant LOGDIR => "$ENV{HOME}/data/logs/aggregator";
+use constant FORMATS_DIR => "$ENV{AGGREGATOR_BUILD}/lib/Ascertain/UM/VFI/Format";
+use constant AGGREGATORS_DIR => "$ENV{AGGREGATOR_BUILD}/lib/Ascertain/UM/VFI/Aggregator";
+
+use constant TASK_READY => "xml";
+use constant TASK_WORKING => "working";
+use constant TASK_FINISHED => "finished";
+use constant TASK_DEFAULT_FINISHED_DIR => "$ENV{AGGREGATOR_BUILD}/htdocs/finished_tasks";
+
+use constant MAX_INVALIDS => 10000;
+
+use constant EXIT_OK => 0;
+use constant EXIT_WARNING => 31;
+
+END
+{
+	printMessages() if (defined $log_fh); 
+	deleteLogFile(); # if no records were processed
+}
+
+$SIG{INT} = \&trapSignals;
+$SIG{HUP} = \&trapSignals;
+$SIG{KILL} = \&trapSignals;
+
+#my $configFile = "$ENV{HOME}/.aggregator.conf";
+my $configFile = "$ENV{HOME}/.aggregator.xml";
+my $taskFile;
+
+my $oSW_Log = new StopWatch(LOGGER_NAME);
+
+#my $rundate = $oSW_Log->stamp({format => SW_DATETIME});
+my $rundate = $oSW_Log->stamp(StopWatch::SW_DATETIME);
+my $inputFileCount = 0;
+my $workFileCount = 0;
+my $dataSource;
+my $debug = FALSE;;
+my $debugSubsRegex;
+my $single = FALSE;
+my $noArchive = FALSE;
+my $printRecord = FALSE;
+my $demoMode = FALSE; # quick hack, no archive and write to processed.list
+# this way we can run this at VFI without moving input files from the RO dir
+my $encodeFile = FALSE; # for testing , take output or Reader->print() and write file in Format
+my $noTrim = FALSE; # don't trim leading/trailing space
+my $useXmlReader = FALSE;
+my $doASN1Decode = FALSE;
+my @messages = ();
+my $pidHost;      # global for performance
+my $pidProcessId; # global for performance
+my $oInputFiles;
+my $log2stdout;
+my $finishedTasksDir;
+my $taskWriteJobLogFile;
+my @logMessages;
+
+# comment this out if necessary
+usage() unless (@ARGV);
+getArgs(@ARGV);
+my $oTask;
+if (defined $taskFile)
+{
+	readTaskFile();
+	$dataSource = $oTask->getDataSource();
+	$taskWriteJobLogFile = $oTask->getTaskWriterJobLogFile();
+}
+usage() unless (defined $dataSource);
+
+# point debugger() to an empty sub if not in debug mode
+*debugger = (defined $debug) ? \&debug_on : \&debug_off;
+my $config = {};
+loadConfig();
+my $generalConfig = $config->{general};
+$config = $config->{datasource}->{$dataSource}; # step into tree for just this DS
+prependDataDirBaseToConfigDirs(); # allow setting a sing base dir and use relative dirs in config
+#print Dumper($config);
+#print Dumper($generalConfig);
+#set the output file name if oTask
+my $logfile = $config->{log_dir} . "/$dataSource.aggregate.$rundate.log";
+if (defined $oTask)
+{
+	my @parts = split /\//, $taskFile;
+	my $fn = pop @parts; # get just the name
+	$fn =~ s/xml/csv/;
+	my $taskOutDir = (defined $config->{task_out_dir}) 
+		? $config->{task_out_dir} 
+		: $generalConfig->{parameter}->{task_out_dir}->{value};
+	my $outputFilename = "$taskOutDir/$fn";
+	$oTask->setOutputFilename($outputFilename);
+	if (defined $generalConfig->{parameter}->{finished_tasks_dir}->{value})
+	{
+		$finishedTasksDir = $generalConfig->{parameter}->{finished_tasks_dir}->{value};
+	}
+	elsif (defined $config->{finished_tasks_dir})
+	{
+		$finishedTasksDir = $config->{finished_tasks_dir};
+	}
+	else
+	{
+		$finishedTasksDir = TASK_DEFAULT_FINISHED_DIR;
+	}
+
+	# some config error checking
+	if (not -e $finishedTasksDir)
+	{
+		die ("Configuration error: Check config file [$configFile] missing 'finished_tasks_dir' definition. Directory [$finishedTasksDir] does not exist.");
+	}
+	if (not -e $taskOutDir)
+	{
+		die ("Configuration error: Check config file [$configFile] missing 'task_out_dir' definition. Directory [$taskOutDir] does not exist.");
+	}
+	$logfile = $oTask->getLogFileForAggregatorToUse();
+}
+
+my $log_fh = getLogFileHandle();;
+dumpConfig() if ($debug);
+my $thisHost = `hostname`;
+chomp $thisHost;
+my $thisProcessId = $$;
+my $pidFile = getPidFileName();
+logger("Begin $dataSource on $thisHost");
+checkPid();
+
+# Load ONXP data file if present
+my $onxpData = {}; # will be MSISDN -> PRODUCT .. n.b. PRODUCT is just ONXP at the moment
+if (defined $generalConfig->{parameter}->{onxp_datafile}->{value})
+{
+	my $onxpDataFile = $generalConfig->{parameter}->{onxp_datafile}->{value};
+	loadOnxpDataFile($onxpDataFile) if (-e $onxpDataFile);
+}
+
+# we want chunks of input_batch_size
+my $batchSize = $generalConfig->{parameter}->{input_batch_size}->{value};
+$batchSize = $config->{input_batch_size} if (defined $config->{input_batch_size}); # allow override per source
+if (not defined $oTask)
+{
+	logger("Looking for unfinished work files.");
+	reprocessWorkFiles();
+}
+else
+{
+	logger("Running in non-aggregation mode, using TASK_FILE [$taskFile].");
+}
+
+
+logger("PRINT mode selected, no aggregation.") if ($printRecord);
+
+#explain debug restriction
+if (defined $debugSubsRegex)
+{
+	logger("Restricting debug to subs that match /$debugSubsRegex/");
+}
+loadFormats();         # require any .pm files in the Format dir
+loadAggregators();     # require any .pm files in the Aggregator dir
+
+my $singleNeIdPerSource = 
+	(defined $config->{neid}->{type} and $config->{neid}->{type} eq "value")
+	?  $config->{neid}->{value} : FALSE;
+my $oFormat = new Ascertain::UM::VFI::Format({data_source => $dataSource, logger => \&logger, debugger => \&debugger});
+
+#TESTING
+if ($encodeFile)
+{
+	encode();
+	exit;
+}
+
+#TESTING
+
+# this is a special case where we have to decode the RAW file and write it to the DECODED
+# format 
+#if ($dataSource eq "DS28" and $doASN1Decode)
+#{
+#	my $oSW_XMLDecoder = new StopWatch("XML Decoder");
+#	logger("Decoding ASN1 files to XML.");
+#	my $rawDir = $config->{raw_dir};
+#	my $inputDir = $config->{input_dir}->[0];
+#	if (not defined $rawDir or not defined $inputDir)
+#	{
+#		my $message = "Configuration error: need to define both 'raw_dir' and 'input_dir' for this datasource [$dataSource]";
+#		logger($message);
+#		die($message);
+#	}
+#	my @rawFiles = getFilesFromDir
+#	(
+#		{
+#			regex     => [$config->{raw_regex}], 
+#			input_dir => $rawDir
+#		}
+#	);
+#	logger("Found " . scalar(@rawFiles) . " raw files to process.");
+#	logger("Writing decoded files to: [$inputDir]");
+#	my $decoder = $generalConfig->{parameter}->{mss_decoder}->{value};
+#	foreach my $oFile (@rawFiles)
+#	{
+#		my $fullPath = $oFile->getFullPath();
+#		my $oReader = getReader
+#		(
+#			{
+#				type        => $config->{type}, 
+#				data_source => $dataSource, 
+#				format_obj  => $oFormat, 
+#				input_file_obj  => $oFile, 
+#				general_config  => $generalConfig, 
+#				logger      => \&logger, 
+#				debugger    => \&debugger,
+#				no_open     => TRUE
+#			}
+#		);
+#
+#		# unzip if necessary
+#		my $compression = $oReader->getCompressionMethod();
+#		if (defined $compression)
+#		{
+#			logger("Raw file [$fullPath] for $dataSource is compressed, uncompressing.");
+#			my $originalFile = $fullPath;
+#			$fullPath =~ s/\.(Z|gz)$//;
+#			$tempFile = "$fullPath.tmp";
+#			my $cmd = "$compression $originalFile > $tempFile";	
+#			debugger("Executing decompression command[$cmd]");
+#			`$cmd`;
+#			if (-e "$tempFile")
+#			{
+#				move($tempFile, $fullPath);
+#			}
+#
+#			if (-e $fullPath)
+#			{
+#				logger("Uncompressed to [$fullPath].");
+#				unless($noArchive)
+#				{
+#					logger("Unlinking compressed file.");
+#					unlink($originalFile);
+#				}
+#			}
+#			else
+#			{
+#				die "Decompression problem for file [$originalFile] ->  [$fullPath].";
+#			}
+#		}
+#		
+#		my @output = `$decoder -inputfile $fullPath -outputdir $inputDir`;
+#		my $fileName = $oFile->getEdrFileName();
+#		$fileName =~ s/\.(Z|gz)$//;
+#		my $decodedFile = "$inputDir/$fileName.decoded";
+#		if (-e $decodedFile)
+#		{
+#			logger("Decoded file successfully [$decodedFile].");
+#			if ($noArchive)
+#			{
+#				logger("\tIn NO archive mode NOT unlinking ASN1 raw file [$fullPath].");
+#			}
+#			else
+#			{
+#				logger("\tMoving ASN1 raw file [$fullPath] to archive dir: [" . $config->{archive_dir} . "]");
+#				move($fullPath, $config->{archive_dir});
+#			}
+#		}
+#	}
+#	my $hms = $oSW_XMLDecoder->hms($oSW_XMLDecoder->getElapsedTime());
+#	logger("Decoded ASN1 to XML in $hms.");
+#}
+
+#----------------------------------------------------------------------------
+# running in non-aggregation mode
+#
+# here we:
+#   get the input files from the task file
+#   build an array of timeslots from the task file
+#
+#----------------------------------------------------------------------------
+if (defined $oTask)
+{
+	setTaskState($oTask, TASK_WORKING);
+	logger("Getting input files from TASK_FILE [$taskFile].");
+	foreach my $f ($oTask->getInputFiles())
+	{
+		my @parts = split /\//, $f;
+		my $filename = pop @parts;
+		my $dir = join "/", @parts;
+
+		my $oInputFile = new Ascertain::UM::VFI::InputFile
+		(
+			{
+				full_path => $f,
+				edr_file_name => $filename,
+				current_dir => $dir,
+				file_number => $fileNumber++,
+				logger => \&logger
+			}
+		);
+		push @oInputFiles, $oInputFile;
+	}
+}
+else
+{
+	logger("Getting input files.");
+	@oInputFiles = getFilesFromDir
+	(
+		{
+			regex     => $config->{regex}, 
+			input_dir => $config->{input_dir}
+		}
+	);
+}
+$inputFileCount = scalar(@oInputFiles);
+
+
+my $tsvw = $generalConfig->{parameter}->{timeslot_validity_window}->{value};
+
+my $counter = 0;
+logger("No input files to process") unless (scalar(@oInputFiles));
+my $totalRecordCount = 0;
+my @oInputFiles_Orig = @oInputFiles;
+my @oInputFiles_Batch; # holds the working chunk of input file objects
+my @fileNotExistList = ();
+while (@oInputFiles_Batch = splice (@oInputFiles, 0, $batchSize))
+{
+	$oAggregator = new Ascertain::UM::VFI::Aggregator
+	(
+		{
+			data_source => $dataSource, 
+			logger => \&logger, 
+			debugger => \&debugger,
+			timeslot_validity_window => $tsvw,
+			currency_factor => $oFormat->getCurrencyFactor(),
+			data_factor => $oFormat->getDataFactor()
+		}
+	);
+	$oAggregator->setOnxpList($onxpData);
+	if (defined $oTask)
+	{
+		# this is where we use the biz rules to drill into the edr files and extract 
+		# records for the matching timeslot and service tag
+		$oAggregator->setNonAggregationMode(); 
+		$oAggregator->setTaskObject($oTask); 
+	}
+	FILE_LOOP:
+	foreach my $oInputFile (@oInputFiles_Batch)
+	{
+		if (not -e $oInputFile->getFullPath())
+		{
+			push @fileNotExistList, $oInputFile;
+			next FILE_LOOP;	
+		}
+		# move file to work dir
+		moveToWorkDir($oInputFile);
+		$oInputFile->setFormatObj($oFormat);
+		eval
+		{
+			$oAggregator->setInputFileObject($oInputFile);	
+			logger("Running in no archive files mode.") if ($noArchive);
+			my $fullPath = $oInputFile->getFullPath();
+			my $oSW_file = new StopWatch($fullPath);
+			logger("Processing file: [$fullPath]");
+			my $oReader = getReader
+			(
+				{
+					type        => $config->{type}, 
+					data_source => $dataSource, 
+					format_obj  => $oFormat, 
+					input_file_obj  => $oInputFile, 
+					general_config  => $generalConfig, 
+					logger      => \&logger, 
+					debugger    => \&debugger
+				}
+			);
+
+
+			my $unparsableRecordCount = 0;
+			my $fileCounter = 0;
+			while ($oAggregator->continueProcessing() and $oReader->hasMoreRecords())
+			{	    
+				my $rec = $oReader->getRecord();
+
+				$fileCounter++; # line in current file
+				if ($oReader->isRecordValid())
+				{
+					#print "VALID Record\n";
+					if ($printRecord)
+					{
+						$oReader->print();
+					}
+					else
+					{
+						eval
+						{
+							$oAggregator->aggregate({record => $rec, reader_object => $oReader});
+						};
+						if ($EVAL_ERROR)
+						{
+							my $msg = "Record level error during aggregation: $EVAL_ERROR";
+							logger($msg);
+							debugger("See callback: $msg");
+							$oReader->incrementErrorCount();
+						}
+					}
+				}
+				else
+				{
+					$unparsableRecordCount++;
+					logger("INVALID Record[$fileCounter] Total invalids[$unparsableRecordCount]");
+					if ($unparsableRecordCount > MAX_INVALIDS)
+					{
+						logger("MAX_INVALIDS exceeded, bailing");
+					}
+				}
+				$counter++;
+				unless ($counter % 100000)
+				{
+					logger(sprintf "%30s%20s", "Current line = ", $counter);
+				}				
+			}
+			$totalRecordCount += $oReader->getRecordsRead();
+			logger("Read " . $oReader->getRecordsRead() . " records from file: " . $oReader->getEdrFileName());
+
+			# check that file was read OK, headers and trailers found when expected, etc.
+			my $result = checkFileValidity({format_obj => $oFormat, reader_obj => $oReader});
+			if ($result)
+			{
+				logger("File [$fullPath] is valid.");
+				$oInputFile->setIsValid();
+				my $hms = $oSW_file->hms($oSW_file->getElapsedTime());
+				writeAggregatedFile() if($single and not $printRecord); # single mode only
+				logger("Processed file in: $hms");
+
+
+
+				# hack mode, just delete the sym link, let some other proc
+				# put some new files where we like to look for them
+				if ($demoMode)
+				{
+					logger("In demo mode: writing file to list $ENV{HOME}/$dataSource" . '.processed.list');
+					open OUT, ">>$ENV{HOME}/$dataSource" . '.processed.list';
+					print OUT "$fullPath\n";
+					close OUT;
+
+					if (-l $fullPath)
+					{
+						logger("In demo mode: unlinking symbolic link $fullPath");
+						unlink $fullPath;
+					}
+				}
+			}
+			else
+			{
+				my $fullPath = $oInputFile->getFullPath();
+				logger("File [$fullPath] failed file validity check.");
+				$oInputFile->setNotValid();
+				# indicate badness
+
+				unless ($printRecord)
+				{
+					debugger("Removing the aggregation results for this failed file [$fullPath].");
+					$oAggregator->removeFailedFileResults($oInputFile->getFileNumber());
+					my $alc = $oInputFile->getAggregatedLineCount();
+					my $ilc = $oInputFile->getInvalidLineCount();
+					$oInputFile->setInvalidLineCount($alc + $ilc);
+					$oInputFile->setAggregatedLineCount(0);
+				}
+			}
+		};
+		if ($EVAL_ERROR)
+		{
+			logger("Oops, an error occured: $EVAL_ERROR");
+		}
+	}
+	logger("--------------------------- INPUT FILE STATISTICS --------------------------");
+	foreach my $oInputFile (@oInputFiles_Batch)
+	{
+		my $fullPath = $oInputFile->getFullPath();
+		unless($noArchive or $printRecord)
+		{
+			if ($oInputFile->isValid())
+			{
+				logger("Moving input file: [$fullPath] to archive dir: [" . $config->{archive_dir} . "]");
+				move($fullPath, $config->{archive_dir});
+				my $fileName = $oInputFile->getEdrFileName();
+				my $newFullPath = $config->{archive_dir} . "/$fileName";
+				$oInputFile->setFullPath($newFullPath);
+				$oInputFile->setCurrentDir($config->{archive_dir});
+			}
+			else
+			{		
+				logger("Moving input file: [$fullPath] to error dir: [" . $config->{error_dir} . "]");
+				move($fullPath, $config->{error_dir});
+			}
+		}
+		$oInputFile->printStats() if (defined $oInputFile->{format_obj});
+	}
+
+    logger("Processed $totalRecordCount records from all input files.");
+    my $inputRecordCount        = (defined $oAggregator->getInputRecordCount()) ? $oAggregator->getInputRecordCount() : 0;
+    my $aggregatedRecordCount   = $oAggregator->getAggregatedRecordCount();	
+    my $unAggregatedRecordCount = $oAggregator->getUnAggregatedRecordCount();  
+    my $controlTotal            = $inputRecordCount - ( $aggregatedRecordCount + $unAggregatedRecordCount );
+
+    my $separator = "-" x 80;
+
+    logger("");
+    logger( $separator );
+    logger( sprintf "%-60s%20s","X: TOTAL AGGREGATION CANDIDATE RECORDS"      , $inputRecordCount );
+    logger( $separator );
+    logger( sprintf "%-60s%20s","A: AGGREGATED RECORDS"   , $aggregatedRecordCount );
+    logger( sprintf "%-60s%20s","I: UNAGGREGATED RECORDS" , $unAggregatedRecordCount );
+    logger( $separator );
+    logger( sprintf "%-60s%20s","C: CONTROL TOTAL" , $controlTotal );
+    logger( $separator );
+    logger("");
+    logger("");
+
+    writeAggregatedFile() unless($single or $printRecord );
+}
+
+my $hms = $oSW_Log->hms($oSW_Log->getElapsedTime());
+my $plural = (scalar(@oInputFiles_Orig) == 1) ? "" : "s";
+logger("Processed " . scalar(@oInputFiles_Orig) . " file$plural in $hms.");
+$exitCode = EXIT_OK;
+my $count = scalar(@fileNotExistList);
+if ($count)
+{
+	logger("Exit with WARNING, Found [$count] files that do not exists.");
+	foreach my $oInputFile (@fileNotExistList)
+	{
+	
+		logger("\t - " . $oInputFile->getFullPath() . " .");
+	}
+	$exitCode = EXIT_WARNING;
+}
+logger("Finished.");
+if (defined $oTask)
+{
+	setTaskState($oTask, TASK_FINISHED);	
+
+}
+removePid();
+exit $exitCode;
+
+sub loadOnxpDataFile
+{
+	my $onxpDataFile = shift;
+	logger("ONXP Data File [$onxpDataFile] has been defined in the config file [$configFile] and exists.");
+	logger("Loading ONXP Data File");
+	my $i = 0; # count the number of msisdn read
+	open(ONXP, $onxpDataFile);
+	while (<ONXP>)
+	{
+		chomp;
+		my ($product, $msisdn, $imsi) = split /,/;
+		$onxpData->{$imsi} = $product;	
+		$i++;
+	}
+	close ONXP;
+	logger("Loaded $i IMSIs from file.");
+}
+
+sub setTaskState
+{
+	my $oTask = shift;
+	my $state = shift;
+	my $currentFileName = $oTask->getTaskFilename();
+	my $newFilename = $currentFileName;
+	$newFilename =~ s/([a-z]+)$/$state/;
+	move ($currentFileName, $newFilename) or warn("ERROR renaming task file!\n");
+	$oTask->setTaskFilename($newFilename);
+	
+}
+
+sub moveToWorkDir
+{
+	my $oInputFile = shift;
+	my $currentFullPath = $oInputFile->getFullPath();	
+	my $workDir = $config->{work_dir};
+	my $fileName = $oInputFile->getEdrFileName();
+	my $newFullPath = "$workDir/$fileName";
+	copy ($currentFullPath, $newFullPath);
+	if (-e $newFullPath)
+	{
+		unlink $currentFullPath unless ($noArchive);
+		$oInputFile->setFullPath($newFullPath);
+		$oInputFile->setCurrentDir($workDir);
+		logger("Moved file [$currentFullPath] to work dir, new location [$newFullPath].");
+	}
+}
+
+sub reprocessWorkFiles
+{
+	my @oWorkFiles = getFilesFromDir
+	(
+		{
+			regex     => $config->{regex}, 
+			input_dir => [$config->{work_dir}]
+		}
+	);
+  $workFileCount = scalar(@oWorkFiles);
+
+	my $workFlag;;
+	foreach my $oWorkFile (@oWorkFiles)
+	{
+		if (move ($oWorkFile->getFullPath(), $config->{input_dir}->[0]))
+		{
+			$workFlag++;
+			logger("Moved work file: " . $oWorkFile->getFullPath() . " back to input dir.");
+		}
+	}
+	push @messages, "WORK FILES REPROCESSED MSG" if ($workFlag);
+}
+
+sub writeAggregatedFile
+{
+	debugger("Writing aggregated results");
+	my $currentDir = ($noArchive) ? $config->{input_dir}->[0] : $config->{archive_dir}; # if file is not archived it's in the input_dir
+	if (isPidFileValid())
+	{
+		$oAggregator->writeAggregatedFile
+		(
+			{
+				output_dir               => $config->{output_dir},
+				current_dir              => $currentDir,
+				error_dir                => $config->{error_dir}
+			}
+		);
+	}
+	else
+	{
+		logger("Pid file check before writing aggregated file has failed, exit.");
+		exit 3;
+	}
+	
+}
+
+# put subs below here
+sub checkFileValidity
+{
+	my $args = shift;
+
+	my $result = TRUE;
+	return $result if ($args->{format_obj}->isLenient());
+	my $validate = (defined $generalConfig->{parameter}->{validate_files}->{value})
+		? $generalConfig->{parameter}->{validate_files}->{value} : FALSE;
+	unless ($validate eq YES)
+	{
+		debugger("PARAMETER : validate_files set to $validate, skipping validation.");
+		return $result;
+	}
+	logger("Checking File validity.");
+	my $totalRecordsRead = $args->{reader_obj}->getRecordsRead();
+
+	# check header
+	if ($args->{format_obj}->hasHeader())
+	{
+		$result = FALSE;
+		debugger("Format has header, checking input file.");
+		my @headerLines;
+		my $skipHeaderLines = $args->{format_obj}->getSkipHeaderLines();
+		if (defined $skipHeaderLines)
+		{
+			my $plural_q = ($skipHeaderLines > 1) ? "lines" : "line";
+			logger("Skip header lines defined. First $skipHeaderLines $plural_q assumed to be header.");
+			my $count = 1;
+			foreach my $oInvalidLine ($args->{reader_obj}->getInvalids())
+			{
+				my $lineNumber = $oInvalidLine->getLineNumber();
+				my $data = $oInvalidLine->getData();
+				debugger("SkipHeader: Count[$count] Line[$lineNumber] Data[$data]");
+				if ($lineNumber == $count)
+				{
+					if ($lineNumber == $skipHeaderLines)
+					{
+						logger("PASS: Line in file is assumed to be header: $lineNumber of $totalRecordsRead");
+						$result = TRUE;
+						$args->{reader_obj}->{input_file_obj}->setHeaderLineCount($skipHeaderLines);
+						last;
+					}
+				}
+				$count++;
+			}
+		}
+
+		my $headerRegex = $args->{format_obj}->getHeaderRegex();
+		if (defined $headerRegex)
+		{
+			logger("Regex defined for header: '$headerRegex'");
+			my $count = 1;
+			foreach my $oInvalidLine ($args->{reader_obj}->getInvalids())
+			{
+				my $lineNumber = $oInvalidLine->getLineNumber();
+				my $data = $oInvalidLine->getData();
+				debugger("HeaderRegex: Count[$count] Line[$lineNumber] Data[$data]");
+				if ($count == 1 and $lineNumber == 1) # @TODO : what about multi line header regex ??
+				{
+					if ($data =~ $headerRegex)
+					{
+						$result = TRUE;
+						logger("PASS: Header matches regex");
+						$args->{reader_obj}->{input_file_obj}->incrementHeaderLineCount()
+							unless($result); # inc header count unless set by skip (above)
+						#$args->{reader_obj}->{input_file_obj}->decrementInvalidLineCount($count);
+					}
+					else
+					{
+						push @messages, "HEADER";
+						logger("FAIL: Header does not match regex: REGEX[$headerRegex] DATA[$data]");
+						my $hlc = $args->{reader_obj}->{input_file_obj}->getHeaderLineCount();
+						my $ilc = $args->{reader_obj}->{input_file_obj}->getInvalidLineCount();
+						$args->{reader_obj}->{input_file_obj}->setInvalidLineCount($hlc + $ilc);
+						$args->{reader_obj}->{input_file_obj}->setHeaderLineCount(0);
+						$result = FALSE;
+						push @messages, "HEADER REGEX WARN";
+					}
+					last;	
+				}
+				$count++;
+			}
+		}
+
+	}
+
+	# check trailer
+	if ($args->{format_obj}->hasTrailer())
+	{
+		debugger("Format has trailer, checking input file.");
+		my @unmatchedLines;
+		$result = FALSE;
+		my $count = 1;
+		foreach my $oInvalidLine ($args->{reader_obj}->getInvalids())
+		{
+			my $lineNumber = $oInvalidLine->getLineNumber();
+			my $data = $oInvalidLine->getData();
+			debugger("HasTrailer: Count[$count] Line[$lineNumber] total records read [$totalRecordsRead] Data[$data]");
+			if ($lineNumber == $totalRecordsRead)
+			{
+				logger("PASS: Last line in file is assumed to be trailer: $lineNumber of $totalRecordsRead");
+				$result = TRUE;
+				my $trailerRegex = $args->{format_obj}->getTrailerRegex();
+				if (defined $trailerRegex)
+				{
+					logger("Regex defined for trailer: '$trailerRegex'");
+					if ($data =~ $trailerRegex)
+					{
+						logger("PASS: Trailer matches regex.");
+					}
+					else
+					{
+						$result = FALSE;
+						logger("FAIL: Trailer does not match regex: REGEX[$trailerRegex] DATA[$data]");
+						debugger("DATA[$data] REGEX[$trailerRegex]");
+						push @messages, "TRAILER REGEX WARN";
+					}
+				}
+				last;
+			}
+			$count++;
+		}
+		if ($result)
+		{
+			$args->{reader_obj}->{input_file_obj}->incrementTrailerLineCount();
+			$args->{reader_obj}->{input_file_obj}->decrementInvalidLineCount();
+			logger("PASS: trailer found");
+		}
+		else
+		{
+			push @messages, "NO TRAILER WARN";
+			logger("FAIL: No trailer found");
+		}
+		
+	}
+	
+	return $result;
+}
+
+
+sub loadConfig
+{
+	if (not -e $configFile)
+	{
+		print "Cannot read config file [$configFile]\n";
+		exit;
+	}
+	#logger("Reading configuration [$configFile]");
+
+	$config = XMLin($configFile, forcearray => [qw(regex parameter input_dir raw_dir)], keyattr => [qw(name)]);
+}
+
+sub readTaskFile
+{
+	if (not -e $taskFile)
+	{
+		print "Cannot read task file [$taskFile]\n";
+		exit;
+	}
+
+	my $taskInfo = XMLin($taskFile, forcearray => [qw(input_file service_type)], keyattr => [qw(name)]);
+	$oTask = new Task
+	(
+		{
+			task_filename => $taskFile, 
+			datasource => $taskInfo->{datasource}, 
+			input_files => $taskInfo->{input_file}, 
+			service_types => $taskInfo->{service_type},
+			data_source => $taskInfo->{datasource},
+			start_timeslot => $taskInfo->{start_timeslot},
+			end_timeslot => $taskInfo->{end_timeslot},
+			max_records => $taskInfo->{max_records},
+			task_writer_job_logfile => $taskInfo->{task_writer_job_logfile},
+			task_writer_logfile => $taskInfo->{task_writer_logfile},
+			output_file => $fn
+		}
+	);
+}
+
+sub getPidFileName
+{
+	my $pidDir = $generalConfig->{parameter}->{pid_dir}->{value};
+	if (not defined $pidDir or not -d $pidDir)
+	{
+		die "Configuration Exception: pid_dir parameter does not point to an existing directory."; 
+	}
+	my $pidFileName = (defined $config->{pid_file}) ? $config->{pid_file} : "$pidDir/$dataSource.pid"; # allow override per source
+	return $pidFileName;
+}
+sub checkPid
+{
+	return if ($printRecord or $encodeFile);
+	if (not -e $pidFile)
+	{
+		debugger("Writing PID file to: [$pidFile]");
+		open OUT, ">$pidFile";
+		print OUT "$thisHost:$thisProcessId:$logfile\n";
+		close OUT;
+		if (not isPidFileValid())
+		{
+			logger("The PID file I wrote to: [$pidFile] is not valid."); 
+			logger("Aborting, abnormal exit");
+			exit 2;
+		}
+	}
+	else
+	{
+		push @messages, "PID FILE EXISTS";
+		logger("PID FILE EXISTS: Another instance of $dataSource may be running: check PID file : $pidFile");
+		logger("Bye");
+		exit 3; # pretty sure this is here because agg can run on various boxen
+		# everything below is unreachable , but was a way of checking if a leftover pid was around
+		if (not isPidFileValid())
+		{
+			# N.B. isPidFileValid sets $pidProcessId $pidHost using readPidFile, this is for performance and preventing race conditions
+			# apologies for magic variable here
+			if (defined $pidHost and ($pidHost eq $thisHost))
+			{
+				my $isRunning = `ps -p $pidProcessId | grep -c $pidProcessId`;
+				chomp $isRunning;
+				if (not $isRunning)
+				{
+					logger("PID [$pidProcessId] does not appear to be running on this host [$pidHost].");
+					push @messages, "PID NOT RUNNING ERROR";
+					removePid();
+					checkPid();
+				}
+				else
+				{
+					logger("Another instance of $dataSource is running: check PID file : $pidFile");
+					logger("Bye");
+					push @messages, "PID IS RUNNING WARN";
+					exit 1;
+				}
+			}
+		}
+	}
+}
+sub removePid
+{
+	my $pidFile = getPidFileName();
+	if (-e $pidFile)
+	{
+		logger("Cleaning up PID file [$pidFile]");
+		unlink $pidFile;
+	}
+}
+sub isPidFileValid
+{
+	debugger("Verifying that the PID and hostname in $pidFile are mine: $thisProcessId, $thisHost.");
+	readPidFile(); # set the pidHost and pidProcessId values
+	if (defined $pidHost and ($pidHost eq $thisHost))
+	{
+		if ($pidProcessId eq $thisProcessId)
+		{
+			debugger("PID OK: This host[$thisHost] PID host[$pidHost] This ProcessID[$thisProcessId] PID ProcessID[$pidProcessId].");
+			return TRUE;
+		}
+		else
+		{
+			logger("PID ERROR: This host[$thisHost] PID host[$pidHost] This ProcessID[$thisProcessId] PID ProcessID[$pidProcessId].");
+			push @messages, "INVALID PID FILE";
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+sub isPidRunning
+{
+	debugger("Checking if PID is running");
+	my $isRunning = `ps -p $pidProcessId | grep -c $pidProcessId`;
+	chomp($isRunning);
+	return $isRunning;
+}
+sub readPidFile
+{
+	debugger("Reading PID file[$pidFile].");
+	$pidHost = undef;
+	my $pidLogfile = ""; 
+	open PID, $pidFile;
+	while (<PID>)
+	{
+		chomp;
+		($pidHost, $pidProcessId, $pidLogfile) = split /:/;
+		debugger("\tFound hostname [$pidHost] and PID [$pidProcessId] writing to logfile [$pidLogfile].");
+	}
+	close PID;
+}
+
+sub printMessages
+{
+	push @messages, "OK" unless (scalar(@messages));
+	my $msg = join ":", @messages;
+	logger("STATUS: $msg");
+}
+
+# prepend the value of 'data_dir_base' param to dir paths in config
+sub prependDataDirBaseToConfigDirs
+{
+	my $dataDirBase = $generalConfig->{parameter}->{data_dir_base}->{value};
+	$dataDirBase .= "/" unless ($dataDirBase =~ m:.*/$:);
+	my $message = "Parameter: 'data_dir_base' must be defined in config file [$configFile]";
+	die ("Configuration exception: $message\n") unless (-d $dataDirBase);
+
+	while (($k, $v) = each (%{$config}))
+	{
+		next if ($v =~ /^\//); # don't prepend if begins with a slash
+		if ($k =~ /_dir/)
+		{
+			if ($k =~ /input|raw/)
+			{
+				my @array;
+				foreach my $dir (@{$v})
+				{
+					push @array, $dataDirBase . $dir;
+				}
+				$config->{$k} = \@array;
+			}
+			else
+			{
+				$config->{$k} = $dataDirBase . $v;
+			}
+		}
+	}
+}
+
+sub dumpConfig
+{
+	debugger("Dumping the configuration.");
+	debugger(Dumper($config));
+}
+
+sub getFilesFromDir
+{
+	my $args = shift;
+	my $regex = $args->{regex}; # this is an arraw
+	my $dir = $args->{input_dir};# this is an array
+	my $fileNames = $args->{file_names}; # this is an optional array
+	
+	my $regexList = join " : ", @{$regex};
+	my @validFiles = ();
+	my $fileNumber = 0;
+	my $skipCount = 0;
+	foreach my $d (@{$dir})
+	{
+		logger("Opening directory: [$d] looking for files matching: [$regexList]");
+		opendir(my $dh, $d) or die "Cannot open dir [$d] for reading";
+		#return map {$args->{input_dir} . "/$_"} grep {/$regex/} readdir ($dh);
+		# be verbose for reporting, but I like the above better
+		my @files = readdir ($dh);
+		foreach my $f (@files)
+		{
+			next if (-d $d . "/$f");
+
+			my $matchedPattern = FALSE;
+			my $neId = $singleNeIdPerSource;
+			my $prePost;
+			foreach my $pattern (@{$regex})
+			{
+				debugger("Checking pattern $pattern against file $f");
+				last if ($matchedPattern);
+				if ($f =~ /$pattern/)
+				{
+					$matchedPattern = TRUE;
+					# get the NEID from the filename
+					if (defined $config->{neid}->{type} and $config->{neid}->{type} eq "regex")
+					{
+						my $paramNumber = $config->{neid}->{value};
+						my $v = eval $paramNumber;
+						$neId = $v if (defined $v);
+					}
+
+					# get the PRE POST indicator from the filename DS33
+					if (defined $config->{subs_type}->{type} and $config->{subs_type}->{type} eq "regex")
+					{
+						my $paramNumber = $config->{subs_type}->{value};
+						my $v = eval $paramNumber;
+						$prePost = $v if (defined $v);
+					}
+				}
+			}
+			if ($matchedPattern)
+			{
+				if ($fileNumber < $batchSize)
+				{
+					logger("\tFound valid file: [$f]");
+					my $oInputFile = new Ascertain::UM::VFI::InputFile
+					(
+						{
+							full_path => $d . "/$f",
+							neid      => $neId,
+							pre_post      => $prePost,
+							edr_file_name => $f,
+							current_dir => $d,
+							file_number => $fileNumber++,
+							logger => \&logger
+						}
+					);
+
+					push @validFiles, $oInputFile;
+				}
+				else
+				{
+					$skipCount++;
+				}
+			}
+# suppress unhelpful log message
+#			else
+#			{
+#				logger("\t ** Skipping file: [$f], does not match any regex in list: [$regexList]");
+#			}
+		}
+	}
+	my $fileCount = scalar(@validFiles);
+	my $s = ($fileCount == 1) ? "" : "s";
+	logger("Found $fileCount valid file$s");
+	logger("Skipped $skipCount files due to batching");
+
+	return @validFiles;
+}
+
+sub getReader
+{
+	my $args = shift;
+	$args->{no_trim} = $noTrim; # in case we don't wan't to trim fields
+	# type, data_source, format_obj, input_file [,delimiter]
+	debugger("In getReader - check DEBUG subs");
+	
+	if ($args->{type}    eq READER_CSV)
+	{
+		return new Ascertain::UM::Readers::CSV($args);
+	}
+	elsif ($args->{type} eq READER_FIXED)
+	{
+		return new Ascertain::UM::Readers::FixedWidth($args);
+	}
+	elsif ($args->{type} eq READER_ASN1)
+	{
+		if ($useXmlReader)
+		{
+			return new Ascertain::UM::Readers::ASN1($args);
+		}
+		else
+		{
+			return new Ascertain::UM::Readers::ASN1_Simple($args);
+		}	
+	}
+	else
+	{
+		die "Invalid reader type: [" . $args->{type} . "]\n";
+	}
+}
+
+sub loadFormats
+{
+	loadModules(FORMATS_DIR);
+}
+
+sub loadAggregators
+{
+	loadModules(AGGREGATORS_DIR);
+}
+
+sub loadModules
+{
+	my $dir = shift;
+	my @modules  = glob "$dir/*.pm";
+	foreach my $module (@modules)
+	{
+		debugger("Loading module: [$module]");
+		eval { require "$module" };
+		if ($EVAL_ERROR)
+		{
+			logger("SERIOUS ERROR: Could not load module [$module] in directory [$dir] : $!");
+		}
+	}
+}
+
+sub encode
+{
+	my $oInputFile = new InputFile
+	(
+		{
+			full_path => $encodeFile,
+			logger => \&logger
+		}
+	);
+	my $oReader = getReader
+	(
+		{
+			type        => $config->{type}, 
+			data_source => $dataSource, 
+			format_obj  => $oFormat, 
+			input_file_obj  => $oInputFile, 
+			general_config  => $generalConfig, 
+			logger      => \&logger, 
+			debugger    => \&debugger,
+			no_open     => TRUE,
+			no_trim     => TRUE
+		}
+	);
+	$oReader->unPrint();
+}
+
+
+sub getLogFileHandle
+{
+	if (not defined $log_fh)
+	{
+		#my $logfile = LOGDIR . "/aggregate.$rundate.log";
+		#my $logfile = $config->{log_dir} . "/$dataSource.aggregate.$rundate.log";
+		$log_fh = new IO::File();
+		$log_fh->open(">$logfile") or die ("Can't open log [$logfile]\n" . $?);
+		$log_fh->autoflush(TRUE);
+	}
+	#logger("Opening logfile for 'aggregator' $dataSource");
+	return $log_fh;
+}
+
+sub logger
+{
+	my $msg = shift;
+	my $ts = $oSW_Log->stamp();
+	print "$ts: $msg\n" if ($log2stdout);
+	print $log_fh "$ts: $msg\n";
+	push @logMessages, "$ts: $msg";
+}
+
+# N.B. debug_off is the debugger when not in debug mode
+sub debug_off {}
+sub debug_on
+{
+	my $msg = shift;
+	my $callingSub = (defined caller(1)) ? (caller(1))[3] : "main";
+	if (defined $debugSubsRegex)
+	{
+		return undef unless ($callingSub =~ /$debugSubsRegex/);
+	}
+
+	logger("D:[$callingSub] $msg");
+}
+
+sub deleteLogFile
+{
+        if (($inputFileCount == 0) && ($workFileCount == 0))
+        {
+            unlink $logfile if (defined $log_fh);
+        }
+}
+
+sub trapSignals
+{
+	logger("Just got Killed, cleaning up PID\n");
+	if (defined $oTask)
+	{
+		logger("Restoring TASK FILE to READY state.");
+		setTaskState($oTask, TASK_READY);
+	}
+	removePid();
+	logger("Exiting.");
+	push @messages, "KILLED";
+	exit 1;
+}
+
+
+# display some help
+sub usage
+{
+	my $script = $0;
+	my @parts = split /\//, $script;
+	$script = pop(@parts);
+	$script =~ s/\.\///;
+	print "	$script Version: $version\n\n";
+	print "	USAGE:\n\n";
+	print "		$script -d DATASOURCE [OPTIONS]\n\n";
+	print "\n";
+	print "	OPTIONS:\n";
+	print "		 -h, --help                     O     Display this usage screen.\n";
+	print "		 -v, --version                  O     Display version information.\n";
+	print "		 -f, --file                     O     Specify config filename. Default: ~\$HOME/.aggregator.xml\n";
+	print "		 -D, --debug        [REGEX]     O     Run in debug mode. Use OPTIONAL Regular Expression REGEX to limit debug to matching subs\n";
+	print "		 -d, --data-source  DATASOURCE  R     Specify datasource.\n";
+	print "		 -n, --no-archive               O     Do not archive input files.\n";
+	print "		 -p, --print                    O     Just print the record to tty. Don't archive files. Don't aggregate files.\n";
+	print "		 -s, --single                   O     Aggregate each input file separately.\n";
+	print "		     --demo                     O     No archiving input file plus unlink symbolic links in input_dir when finished.\n";
+	print "		 -S, --stdout                   O     Log to STDOUT as well as logfile.\n";
+	print "		 -t, --task-file    TASK_FILE   O     Run in non-aggregation mode, extract records matching criteria specified in TASK_FILE.\n";
+	print "		 -P, --un-print     FILE        O     TESTING un-print FILE, takes output from --print encodes original record, no header or trailer.\n";
+	print "		 -N  --no-trim                  O     No trimming fields. (also sets -n and -p) \n";
+	print "		 -x  --xml                      O     Use full (slow) XML Reader instead of fast ASN1_Simple\n";
+	print "		     --do-asn1-decode           O     Perform ASN1 decode.\n";
+	print "\n";
+	print "	NOTES:\n";
+	print "		  Use --debug ^get        To debug 'getters' .\n";
+	print "		  Use --debug ^aggregate  To debug the 'aggregate' sub .\n";
+	exit;
+}
+
+# process the arguments -- add as necessary
+sub getArgs
+{
+	while (@_)
+	{
+		my $arg = shift;
+		if ($arg eq '-h' or $arg eq '--help')
+		{
+			usage();
+			exit;
+		}
+		elsif ($arg eq '-v' or $arg eq '--version')
+		{
+			print "Version: $version\n";
+			exit;
+		}
+		elsif ($arg eq '-f' or $arg eq '--file')
+		{
+			$configFile = shift;
+			if (not -e $configFile)
+			{
+				die "Config file [$configFile] does not exist.\nTry DEFAULT: \$HOME/.aggregator.conf\n";
+			}
+		}
+		elsif ($arg eq '-D' or $arg eq '--debug')
+		{
+			$debug = TRUE;
+			if (defined($_[0]) and $_[0] !~ /^-/)
+			{
+				$debugSubsRegex = shift; # 
+				$debugSubsRegex =~ s:/::g; # just in case regex specified like: /pattern/
+			}
+		}
+		elsif ($arg eq '-d' or $arg eq '--data-source')
+		{
+			$dataSource = shift;
+		}
+		elsif ($arg eq '-s' or $arg eq '--single')
+		{
+			$single = TRUE;
+		}
+		elsif ($arg eq '-S' or $arg eq '--stdout')
+		{
+			$log2stdout = TRUE;
+		}
+		elsif ($arg eq '-t' or $arg eq '--task-file')
+		{
+			$taskFile = shift;
+			if (not -e $taskFile)
+			{
+				die "Task file [$taskFile] does not exist.\n";
+			}
+		}
+		elsif ($arg eq '-p' or $arg eq '--print')
+		{
+			$printRecord = TRUE;
+			$noArchive = TRUE;
+		}
+		elsif ($arg eq '-n' or $arg =~ /^--no-arc(hive)?/)
+		{
+			$noArchive = TRUE;
+		}
+		elsif ($arg eq '--demo')
+		{
+			$noArchive = TRUE;
+			$demoMode = TRUE;
+		}
+		elsif ($arg eq '-e' or $arg eq '-P' or $arg eq '--encode')
+		{
+			$encodeFile = shift;
+			$noArchive = TRUE;
+		}
+		elsif ($arg eq '-N' or $arg eq '--no-trim')
+		{
+			$noTrim = TRUE;
+			$printRecord = TRUE;
+			$noArchive = TRUE;
+		}
+		elsif ($arg eq '-x' or $arg eq '--xml')
+		{
+			$useXmlReader = TRUE;
+		}
+		elsif ($arg eq '--do-asn1-decode')
+		{
+			$doASN1Decode = TRUE;
+		}
+	}
+}
+
+
+=head1 NAME
+
+aggregate - Some short description
+
+
+=head1 SYNOPSIS
+
+B<aggregate> [OPTION] ...
+
+=head1 DESCRIPTION
+
+Place a desription of this here.
+
+=head2 OPTIONS        
+
+Should include options and parameters.
+
+
+B<-h, --help>
+        display some help and usage.
+
+B<-v, --version>
+        display version information.
+
+
+=head1 USAGE
+
+Usage information goes here.
+
+
+=head1 EXAMPLES
+
+Place examples here.
+
+=head1 RETURN VALUES  
+
+Sections two and three function calls.
+
+=head1 ENVIRONMENT    
+
+Describe environment variables.
+
+=head1 FILES          
+
+Files associated with the subject.
+
+=head1 DIAGNOSTICS    
+
+Normally used for section 4 device interface diagnostics.
+
+=head1 ERRORS         
+
+Sections two and three error and signal handling.
+
+=head1 SEE ALSO       
+
+Cross references and citations.
+
+=head1 STANDARDS      
+
+Conformance to standards if applicable.
+
+=head1 BUGS           
+
+Gotchas and caveats.
+
+=head1 SECURITY CONSIDERATIONS
+
+=head1 COPYRIGHT
+
+Copyright 2010, Cartesian Limited
+
+=cut
+

@@ -1,0 +1,36 @@
+<aggregator>
+
+	<!--General configuration -->
+	<general>
+		<binary name="uncompress" path="/usr/bin/uncompress -c"></binary>
+		<binary name="gunzip" path="/bin/gunzip -c"></binary>
+		<parameter name="timeslot_validity_window" value="999"></parameter><!-- discard records older than this -->
+		<parameter name="validate_files" value="yes"></parameter><!-- perform header/trailer validation -->
+		<parameter name="data_dir_base" value="/usr/revo/datafeed/um"></parameter><!-- all dirs relative to this -->
+		<parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
+		<parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
+		<parameter name="input_batch_size" value="100"></parameter><!-- number of files to process before writing results -->
+	</general>
+
+  <datasource name="DS33" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- GSM_MSSP01_prepaidascii_26167 -->
+    <!-- GSM_MSSP01_ascii_26167 -->
+    <regex>^GSM_(MSSP02)_([a-z]+)_\d{5}</regex>
+    <neid type="value" value="DS33"></neid>
+    <subs_type type="regex" value="$2"></subs_type> <!-- tryoutg this out -->
+    <input_dir>DS33/in</input_dir>
+    <work_dir>DS33/work_P02</work_dir>
+    <error_dir>DS33/err_P02</error_dir>
+    <output_dir>DS33/out</output_dir>
+    <archive_dir>DS33/arc_P02</archive_dir>
+    <log_dir>DS33/log_P02</log_dir>
+    <input_batch_size>20</input_batch_size>
+    <pid_file>/usr/revo/datafeed/um/pid/DS33_P02.pid</pid_file>
+  </datasource>
+
+  <datasource name="DUMMY" type="DUMMY">
+    <!-- this is just here to get the multiple datasource containers to "roll up" -->
+  </datasource>
+
+</aggregator>

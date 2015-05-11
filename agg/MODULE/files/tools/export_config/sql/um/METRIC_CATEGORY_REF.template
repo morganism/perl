@@ -1,0 +1,1 @@
+select * from UM.METRIC_CATEGORY_REF where METRIC_CATEGORY_ID > 99999 ;

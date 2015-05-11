@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##############################################
+# check to see that ASCERTAIN_BUILD is set
+##############################################
+if [ -z $ASCERTAIN_BUILD ]; then
+  echo "ASCERTAIN_BUILD environment variable not set, aborting"
+  exit
+fi
+##############################################
+# check to see that CARTESIAN_PROPERTIES is set
+##############################################
+if [ -z $CARTESIAN_PROPERTIES ]; then
+  echo "CARTESIAN_PROPERTIES environment variable not set, aborting"
+  exit
+fi
+
+cp $ASCERTAIN_BUILD/config/aggregator_DS45.xml $HOME/datafeed/aggregator_config/.aggregator_DS45.xml
+
+

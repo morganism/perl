@@ -1,0 +1,24 @@
+<project name="VFI" basedir="../.." default="copy-ecplise-classes">
+
+    <target name="compile">
+    	<property name="module.dir" value="${basedir}"/>
+		<echo>module.dir set to ${basedir}</echo>
+
+    	<ant dir="${basedir}/../ASCERTAINUTILS/files/ant" antfile="common_build.xml" target="compile"/>
+    </target>
+
+	<target name="copy-ecplise-classes">
+    	<property name="module.dir" value="${basedir}"/>
+		<echo>module.dir set to ${basedir}</echo>
+
+    	<ant dir="${basedir}/../ASCERTAINUTILS/files/ant" antfile="common_build.xml" target="copy-eclipse-classes"/>
+	</target>
+
+	<target name="deploy">
+    	<property name="module.dir" value="${basedir}"/>
+		<echo>module.dir set to ${basedir}</echo>
+
+    	<ant dir="${basedir}/../ASCERTAINUTILS/files/ant" antfile="common_build.xml" target="deploy"/>
+	</target>
+
+</project>

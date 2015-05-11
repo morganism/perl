@@ -1,0 +1,1 @@
+select * from DGF.NODE_GROUP_REF where NODE_GROUP_ID > 99999 ;

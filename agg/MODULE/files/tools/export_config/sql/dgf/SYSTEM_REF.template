@@ -1,0 +1,1 @@
+select * from DGF.SYSTEM_REF where SYSTEM_ID > 99999 ;

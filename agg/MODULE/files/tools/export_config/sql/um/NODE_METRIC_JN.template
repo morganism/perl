@@ -1,0 +1,1 @@
+select * from UM.NODE_METRIC_JN where METRIC_DEFINITION_ID > 99999 ;

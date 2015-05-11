@@ -1,0 +1,425 @@
+<aggregator>
+
+	<!--General configuration -->
+	<general>
+		<binary name="uncompress" path="/usr/bin/uncompress -c"></binary>
+		<binary name="gunzip" path="/bin/gunzip -c"></binary>
+		<parameter name="timeslot_validity_window" value="999"></parameter><!-- discard records older than this -->
+		<parameter name="validate_files" value="yes"></parameter><!-- perform header/trailer validation -->
+		<parameter name="data_dir_base" value="/usr/revo/datafeed/um"></parameter><!-- all dirs relative to this -->
+		<parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
+		<parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
+		<parameter name="input_batch_size" value="100"></parameter><!-- number of files to process before writing results -->
+	</general>
+
+	<!-- Configure each datasource below -->
+  <datasource name="DS4" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- BILLMSSP0130162_23.HOLDING -->
+		<regex>^BILLMSS(P\d+).*\.HOLDING</regex>
+    <neid type="value" value="DS4"></neid>
+    <input_dir>DS4/in</input_dir>
+    <work_dir>DS4/work</work_dir>
+    <error_dir>DS4/err</error_dir>
+    <output_dir>DS4/out</output_dir>
+    <archive_dir>DS4/arc</archive_dir>
+    <log_dir>DS4/log</log_dir>
+  </datasource>
+
+  <datasource name="DS5" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- pickup_ISID_1000072_StreamID_2#Job_292231.csv -->
+		<regex>^pickup_ISID_\d{7}_StreamID.*</regex>
+    <neid type="value" value="DS5"></neid>
+    <input_dir>DS5/in</input_dir>
+    <work_dir>DS5/work</work_dir>
+    <error_dir>DS5/err</error_dir>
+    <output_dir>DS5/out</output_dir>
+    <archive_dir>DS5/arc</archive_dir>
+    <log_dir>DS5/log</log_dir>
+  </datasource>
+
+	<datasource name="DS6" type="csv">
+		<!-- There maybe more than 1 regex container -->
+		<!-- 201011020832_s23_mis_calls.dat.gz -->
+		<!-- 201011091918_s23_mis_calls.dat -->
+		<regex>^\d{12}_.*_mis_calls.dat.*$</regex>
+		<neid type="value" value="DS6"></neid>
+		<input_dir>DS6/in</input_dir>
+    <work_dir>DS6/work</work_dir>
+		<output_dir>DS6/out</output_dir>
+    <error_dir>DS6/err</error_dir>
+    <log_dir>DS6/log</log_dir>
+		<archive_dir>DS6/arc</archive_dir>
+	<input_batch_size>1</input_batch_size>
+	</datasource>
+
+	<datasource name="DS8" type="csv">
+		<!-- There maybe more than 1 regex container -->
+		<!-- HPS2_20101116_008280.DAT;1.Z -->
+		<!-- HPS2_20101112_007242.DAT;1 -->
+		<!-- S680SMR1_20101114_005804.DAT -->
+		<!-- S706SMR1_20101116_005949.DAT.Z -->
+		<regex>^(S\d{3}SMR\d{1}).*$</regex>
+		<regex>^(HPS\d).*$</regex>
+		<neid type="regex" value="$1"></neid>
+		<input_dir>DS8/in</input_dir>
+    <work_dir>DS8/work</work_dir>
+		<output_dir>DS8/out</output_dir>
+		<archive_dir>DS8/arc</archive_dir>
+    <error_dir>DS8/err</error_dir>
+    <log_dir>DS8/log</log_dir>
+	</datasource>
+
+	<datasource name="DS11" type="fixedwidth">
+		<!-- There maybe more than 1 regex container -->
+		<!-- SMSC03278_39_HPS2.HOLDING -->
+		<!-- SMSC03279_23_S680SMR1.HOLDING -->
+		<!-- SMSC03279_38_S680SMR2.HOLDING.Z -->
+		<regex>^SMSC.*$</regex>
+		<neid type="value" value="DS11"></neid>
+		<input_dir>DS11/in_23</input_dir>
+		<input_dir>DS11/in_35</input_dir>
+		<input_dir>DS11/in_36</input_dir>
+		<input_dir>DS11/in_37</input_dir>
+		<input_dir>DS11/in_38</input_dir>
+		<input_dir>DS11/in_39</input_dir>
+    <work_dir>DS11/work</work_dir>
+		<output_dir>DS11/out</output_dir>
+		<archive_dir>DS11/arc</archive_dir>
+    <error_dir>DS11/err</error_dir>
+    <log_dir>DS11/log</log_dir>
+	</datasource>
+
+	<datasource name="DS12" type="csv">
+		<!-- There maybe more than 1 regex container -->
+		<!-- HPS2_20101115_008213.DAT.strip -->
+		<!-- HPS2_20101017_009803.DAT;1.strip.Z -->
+                <!-- SMS_reprocess_4402.csv.strip.Z -->
+		<!-- S680SMR1_20101019_008347.DAT.strip.Z -->
+		<!-- -->
+		<regex>^S\d{3}.*$</regex>
+		<regex>^HPS\d.*$</regex>
+		<regex>^SMS_reprocess_.*$</regex>
+		<neid type="value" value="DS12"></neid>
+		<input_dir>DS12/in</input_dir>
+    <work_dir>DS12/work</work_dir>
+		<output_dir>DS12/out</output_dir>
+		<archive_dir>DS12/arc</archive_dir>
+    <error_dir>DS12/err</error_dir>
+    <log_dir>DS12/log</log_dir>
+	</datasource>
+
+	<datasource name="DS20" type="fixedwidth">
+		<!-- There maybe more than 1 regex container -->
+		<!-- TapOutDaily_01012011.sent.Z -->
+		<!-- regex is for the RAW format and location -->
+		<regex>^TapOutDaily_\d{8}.*(?!tmp)</regex>
+    <neid type="value" value="DS20"></neid>
+		<raw_dir>DS20/in</raw_dir>
+		<input_dir>DS20/in</input_dir>
+    <work_dir>DS20/work</work_dir>
+		<output_dir>DS20/out</output_dir>
+		<archive_dir>DS20/arc</archive_dir>
+    <error_dir>DS20/err</error_dir>
+    <log_dir>DS20/log</log_dir>
+	</datasource>
+
+	<datasource name="DS23" type="fixedwidth">
+		<!-- There maybe more than 1 regex container -->
+		<!-- TapInDailyFilter2_02012011.sent.Z -->
+		<!-- regex is for the RAW format and location -->
+		<regex>^TapInDailyFilter2_\d{8}.*(?!tmp)</regex>
+    <neid type="value" value="DS23"></neid>
+		<raw_dir>DS23/in</raw_dir>
+		<input_dir>DS23/in</input_dir>
+    <work_dir>DS23/work</work_dir>
+		<output_dir>DS23/out</output_dir>
+		<archive_dir>DS23/arc</archive_dir>
+    <error_dir>DS23/err</error_dir>
+    <log_dir>DS23/log</log_dir>
+	</datasource>
+
+	<datasource name="DS28" type="asn1">
+		<!-- There maybe more than 1 regex container -->
+		<!-- RAW  MSSP04-TTFILE01-9419 -->
+		<!-- DECODED MSSP04-TTFILE01-9419.decoded -->
+		<!-- regex is for the RAW format and location -->
+		<raw_regex>^MSS(P\d{2})-(TT|ICI)FILE\d{2}-\d+</raw_regex>
+		<!-- N.B. negative lookahead assertion, match 2 '...decoded' not followed by '.tmp' :: (?!\.tmp) -->
+		<regex>^(MSSP\d{2})-(ICI|TT)FILE\d{2}-\d{4}\.decoded(?!\.tmp)</regex>
+		<neid type="regex" value="$1"></neid>
+		<raw_dir>DS28/raw_P01_PRE</raw_dir>
+		<raw_dir>DS28/raw_P01_POST</raw_dir>
+		<raw_dir>DS28/raw_P02_PRE</raw_dir>
+		<raw_dir>DS28/raw_P02_POST</raw_dir>
+		<raw_dir>DS28/raw_P03_PRE</raw_dir>
+		<raw_dir>DS28/raw_P03_POST</raw_dir>
+		<raw_dir>DS28/raw_P04_PRE</raw_dir>
+		<raw_dir>DS28/raw_P04_POST</raw_dir>
+		<input_dir>DS28/in_P01</input_dir>
+		<input_dir>DS28/in_P02</input_dir>
+		<input_dir>DS28/in_P03</input_dir>
+		<input_dir>DS28/in_P04</input_dir>
+		<work_dir>DS28/work</work_dir>
+		<output_dir>DS28/out</output_dir>
+		<archive_dir>DS28/arc</archive_dir>
+		<error_dir>DS28/err</error_dir>
+		<log_dir>DS28/log</log_dir>
+		<pid_file>/usr/revo/datafeed/um/pid/DS28.pid</pid_file>
+	        <asn_start_record_tag>callModule</asn_start_record_tag>
+        	<asn_end_record_tag>callModule</asn_end_record_tag>
+        	<asn_opening_tag>MSS_DECODED</asn_opening_tag>
+	</datasource>
+
+  <datasource name="DS33" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- GSM_MSSP01_prepaidascii_26167 -->
+    <!-- GSM_MSSP01_ascii_26167 -->
+		<regex>^GSM_([^_]+)_([a-z]+)_\d{5}</regex>
+    <neid type="value" value="DS33"></neid>
+    <subs_type type="regex" value="$2"></subs_type> <!-- tryoutg this out -->
+    <input_dir>DS33/in</input_dir>
+    <work_dir>DS33/work</work_dir>
+    <error_dir>DS33/err</error_dir>
+    <output_dir>DS33/out</output_dir>
+    <archive_dir>DS33/arc</archive_dir>
+    <log_dir>DS33/log</log_dir>
+    <input_batch_size>20</input_batch_size>
+  </datasource>
+
+  <datasource name="DS39" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- WAP00200_35.HOLDING -->
+		<regex>^WAP\d{5}_\d+\.HOLDING</regex>
+    <neid type="value" value="DS39"></neid>
+    <input_dir>DS39/in</input_dir>
+    <work_dir>DS39/work</work_dir>
+    <error_dir>DS39/err</error_dir>
+    <output_dir>DS39/out</output_dir>
+    <archive_dir>DS39/arc</archive_dir>
+    <log_dir>DS39/log</log_dir>
+  </datasource>
+
+  <datasource name="DS40" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ER0004819_20100405063004_23.DAT -->
+		<regex>^ER\d{7}_\d{14}_.*</regex>
+    <neid type="value" value="DS40"></neid>
+    <input_dir>DS40/in</input_dir>
+    <work_dir>DS40/work</work_dir>
+    <error_dir>DS40/err</error_dir>
+    <output_dir>DS40/out</output_dir>
+    <archive_dir>DS40/arc</archive_dir>
+    <log_dir>DS40/log</log_dir>
+  </datasource>
+
+  <datasource name="DS44" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ER_MIS_061209064133.DAT -->
+		<regex>^ER_MIS_\d{12}.*.*</regex>
+    <neid type="value" value="DS44"></neid>
+    <input_dir>DS44/in</input_dir>
+    <work_dir>DS44/work</work_dir>
+    <error_dir>DS44/err</error_dir>
+    <output_dir>DS44/out</output_dir>
+    <archive_dir>DS44/arc</archive_dir>
+    <log_dir>DS44/log</log_dir>
+  </datasource>
+
+  <datasource name="DS45" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_ipcm_20101217_03538.csv -->
+		<regex>^ccn_ipcm_(\d{8})_(\d{5})\.csv</regex>
+    <neid type="value" value="DS45"></neid>
+    <input_dir>DS45/in</input_dir>
+    <work_dir>DS45/work</work_dir>
+    <error_dir>DS45/err</error_dir>
+    <output_dir>DS45/out</output_dir>
+    <archive_dir>DS45/arc</archive_dir>
+    <log_dir>DS45/log</log_dir>
+  </datasource>
+
+  <datasource name="DS48" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- MMSCRaw04718_20110120154121.csv -->
+		<regex>^MMSCRaw\d{5}_\d{14}\.csv</regex>
+    <neid type="value" value="DS48"></neid>
+    <input_dir>DS48/in</input_dir>
+    <work_dir>DS48/work</work_dir>
+    <error_dir>DS48/err</error_dir>
+    <output_dir>DS48/out</output_dir>
+    <archive_dir>DS48/arc</archive_dir>
+    <log_dir>DS48/log</log_dir>
+  </datasource>
+
+  <datasource name="DS49" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_mms_20101217_03538.csv -->
+		<regex>^ccn_mms_(\d{5})_(\d{8})\.csv</regex>
+    <neid type="value" value="DS49"></neid>
+    <input_dir>DS49/in</input_dir>
+    <work_dir>DS49/work</work_dir>
+    <error_dir>DS49/err</error_dir>
+    <output_dir>DS49/out</output_dir>
+    <archive_dir>DS49/arc</archive_dir>
+    <log_dir>DS49/log</log_dir>
+  </datasource>
+
+  <datasource name="DS53" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- EMM_PS_InvalidAndErroneousData_20101217102359.csv -->
+    <!-- EMM_PS_InvalidAndErroneousData3_20110528124410.csv.Z became this slight variation in May 2011 -->
+		<regex>^EMM_PS_InvalidAndErroneousData\d{1}_\d{14}\.csv</regex>
+    <neid type="value" value="DS53"></neid>
+    <input_dir>DS53/in</input_dir>
+    <work_dir>DS53/work</work_dir>
+    <error_dir>DS53/err</error_dir>
+    <output_dir>DS53/out</output_dir>
+    <archive_dir>DS53/arc</archive_dir>
+    <log_dir>DS53/log</log_dir>
+	<input_batch_size>5</input_batch_size>
+  </datasource>
+
+  <datasource name="DS54" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- CDC2_00527_20101209134137.txt -->
+		<regex>^(CDC\d)_(\d{5})_(\d{14})\.txt</regex>
+    <neid type="regex" value="$1"></neid>
+    <input_dir>DS54/in</input_dir>
+    <work_dir>DS54/work</work_dir>
+    <error_dir>DS54/err</error_dir>
+    <output_dir>DS54/out</output_dir>
+    <archive_dir>DS54/arc</archive_dir>
+    <log_dir>DS54/log</log_dir>
+	<input_batch_size>20</input_batch_size>
+  </datasource>
+
+  <datasource name="DS55" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- GPRS04523_NGME_.* -->
+		<regex>^GPRS(\d{5})_NGME_\d{2}.*</regex>
+    <neid type="value" value="DS55"></neid>
+    <input_dir>DS55/in</input_dir>
+    <work_dir>DS55/work</work_dir>
+    <error_dir>DS55/err</error_dir>
+    <output_dir>DS55/out</output_dir>
+    <archive_dir>DS55/arc</archive_dir>
+    <log_dir>DS55/log</log_dir>
+  </datasource>
+
+  <datasource name="DS56" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- NGME_201012171405.csv -->
+		<regex>^NGME_\d{12}</regex>
+    <neid type="value" value="DS56"></neid>
+    <input_dir>DS56/in</input_dir>
+    <work_dir>DS56/work</work_dir>
+    <error_dir>DS56/err</error_dir>
+    <output_dir>DS56/out</output_dir>
+    <archive_dir>DS56/arc</archive_dir>
+    <log_dir>DS56/log</log_dir>
+    <input_batch_size>5</input_batch_size>
+  </datasource>
+
+  <datasource name="DS64" type="fixedwidth">
+    <!-- There maybe more than 1 regex container -->
+    <!-- MMSC008690_23.HOLDING -->
+		<regex>^MMSC\d+_\d{2}\.HOLDING</regex>
+    <neid type="value" value="DS64"></neid>
+    <input_dir>DS64/in</input_dir>
+    <work_dir>DS64/work</work_dir>
+    <error_dir>DS64/err</error_dir>
+    <output_dir>DS64/out</output_dir>
+    <archive_dir>DS64/arc</archive_dir>
+    <log_dir>DS64/log</log_dir>
+  </datasource>
+
+  <datasource name="DS65" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_sms_00509_20101217.csv -->
+		<regex>^ccn_sms_\d{5}_\d{8}\.csv</regex>
+    <neid type="value" value="DS65"></neid>
+    <input_dir>DS65/in</input_dir>
+    <work_dir>DS65/work</work_dir>
+    <error_dir>DS65/err</error_dir>
+    <output_dir>DS65/out</output_dir>
+    <archive_dir>DS65/arc</archive_dir>
+    <log_dir>DS65/log</log_dir>
+  </datasource>
+
+  <datasource name="DS70" type="asn1">
+        <raw_regex>^DN.*PGW_.*\.u</raw_regex>
+        <regex>^DN.*PGW_.*\.decoded</regex>
+	<neid type="value" value="DS70"></neid>
+        <raw_dir>DS70/raw</raw_dir>
+        <input_dir>DS70/in</input_dir>
+        <work_dir>DS70/work</work_dir>
+        <output_dir>DS70/out</output_dir>
+        <archive_dir>DS70/arc</archive_dir>
+        <error_dir>DS70/err</error_dir>
+        <log_dir>DS70/log</log_dir>
+        <asn_start_record_tag>GPRSRecord</asn_start_record_tag>
+        <asn_end_record_tag>GPRSRecord</asn_end_record_tag>
+        <asn_opening_tag>PGW_DECODE</asn_opening_tag>
+  </datasource>
+
+  <datasource name="DS71" type="asn1">
+        <raw_regex>^DN.*SGW_.*\.u</raw_regex>
+        <regex>^DN.*SGW_.*\.decoded</regex>
+	<neid type="value" value="DS71"></neid>
+        <raw_dir>DS71/raw</raw_dir>
+        <input_dir>DS71/in</input_dir>
+        <work_dir>DS71/work</work_dir>
+        <output_dir>DS71/out</output_dir>
+        <archive_dir>DS71/arc</archive_dir>
+        <error_dir>DS71/err</error_dir>
+        <log_dir>DS71/log</log_dir>
+        <asn_start_record_tag>GPRSRecord</asn_start_record_tag>
+        <asn_end_record_tag>GPRSRecord</asn_end_record_tag>
+        <asn_opening_tag>SGW_DECODE</asn_opening_tag>
+  </datasource>
+
+  <datasource name="DS72" type="asn1">
+        <raw_regex>^chsLoga.*SGSN_.*\.u</raw_regex>
+        <regex>^chsLog.*SGSN_.*\.decoded</regex>
+	<neid type="value" value="DS72"></neid>
+        <raw_dir>DS72/raw</raw_dir>
+        <input_dir>DS72/in</input_dir>
+        <work_dir>DS72/work</work_dir>
+        <output_dir>DS72/out</output_dir>
+        <archive_dir>DS72/arc</archive_dir>
+        <error_dir>DS72/err</error_dir>
+        <log_dir>DS72/log</log_dir>
+        <asn_start_record_tag>CallEventRecord</asn_start_record_tag>
+        <asn_end_record_tag>CallEventRecord</asn_end_record_tag>
+        <asn_opening_tag>SGSN_DECODE</asn_opening_tag>
+  </datasource>
+
+  <datasource name="DS80" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_sms_00509_20101217.csv -->
+		<regex>^CDC.*</regex>
+    <neid type="value" value="DS80"></neid>
+    <input_dir>DS80/in</input_dir>
+    <work_dir>DS80/work</work_dir>
+    <error_dir>DS80/err</error_dir>
+    <output_dir>DS80/out</output_dir>
+    <archive_dir>DS80/arc</archive_dir>
+    <log_dir>DS80/log</log_dir>
+  </datasource>
+
+  <datasource name="DS81" type="csv">
+    <!-- There maybe more than 1 regex container -->
+    <!-- ccn_sms_00509_20101217.csv -->
+		<regex>^EMM_NGIN.*</regex>
+    <neid type="value" value="DS81"></neid>
+    <input_dir>DS81/in</input_dir>
+    <work_dir>DS81/work</work_dir>
+    <error_dir>DS81/err</error_dir>
+    <output_dir>DS81/out</output_dir>
+    <archive_dir>DS81/arc</archive_dir>
+    <log_dir>DS81/log</log_dir>
+  </datasource>
+
+</aggregator>

@@ -1,0 +1,1 @@
+select * from UTILS.BLE_TYPE_REF where BLE_TYPE_ID > 99999 ;

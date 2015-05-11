@@ -1,0 +1,1 @@
+select * from UTILS.PRIVILEGE_TYPE_REF where PRIVILEGE_TYPE_ID > 99999 ;

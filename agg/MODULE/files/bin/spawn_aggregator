@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+
+use strict;
+use diagnostics;
+use Data::Dumper;
+
+use constant MAX_PROCESSES => 4;
+my $dataDir = "/usr/revo/datafeed/um";
+my $hostName = `hostname`; chomp $hostName;
+my $runList = "$dataDir/$hostName.runlist";
+die "No $runList\n" unless (-e $runList);
+
+
+
+# if it is not running somewhere we can run it here
+my $runnable = {};
+open RUNLIST, $runList;
+my $counter = 0;
+while (<RUNLIST>)
+{
+  chomp;
+  next if (/^\s*$/);
+  next if (/^\s*#/);
+  my ($ds, $cmd) = split /:/;
+  my $isRunning = isRunning($ds);
+  next if ($isRunning);
+  my $ds_from_pid = $ds;
+  $ds =~ s/_.*//; # remove any '_P01' garbage about instances
+  $runnable->{$counter}->{DS} = $ds;
+  $runnable->{$counter}->{DS_FROM_PID} = $ds_from_pid;
+  $runnable->{$counter}->{CMD} = $cmd;
+  $counter++; # this keeps it in order
+}
+close RUNLIST;
+#print Dumper($runnable);
+
+my @inputFileCounts = map {chomp; $_} `/usr/revo/datafeed/aggregator_config/bin/sic | grep -v Input | sort -rn`;
+# now inputFileCounts is ordered by the DS with the most input files first
+
+foreach my $elt (@inputFileCounts)
+{
+  $elt =~ s/^\s*//;
+  my ($count, $ds) = split /\s+/, $elt;
+
+  foreach my $key (sort keys %{$runnable})
+  {
+    next unless ($runnable->{$key}->{DS} eq $ds);
+#print "Trying $ds == $runnable->{$key}->{DS}\n";
+    my $cmd = $runnable->{$key}->{CMD};
+    my $rhc = runningHereCount();
+    if ($rhc < MAX_PROCESSES)
+    {
+      $ENV{ASCERTAIN_BUILD} = "/usr/revo/ASCERTAIN_BUILD";
+	  #$ENV{PERL5LIB} = "/usr/revo/usr/local/lib/site_perl:/usr/revo/usr/local/lib/5.8.8";
+      $ENV{PERL5LIB} = "/usr/revo/lib/lib/perl5/site_perl/5.8.8:/usr/revo/lib/lib64/perl5/site_perl/5.8.8/x86_64-linux-thread-multi:/usr/revo/lib/lib64/perl5/5.8.8/x86_64-linux-thread-multi";
+      $cmd .= ' &';
+my $date = `date +"%Y%m%d %H%M%S"`;
+chomp($date);
+print "$date : Executing[$cmd]\n";
+      system($cmd);
+      sleep 3;
+      #$rhc = runningHereCount();
+    }
+  }
+}
+
+
+
+
+
+sub isRunning
+{
+  my $ds = shift;
+  my @pids = map {chomp; $_} `ls -1 $dataDir/pid/`; 
+
+  my $found = 0;
+  foreach my $pid (@pids)
+  {
+    if ($pid =~ /^$ds\.pid/)
+    {
+      $found++;
+    }
+  }
+  return $found;
+}
+
+sub runningHereCount
+{
+  my $count = `ps -ef | grep "aggregate -d DS" | grep -cv grep`;
+  chomp $count;
+  return $count;
+}

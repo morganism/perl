@@ -1,0 +1,2 @@
+Place any hotfix java source files in this directory.
+Source code in this directory will be compiled and placed in /htdocs/WEB-INF/classes .

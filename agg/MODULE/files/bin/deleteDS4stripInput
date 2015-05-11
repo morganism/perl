@@ -1,0 +1,2 @@
+#!/bin/bash
+find /usr/revo/datafeed/xacct/gsm/iccs -type f -name "BILLMSSP*STRIP" -exec rm {} \;

@@ -1,0 +1,1 @@
+select * from DGF.SERVICE_TYPE_REF where SERVICE_TYPE_ID > 99999 ;

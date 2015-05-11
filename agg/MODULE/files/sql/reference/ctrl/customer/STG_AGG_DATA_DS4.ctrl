@@ -1,0 +1,24 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.STG_AGG_DATA_DS4
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.STG_AGG_DATA_DS4
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+  CURRENTDIR    ,
+  EDRFILENAME   ,
+  NEID          ,
+  UMIDENTIFIER  ,
+  USAGETYPE     ,
+  TIMESLOT      ,
+  SERVICETYPE   ,
+  EVENTCOUNT    ,
+  SUMDURATION   ,
+  SUMBYTES      ,
+  SUMVALUE      
+)

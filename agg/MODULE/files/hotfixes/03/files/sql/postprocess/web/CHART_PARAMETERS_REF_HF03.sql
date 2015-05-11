@@ -1,0 +1,4 @@
+update web.chart_parameters_ref set parameters='table=JOBS.V_JOB_SUMMARY_MATRIX_GRAPH&'||'values=pending,running,complete,cancelled,failed,killed,warning&'||'series=Pending,Running,Complete,Cancelled,Failed,Killed,Warning&'||'title=Job%20Summary%20Chart&'||'width=800&'||'data=off&'||'colours=pending_colour,running_colour,complete_colour,cancelled_colour,failed_colour,killed_colour,warning_colour&'||'height=450&'||'sieve=Status.Pending.pending,Status.Running.running,Status.Complete.complete,Status.Cancelled.cancelled,Status.Failed.failed,Status.Killed.killed,Status.Warning.warning&'||'url_base=/web/emInit.do&'||'url_param_serie=filter_58&'||'url_param_value_column=start_time_flt&'||'url_param_name=filter_52&'||'format=htmlflash&'||'reload_data_interval=10&'||'url_param_serie_values=Pending%26emId=60,Running%26emId=60,Complete%26emId=50,Cancelled%26emId=50,Failed%26emId=50,Killed%26emId=50,Warning%26emId=50' where chart_id=10;
+
+exit;
+

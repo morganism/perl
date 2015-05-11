@@ -1,0 +1,81 @@
+#!/bin/bash
+#i
+
+TODAYDATE=`date +%Y%m%d`
+
+find /usr/revo/datafeed/comptel/MSSP01/POST/ASN1/ -mtime +21 -print  | xargs rm
+find /usr/revo/datafeed/comptel/MSSP02/POST/ASN1/ -mtime +21 -print  | xargs rm
+find /usr/revo/datafeed/comptel/MSSP03/POST/ASN1/ -mtime +21 -print  | xargs rm
+find /usr/revo/datafeed/comptel/MSSP04/POST/ASN1/ -mtime +21 -print  | xargs rm
+find /usr/revo/datafeed/comptel/SMS/SEMA/TE5/processed/H*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/comptel/SMS/SEMA/TE5/S680*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/comptel/SMS/SEMA/TE5/S706*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/comptel/SMS/SEMA/TE5/H*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/sepro/SMS/discard/*$TODAYDATE*  | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/gsm/strip -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/hp/MIS -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/comptel/SMS/SEMA/TE5 -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/sepro/SMS/S* -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/sepro/SMS/discard -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/basset/TAPOUT -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/basset/TAPIN_FILT_2 -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/gsm/mis -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/iccs/wap -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/er/iccs -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/er/mis -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/ccn/ipcm -mtime +45 -print | xargs rm
+find  /usr/revo/datafeed/comptel/Nokia_MMSC/ASCII -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/ccn/mms -mtime +45 -print | xargs rm
+find  /usr/revo/datafeed/xacct/emm_strip -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/emm -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/iccs/gprs -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/ngme -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/sepro/MMS/iccs -mtime +30 -print | xargs rm
+find  /usr/revo/datafeed/xacct/ccn/sms -mtime +45 -print | xargs rm
+find /usr/revo/datafeed/xacct/gsm/intec/ -mtime +5 -print | xargs rm
+find /usr/revo/datafeed/hp/hp_discard/ -mtime +30 -print | xargs rm
+find /usr/revo/datafeed/xacct/mis_ascii  -mtime +30 -print | xargs rm
+find /usr/revo/datafeed/xacct/sdp  -mtime +30 -print | xargs rm
+
+
+find /usr/revo/datafeed/xacct/gsm/intec/ | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/gsm/mis/*MSSP01*  | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/gsm/mis/*MSSP02*  | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/gsm/mis/*MSSP03*  | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/gsm/mis/*MSSP04*  | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/gsm/mis/GSM_[PC]* | grep -v Z | grep -v gz | xargs compress -f
+find /usr/revo/datafeed/xacct/ngme/processed/*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/xacct/ngme/*$TODAYDATE*  | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/xacct/mis_ascii | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/xacct/sdp | grep -v Z | xargs compress -f
+
+find /usr/revo/datafeed/xacct/emm/processed/*$TODAYDATE* | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/xacct/emm/*$TODAYDATE* | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/xacct/emm_strip/*$TODAYDATE* | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/comptel/SMS/intec/*$TODAYDATE* | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/gsm/strip   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/hp/MIS   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/comptel/SMS/SEMA/TE5   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/sepro/SMS/S*   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/sepro/SMS/discard   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/basset/TAPOUT   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/basset/TAPIN_FILT_2   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/gsm/mis   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/iccs/wap   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/er/iccs   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/er/mis   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/ccn/ipcm   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/comptel/Nokia_MMSC/ASCII   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/ccn/mms   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/emm_strip   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/emm   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/iccs/gprs   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/ngme   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/sepro/MMS/iccs   | grep -v Z | xargs compress -f
+find  /usr/revo/datafeed/xacct/ccn/sms   | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/comptel/SMS/intec/*$TODAYDATE* | grep -v Z | xargs compress -f
+find /usr/revo/datafeed/hp/hp_discard/ | grep -v Z | xargs compress -f
+
+
+rm /usr/revo/datafeed/comptel/SMS/intec/* | grep -v Z | grep -v gz | xargs compress -f
+

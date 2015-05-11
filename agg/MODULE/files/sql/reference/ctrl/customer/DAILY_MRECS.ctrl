@@ -1,0 +1,14 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.DAILY_MRECS
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.DAILY_MRECS
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+   MREC_DEFINITION_ID
+)

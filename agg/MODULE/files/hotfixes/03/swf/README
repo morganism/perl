@@ -1,0 +1,2 @@
+Place any hotfix swf source files in this directory.
+Source files in this directory will be compiled and placed in /htdocs/swf .

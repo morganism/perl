@@ -1,0 +1,111 @@
+#!/usr/bin/perl
+###########################################################
+# Script: perl.skeleton
+# Author: Cartesian Limited
+# Author: Chris Hatch
+#
+# $Revision: 1.1 $
+#
+#
+# This script runs with no arguments : cron it to run every minute
+# It will find task files and spawn and aggregator
+#
+###########################################################
+use strict;
+use English qw( -no_match_vars );
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+
+use Data::Dumper;
+use File::Find;
+use XML::Simple;
+
+###########################################################
+# Load required Ascertain modules and handle any missing 
+# env variables or modules gracefully.
+###########################################################
+if (not defined $ENV{AGGREGATOR_BUILD})
+{
+  print STDERR "Environment variable AGGREGATOR_BUILD has not been set.\n" .
+               "Script $PROGRAM_NAME exiting ...\n";
+  exit 1;
+}
+
+my $defaultConfigFile = $ENV{HOME} . "/.aggregator.xml";
+
+###########################################################
+# Read in arguments - job ID and logFile must always be 
+# passed as first arguments
+###########################################################
+my $configFile = $defaultConfigFile;
+my $config = {};
+loadConfig();
+my $generalConfig = $config->{general};
+prependDataDirBaseToConfigDirs();
+#print Dumper($config);
+my $taskDir = $generalConfig->{parameter}->{task_dir}->{value};
+if (not -e $taskDir)
+{
+	die("General configuration error, check config file [$configFile]. No entry for <task_dir>");
+}
+my $aggregator = $ENV{AGGREGATOR_BUILD} . "/bin/aggregate";
+
+my @taskFiles = ();
+find(\&findTaskFiles, ($taskDir));
+foreach my $file (@taskFiles)
+{
+	my $cmd = "$aggregator -t $file";
+	exec($cmd);	
+}
+
+sub findTaskFiles
+{
+	my $file = $File::Find::name;
+	if (-f $file and $file =~ m/\.xml$/)
+	{
+		push @taskFiles, $file;
+	}
+}
+
+
+
+sub loadConfig
+{
+    if (not -e $configFile)
+    {
+        print "Cannot read config file [$configFile]\n";
+        exit;
+    }
+    #logger("Reading configuration [$configFile]");
+    
+	$config = XMLin($configFile, forcearray => [qw(regex parameter input_dir raw_dir)], keyattr => [qw(name)]);
+}
+
+sub prependDataDirBaseToConfigDirs
+{
+    my $dataDirBase = $generalConfig->{parameter}->{data_dir_base}->{value};
+    $dataDirBase .= "/" unless ($dataDirBase =~ m:.*/$:);
+    my $message = "Parameter: 'data_dir_base' must be defined in config file [$configFile]";
+    die ("Configuration exception: $message\n") unless (-d $dataDirBase);
+
+    while (my ($k, $v) = each (%{$config}))
+    {
+		next if ($v =~ /^\//); # don't prepend if begins with a slash
+        if ($k =~ /_dir/)
+        {
+            if ($k =~ /input|raw/)
+            {
+                my @array;
+                foreach my $dir (@{$v})
+                {
+                    push @array, $dataDirBase . $dir;
+                }
+                $config->{$k} = \@array;
+            }
+            else
+            {
+                $config->{$k} = $dataDirBase . $v;
+            }
+        }
+    }
+}

@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /usr/revo/datafeed/um/
+echo Work File Counts
+#find DS*/work* -type f | awk -F\/ '{print $1}' | sort | uniq -c
+find DS*/work* -type f | awk -F\/ '{print $1"/"$2}' | sort | uniq -c

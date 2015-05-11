@@ -1,0 +1,1 @@
+select * from UM.F_METRIC where F_METRIC_ID > 99999 ;

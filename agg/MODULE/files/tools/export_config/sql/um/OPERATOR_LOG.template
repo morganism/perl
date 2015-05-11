@@ -1,0 +1,1 @@
+select * from UM.OPERATOR_LOG where OPERATOR_LOG_ID > 99999 ;

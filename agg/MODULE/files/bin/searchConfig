@@ -1,0 +1,59 @@
+#!/usr/bin/perl
+#
+###################################################
+## script   : parseXml
+## author   : Cartesian Limited
+## author   : msziraki
+## date     : Fri Feb  1 11:49:02 GMT 2013
+## $Revision: 1.7
+###################################################
+#
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+use XML::Simple;
+use Data::Dumper;
+
+my $file;
+my $key;
+while (my $arg = shift)
+{
+    if (defined $arg)
+    {
+        if (-f $arg)
+        {
+            $file = $arg;
+        }
+        else
+        {
+            $key = $arg;
+        }
+    }
+}
+if (not defined $file)
+{
+    $file = "$ENV{HOME}/.aggregator.xml";
+}
+my $ref = XMLin($file);
+my $lastKey = "";
+my $path = "task";
+getValue($ref, $key);
+
+sub getValue
+{
+    my $hash = shift;
+    my $key = shift;
+    foreach my $k (keys %$hash)
+    {
+        $path .= "->" .$k;
+        if (ref $hash->{$k} eq "HASH")
+        {
+            $lastKey = $k;
+            getValue($hash->{$k}, $key);
+        }
+        if ($k =~/$key/ or $lastKey =~ /$key/)
+		{
+            $path =~ s/$key/'$key'/;
+            print "MATCH FOR SEARCH TERM[$key] : XPATH[$path] = " . $hash->{$k} . "\n" if (not ref  $hash->{$k});
+            $path = "task"; # reset on match
+        }
+    }
+}

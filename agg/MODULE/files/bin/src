@@ -1,0 +1,12 @@
+#!/bin/bash
+cd /usr/revo/datafeed/um/
+echo Raw File Counts
+#P01=`find DS28/raw_P01* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c`
+#P02=`find DS28/raw_P02* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c`
+#P03=`find DS28/raw_P03* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c`
+#P04=`find DS28/raw_P04* -type f -follow | awk -F\/ '{print $1}' | sort | uniq -c`
+#echo P01 $P01
+#echo P02 $P02
+#echo P03 $P03
+#echo P04 $P04
+find /usr/revo/datafeed/xacct/gsm/inputs -type f -follow \( -name "*" ! -name ".nfs*" \) | awk -F\/ '{print $1}' | sort | uniq -c

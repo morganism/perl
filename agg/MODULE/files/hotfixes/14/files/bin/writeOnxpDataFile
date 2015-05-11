@@ -1,0 +1,236 @@
+#!/usr/bin/perl
+###########################################################
+# Script: perl.skeleton
+# Author: Cartesian Limited
+# Author: Chris Hatch
+#
+# $Revision: 1.2 $
+###########################################################
+use strict;
+use English qw( -no_match_vars );
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+use DBI;
+use Data::Dumper;
+use File::Copy;
+use XML::Simple;
+
+# No access to error codes from library or from db when this is required
+# so hard code this
+use constant FAILED => 2;
+use constant FILE_MISSING => 33;
+use constant CPM_FILE => "$ENV{HOME}/.cpm.xml";
+use constant MOBILE_CP_NAME => "MOBILECP";
+use constant TRUE => 1;
+use constant FALSE => undef;
+
+###########################################################
+# Load required Ascertain modules and handle any missing 
+# env variables or modules gracefully.
+###########################################################
+if (not defined $ENV{AGGREGATOR_BUILD})
+{
+  print STDERR "Environment variable AGGREGATOR_BUILD has not been set.\n" .
+               "Script $PROGRAM_NAME exiting ...\n";
+  exit(FAILED);
+}
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+eval 
+{
+  require Ascertain::Database::SQL;
+  require Ascertain::Job;
+  require Ascertain::Utils;
+};
+if ($EVAL_ERROR) 
+{
+  print STDERR "Failed to load Ascertain perl modules [$EVAL_ERROR].\n" .
+               "Script $PROGRAM_NAME exiting ...\n"; 
+  exit(FAILED);
+}
+
+###########################################################
+# Set globals and constants: debugging is off by default and 
+# is overriden by the -debug TYPE arguments are provided
+###########################################################
+use constant VERSION => '$Revision: 1.2 $';
+use constant USAGE   => "Usage: $PROGRAM_NAME <jobId> <logFile> [-f <CONFIG_FILE> -debug <all|base|sql> -version]";
+
+my $defaultConfigFile = $ENV{HOME} . "/.aggregator.xml";
+
+###########################################################
+# Read in arguments - job ID and logFile must always be 
+# passed as first arguments
+###########################################################
+my $jobId    = shift;
+my $logFile  = shift;
+
+if ( (not defined $jobId) or (not defined $logFile) )
+{
+  print USAGE . "\n";
+  exit($Ascertain::Utils::exitCodes{USAGE});
+}
+
+###########################################################
+# Process command line options.
+###########################################################
+my @extraOpts = ("f=s");
+my %argsHash = Ascertain::Utils::readArguments(USAGE, VERSION, \@ARGV, \@extraOpts);
+my @debugList = (exists $argsHash{debug}) ? @{$argsHash{debug}} : ();
+my $configFile = (exists $argsHash{f}) ? $argsHash{f} : $defaultConfigFile;
+my $config = {};
+loadConfig();
+my $generalConfig = $config->{general};
+prependDataDirBaseToConfigDirs();
+#print Dumper($config);
+my $onxpDataFile = $generalConfig->{parameter}->{onxp_datafile}->{value};
+if (not defined $onxpDataFile)
+{
+	die("Configuration error , check config file [$configFile]. No entry for <onxp_datafile>");
+}
+
+
+
+###########################################################
+# Create a Job object for given job id
+###########################################################
+my $dbUsername = Ascertain::Utils::getParameter(
+                    "Ascertain.Utils.DB_JOB_USERNAME");
+my $dbPassword = Ascertain::Utils::getParameter(
+                    "Ascertain.Utils.DB_JOB_PASSWORD");
+
+my $job = new Ascertain::Job($jobId,
+                             $logFile,
+                             $dbUsername,
+                             $dbPassword,
+                             $PROGRAM_NAME);
+if (!$job)
+{
+  # Use print here as we can't be sure we have a log handle
+  print STDERR "Failed to create a job object for job id $jobId.\n" .
+               "Script $PROGRAM_NAME exiting ...\n";
+  exit($Ascertain::Utils::exitCodes{IO});
+}
+
+$job->setDebugLevel(@debugList);
+
+
+my $cpmInfoRef = parseCpmXml(CPM_FILE, MOBILE_CP_NAME); # and set the values above
+my $mobileSid = $cpmInfoRef->{sid};
+my $mobileUsername = $cpmInfoRef->{user};
+my $mobilePassword = $cpmInfoRef->{password};
+my $mobilePort = $cpmInfoRef->{port};
+my $mobileServer = $cpmInfoRef->{server};
+
+
+
+#
+#  <-----  Insert job specific code here  ----->
+my $sql = qq
+{
+select 
+  'ONXP' as product, 
+  msisdn,
+  imsi 
+from 
+  mobile.iccs_sub i 
+where 1=1
+  and package_id in (select op.package_id from mobile.iccs_onxp_packages op)
+};
+$job->write("Using SQL [$sql]");
+my $dbh = DBI->connect ("dbi:Oracle:$mobileSid", $mobileUsername, $mobilePassword);
+my $msg = qq{Whaaaa! No Database Handle available for connection string: 
+[dbi:Oracle:$mobileSid, $mobileUsername, '********'] 
+on server [$mobileServer] port [$mobilePort]") if (not $dbh)
+};
+$job->write($msg) if (not $dbh);
+my $sth = $dbh->prepare($sql);
+$sth->execute();
+
+$job->write("ONXP Datafile file is [$onxpDataFile]");
+open OUT, ">$onxpDataFile";
+while (my ($product, $msisdn, $imsi) = $sth->fetchrow_array())
+{
+	print OUT "$product,$msisdn,$imsi\n";
+}
+close OUT;
+$sth->finish();
+if (-e $onxpDataFile)
+{
+	$job->write("Wrote ONXP Datafile.");
+}
+
+
+$job->finish();
+
+sub loadConfig
+{
+    if (not -e $configFile)
+    {
+        print "Cannot read config file [$configFile]\n";
+        exit;
+    }
+    #logger("Reading configuration [$configFile]");
+    
+	$config = XMLin($configFile, forcearray => [qw(regex parameter input_dir raw_dir)], keyattr => [qw(name)]);
+}
+
+sub prependDataDirBaseToConfigDirs
+{
+    my $dataDirBase = $generalConfig->{parameter}->{data_dir_base}->{value};
+    $dataDirBase .= "/" unless ($dataDirBase =~ m:.*/$:);
+    my $message = "Parameter: 'data_dir_base' must be defined in config file [$configFile]";
+    die ("Configuration exception: $message\n") unless (-d $dataDirBase);
+
+    while (my ($k, $v) = each (%{$config}))
+    {
+		next if ($v =~ /^\//); # don't prepend if begins with a slash
+        if ($k =~ /_dir/)
+        {
+            if ($k =~ /input|raw/)
+            {
+                my @array;
+                foreach my $dir (@{$v})
+                {
+                    push @array, $dataDirBase . $dir;
+                }
+                $config->{$k} = \@array;
+            }
+            else
+            {
+                $config->{$k} = $dataDirBase . $v;
+            }
+        }
+    }
+}
+
+#--------------------------------------------------
+# parse a cpm.xml file 
+# return hash of {sid, user, password, port, server} 
+# these are the same terms used in cpm.xml, just cut down to what we need
+#--------------------------------------------------
+sub parseCpmXml
+{
+	my $cpmFile = shift;
+	my $connectionPoolName = shift;
+
+	# get rid of embedded DTD, XML::Simple no like
+	# fully qualified container '<cpm>' follows, thats what we want
+	my $xml;
+	my $foundOpeningTag = FALSE; # this will be '<cpm>'	
+	open (IN, $cpmFile);
+	while (<IN>)
+	{
+		$foundOpeningTag = TRUE if (m/^.cpm.$/);
+		next unless ($foundOpeningTag);
+		$xml .= $_;
+	}
+	close IN;
+	my $ref = XMLin($xml);
+	my $return = {};
+	$return->{sid} = $ref->{pool}->{$connectionPoolName}->{sid};
+	$return->{user} = $ref->{pool}->{$connectionPoolName}->{user};
+	$return->{password} = $ref->{pool}->{$connectionPoolName}->{password};
+	$return->{port} = $ref->{pool}->{$connectionPoolName}->{port};
+	$return->{server} = $ref->{pool}->{$connectionPoolName}->{server};
+	return $return;
+}

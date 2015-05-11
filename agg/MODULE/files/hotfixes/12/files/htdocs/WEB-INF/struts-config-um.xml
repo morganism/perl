@@ -1,0 +1,2183 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+    <!-- ========== Form Bean Definitions =================================== -->
+    <form-beans>
+
+        <form-bean name="buttonForm"
+            type="uk.co.cartesian.ascertain.um.web.form.ButtonForm"/>
+
+        <form-bean name="manageMetricJobsForm"
+            type="uk.co.cartesian.ascertain.um.web.form.ManageMetricJobsForm"/>
+
+        <form-bean name="createMetricJobForm"
+            type="uk.co.cartesian.ascertain.um.web.form.CreateMetricJobForm"/>
+
+        <form-bean name="manageIssuesForm"
+            type="uk.co.cartesian.ascertain.um.web.form.ManageUmIssuesForm"/>
+
+        <form-bean name="manageMultipleIssuesForm"
+            type="uk.co.cartesian.ascertain.um.web.form.ManageMultipleUmIssuesForm"/>
+
+        <form-bean name="metricDefinitionManagementForm"
+            type="uk.co.cartesian.ascertain.um.web.form.MetricDefinitionManagementForm"/>
+
+        <form-bean name="editMetricDefinitionForm"
+            type="uk.co.cartesian.ascertain.um.web.form.EditMetricDefinitionForm"/>
+
+        <form-bean name="metricVersionManagementForm"
+            type="uk.co.cartesian.ascertain.um.web.form.MetricVersionManagementForm"/>
+
+        <form-bean name="editMetricVersionForm"
+            type="uk.co.cartesian.ascertain.um.web.form.EditMetricVersionForm"/>
+
+        <form-bean name="editMetricOperatorForm"
+            type="uk.co.cartesian.ascertain.um.web.form.EditMetricOperatorForm"/>
+        
+        <form-bean name="editFileMatchOperatorForm"
+            type="uk.co.cartesian.ascertain.um.web.form.FileMatchOperatorForm"/>
+        
+        <form-bean name="editForecastOperatorForm"
+            type="uk.co.cartesian.ascertain.um.web.form.ForecastOperatorForm"/>
+        
+        <form-bean name="deployResponseForm"
+            type="uk.co.cartesian.ascertain.um.web.form.DeployResponseForm"/>
+            
+		<form-bean
+			name="jobSelectionForm"
+			type="uk.co.cartesian.ascertain.jobs.web.form.JobSelectionForm" />
+
+   		<form-bean
+			name="forecastOptionsForm"
+			type="uk.co.cartesian.ascertain.um.job.forms.ForecastOptionsForm" />
+
+   		<form-bean
+			name="scenarioModelForm"
+			type="uk.co.cartesian.ascertain.um.web.form.reports.ScenarioModelForm" />
+
+   		<form-bean
+			name="batchUnloadOptionsForm"
+			type="uk.co.cartesian.ascertain.um.job.forms.BatchUnloadOptionsForm" />
+
+        <form-bean name="editThresholdEdrsForm"
+            type="uk.co.cartesian.ascertain.um.web.form.EditThresholdEdrsForm"/>
+
+        <form-bean name="mrecFilesetMetricForm"
+            type="uk.co.cartesian.ascertain.um.web.form.MrecFilesetMetricForm"/>
+
+        <!-- === File Matching forms === -->
+        <form-bean
+		    name="editFileMatchRefDform"
+		    type="org.apache.struts.validator.DynaValidatorActionForm">
+		    <form-property
+		        name="fileMatchDefId"
+		        type="java.lang.String" initial=""/>
+           	<form-property
+		        name="name"
+		        type="java.lang.String"/>
+	        <form-property
+		        name="description"
+		        type="java.lang.String"/>
+	        <form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>		    
+		</form-bean>     
+
+		<form-bean 
+			name="editFileMatchVersionDform" 
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property 
+				name="fileMatchVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="fileMatchDefId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="parentVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="verDescription" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="validFrom" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="validTo" 
+				type="java.lang.String" initial=""/>				
+			<form-property 
+				name="status" 
+				type="java.lang.String" initial=""/>
+			<form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>
+		</form-bean>
+				
+		<form-bean 
+			name="editFileMatchOperatorDform" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property 
+				name="fileMatchOpId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="fileMatchVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="operatorDefId" 
+				type="java.lang.Integer"/>			
+			<form-property 
+				name="opParameters" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="opDescription" 
+				type="java.lang.String" initial=""/>
+			<form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>
+		    <form-property
+		        name="label"
+		        type="java.lang.String" initial=""/>
+		    <form-property
+		        name="value"
+		        type="java.lang.String" initial=""/>
+		</form-bean>
+
+		<form-bean 
+			name="fmoConfigDform" 
+			type="org.apache.struts.action.DynaActionForm">
+			
+			<form-property name="fileMatchOperatorId" type="java.lang.Integer" initial="null"/>
+			<form-property name="sourceId" type="java.lang.Integer" initial="null"/>
+			<form-property name="sourceTypeId" type="java.lang.Integer" initial="null"/>			
+			<form-property name="edrTypeId" type="java.lang.Integer" initial="null"/>
+			<form-property name="edrSubTypeId" type="java.lang.Integer" initial="null"/>			
+			<!-- Meta -->
+			<form-property name="isSourceElement" type="java.lang.Boolean"></form-property>
+			<form-property name="isEdrTypeElement" type="java.lang.Boolean"></form-property>
+			<form-property name="processAction" type="java.lang.String"></form-property>
+		</form-bean>
+
+		<!-- === Forecasting forms === -->
+        
+        <form-bean
+		    name="editForecastRefDform"
+		    type="org.apache.struts.validator.DynaValidatorActionForm">
+		    <form-property
+		        name="forecastDefId"
+		        type="java.lang.String" initial=""/>
+           	<form-property
+		        name="name"
+		        type="java.lang.String"/>
+	        <form-property
+		        name="description"
+		        type="java.lang.String"/>
+   	        <form-property
+		        name="forecast_type"
+		        type="java.lang.String"/>
+	        <form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>		    
+			<form-property
+				name="growthFactor"
+				type="java.lang.Double" initial="1.0"/>
+		</form-bean>
+
+		<form-bean 
+			name="editForecastVersionDform" 
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property 
+				name="forecastVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="forecastDefId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="parentVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="verDescription" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="validFrom" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="validTo" 
+				type="java.lang.String" initial=""/>				
+			<form-property 
+				name="status" 
+				type="java.lang.String" initial=""/>
+			<form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>
+		</form-bean>
+				
+		<form-bean 
+			name="editForecastOperatorDform" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property 
+				name="forecastOpId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="forecastVerId" 
+				type="java.lang.Integer"/>
+			<form-property 
+				name="operatorDefId" 
+				type="java.lang.Integer"/>			
+			<form-property 
+				name="opParameters" 
+				type="java.lang.String" initial=""/>
+			<form-property 
+				name="opDescription" 
+				type="java.lang.String" initial=""/>
+			<form-property
+		        name="isCopy"
+		        type="java.lang.Boolean" initial="false"/>
+		    <form-property
+		        name="label"
+		        type="java.lang.String" initial=""/>
+		    <form-property
+		        name="value"
+		        type="java.lang.String" initial=""/>
+		</form-bean>
+
+		<form-bean 	name="forecastMetricJnDform" 
+					type="org.apache.struts.action.DynaActionForm">
+			<form-property name="forecastMetricId" type="java.lang.Integer"/>
+			<form-property name="forecastDefinitionId" type="java.lang.Integer"/>
+			<form-property name="metricDefinitionId" type="java.lang.Integer"/>
+			<form-property name="metricTypeIdFilter" type="java.lang.Integer"/>
+			<form-property name="metricCateIdFilter" type="java.lang.Integer"/>
+		</form-bean>
+
+		<!-- === Issue Aggregation forms === -->
+
+		<form-bean name="editIssueAggRefDform"
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="issueAggDefId" type="java.lang.String"
+				initial="" />
+			<form-property name="name" type="java.lang.String" />
+			<form-property name="description" type="java.lang.String" />
+			<form-property name="isCopy" type="java.lang.Boolean"
+				initial="false" />
+		</form-bean>
+
+		<form-bean name="editIssueAggVersionDform"
+			type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="issueAggVerId"
+				type="java.lang.Integer" />
+			<form-property name="issueAggDefId"
+				type="java.lang.Integer" />
+			<form-property name="parentVerId" type="java.lang.Integer" />
+			<form-property name="verDescription" type="java.lang.String"
+				initial="" />
+			<form-property name="validFrom" type="java.lang.String"
+				initial="" />
+			<form-property name="fromHours" type="java.lang.String"
+				initial="" />
+			<form-property name="fromMinutes" type="java.lang.String"
+				initial="" />
+			<form-property name="fromSeconds" type="java.lang.String"
+				initial="" />
+			<form-property name="validTo" type="java.lang.String"
+				initial="" />
+			<form-property name="toHours" type="java.lang.String"
+				initial="" />
+			<form-property name="toMinutes" type="java.lang.String"
+				initial="" />
+			<form-property name="toSeconds" type="java.lang.String"
+				initial="" />
+			<form-property name="status" type="java.lang.String"
+				initial="" />
+			<form-property name="isCopy" type="java.lang.Boolean"
+				initial="false" />
+		</form-bean>
+
+		<form-bean name="editIssueAggOperatorDform"
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="issueAggOpId" type="java.lang.Integer" />
+			<form-property name="issueAggVerId"
+				type="java.lang.Integer" />
+			<form-property name="operatorDefId"
+				type="java.lang.Integer" />
+			<form-property name="opParameters" type="java.lang.String"
+				initial="" />
+			<form-property name="opDescription" type="java.lang.String"
+				initial="" />
+			<form-property name="isCopy" type="java.lang.Boolean"
+				initial="false" />
+			<form-property name="label" type="java.lang.String"
+				initial="" />
+			<form-property name="value" type="java.lang.String"
+				initial="" />
+		</form-bean>
+
+        <form-bean
+		    name="metricDetailsReportDform"
+		    type="org.apache.struts.action.DynaActionForm">
+            <form-property name="edgeMetricId"      type="java.lang.Integer"/>
+            <form-property name="nodeMetricId"      type="java.lang.Integer"/>
+			<form-property name="metricDefId"	 	type="java.lang.Integer" />
+			<form-property name="nodeId"	     	type="java.lang.Integer" />
+			<form-property name="edgeId"	     	type="java.lang.Integer" />
+            <form-property name="sourceTypeId"      type="java.lang.Integer" />
+            <form-property name="sourceId"       	type="java.lang.Integer" />
+			<form-property name="fromDate"		 	type="java.lang.String"/>
+			<form-property name="toDate"		 	type="java.lang.String"/>
+			<form-property name="dPeriodId"		 	type="java.lang.String"/>
+			<form-property name="isIssue"		 	type="java.lang.String"/>
+			<form-property name="fMetricId"		 	type="java.lang.String"/>
+			<form-property name="method"		 	type="java.lang.String"/>
+			<form-property name="edrTypeId"	     	type="java.lang.Integer" />
+			<form-property name="edrSubTypeId"	 	type="java.lang.Integer" />
+			<form-property name="isComparator"	 	type="java.lang.String"/>
+            <!-- metadata -->
+            <form-property name="isNodeSelected" 	type="java.lang.Boolean" initial="true"/>
+		</form-bean>     
+
+        <form-bean 
+            name="chartMetricSwfDform" 
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="fromDate"          type="java.lang.String"/>
+            <form-property name="toDate"            type="java.lang.String"/>
+            <form-property name="sourceId"          type="java.lang.String"/>
+            <form-property name="sourceTypeId"      type="java.lang.String"/>
+            <form-property name="nodeId"            type="java.lang.String"/>
+            <form-property name="edgeId"            type="java.lang.String"/>
+            <form-property name="edgeMetricId"      type="java.lang.String"/>
+            <form-property name="nodeMetricId"      type="java.lang.String"/>
+            <form-property name="edrTypeId"         type="java.lang.String"/>
+            <form-property name="edrSubTypeId"      type="java.lang.String"/>      
+            <!-- metadata -->
+            <form-property name="isNodeSelected" 	type="java.lang.Boolean" initial="true"/>
+        </form-bean>
+    
+		<form-bean 
+			name="editMetricJoinsDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="id" type="java.lang.Integer"/>
+			<form-property name="editId" type="java.lang.Integer"/>			
+			<form-property name="metricDefId" type="java.lang.Integer"/>
+			<form-property name="thresholdDefId" type="java.lang.Integer"/>
+			<form-property name="thresholdSeqId" type="java.lang.Integer"/>
+			<form-property name="sourceId" type="java.lang.Integer"/>
+			<form-property name="sourceTypeId" type="java.lang.Integer"/>
+			<form-property name="fileMatchDefinitionId" type="java.lang.Integer" initial="-1"/>
+			<form-property name="isRegenerate" type="java.lang.Boolean" initial="true"/>
+			<form-property name="isActive" type="java.lang.Boolean" initial="false"/>
+			<form-property name="chooseSeq" type="java.lang.String" initial="none"/>
+			<form-property name="chooseSrc" type="java.lang.String" initial="none"/>
+			<form-property name="isNew" type="java.lang.Boolean" initial="true"/>			
+			<form-property name="joinType" type="java.lang.String"/>				
+		</form-bean>
+		
+		<form-bean
+			name="editFmoEquationDForm"
+			type="org.apache.struts.validator.DynaValidatorForm">
+			<form-property name="metricOperatorId" type="java.lang.Integer" />
+			<form-property name="fieldType" type="java.lang.String"/>
+			<form-property name="operator" type="java.lang.String"/>
+			<form-property name="adjuster" type="java.lang.Double" initial="1.0"/>
+			<form-property name="sourceId" type="java.lang.Integer" />
+			<form-property name="sourceTypeId" type="java.lang.Integer" />
+			<form-property name="edrTypeId" type="java.lang.Integer" />
+			<form-property name="edrSubTypeId" type="java.lang.Integer" />
+			<form-property name="measureTypeId_I" type="java.lang.Integer"/>
+			<form-property name="measureTypeId_J" type="java.lang.Integer"/>
+			<form-property name="dPaymentTypeId" type="java.lang.Integer"/>
+			<form-property name="dCallTypeId" type="java.lang.Integer"/>
+			<form-property name="dCustomerTypeId" type="java.lang.Integer"/>
+			<form-property name="dServiceProviderId" type="java.lang.Integer"/>
+			<form-property name="dDummy" type="java.lang.String"/>
+			<form-property name="dCustom01Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom02Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom03Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom04Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom05Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom06Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom07Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom08Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom09Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom10Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom11Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom12Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom13Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom14Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom15Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom16Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom17Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom18Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom19Id" type="java.lang.Integer[]"/>
+			<form-property name="dCustom20Id" type="java.lang.Integer[]"/>
+			<!-- metadata -->
+			<form-property name="isSourceElement" type="java.lang.Boolean" initial="true"/>
+			<form-property name="isEdrTypeElement" type="java.lang.Boolean" initial="true"/>
+			<form-property name="isDrillAction" type="java.lang.Boolean" initial="false"/>
+			<form-property name="newItem" type="java.lang.Boolean" initial="false"/>
+			<form-property name="metricOperator" type="java.lang.String" />
+			<form-property name="metricOperatorType" type="java.lang.String" />
+			<form-property name="source" type="java.lang.String" />
+		</form-bean>
+	
+	<!-- Edge/Node Join forms -->
+		<form-bean 
+			name="editFileMatchEdgeJoinDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="edgeId" type="java.lang.Integer"/>
+			<form-property name="fileMatchDefinitionId" type="java.lang.Integer"/>				
+		</form-bean>
+		
+		<form-bean 
+			name="editFileMatchNodeJoinDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="nodeId" type="java.lang.Integer"/>
+			<form-property name="fileMatchDefinitionId" type="java.lang.Integer"/>				
+		</form-bean>
+		
+		<form-bean 
+			name="editForecastEdgeJoinDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="edgeId" type="java.lang.Integer"/>
+			<form-property name="forecastDefinitionId" type="java.lang.Integer"/>				
+		</form-bean>
+		
+		<form-bean 
+			name="editForecastNodeJoinDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="nodeId" type="java.lang.Integer"/>
+			<form-property name="forecastDefinitionId" type="java.lang.Integer"/>				
+		</form-bean>
+		
+	<!-- Volume TimeSeries Chart -->
+		<form-bean 
+			name="volumeTimeSeriesChartDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="fromDate" type="java.lang.String"/>
+			<form-property name="toDate" type="java.lang.String"/>
+			<form-property name="sourceId" type="java.lang.Integer"/>
+			<form-property name="nodeId" type="java.lang.Integer"/>
+			<form-property name="sourceTypeId" type="java.lang.Integer"/>
+			<form-property name="sourceRegionId" type="java.lang.Integer"/>
+			<form-property name="measureTypeId" type="java.lang.Integer"/>
+			<form-property name="edrTypeId" type="java.lang.Integer"/>
+			<form-property name="edrSubTypeId" type="java.lang.Integer"/>
+			<form-property name="chartData" type="java.lang.String[]" />
+			<form-property name="chartPlot" type="java.lang.String[]" />
+			<form-property name="diffDays" type="java.lang.Integer" />
+			<!-- metadata -->
+			<form-property name="customPeriod" type="java.lang.Boolean" initial="false"/>
+			<form-property name="sourceElement" type="java.lang.Boolean" initial="true"/>						
+			<form-property name="source" type="java.lang.String"/>
+	</form-bean>
+			
+		<form-bean 
+			name="vtscMonthEndDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="fromDate" type="java.lang.Long"/>			
+			<form-property name="measureTypeId" type="java.lang.Integer"/>	
+			<form-property name="nodeId" type="java.lang.Integer"/>			
+		</form-bean>
+		<form-bean 
+			name="vtscPreparedDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="nodeId" type="java.lang.Integer"/>			
+			<form-property name="measureTypeId" type="java.lang.Integer"/>			
+		</form-bean>
+
+	<!-- Date Forecast Join -->
+		<form-bean 
+			name="dateForecastJnDform" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="exceptionDateId" type="java.lang.Integer"/>
+			<form-property name="forecastVersionId" type="java.lang.Integer"/>
+			<form-property name="adjuster" type="java.lang.Double" initial="1.0"/>
+		</form-bean>
+			
+	<!-- Forecast metric trend chart -->
+        <form-bean 
+            name="forecastMetricTrendDform" 
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="fromDate"          type="java.lang.String"/>
+            <form-property name="toDate"            type="java.lang.String"/>
+            <form-property name="sourceId"          type="java.lang.Integer"    initial="-1"/>
+            <form-property name="nodeId"            type="java.lang.Integer"    initial="-1"/>
+            <form-property name="edgeId"            type="java.lang.Integer"    initial="-1"/>
+            <form-property name="metricId"          type="java.lang.Integer"    initial="-1"/>
+            <form-property name="billingTypeId"     type="java.lang.Integer"    initial="-1"/>
+            <form-property name="chartData"         type="java.lang.String[]" />            
+            <form-property name="trendData"         type="java.lang.String[]" />            
+            <form-property name="edrTypeId"         type="java.lang.Integer"    initial="-1"/>
+            <form-property name="edrSubTypeId"      type="java.lang.Integer"    initial="-1"/>      
+            <!-- metadata -->
+            <form-property name="nodeElement" type="java.lang.Boolean" initial="true"/>
+        </form-bean>
+    
+        <form-bean 
+            name="volumetricTimeSeriesSwfDform" 
+            type="org.apache.struts.action.DynaActionForm">
+            <form-property name="fromDate"          type="java.lang.String"/>
+            <form-property name="toDate"            type="java.lang.String"/>
+            <form-property name="sourceId"          type="java.lang.String"/>
+            <form-property name="sourceTypeId"          type="java.lang.String"/>
+            <form-property name="nodeId"            type="java.lang.String"/>
+            <form-property name="measureTypeId"     type="java.lang.String"/>
+            <form-property name="sourceRegionId"     type="java.lang.String"/>
+            <form-property name="edrTypeId"         type="java.lang.String"/>
+            <form-property name="edrSubTypeId"      type="java.lang.String"/>      
+            <form-property name="diffDays"      type="java.lang.String"/>      
+			<form-property name="sourceElement" type="java.lang.Boolean" initial="true"/>
+        </form-bean>
+
+        <!-- File Processing Timeliness Chart Form -->
+		<form-bean 
+			name="fileProcessingTimelinessChartDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="fromDate" type="java.lang.String"/>
+			<form-property name="toDate" type="java.lang.String"/>
+			<form-property name="edgeId" type="java.lang.Integer"/>
+			<form-property name="chartData" type="java.lang.String[]" />			
+		</form-bean>
+	
+		<form-bean name="emptyForm" type="org.apache.struts.action.DynaActionForm"></form-bean>
+
+	<!-- === Mrec forms === -->
+
+		<form-bean name="mrecTpmDform" type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefDform">
+			<form-property name="filterMrecCategoryId" 	type="java.lang.Integer" 	initial="-1" />
+			<form-property name="filterDescription"	type="java.lang.String" 	initial=""/>
+			<form-property name="filterGraphId"		type="java.lang.Integer"	initial="-1"/>
+			<form-property name="lhsNodes" 			type="java.lang.String[]" 	initial="" />
+			<form-property name="rhsNodes" 			type="java.lang.String[]"	initial="" />
+			<form-property name="mrecCategoryId" 	type="java.lang.Integer" 	initial="-1" />
+			<form-property name="graphId" 			type="java.lang.Integer"	initial="-1"/>
+			<form-property name="mrecDefinitionId" 	type="java.lang.Integer"/>
+			<form-property name="name" 				type="java.lang.String" />
+			<form-property name="description" 		type="java.lang.String" />
+			<form-property name="type"		 		type="java.lang.String"	initial="All"/>
+			<form-property name="isCopy" 			type="java.lang.Boolean" initial="false" />
+			<form-property name="iSideTitle" 		type="java.lang.String" initial="i Side" />
+			<form-property name="jSideTitle" 		type="java.lang.String" initial="j Side" />
+		</form-bean>
+
+		<form-bean name="editMrecDefinitionRefDform" type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefDform">
+			<form-property name="mrecDefinitionId" 	type="java.lang.Integer"/>
+			<form-property name="mrecCategoryId" 	type="java.lang.Integer"/>
+			<form-property name="mrecType" 			type="java.lang.String"/>
+			<form-property name="graphId" 			type="java.lang.Integer"/>
+			<form-property name="name" 				type="java.lang.String" />
+			<form-property name="description" 		type="java.lang.String" />
+			<form-property name="isCopy" 			type="java.lang.Boolean" initial="false" />
+		</form-bean>
+
+	<!-- Mrec Version form -->
+
+		<form-bean name="editMrecVersionRefDform" 	type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="description" 		type="java.lang.String"		initial=""/>
+			<form-property name="mrecDefinitionId" 	type="java.lang.Integer"	/>
+			<form-property name="parentVersionId" 	type="java.lang.Integer"	initial=""/>
+			<form-property name="thresholdDefinitionId" type="java.lang.Integer"	initial=""/>
+			<form-property name="thresholdSequenceId" type="java.lang.Integer"	initial=""/>
+			<form-property name="status" 			type="java.lang.String"		initial="N"/>
+			<form-property name="validFrom"			type="java.lang.String"		initial="" />
+			<form-property name="validTo"			type="java.lang.String" 	initial="" />
+			<form-property name="isCopy" 			type="java.lang.Boolean" 	initial="false" />
+			<form-property name="chooseSeq" 		type="java.lang.String" 	initial="none"/>
+			<form-property name="iSideTitle" 		type="java.lang.String" initial="i Side" />
+			<form-property name="jSideTitle" 		type="java.lang.String" initial="j Side" />
+		</form-bean>
+
+	<!-- Mrec Metric Set defintion  form -->
+
+		<form-bean name="editMrecMetricRefDform" 	type="org.apache.struts.validator.DynaValidatorActionForm">
+			<form-property name="metricDefinitionId" type="java.lang.Integer"/>
+			<form-property name="mrecVersionId" 	type="java.lang.Integer"	initial=""/>
+			<form-property name="nodeId" 			type="java.lang.Integer"	initial=""/>
+			<form-property name="mrecSet"			type="java.lang.String"		initial=""/>
+			<form-property name="isCopy" 			type="java.lang.Boolean" 	initial="false" />
+		</form-bean>
+
+		<form-bean name="mrecChartDform" 	type="org.apache.struts.validator.DynaValidatorActionForm">
+            <form-property name="from"                   type="java.lang.String"    initial=""/>
+            <form-property name="to"                     type="java.lang.String"    initial=""/>
+            <form-property name="mrecDefinitionId_file"  type="java.lang.String"    initial=""/>
+            <form-property name="mrecDefinitionId_time"  type="java.lang.String"    initial=""/>
+            <form-property name="edgeId"                 type="java.lang.Integer"   initial=""/>
+            <form-property name="mrecLineId"             type="java.lang.Integer"   initial=""/>
+            <form-property name="mrecType"               type="java.lang.String"    initial="TIME"/>
+            <form-property name="includeThresholds"		 type="java.lang.String"/>
+			<form-property name="iSideTitle" 			type="java.lang.String" initial="i Side" />
+			<form-property name="jSideTitle" 			type="java.lang.String" initial="j Side" />
+		</form-bean>
+
+	<!-- Mrec Edge Join  form -->
+		<form-bean 
+			name="editMrecEdgeJoinDForm" 
+			type="org.apache.struts.action.DynaActionForm">
+			<form-property name="clickStreamId" type="java.lang.String"/>
+			<form-property name="edgeId" type="java.lang.Integer"/>
+			<form-property name="mrecDefId" type="java.lang.Integer"/>
+			<form-property name="fileMatchDefinitionId" type="java.lang.Integer" initial=""/>
+			<form-property name="isRegenerate" type="java.lang.Boolean" initial="true"/>
+			<form-property name="isActive" type="java.lang.Boolean" initial="false"/>
+			<form-property name="isNew" type="java.lang.Boolean" initial="true"/>
+		</form-bean>
+    </form-beans>
+
+	
+
+    <!-- ========== Global Forward Definitions ============================== -->
+    <global-forwards>
+	
+        <forward name="um_viewApplicableSourcesSetup"               path="/um/viewApplicableSourcesSetup.do"/>
+        <forward name="um_viewApplicableSourcesDisplay"             path="/um/viewApplicableSourcesDisplay.do"/>
+
+        <forward name="um_editSourcesAndSourceTypesSetup"           path="/um/editApplicableSourceTypesSetup.do"/>
+        <forward name="um_editSourcesAndSourceTypesDisplay"         path="/um/editApplicableSourceTypesDisplay.do"/>
+        <forward name="um_editSourcesAndSourceTypesProcessLink"     path="/um/editApplicableSourceTypesProcessLink.do"/>
+
+        <forward name="um_viewSourcesAndSourceTypesProcessLink"     path="/um/editApplicableSourceTypesProcessLink.do"/>
+        
+        <forward name="um_editThresholdSourcesDisplay"             path="/um/editThresholdSourcesDisplay.do"/>
+        
+        <forward name="um_viewSourcesAndSourceTypesSetup"           path="/um/viewSourcesAndSourceTypesSetup.do"/>
+        <forward name="um_viewSourcesAndSourceTypesDisplay"         path="/um/viewSourcesAndSourceTypesDisplay.do"/>
+        
+        <forward name="um_manageMetricJobsDisplay"					path="/um/manageMetricJobsDisplay.do"/>
+        <forward name="um_manageMetricJobsProcessLink"				path="/um/manageMetricJobsProcessLink.do"/>
+        
+        <forward name="um_metricDefinitionManagementDisplay"		path="/um/metricDefinitionManagementDisplay.do"/>
+        
+        <forward name="um_metricVersionManagementDisplay"			path="/um/metricVersionManagementDisplay.do"/>
+        
+        <forward name="um_metricOperatorManagementDisplay"			path="/um/metricOperatorManagementDisplay.do"/>
+        
+        <forward name="um_selectMetricVersionOperatorsDisplay"		path="/um/selectMetricVersionOperatorsDisplay.do"/>
+
+        <forward name="um_metricDetailsReportDisplay"				path="/um/metricDetailsReportDisplay.do"/>
+        
+        <forward name="um_editThresholdEdrsDisplay"             path="/um/editThresholdEdrsDisplay.do"/>
+
+        <!-- File Match Forwards -->        
+        <forward name="um_fileMatchDef" path="um.fileMatchDef"/>
+        
+        <forward name="um_fileMatchVerTable" path="/um/fileMatchVersionSetup.do"/>			        
+        <forward name="um_fileMatchVerDisplay" path="/um/fileMatchVersionDisplay.do"/>			
+		<forward name="um_fileMatchVerEdit" path="/um/fileMatchVersion.do?action=edit"/>
+        
+        <forward name="um_fileMatchOpTable" path="/um/fileMatchOperatorSetup.do"/>			                
+        <forward name="um_fileMatchOpDisplay" path="/um/fileMatchOperatorDisplay.do"/>
+    	<forward name="um_fileMatchOpEdit" path="/um/fileMatchOperator.do?action=edit"/>
+
+    	<forward name="um_fileMatchOpConfig" path="/um/fileMatchOperatorConfig.do"/>
+       
+        <forward name="um_fileMatchEV" path="/../web/selectEntityProcess.do?entityId=35100"/>						
+        
+        <!-- Issue Agg Forwards -->        
+        <forward name="um_issueAggDef" path="um.issueAggDef"/>
+        
+        <forward name="um_issueAggVerTable" path="/um/issueAggVersionSetup.do"/>			        
+        <forward name="um_issueAggVerDisplay" path="/um/issueAggVersionDisplay.do"/>			
+		<forward name="um_issueAggVerEdit" path="/um/issueAggVersion.do?action=edit"/>
+        
+        <forward name="um_issueAggOpTable" path="/um/issueAggOperatorSetup.do"/>			                
+        <forward name="um_issueAggOpDisplay" path="/um/issueAggOperatorDisplay.do"/>
+    	<forward name="um_issueAggOpEdit" path="/um/issueAggOperator.do?action=edit"/>
+       
+        <forward name="um_issueAggEV" path="/../web/selectEntityProcess.do?entityId=35110"/>						
+
+        <forward name="um_showSelectedIssuesDisplay" path="/showSelectedIssuesDisplay.do?schema=um" module="/imm"/>
+
+        
+        <!-- Forecast Forwards -->        
+        <forward name="um_forecastDef" path="um.forecastDef"/>
+		<forward name="um_trendDef" path="um.trendDef"/>
+        
+        <forward name="um_forecastVerTable" path="/um/forecastVersionSetup.do"/>			        
+        <forward name="um_forecastVerDisplay" path="/um/forecastVersionDisplay.do"/>			
+		<forward name="um_forecastVerEdit" path="/um/forecastVersion.do?action=edit"/>
+        
+        <forward name="um_forecastOpTable" path="/um/forecastOperatorSetup.do"/>			                
+        <forward name="um_forecastOpDisplay" path="/um/forecastOperatorDisplay.do"/>
+    	<forward name="um_forecastOpEdit" path="/um/forecastOperator.do?action=edit"/>
+       
+        <forward name="um_forecastEV" path="/../web/selectEntityProcess.do?entityId=35120"/>
+        <forward name="um_trendEV" path="/../web/selectEntityProcess.do?entityId=35130"/>
+        
+        <forward name="um_forecastMetricJn" path="um.forecastMetricJn"/>
+        <forward name="um_forecastDateJn" path="um.forecastDateJn"/>
+        <forward name="um_forecastDateJnTable" path="/um/forecastDateJnSetup.do"/>
+        
+        <forward name="um_trendMetricJn" path="um.trendMetricJn"/>
+        <forward name="um_trendDateJn" path="um.trendDateJn"/>
+        <forward name="um_trendDateJnTable" path="/um/forecastDateJnSetup.do"/>
+        
+        <forward name="um_forecastMetricPickDisplay" path="/um/forecastMetricPickDisplay.do"/>
+        
+        <!-- Metric to Node or Edge Join -->
+        
+        <forward name="um_metricNodeJoinTable" path="/um/metricNodeJoinSetup.do"/>
+        <forward name="um_metricEdgeJoinTable" path="/um/metricEdgeJoinSetup.do"/>
+        				
+        <forward name="um_metricNodeJoinDisplay" path="/um/metricNodeJoinDisplay.do"/>
+        <forward name="um_metricEdgeJoinDisplay" path="/um/metricEdgeJoinDisplay.do"/>
+        
+        <!-- Report Deployment-->        
+        <forward name="um_ListDeployResponseDisplay" path="/um/listDeployResponseDisplay.do"/>
+        
+        <!-- FMO Equation -->
+		<forward name="um_FmoEquationDisplay" path="/um/fmoEquationDisplay.do"></forward>        
+		<forward name="um_FmoEquationSetup" path="/um/fmoEquationSetup.do"></forward>
+		
+		<!-- File match edge jn -->
+		<forward name="um_FileMatchEdgeJoinDisplay" path="/um/fileMatchEdgeJnDisplay.do"></forward>
+
+		<!-- File match node jn -->
+		<forward name="um_FileMatchNodeJoinDisplay" path="/um/fileMatchNodeJnDisplay.do"></forward>
+		
+		<!-- Forecast edge/node jn -->
+		<forward name="um_ForecastEdgeJoinDisplay" path="/um/forecastEdgeJnDisplay.do"></forward>
+		<forward name="um_ForecastNodeJoinDisplay" path="/um/forecastNodeJnDisplay.do"></forward>
+		
+		<!-- MREC Forwards -->
+		<!-- forward name="um_mrecEV" path="/../web/selectEntityProcess.do?entityId=36100"/-->
+
+		<forward name="um_mrecDefinitionDisplay" path="/um/mrecDefinitionDisplay.do"></forward>
+
+		<forward name="um_mrecDefEdit" path="um.mrecDefinitionCreate"/>
+		<forward name="um_mrecVerTable" path="/um/mrecVersionSetup.do"/>
+
+		<forward name="um_mrecChartDataDisplay" path="/um/mrecChartDataDisplay.do"/>
+
+		<forward name="um_mrecVerTable" path="/um/mrecVersionSetup.do"/>
+        <forward name="um_mrecVerDisplay" path="/um/mrecVersionDisplay.do"/>
+		<forward name="um_mrecVerEdit" path="/um/mrecVersion.do?action=edit"/>
+
+		<forward name="um_mrecMetricTable" path="/um/mrecMetricSetup.do"/>
+		<forward name="um_mrecFilesetMetric" path="/um/mrecFilesetMetricSetup.do"/>
+		<forward name="um_mrecFilesetMetricDisplay" path="/um/mrecFilesetMetricDisplay.do"/>
+
+        <forward name="um_mrecEdgeJoin" path="um.mrecEdgeJoin"/>
+
+		<forward name="um_mrecMetSetupRight" path="/um/mrecMetricSetupRight.do"/>
+		<forward name="um_mrecMetDisplayLeft" path="/um/mrecMetricDisplayLeft.do"/>
+		<forward name="um_mrecMetDisplayRight" path="/um/mrecMetricDisplayRight.do"/>
+
+        <forward name="um_queueStatusDisplay" path="/um/queueStatusDisplay.do"/>
+    </global-forwards>
+
+
+    <action-mappings>
+
+		<action path="/toMain" type="org.apache.struts.actions.SwitchAction"/>
+
+		<action path="/web/tpmDisplay"
+			type="uk.co.cartesian.ascertain.web.tpm.action.TPMDisplayAction">
+			<set-property property="cancellable" value="true" />
+        </action>
+
+        <action path="/um/configDisplay" forward="um.config"/> 
+
+		<!--=======================================================================================================-->
+		<action path="/um/editThresholdSourcesSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.EditThresholdSourcesSetupAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_editThresholdSourcesDisplay"/>
+		</action>
+		
+		<action path="/um/editThresholdSourcesDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.EditThresholdSourcesDisplayAction"
+				name="editThresholdSourcesForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.editThresholdSources"/>
+		</action>
+		
+		<action path="/um/editThresholdSourcesProcess"
+                type="uk.co.cartesian.ascertain.um.web.action.EditThresholdSourcesProcessAction"
+                name="editThresholdSourcesForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+            <forward name="finished" path="/um/thresholdAttributesManagementSetup.do"/>
+            <forward name="refresh" path="/um/editThresholdSourcesSetup.do"/>
+		</action>
+
+		<action path="/um/editThresholdEdrsSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.EditThresholdEdrsSetupAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_editThresholdEdrsDisplay"/>
+		</action>
+		
+		<action path="/um/editThresholdEdrsDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.EditThresholdEdrsDisplayAction"
+				name="editThresholdSourcesForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.editThresholdEdrs"/>
+		</action>
+		
+		<action path="/um/editThresholdEdrsProcess"
+                type="uk.co.cartesian.ascertain.um.web.action.EditThresholdEdrsProcessAction"
+                name="editThresholdEdrsForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />            
+            <forward name="finished" path="/threshold/thresholdAttributesManagementSetup.do" module="/imm"/>
+            <forward name="refresh" path="/um/editThresholdEdrsSetup.do"/>
+		</action>
+
+		
+		<!--=======================================================================================================-->
+		<action path="/um/manageMetricJobsSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.ManageMetricJobsSetupAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_manageMetricJobsDisplay"/>
+		</action>
+		
+		<action path="/um/manageMetricJobsDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ManageMetricJobsDisplayAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.manageMetricJobs"/>
+		</action>
+
+		<action path="/um/manageMetricJobsProcess"
+            type="uk.co.cartesian.ascertain.um.web.action.ManageMetricJobsProcessAction"
+			name="manageMetricJobsForm">
+			<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/createMetricJobDisplay.do"/>
+		</action>
+
+		<action path="/um/manageMetricJobsProcessLink"
+			type="uk.co.cartesian.ascertain.um.web.action.ManageMetricJobsProcessLinkAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="refresh" path="/um/manageMetricJobsSetup.do"/>
+		</action>
+
+		<!--=======================================================================================================-->
+        <action path="/um/createMetricJobDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.CreateMetricJobDisplayAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.createMetricJob"/>
+		</action>
+		        
+		<action path="/um/createMetricJobProcess"
+            type="uk.co.cartesian.ascertain.um.web.action.CreateMetricJobProcessAction"
+            name="createMetricJobForm"
+			parameter="method">
+			<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/manageMetricJobsSetup.do"/>
+        </action>
+
+
+		<!--=======================================================================================================-->
+
+        <action path="/um/viewFileHistoryReportAction"
+            type="uk.co.cartesian.ascertain.um.web.action.ViewFileHistoryReportAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="um.fileHistoryReport"/>
+        </action>
+
+        <action path="/um/viewInOutFilesInBatchDisplayAction"
+                type="uk.co.cartesian.ascertain.um.web.action.ViewInOutFilesInBatchDisplayAction">
+            <forward name="success" path="um.viewInOutFilesInBatch"/>
+        </action>
+
+        <action path="/um/edrDrillThroughSetup"
+            type="uk.co.cartesian.ascertain.um.web.action.EdrDrillThroughSetupAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="um.edrDrillThrough"/>
+            <forward name="notAvailable" path="/selectEntityProcess.do?entityId=36001&amp;SAMPLE_DATE=today-0,today-0" module="/web"/>
+        </action>
+
+        <action path="/um/edrDrillThroughDisplay"
+            type="uk.co.cartesian.ascertain.um.web.action.EdrDrillThroughSetupAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="um.edrDrillThrough"/>
+            <forward name="notAvailable" path="/selectEntityProcess.do?entityId=36001&amp;SAMPLE_DATE=today-0,today-0" module="/web"/>
+        </action>
+
+		<!--=======================================================================================================-->
+
+<!-- Metric Definition Management Process -->
+		
+		<action path="/um/metricDefinitionManagementSetup"
+                type="uk.co.cartesian.ascertain.um.web.action.MetricDefinitionManagementSetupAction"
+				name="metricDefinitionManagementForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricDefinitionManagementDisplay"/>
+		</action>
+		
+		<action path="/um/metricDefinitionManagementDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.MetricDefinitionManagementDisplayAction"
+				name="metricDefinitionManagementForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.metricDefinitionManagement"/>
+		</action>
+
+		<action path="/um/metricDefinitionManagementProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricDefinitionManagementProcessAction"
+                name="metricDefinitionManagementForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+            <forward name="drill"  path="/um/metricVersionManagementSetup.do"/>
+            <forward name="edit"  path="/um/editMetricDefinitionDisplay.do?action=edit"/>
+            <forward name="copy"  path="/um/editMetricDefinitionDisplay.do?action=copy"/>
+            <forward name="refresh" path="/um/metricDefinitionManagementDisplay.do"/>
+            <forward name="clear" path="/um/metricDefinitionManagementDisplay.do?clear=true"/>
+            <forward name="node"  path="/um/metricNodeJoinSetup.do"/>
+			<forward name="edge"  path="/um/metricEdgeJoinSetup.do"/>
+		</action>
+		
+
+		<!--=======================================================================================================-->
+		
+		<action path="/um/editMetricDefinitionDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricDefinitionDisplayAction"
+				name="editMetricDefinitionForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.editMetricDefinition"/>
+		</action>
+
+		<action path="/um/editMetricDefinitionProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricDefinitionProcessAction"
+				parameter="method"
+				name="editMetricDefinitionForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="save"  path="/um/metricDefinitionManagementDisplay.do"/>
+			<forward name="errorEdit"  path="/um/editMetricDefinitionDisplay.do?action=edit"/>
+			<forward name="errorCopy"  path="/um/editMetricDefinitionDisplay.do?action=copy"/>
+			<forward name="cancel"  path="/um/metricDefinitionManagementDisplay.do"/>
+		</action>
+
+
+		<!--=======================================================================================================-->
+		
+		<action path="/um/metricVersionManagementSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricVersionManagementSetupAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricVersionManagementDisplay"/>
+		</action>
+		
+		<action path="/um/metricVersionManagementDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricVersionManagementDisplayAction"
+				name="metricVersionManagementForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.metricVersionManagement"/>
+		</action>
+
+		<action path="/um/metricVersionManagementProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricVersionManagementProcessAction"
+            	name="metricVersionManagementForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+            <forward name="filter"  path="/um/metricVersionManagementDisplay.do"/>
+            <forward name="drill"  path="/um/metricOperatorManagementSetup.do"/>
+            <forward name="edit"  path="/um/editMetricVersionDisplay.do?action=edit"/>
+            <forward name="copy"  path="/um/editMetricVersionDisplay.do?action=copy"/>
+            <forward name="refresh"  path="/um/metricVersionManagementSetup.do"/>
+		</action>
+		
+
+		<!--=======================================================================================================-->
+		
+		<action path="/um/editMetricVersionDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricVersionDisplayAction"
+				name="editMetricVersionForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.editMetricVersion"/>
+		</action>
+
+		<action path="/um/editMetricVersionProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricVersionProcessAction"
+				parameter="method"
+				name="editMetricVersionForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="continueEdit"  path="/um/editMetricVersionDisplay.do?action=edit"/>
+            <forward name="continueCopy"  path="/um/editMetricVersionDisplay.do?action=copy"/>
+			<forward name="finished"  path="/um/metricVersionManagementSetup.do"/>
+		</action>
+
+
+		<!--=======================================================================================================-->
+		
+		<action path="/um/metricOperatorManagementSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricOperatorManagementSetupAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricOperatorManagementDisplay"/>
+		</action>
+		
+		<action path="/um/metricOperatorManagementDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricOperatorManagementDisplayAction"
+				name="buttonForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.metricOperatorManagement"/>
+		</action>
+
+		<action path="/um/metricOperatorManagementProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricOperatorManagementProcessAction"
+				parameter="method"
+				name="buttonForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="refresh"  path="/um/metricOperatorManagementSetup.do"/>
+            <forward name="edit"  path="/um/editMetricOperatorDisplay.do?action=edit"/>
+            <forward name="copy"  path="/um/editMetricOperatorDisplay.do?action=copy"/>
+		</action>
+
+
+		<!--=======================================================================================================-->
+		
+		<!-- OPERATOR PARAMETER start -->				
+		<action path="/um/editMetricOperatorDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricOperatorDisplayAction"
+				name="editMetricOperatorForm"
+				scope="request">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/operatorParameterSetup.do?forward=metricOperator"/>
+		</action>
+
+		<action path="/um/operatorParameterSetup"
+            	type="uk.co.cartesian.ascertain.um.web.action.OperatorParameterSetupAction">
+				<set-property property="cancellable" value="true" />
+            <forward name="metricOperator" path="um.editMetricOperator"/>
+            <forward name="fileMatchOperator" path="um.fileMatchOpEdit"/>
+			<forward name="forecastOperator" path="um.forecastOpEdit"></forward>	
+            <forward name="ajax" path="/../jsp/um/OperatorParameterForm.jsp?op_ro=false"/>
+		</action>
+
+		<action path="/um/editMetricOperatorProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.EditMetricOperatorProcessAction"
+				parameter="method"
+				name="editMetricOperatorForm"
+				scope="request">
+				<set-property property="cancellable" value="true" />
+			<forward name="continueEdit"  path="/um/editMetricOperatorDisplay.do?action=edit"/>
+			<forward name="continueCopy"  path="/um/editMetricOperatorDisplay.do?action=copy"/>
+			<forward name="finished"  path="/um/metricOperatorManagementSetup.do"/>
+		</action>
+		<!-- OPERATOR PARAMETER end -->				
+
+		<!--=======================================================================================================-->
+		<action path="/um/metricDetailsReportSetup"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricDetailsReportSetupAction"
+				name="metricDetailsReportDform">
+				<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricDetailsReportDisplay"/>
+		</action>
+		
+		<action path="/um/metricDetailsReportDisplay"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricDetailsReportDisplayAction"
+				name="metricDetailsReportDform">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.metricDetailsReport"/>
+		</action>
+
+		<action path="/um/metricDetailsReportProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricDetailsReportProcessAction"
+				parameter="method"
+				name="metricDetailsReportDform">
+				<set-property property="cancellable" value="true" />
+            <forward name="submit"  path="/um/metricDetailsReportSetup.do"/>
+            <forward name="clear"  path="/um/metricDetailsReportSetup.do?action=clear"/>
+		</action>
+
+		<action path="/um/metricDetailsReportProcessDispatch"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricDetailsReportProcessDispatchAction"
+				parameter="method"
+				name="metricDetailsReportDform">
+				<set-property property="cancellable" value="true" />
+            <forward name="submit"  path="/um/metricDetailsReportSetup.do"/>
+		</action>
+
+		<action path="/um/viewMetricIssues"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricIssuesViewAction">
+			<set-property property="cancellable" value="true" />
+            <forward name="error"  path="/um/manageMultipleIssuesDisplay.do"/>
+		</action>
+
+		<!--=======================================================================================================-->
+
+<!-- File Matching actions === -->
+		
+		<action path="/um/fileMatchDefinition"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchDefinition"
+				name="editFileMatchRefDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="edges" path="/um/fileMatchEdgeJnSetup.do"/>
+			<forward name="nodes" path="/um/fileMatchNodeJnSetup.do"/>
+		</action>
+		
+		<action path="/um/fileMatchDefinitionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchDefinitionProcess"
+				name="editFileMatchRefDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+		</action>
+		
+		<action path="/um/fileMatchVersionSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchVersionSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_fileMatchVerDisplay"/>            
+		</action>
+		
+		<action path="/um/fileMatchVersionDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchVersionDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.fileMatchVer"/>            
+		</action>
+		
+		<action path="/um/fileMatchVersion"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchVersion"
+				name="editFileMatchVersionDform">	
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.fileMatchVerEdit"></forward>		
+		</action>
+		
+		<action path="/um/fileMatchVersionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchVersionProcess"
+				name="editFileMatchVersionDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+			<forward name="continue" path="um.fileMatchVerEdit"></forward>		
+		</action>
+				
+		<!-- OPERATOR PARAMETER start -->				
+		<action path="/um/fileMatchOperator"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperator"
+				name="editFileMatchOperatorForm"
+				scope="request">		
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/operatorParameterSetup.do?forward=fileMatchOperator"/>
+		</action>
+
+		<!--  see (action path="/um/operatorParameterSetup"...) -->
+
+		<action path="/um/fileMatchOperatorProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperatorProcess"
+				name="editFileMatchOperatorForm"
+				scope="request"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="um.fileMatchOpEdit"></forward>
+		</action>
+		<!-- OPERATOR PARAMETER end -->				
+
+		<action path="/um/fileMatchOperatorSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperatorSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_fileMatchOpDisplay"/>		
+		</action>
+		
+		<action path="/um/fileMatchOperatorDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperatorDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.fileMatchOp"/>            
+		</action>
+		
+		<action path="/um/fileMatchOperatorConfig"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperatorConfig"
+				name="fmoConfigDform">				
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.fileMatchOperatorConfig"></forward>		
+		</action>
+		
+		<action path="/um/fileMatchOperatorConfigProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchOperatorConfigProcess"
+				name="fmoConfigDform"
+				parameter="method">				
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.fileMatchOp"></forward>		
+		</action>
+		
+
+<!-- === Issue Agg actions === -->
+		
+		<action path="/um/issueAggDefinition"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggDefinition"
+				name="editIssueAggRefDform">			
+				<set-property property="cancellable" value="true" />
+		</action>
+		
+		<action path="/um/issueAggDefinitionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggDefinitionProcess"
+				name="editIssueAggRefDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+		</action>
+		
+		<action path="/um/issueAggVersionSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.IssueAggVersionSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_issueAggVerDisplay"/>            
+		</action>
+		
+		<action path="/um/issueAggVersionDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.IssueAggVersionDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.issueAggVer"/>            
+		</action>
+		
+		<action path="/um/issueAggVersion"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggVersion"
+				name="editIssueAggVersionDform">	
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.issueAggVerEdit"></forward>		
+		</action>
+		
+		<action path="/um/issueAggVersionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggVersionProcess"
+				name="editIssueAggVersionDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+            <forward name="continue"  path="um.issueAggVerEdit"/>            
+		</action>
+				
+		<action path="/um/issueAggOperator"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggOperator"
+				name="editIssueAggOperatorDform">		
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="um.issueAggOpEdit"></forward>	
+		</action>
+		
+		<action path="/um/issueAggOperatorProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.IssueAggOperatorProcess"
+				name="editIssueAggOperatorDform"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="um.issueAggOpEdit"></forward>
+		</action>
+
+		<action path="/um/issueAggOperatorSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.IssueAggOperatorSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_issueAggOpDisplay"/>		
+		</action>
+		
+		<action path="/um/issueAggOperatorDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.IssueAggOperatorDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.issueAggOp"/>            
+		</action>
+		
+<!-- === Forecast actions === -->
+		
+		<action path="/um/forecastDefinition"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastDefinition"
+				name="editForecastRefDform">	
+				<set-property property="cancellable" value="true" />
+			<forward name="edges" path="/um/forecastEdgeJnSetup.do"/>
+			<forward name="nodes" path="/um/forecastNodeJnSetup.do"/>		
+			<forward name="metrics" path="/um/forecastMetricJnSetup.do"/>		
+		</action>
+		
+		<action path="/um/forecastDefinitionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastDefinitionProcess"
+				name="editForecastRefDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+		</action>
+		
+		<action path="/um/forecastVersionSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastVersionSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_forecastVerDisplay"/>            
+		</action>
+		
+		<action path="/um/forecastVersionDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastVersionDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="forecast"  path="um.forecastVer"/>            
+			<forward name="trend"  path="um.trendVer"/>            
+		</action>
+		
+		<action path="/um/forecastVersion"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastVersion"
+				name="editForecastVersionDform">	
+				<set-property property="cancellable" value="true" />
+			<forward name="forecast" path="um.forecastVerEdit"></forward>		
+			<forward name="trend" path="um.trendVerEdit"></forward>
+		</action>
+		
+		<action path="/um/forecastVersionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastVersionProcess"
+				name="editForecastVersionDform"
+				parameter="method"
+				validate="true">			
+				<set-property property="cancellable" value="true" />
+			<forward name="continue_forecast" path="um.forecastVerEdit"></forward>		
+			<forward name="continue_trend" path="um.trendVerEdit"></forward>
+		</action>
+		
+		<!-- OPERATOR PARAMETER start -->				
+		<action path="/um/forecastOperator"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastOperator"
+				name="editForecastOperatorForm"
+				scope="request">		
+				<set-property property="cancellable" value="true" />
+	            <forward name="forecast" path="/um/operatorParameterSetup.do?forward=forecastOperator"/>
+				<forward name="forecastHIDE" path="um.forecastOpEdit"></forward>	
+				<forward name="trend" path="um.trendOpEdit"></forward>	
+		</action>
+
+		<!--  see (action path="/um/operatorParameterSetup"...) -->
+		
+		<action path="/um/forecastOperatorProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastOperatorProcess"
+				name="editForecastOperatorForm"
+				scope="request"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+				<forward name="forecast" path="um.forecastOpEdit"></forward>	
+				<forward name="trend" path="um.trendOpEdit"></forward>				
+		</action>
+		<!-- OPERATOR PARAMETER end -->				
+
+		<action path="/um/forecastOperatorSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastOperatorSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_forecastOpDisplay"/>		
+		</action>
+		
+		<action path="/um/forecastOperatorDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastOperatorDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="forecast"  path="um.forecastOp"/>            
+            <forward name="trend"  path="um.trendOp"/>
+		</action>
+		
+		<!--== Forecast Metric Joins =================================================================-->
+		<action path="/um/forecastMetricJnSetup"	
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastMetricJnSetup"
+				name="forecastMetricJnDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="forecast" path="/web/tpmDisplay.do?forward=um_forecastMetricJn"/>
+			<forward name="trend" path="/web/tpmDisplay.do?forward=um_trendMetricJn"/>
+		</action>
+		
+		<action path="/um/forecastMetricJn"	
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastMetricJn"
+				name="forecastMetricJnDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="create" path="/um/forecastMetricPickSetup.do"/>
+			<forward name="success" path="/um/forecastMetricJnSetup.do"/>
+		</action>
+		
+		<!-- the selection page -->
+		<action path="/um/forecastMetricPickSetup"
+                type="uk.co.cartesian.ascertain.um.web.action.ForecastMetricPickSetup"
+				name="forecastMetricJnDform">
+				<set-property property="cancellable" value="true" />
+            <forward name="success"    path="/web/tpmDisplay.do?forward=um_forecastMetricPickDisplay"/>
+        </action>
+
+        <action path="/um/forecastMetricPickDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastMetricPickDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="trend" path="um.trendMetricPick"/>
+            <forward name="forecast" path="um.forecastMetricPick"/>
+		</action>
+		        
+		<action path="/um/forecastMetricPickProcess"
+	            type="uk.co.cartesian.ascertain.um.web.action.ForecastMetricPickProcess"
+	            name="buttonForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/forecastMetricJnSetup.do"/>
+        </action>
+		
+<!-- Metric to Node or Edge Join -->
+
+		<action path="/um/metricNodeJoinSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricNodeJoinSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricNodeJoinDisplay"/>            
+		</action>
+		
+		<action path="/um/metricNodeJoinDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricNodeJoinDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.metricNodeJoin"/>            
+		</action>
+		
+		<action path="/um/metricEdgeJoinSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricEdgeJoinSetup">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_metricEdgeJoinDisplay"/>            
+		</action>
+		
+		<action path="/um/metricEdgeJoinDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricEdgeJoinDisplay">
+			<set-property property="cancellable" value="true" />
+            <forward name="success"  path="um.metricEdgeJoin"/>            
+		</action>
+		
+		<action path="/um/metricJoins"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricJoins"
+				name="editMetricJoinsDForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="Edge"  path="/um/metricEdgeJoinSetup.do"/>
+            <forward name="Node"  path="/um/metricNodeJoinSetup.do"/>            
+            <forward name="editNode"  path="um.metricNodeJoinEdit"/>
+			<forward name="editEdge"  path="um.metricEdgeJoinEdit"/>
+		</action>
+		
+		<action path="/um/metricJoinsProcess"
+            	type="uk.co.cartesian.ascertain.um.web.action.MetricJoinsProcess"
+            	name="editMetricJoinsDForm"
+				parameter="method">	
+				<set-property property="cancellable" value="true" />
+            <forward name="Edge"  path="um_metricEdgeJoinTable"/>
+            <forward name="Node"  path="um_metricNodeJoinTable"/>            
+		</action>
+		
+<!-- === ### Charts ### === -->
+		
+		<action path="/um/fileMatchVersionChart"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchVersionChart">			
+			<set-property property="cancellable" value="true" />
+		</action>		
+
+		<action path="/um/metricVersionChart"
+			type="uk.co.cartesian.ascertain.um.web.action.MetricVersionChart">			
+			<set-property property="cancellable" value="true" />
+		</action>
+		
+		<action path="/um/issueAggVersionChart"
+			type="uk.co.cartesian.ascertain.um.web.action.IssueAggVersionChart">			
+			<set-property property="cancellable" value="true" />
+		</action>
+				
+		<action path="/um/forecastVersionChart"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastVersionChart">			
+			<set-property property="cancellable" value="true" />
+		</action>
+
+<!-- Report Deployment -->
+		<action path="/um/listDeployResponse"
+				type="uk.co.cartesian.ascertain.um.web.action.ListDeployResponseSetupAction"
+				name="deployResponseForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_ListDeployResponseDisplay"/>
+		</action>
+
+		<action path="/um/listDeployResponseDisplay"
+	            type="uk.co.cartesian.ascertain.um.web.action.ListDeployResponseDisplayAction"
+				name="deployResponseForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.listDeployResponseDisplay"/>
+		</action>
+
+		<action path="/um/listDeployResponseProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ListDeployResponseProcessAction"
+				name="deployResponseForm"
+				parameter="task">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/listDeployResponse.do"/>
+		</action>
+
+<!-- FMO Equation -->
+		
+		<!--action path="/um/fmoEquationSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.FmoEquationSetup">	
+			<forward name="success"  path="/web/tpmDisplay.do?forward=um_FmoEquationDisplay"/>	
+		</action-->
+		
+		<!--action path="/um/fmoEquationDisplay"
+				type="uk.co.cartesian.ascertain.um.web.action.FmoEquationDisplay">	
+			<forward name="success"  path="um.fmoEquationCreate"/>	
+		</action-->
+		
+		<action path="/um/fmoEquationEditSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.FmoEquationEditSetup"
+				name="editFmoEquationDForm"
+				validate="false"
+				input="um.fmoEquationEdit" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="edit"  path="um.fmoEquationCreate"/>
+		</action>
+									
+		<action path="/um/fmoEquationEditDisplay"
+				type="uk.co.cartesian.ascertain.um.web.action.FmoEquationDisplay"
+				name="editFmoEquationDForm"
+				validate="false"
+				input="um.fmoEquationEdit" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="success"  path="um.fmoEquationCreate"/>	
+		</action>
+		
+		<action path="/um/fmoEquationEditProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FmoEquationEditProcess"
+				name="editFmoEquationDForm"
+				parameter="method"
+				validate="false"
+				input="/um/fmoEquationValidate.do">
+				<set-property property="cancellable" value="true" />
+			<forward name="validate" path="/um/fmoEquationEditSetup.do"/>
+			<forward name="refresh" path="/um/metricVersionManagementProcess.do?action=drill"/>		
+		</action>
+		
+<!-- File Match Edge Join -->
+
+		<action path="/um/fileMatchEdgeJnSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchEdgeJoinSetup">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="/web/tpmDisplay.do?forward=um_FileMatchEdgeJoinDisplay"/>	
+		</action>
+		
+		<action path="/um/fileMatchEdgeJnDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchEdgeJoinDisplay">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="um.fileMatchEdgeJn"/>	
+		</action>
+		
+		<action path="/um/fileMatchEdgeJn"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchEdgeJoins"
+				name="editFileMatchEdgeJoinDForm" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="edit"  path="um.fileMatchEdgeJnEdit"/>
+			<forward name="success" path="/um/fileMatchEdgeJnSetup.do"/>
+		</action>
+									
+		<action path="/um/fileMatchEdgeJnProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchEdgeJoinProcess"
+				name="editFileMatchEdgeJoinDForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/fileMatchEdgeJnSetup.do"/>
+		</action>
+		
+<!-- File Match Node Join -->
+
+		<action path="/um/fileMatchNodeJnSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchNodeJoinSetup">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="/web/tpmDisplay.do?forward=um_FileMatchNodeJoinDisplay"/>	
+		</action>
+		
+		<action path="/um/fileMatchNodeJnDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.FileMatchNodeJoinDisplay">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="um.fileMatchNodeJn"/>	
+		</action>
+		
+		<action path="/um/fileMatchNodeJn"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchNodeJoins"
+				name="editFileMatchNodeJoinDForm" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="edit"  path="um.fileMatchNodeJnEdit"/>
+			<forward name="success" path="/um/fileMatchNodeJnSetup.do"/>
+		</action>
+									
+		<action path="/um/fileMatchNodeJnProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.FileMatchNodeJoinProcess"
+				name="editFileMatchNodeJoinDForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/fileMatchNodeJnSetup.do"/>
+		</action>
+
+<!-- Forecast Edge Join -->
+
+		<action path="/um/forecastEdgeJnSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastEdgeJoinSetup">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="/web/tpmDisplay.do?forward=um_ForecastEdgeJoinDisplay"/>	
+		</action>
+		
+		<action path="/um/forecastEdgeJnDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastEdgeJoinDisplay">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="um.forecastEdgeJn"/>	
+		</action>
+		
+		<action path="/um/forecastEdgeJn"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastEdgeJoins"
+				name="editForecastEdgeJoinDForm" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="edit"  path="um.forecastEdgeJnEdit"/>
+			<forward name="success" path="/um/forecastEdgeJnSetup.do"/>
+		</action>
+									
+		<action path="/um/forecastEdgeJnProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastEdgeJoinProcess"
+				name="editForecastEdgeJoinDForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/forecastEdgeJnSetup.do"/>
+		</action>
+		
+<!-- Forecast Node Join -->
+
+		<action path="/um/forecastNodeJnSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastNodeJoinSetup">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="/web/tpmDisplay.do?forward=um_ForecastNodeJoinDisplay"/>	
+		</action>
+		
+		<action path="/um/forecastNodeJnDisplay"
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastNodeJoinDisplay">	
+			<set-property property="cancellable" value="true" />
+			<forward name="success"  path="um.forecastNodeJn"/>	
+		</action>
+		
+		<action path="/um/forecastNodeJn"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastNodeJoins"
+				name="editForecastNodeJoinDForm" >	
+				<set-property property="cancellable" value="true" />
+			<forward name="edit"  path="um.forecastNodeJnEdit"/>
+			<forward name="success" path="/um/forecastNodeJnSetup.do"/>
+		</action>
+									
+		<action path="/um/forecastNodeJnProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastNodeJoinProcess"
+				name="editForecastNodeJoinDForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/forecastNodeJnSetup.do"/>
+		</action>
+
+
+
+<!-- Volume Time Series Charts   -->		
+		<action path="/um/volumeTimeSeriesProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesProcess"
+				name="volumeTimeSeriesChartDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/volumeTimeSeries.do"></forward>
+		</action>
+						
+		<action path="/um/volumeTimeSeries"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesSetup"
+				name="volumeTimeSeriesChartDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.volumeTimeSeries"></forward>
+			<forward name="fail" path="/toMain.do?page=/homeContentPage.do"></forward>
+		</action>				
+		
+		<action path="/um/volumeTimeSeriesImage"
+			type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesImage">
+			<set-property property="cancellable" value="true" />
+		</action>
+
+        <action path="/um/volumetricTimeSeriesSwfDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.volumetric.VolumetricTimeSeriesSwfDisplay"
+                name="volumetricTimeSeriesSwfDform">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="um.volumetricTimeSeriesSwf"></forward>                
+        </action>
+        
+        <action path="/um/volumetricTimeSeriesSwfProcess"
+                type="uk.co.cartesian.ascertain.um.web.action.volumetric.VolumetricTimeSeriesSwfProcess"
+                name="volumetricTimeSeriesSwfDform">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/volumetricTimeSeriesSwfDisplay.do"></forward>                
+        </action>
+		
+		<action path="/um/actionSeriesImage"
+		   type="uk.co.cartesian.ascertain.web.chart.ActionSeriesImage">
+		   <set-property property="cancellable" value="true" />
+		</action>
+
+		<!-- Predefined Charts -->
+
+		<action path="/um/chartRollingCombined"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingCombined"
+				name="vtscPreparedDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartCombined"></forward>
+		</action>						
+				
+		<action path="/um/chartRollingYear"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingYear"
+				name="vtscPreparedDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartYear"></forward>
+		</action>						
+		
+		<action path="/um/chartRollingMonth"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingMonth"
+				name="vtscPreparedDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartMonth"></forward>
+		</action>
+		
+		<action path="/um/chartRollingMonthEndSetup"
+			type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingMonthEndSetup">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartMonthEnd"></forward>
+		</action>
+		
+		<action path="/um/chartRollingMonthEnd"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingMonthEnd"
+				name="vtscMonthEndDForm" >
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/chartRollingMonthEndSetup.do"></forward>
+		</action>
+		
+		<action path="/um/chartRollingWeek"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingWeek"
+				name="vtscPreparedDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartWeek"></forward>
+		</action>
+		
+		<action path="/um/chartRollingDay"
+				type="uk.co.cartesian.ascertain.um.web.action.VolumeTimeSeriesRollingDay"
+				name="vtscPreparedDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.chartDay"></forward>
+		</action>
+		
+		<action path="/um/chartRollingSummary" forward="um.chartSummary">			
+			<set-property property="cancellable" value="true" />
+		</action>
+
+		<!-- This is the UM Jobs stuff, it has to override the behaviour of the Job stuff as we need a special parameters page -->
+		
+		<action path="/jobs/selectJobDisplay" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectJobDisplayAction"
+				name="jobSelectionForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.jobs.selectJob"/>
+			<forward name="job_success_action_forward" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+		
+		<action path="/jobs/selectJobProcess" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectJobProcessAction"
+				name="jobSelectionForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="use_um_forecast" path="/jobs/selectForecastParametersDisplay.do?type=forecast" module="/um"/>
+			<forward name="use_um_trend" path="/jobs/selectForecastParametersDisplay.do?type=trend" module="/um"/>
+			<forward name="use_um_batch_unload" path="/jobs/selectBatchUnloadParametersDisplay.do?type=trend" module="/um"/>
+			<forward name="use_job" path="/jobs/selectOptionalParametersDisplay.do" module="/jobs"/>
+			<forward name="filterCat" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+		
+		<action path="/jobs/selectForecastParametersDisplay" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectForecastParametersDisplayAction"
+				name="forecastOptionsForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.jobs.selectForecastParameters" module="/um"/>
+			<forward name="failure" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+		
+		<action path="/jobs/selectForecastParametersProcess" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectForecastParametersProcessAction"
+				name="forecastOptionsForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/jobs/initialiseJobInfoContainer.do" module="/jobs"/>
+			<forward name="cancel" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+		
+		<action path="/jobs/selectBatchUnloadParametersDisplay" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectBatchUnloadParametersDisplayAction"
+				name="batchUnloadOptionsForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.jobs.selectBatchUnloadParameters" module="/jobs"/>
+			<forward name="cancel" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+
+		<action path="/jobs/selectBatchUnloadParametersProcess" 
+				type="uk.co.cartesian.ascertain.um.job.actions.SelectBatchUnloadParametersProcessAction"
+				name="batchUnloadOptionsForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/jobs/initialiseJobInfoContainer.do" module="/jobs"/>
+			<forward name="cancel" path="/jobs/selectJobDisplay.do" module="/um"/>
+		</action>
+
+<!-- Forecast date join -->
+		<action path="/um/forecastDateJnSetup"	
+			type="uk.co.cartesian.ascertain.um.web.action.ForecastDateJnSetup">
+			<set-property property="cancellable" value="true" />
+			<forward name="forecast" path="/web/tpmDisplay.do?forward=um_forecastDateJn"/>
+			<forward name="trend" path="/web/tpmDisplay.do?forward=um_trendDateJn"/>
+		</action>
+		
+		<action path="/um/forecastDateJn"	
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastDateJn"
+				name="dateForecastJnDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="create_Forecast" path="um.forecastDateJnCreate"/>
+			<forward name="create_Trend" path="um.trendDateJnCreate"/>
+			<forward name="success" path="/um/forecastDateJnSetup.do"/>
+		</action>
+		
+		<action path="/um/forecastDateJnProcess"	
+				type="uk.co.cartesian.ascertain.um.web.action.ForecastDateJnProcess"
+				name="dateForecastJnDform"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/forecastDateJnSetup.do"/>
+		</action>
+
+        <action path="/um/chartMetricSwfDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.chartmetric.ChartMetricDisplaySwf"
+                scope="request"
+                name="chartMetricSwfDform">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="um.chartMetricSwf"></forward>                
+        </action>
+        
+        <action path="/um/chartMetricSwfProcess"
+                type="uk.co.cartesian.ascertain.um.web.action.chartmetric.ChartMetricProcessSwf"
+                scope="request"
+                name="chartMetricSwfDform">
+            <set-property property="cancellable" value="true" />
+            <forward name="success" path="/um/chartMetricSwfDisplay.do"></forward>                
+        </action>
+        
+<!-- Forecast Metric Trend Charts -->
+		<action path="/um/forecastMetricTrendChartSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.chartmetric.Setup"
+				name="forecastMetricTrendDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.forecastMetricTrendForm"></forward>				
+		</action>
+		
+		<action path="/um/forecastMetricTrendChartProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.chartmetric.Process"
+				name="forecastMetricTrendDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/forecastMetricTrendChartSetup.do"></forward>
+		</action>
+
+		<action path="/um/forecastMetricTrendChartImage"
+			type="uk.co.cartesian.ascertain.um.web.action.TimeSeriesImage">
+			<set-property property="cancellable" value="true" />
+		</action>
+
+		<!-- Scenario Model Overview Report -->
+        <action path="/um/scenarioModelDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.reports.ScenarioModelDisplayAction"
+				name="scenarioModelForm">
+				<set-property property="cancellable" value="true" />
+            <forward name="success" path="um.scenarioModel"/>
+        </action>
+
+        <action path="/um/scenarioModelProcess"
+                type="uk.co.cartesian.ascertain.um.web.action.reports.ScenarioModelProcessAction"
+                name="scenarioModelForm"
+				parameter="method">
+				<set-property property="cancellable" value="true" />
+            <forward name="apply" path="/um/scenarioModelDisplay.do?graphName=ScenarioModel" module="/um"/>
+            <forward name="clear" path="/um/scenarioModelDisplay.do?graphName=ScenarioModel&amp;clear=true" module="/um"/>
+        </action>
+		
+		
+		<!-- File Processing Timeliness Charts -->
+		<action path="/um/fileProcessingTimelinessChartSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.fileprocessingtimeliness.Setup"
+				name="fileProcessingTimelinessChartDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.fileProcessingTimelinessChart"></forward>				
+		</action>
+		
+		<action path="/um/fileProcessingTimelinessChartProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.fileprocessingtimeliness.Process"
+				name="fileProcessingTimelinessChartDForm">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="/um/fileProcessingTimelinessChartSetup.do"></forward>
+		</action>
+
+		<action path="/um/fileProcessingTimelinessChartImage"
+			type="uk.co.cartesian.ascertain.um.web.action.BarChartImage">
+			<set-property property="cancellable" value="true" />
+		</action>
+		
+		<!-- method to populate, asynchronously, trends in the metric charting page -->
+		<action path="/um/asyncTrendLookup"
+			type="uk.co.cartesian.ascertain.um.web.action.chartmetric.AsyncTrendLookup">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" path="/../jsp/um/AsyncTrendLookup.jsp"></forward>	
+		</action>
+		<!-- method to populate, asynchronously, edges or nodes in the metric charting page -->
+		<action path="/um/asyncMetricNoEdLookup"
+			type="uk.co.cartesian.ascertain.um.web.action.chartmetric.AsyncMetricNoEdLookup">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" path="/../jsp/um/AsyncMetricNoEdLookup.jsp"></forward>	
+		</action>
+		<!-- method to populate, asynchronously, metrics in the metric charting page -->
+		<action path="/um/asyncMetricLookup"
+			type="uk.co.cartesian.ascertain.um.web.action.chartmetric.AsyncMetricLookup">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" path="/../jsp/um/AsyncMetricLookup.jsp"></forward>	
+		</action>
+		
+		<!-- Special action for dynamically updating entity field date titles -->
+		<action path="/um/updateEntityDateTitle"
+			type="uk.co.cartesian.ascertain.um.web.action.UpdateEntityDateTitleAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" path="/selectEntityProcess.do" module="/web"/>	
+		</action>
+
+<!-- Queue Managemenet -->
+        <action path="/um/queueStatusSetup"            
+                type="uk.co.cartesian.ascertain.um.web.action.queue.QueueStatusSetupAction">
+            <forward name="success"  path="/web/tpmDisplay.do?forward=um_queueStatusDisplay"/>
+        </action>
+
+        <action path="/um/queueStatusDisplay"
+                type="uk.co.cartesian.ascertain.um.web.action.queue.QueueStatusDisplayAction">
+            <forward name="success"  path="um.queueStatus"/>
+        </action>
+        
+		<action path="/um/unlockQueue"
+				type="uk.co.cartesian.ascertain.um.web.action.queue.UnlockQueueAction"
+                parameter="queue">
+			<forward name="success" path="/um/queueStatusSetup.do"/>
+		</action>
+		
+		
+		<!-- ViewDeployedReportAction -->
+		<action path="/um/viewDeployedReport"
+			type="uk.co.cartesian.ascertain.um.web.action.reports.ViewDeployedReportAction">
+			<set-property property="cancellable" value="true" />
+		</action>
+		
+<!-- MREC Actions -->
+
+		<action path="/um/mrecDefinitionSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefinitionSetup"
+				name="mrecTpmDform">
+				<set-property property="cancellable" value="true" />
+	    	<forward name="success"  path="/web/tpmDisplay.do?forward=um_mrecDefinitionDisplay"/>
+		</action>
+
+		<action path="/um/mrecDefinitionDisplay"
+	           	type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefinitionDisplay"
+				name="mrecTpmDform"
+				parameter="method" >
+			<set-property property="cancellable" value="true" />
+	           <forward name="success"  path="um.mrecDefinition"/>
+		</action>
+
+		<action path="/um/mrecDefinition"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefinition"
+				name="editMrecDefinitionRefDform">
+				<set-property property="cancellable" value="true" />
+		</action>
+
+		<action path="/um/mrecDefinitionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefinitionProcess"
+				name="editMrecDefinitionRefDform"
+				parameter="method"
+				validate="true">
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="/um/mrecDefinitionSetup.do"></forward>
+				<forward name="edge" path="/um/mrecEdgeJoinSetup.do"></forward>
+		</action>
+
+		<action path="/um/mrecDefinitionProcessLink"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecDefinitionProcessLink">
+				<set-property property="cancellable" value="true" />
+				<forward name="edge" path="/um/mrecEdgeJoinSetup.do"></forward>
+				<forward name="drill" path="/um/mrecVersionSetup.do"></forward>
+		</action>
+
+
+		<action path="/um/mrecEdgeJoinSetup"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecEdgeJoinSetup">
+				<set-property property="cancellable" value="true" />
+		    	<forward name="success" path="/web/tpmDisplay.do?forward=um_mrecEdgeJoin"/>
+		</action>
+
+		<action path="/um/mrecEdgeJoinProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecEdgeJoinProcess">
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="/um/mrecEdgeJoinSetup.do"></forward>
+				<forward name="edit" path="/um/mrecEdgeJoinEditDisplay.do"></forward>
+		</action>
+
+		<action path="/um/mrecEdgeJoinEditDisplay"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecEdgeJoinEditDisplay"
+				name="editMrecEdgeJoinDForm"
+				scope="request">
+				<set-property property="cancellable" value="true" />
+				<forward name="error" path="/um/mrecEdgeJoinSetup.do"></forward>
+		    	<forward name="success" path="um.mrecEdgeJoinEdit"/>
+		</action>
+
+		<action path="/um/mrecEdgeJoinEditProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecEdgeJoinEditProcess"
+				parameter="method"
+				name="editMrecEdgeJoinDForm"
+				scope="request">
+				<set-property property="cancellable" value="true" />
+		    	<forward name="success" path="/um/mrecEdgeJoinSetup.do"/>
+		</action>
+
+        <action path="/um/mrecFilesetMetricSetup"
+                type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecFilesetMetricSetup">
+                <set-property property="cancellable" value="true" />
+                <forward name="success" path="/web/tpmDisplay.do?forward=um_mrecFilesetMetricDisplay"/>
+        </action>
+
+        <action path="/um/mrecFilesetMetricDisplay"
+        		name="mrecFilesetMetricForm"
+        		scope="request"
+                type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecFilesetMetricDisplay">
+                <set-property property="cancellable" value="true" />
+                <forward name="success" path="um.mrecFilesetMetric"/>
+        </action>
+
+		<action path="/um/mrecFilesetMetricProcess"
+        		name="mrecFilesetMetricForm"
+        		scope="request"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecFilesetMetricProcess">
+				<set-property property="cancellable" value="true" />
+				<forward name="success" path="/um/mrecVersionSetup.do"></forward>
+		</action>
+
+		<action path="/um/mrecVersionSetup"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecVersionSetup">
+		   <set-property property="cancellable" value="true" />
+	           <forward name="success"  path="/web/tpmDisplay.do?forward=um_mrecVerDisplay"/>
+		</action>
+
+		<action path="/um/mrecVersionDisplay"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecVersionDisplay">
+		   <set-property property="cancellable" value="true" />
+	           <forward name="success"  path="/um/mrecVersionChart.do?preload=1"/>
+		</action>
+
+		<action path="/um/mrecVersionChart"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecVersionChart">
+		   <set-property property="cancellable" value="true" />
+	           <forward name="success"  path="um.mrecVersion"/>
+		</action>
+
+		<action path="/um/mrecVersion"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecVersion"
+				name="editMrecVersionRefDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.mrecVersionEdit"></forward>
+			<forward name="threshold" path="/threshold/thresholdAttributesManagementSetup.do" module="/imm"></forward>
+			<forward name="sequence" path="/threshold/manageThresholdSequenceSetup.do?editButton=false" module="/imm"></forward>
+		</action>
+
+		<action path="/um/mrecVersionProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecVersionProcess"
+				name="editMrecVersionRefDform"
+				parameter="method"
+				validate="true">
+				<set-property property="cancellable" value="true" />
+	    	<forward name="continue"  path="um.mrecVersionEdit"/>
+		</action>
+
+		<action path="/um/mrecMetricSetup"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetricSetupLeft">
+		   <set-property property="cancellable" value="true" />
+	           <forward name="success"  path="/web/tpmDisplay.do?forward=um_mrecMetSetupRight"/>
+		</action>
+
+		<action path="/um/mrecMetricSetupRight"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetricSetupRight">
+		   <set-property property="cancellable" value="true" />
+	    	<forward name="success"  path="/web/tpmDisplay.do?forward=um_mrecMetDisplayLeft"/>
+		</action>
+
+		<action path="/um/mrecMetricDisplayLeft"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetricDisplay">
+		   <set-property property="cancellable" value="true" />
+	    	<forward name="success"  path="/um/mrecMetricDisplayRight.do"/>
+		</action>
+
+		<action path="/um/mrecMetricDisplayRight"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetricDisplay">
+		   <set-property property="cancellable" value="true" />
+	    	<forward name="success"  path="um.mrecMetric"/>
+		</action>
+
+		<action path="/um/mrecMetric"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetric"
+				name="editMrecMetricRefDform">
+				<set-property property="cancellable" value="true" />
+			<forward name="success" path="um.mrecMetricEdit"/>
+			<forward name="drill" path="/um/metricVersionManagementSetup.do"/>
+		</action>
+
+		<action path="/um/mrecMetricProcess"
+				type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecMetricProcess"
+				name="editMrecMetricRefDform"
+				parameter="method"
+				validate="true">
+				<set-property property="cancellable" value="true" />
+	    	<forward name="continue"  path="um.mrecMetricEdit"/>
+		</action>
+
+		<action path="/um/asyncMrecNodeLookup"
+		   type="uk.co.cartesian.ascertain.um.web.action.mrec.AsyncMrecNodeLookup">
+		   <set-property property="cancellable" value="true" />
+			<forward name="success" path="/../jsp/um/AsyncMetricNoEdLookup.jsp"/>
+		</action>
+
+		<action path="/um/mrecChartSetup"
+			    type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecChartSetup"
+			    name="mrecChartDform">
+			<set-property property="cancellable" value="true" />
+			<forward name="success" 	path="um.mrecChart"></forward>
+		</action>
+
+		<action path="/um/mrecChartProcess"
+			    type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecChartProcess"
+			    name="mrecChartDform"
+			    parameter="method">
+			<set-property property="cancellable" value="true" />
+			<forward name="success"		path="/um/mrecChartSetup.do"></forward>
+			<forward name="filter"		path="/um/mrecChartDataDisplay.do"></forward>
+		</action>
+
+		<action path="/um/mrecChartImage"
+		        type="uk.co.cartesian.ascertain.web.chart.ActionSeriesImage">
+		   <set-property property="cancellable" value="true" />
+		</action>
+
+		<action path="/um/mrecChartDataSetup"
+	          	type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecChartDataSetup"
+			    name="mrecChartDform">
+			<set-property property="cancellable" value="true" />
+	        <forward name="success"  path="/web/tpmDisplay.do?forward=um_mrecChartDataDisplay"/>
+		</action>
+
+		<action path="/um/mrecChartDataDisplay"
+	          	type="uk.co.cartesian.ascertain.um.web.action.mrec.MrecChartDataDisplay"
+			    name="mrecChartDform">
+			<set-property property="cancellable" value="true" />
+	        <forward name="success"  path="um.mrecChartDataDisplay"/>
+		</action>
+		
+	</action-mappings>
+<!-- ========== Controller Definitions ================================== -->
+
+  <!-- Load the Tiles Request Processor to handle the incoming requests -->
+  <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor">
+  </controller>
+
+
+  <!-- ========== Message Resources Definitions =========================== -->
+
+    <message-resources parameter="ApplicationResource" null="false"/>
+    
+  <!-- ========== Plug Ins Configuration ================================== -->
+    
+    <!-- ========== Validation plugin ===================  -->
+	
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation-um.xml"/>        
+    </plug-in>
+    
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="moduleAware" value="true" />
+        <set-property property="definitions-config" value="/WEB-INF/tiles-definitions-um.xml" />
+        <set-property property="definitions-debug" value="0" />
+        <set-property property="definitions-parser-details" value="0" />
+        <set-property property="definitions-parser-validate" value="false" />
+    </plug-in>
+
+  <!-- ========== Tiles plugin ===================  -->
+
+</struts-config>
+

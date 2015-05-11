@@ -1,0 +1,1 @@
+select * from GDL.EX_TRANSFORM_PROCESS_REF where PROCESS_ID > 99999 ;

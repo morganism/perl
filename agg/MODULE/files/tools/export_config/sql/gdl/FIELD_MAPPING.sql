@@ -1,0 +1,1 @@
+select * from GDL.FIELD_MAPPING where MAPPING_VERSION_ID > 99999 ;

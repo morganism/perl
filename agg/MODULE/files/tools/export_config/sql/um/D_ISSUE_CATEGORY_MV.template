@@ -1,0 +1,1 @@
+select * from UM.D_ISSUE_CATEGORY_MV where D_ISSUE_CATEGORY_ID > 99999 ;

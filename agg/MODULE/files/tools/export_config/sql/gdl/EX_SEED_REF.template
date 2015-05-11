@@ -1,0 +1,1 @@
+select * from GDL.EX_SEED_REF where SEED_ID > 99999 ;

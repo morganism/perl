@@ -1,0 +1,1 @@
+select * from DGF.RECORD_TYPE_REF where RECORD_TYPE > 99999 ;

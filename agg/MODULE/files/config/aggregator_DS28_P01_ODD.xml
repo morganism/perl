@@ -1,0 +1,38 @@
+<aggregator>
+
+	<!--General configuration -->
+	<general>
+		<binary name="uncompress" path="/usr/bin/uncompress -c"></binary>
+		<binary name="gunzip" path="/bin/gunzip -c"></binary>
+		<parameter name="timeslot_validity_window" value="999"></parameter><!-- discard records older than this -->
+		<parameter name="validate_files" value="yes"></parameter><!-- perform header/trailer validation -->
+		<parameter name="data_dir_base" value="/usr/revo/datafeed/um"></parameter><!-- all dirs relative to this -->
+		<parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
+		<parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
+		<parameter name="input_batch_size" value="100"></parameter><!-- number of files to process before writing results -->
+	</general>
+
+	<datasource name="DS28" type="asn1">
+		<!-- There maybe more than 1 regex container -->
+		<!-- RAW  MSSP04-TTFILE01-9419 -->
+		<!-- DECODED MSSP04-TTFILE01-9419.decoded -->
+		<!-- regex is for the RAW format and location -->
+		<raw_regex>^MSSP01-(TT|ICI)FILE\d{2}-\d+</raw_regex>
+		<!-- N.B. negative lookahead assertion, match 2 '...decoded' not followed by '.tmp' :: (?!\.tmp) -->
+		<regex>^(MSSP\d{2})-(ICI|TT)FILE\d{2}-\d{3}[13579].*\.decoded(?!\.tmp)</regex>
+		<neid type="regex" value="$1"></neid>
+		<input_dir>DS28/in_P01</input_dir>
+		<work_dir>DS28/work_P01_ODD</work_dir>
+		<output_dir>DS28/out</output_dir>
+		<archive_dir>DS28/arc_P01_ODD</archive_dir>
+		<error_dir>DS28/err_P01_ODD</error_dir>
+		<log_dir>DS28/log_P01_ODD</log_dir>
+		<pid_file>/usr/revo/datafeed/um/pid/DS28_P01_ODD.pid</pid_file>
+		<asn_start_record_tag>callModule</asn_start_record_tag>
+                <asn_end_record_tag>callModule</asn_end_record_tag>
+                <asn_opening_tag>MSS_DECODED</asn_opening_tag>
+	</datasource>
+  <datasource name="DUMMY" type="DUMMY">
+    <!-- this is just here to get the multiple datasource containers to "roll up" -->
+  </datasource>
+</aggregator>

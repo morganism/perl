@@ -1,0 +1,1 @@
+select * from GDL.SQL_REF where SQL_ID > 99999 ;

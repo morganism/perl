@@ -1,0 +1,1 @@
+select * from GDL.FMT_MAP_TRANSFER_JN where TRANSFER_ID > 99999 ;

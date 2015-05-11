@@ -1,0 +1,399 @@
+#!/usr/bin/perl
+###########################################################
+# Script: perl.skeleton
+# Author: Cartesian Limited
+# Author: Chris Hatch
+#
+# $Revision: 1.15 $
+###########################################################
+use strict;
+use English qw( -no_match_vars );
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+
+use DBI;
+use Data::Dumper;
+use File::Copy;
+use XML::Simple;
+
+# No access to error codes from library or from db when this is required
+# so hard code this
+use constant FALSE => undef;
+use constant FAILED => 2;
+use constant FILE_MISSING => 33;
+use constant TASK_DEFAULT_FINISHED_DIR => "$ENV{AGGREGATOR_BUILD}/htdocs/finished_tasks";
+
+###########################################################
+# Load required Ascertain modules and handle any missing 
+# env variables or modules gracefully.
+###########################################################
+if (not defined $ENV{AGGREGATOR_BUILD})
+{
+  print STDERR "Environment variable AGGREGATOR_BUILD has not been set.\n" .
+               "Script $PROGRAM_NAME exiting ...\n";
+  exit(FAILED);
+}
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+eval 
+{
+  require Ascertain::Database::SQL;
+  require Ascertain::Job;
+  require Ascertain::Utils;
+};
+if ($EVAL_ERROR) 
+{
+  print STDERR "Failed to load Ascertain perl modules [$EVAL_ERROR].\n" .
+               "Script $PROGRAM_NAME exiting ...\n"; 
+  exit(FAILED);
+}
+
+###########################################################
+# Set globals and constants: debugging is off by default and 
+# is overriden by the -debug TYPE arguments are provided
+###########################################################
+use constant VERSION => '$Revision: 1.15 $';
+use constant USAGE   => "Usage: $PROGRAM_NAME <jobId> <logFile> -st <SERVICE_TYPE> -ds <DATA_SOURCE> -start_date <YYYYMMDD> -start_hour <HH24> " .
+                        "[-end_date <YYYYMMDD> -end_hour <HH24> -max_records <NUMBER> -f <CONFIG_FILE> -debug <all|base|sql> -version]";
+
+use constant DEFAULT_MAX_RECORDS => 10000000;
+#states
+use constant FILE_EXT_READY    => ".xml";
+use constant FILE_EXT_WORKING  => ".working";
+use constant FILE_EXT_FINISHED => ".finished";
+use constant STATE_READY    => "READY";
+use constant STATE_WORKING  => "WORKING";
+use constant STATE_FINISHED => "FINISHED";
+
+my $defaultConfigFile = $ENV{HOME} . "/.aggregator.xml";
+
+###########################################################
+# Read in arguments - job ID and logFile must always be 
+# passed as first arguments
+###########################################################
+my $jobId    = shift;
+my $logFile  = shift;
+
+if ( (not defined $jobId) or (not defined $logFile) )
+{
+  print USAGE . "\n";
+  exit($Ascertain::Utils::exitCodes{USAGE});
+}
+
+###########################################################
+# Process command line options.
+###########################################################
+my @extraOpts = ("st=s", "max_records=s", "ds=s", "start_hour=s", "end_hour=s", "start_date=s", "end_date=s", "f=s");
+my %argsHash = Ascertain::Utils::readArguments(USAGE, VERSION, \@ARGV, \@extraOpts);
+my @debugList = (exists $argsHash{debug}) ? @{$argsHash{debug}} : ();
+my $configFile = (exists $argsHash{f}) ? $argsHash{f} : $defaultConfigFile;
+my $maxRecords = (exists $argsHash{max_records}) ? $argsHash{max_records} : DEFAULT_MAX_RECORDS;
+my $ds = $argsHash{ds};
+my $dataSource = $ds;
+my $start = $argsHash{start_date} . $argsHash{start_hour};
+my $end = $argsHash{end_date} . $argsHash{end_hour};
+my $st = $argsHash{st};
+my $config = {};
+loadConfig();
+#print Dumper(\%argsHash);
+#print Dumper($config);
+#print "DS[$dataSource]\n";
+my $generalConfig = $config->{general};
+$config = $config->{datasource}->{$dataSource}; # step into tree for just this DS
+prependDataDirBaseToConfigDirs();
+#print Dumper($config);
+my $taskDir = $generalConfig->{parameter}->{task_dir}->{value};
+$taskDir = (defined $config->{task_dir}) ? $config->{task_dir} : $taskDir; # allow datasource config to override general config
+my $finishedTasksDir;
+if (defined $generalConfig->{parameter}->{task_out_dir}->{value})
+{
+	$finishedTasksDir = $generalConfig->{parameter}->{task_out_dir}->{value};
+}
+elsif (defined $config->{task_out_dir})
+{
+	$finishedTasksDir = $config->{task_out_dir};
+}
+else
+{
+	$finishedTasksDir = TASK_DEFAULT_FINISHED_DIR;
+}
+
+# some config error checking
+if (not -e $finishedTasksDir)
+{
+	die ("Configuration error: Check config file [$configFile] missing 'task_out_dir' definition. Directory [$finishedTasksDir] does not exist.");
+}
+if (not -e $taskDir)
+{
+	die("Configuration error for datasource [$dataSource], check config file [$configFile]. No entry for <task_dir>");
+}
+
+
+my $pidDir = $generalConfig->{parameter}->{pid_dir}->{value};
+my $pidFile = "$pidDir/$ds.pid";
+
+
+###########################################################
+# Create a Job object for given job id
+###########################################################
+my $dbUsername = Ascertain::Utils::getParameter(
+                    "Ascertain.Utils.DB_JOB_USERNAME");
+my $dbPassword = Ascertain::Utils::getParameter(
+                    "Ascertain.Utils.DB_JOB_PASSWORD");
+
+my $job = new Ascertain::Job($jobId,
+                             $logFile,
+                             $dbUsername,
+                             $dbPassword,
+                             $PROGRAM_NAME);
+if (!$job)
+{
+  # Use print here as we can't be sure we have a log handle
+  print STDERR "Failed to create a job object for job id $jobId.\n" .
+               "Script $PROGRAM_NAME exiting ...\n";
+  exit($Ascertain::Utils::exitCodes{IO});
+}
+$job->write("Task file directory [$taskDir]");
+$job->write("Finished task output directory [$finishedTasksDir]");
+
+$job->setDebugLevel(@debugList);
+
+
+
+
+
+#
+#  <-----  Insert job specific code here  ----->
+my $dbh = DBI->connect ("dbi:Oracle:$ENV{ORACLE_SID}", $dbUsername, $dbPassword);
+print "Whaaaa!\n" if (not $dbh);
+my $dataRef = {};
+$dataRef->{datasource} = $ds;
+if ($end < $start)
+{
+	$dataRef->{start_timeslot} = $end;
+	$dataRef->{end_timeslot} = $start;
+	$job->write("Whoops, you specified and end date [$end] which is before the start date [$start].");
+	$job->write("I'll swap those for you.");
+}
+else
+{
+	$dataRef->{start_timeslot} = $start;
+	$dataRef->{end_timeslot} = $end;
+}
+my $sql = qq
+{
+select description,file_name,edr_count from (
+select
+   n.description,
+  l.file_name,
+  sum(ff.edr_count) edr_count
+ from
+   um.LOG_RECORD l,
+   um.d_period p,
+   dgf.node_ref n,
+  um.f_file ff,
+  um.f_attribute fa,
+  um.d_custom_01 c
+ where 1=1
+   and p.d_period_id = l.d_period_id
+  and n.node_id = l.node_id
+  and p.hour >= '$start'
+   and p.hour <= '$end'
+  and n.description = '$ds'
+and ff.log_record_id = l.log_record_id
+and fa.f_attribute_id = ff.f_attribute_id
+and fa.d_custom_01_id = c.d_custom_01_id
+and c.custom_type = '$st'
+group by   n.description,
+l.file_name) order by edr_count desc
+};
+
+#$job->write("Using SQL [$sql]");
+my $sth = $dbh->prepare($sql);
+$sth->execute();
+$dataRef->{max_records} = $maxRecords;
+my $logfileForAggregatorToUse = $logFile; # tell the aggregator what logfile to write to
+$logfileForAggregatorToUse =~ s/\.log/.task.log/;
+$dataRef->{task_writer_logfile} = $logFile;
+$dataRef->{task_writer_job_logfile} = $logFile;
+$dataRef->{task_writer_logfile} = $logfileForAggregatorToUse;
+push @{$dataRef->{service_type}}, $st unless (grep {$st} @{$dataRef->{service_type}});
+my $fileList = {};
+
+my $chk_file = "";
+my $total_cdrs=0;
+
+while (my ($ds, $filename, $edrCount) = $sth->fetchrow_array())
+{
+	next if (exists $fileList->{$filename});
+	$fileList->{$filename} = 1;
+
+        $chk_file = checkFile($filename, $edrCount);
+	if ($chk_file) {
+		$total_cdrs = $total_cdrs + $edrCount;
+		push @{$dataRef->{input_file}}, $chk_file;
+                if ($total_cdrs > $maxRecords) {
+			$job->write("Stopped searching for files, as more cdrs then max_records ( $maxRecords ) have been found.");
+			last;
+		}
+	}
+}
+$sth->finish();
+my $taskFileNoExt = $taskDir . "/$dataSource.$jobId.task";
+my $taskFile = $taskFileNoExt . FILE_EXT_READY;
+my $taskFinishedFile = $finishedTasksDir . "/$dataSource.$jobId.task.csv";
+
+$job->write("Task file is [$taskFile]");
+if (defined $dataRef->{input_file} and scalar(@{$dataRef->{input_file}}))
+{
+	my $xml = XMLout($dataRef, RootName => 'task', NoAttr => 1);
+	open OUT, ">$taskFile";
+	print OUT $xml;
+	close OUT;
+	if (-e $taskFile)
+	{
+		$job->write("Wrote task file.");
+	}
+}
+else
+{
+	my $exitCode = FILE_MISSING; # not using $Ascertain::Utils::exitCodes because it is incomplete
+	$job->write("No input files found using selected criteria. Exiting with code [$exitCode].");
+	exit($exitCode);
+}
+
+# now move the task file through states
+# .xml READY
+# .working WORKING
+# .finished FINISHED
+
+my $timer;
+my $state;
+$timer=0;
+until ($state = checkTaskFileState($taskFile) and $state eq STATE_FINISHED)
+{
+	$job->write("Present state is: $state");
+	sleep (60);
+        if ($state eq STATE_READY) {
+		$timer=$timer+1;
+                if ($timer > 60) {
+			my $exitCode = FAILED;
+			$job->write("EventViewer Aggregator not started within 60 mins. Exiting with code [$exitCode].");
+			unlink $taskFile or warn "Could not unlink $taskFile: $!";
+        		exit($exitCode);
+		}
+	} 
+}
+$job->write("The aggregator has finished");
+$taskFinishedFile =~ s/^.*htdocs//;
+my $url = "<a href='$taskFinishedFile' target=\"_blank\" download>Download File [$taskFinishedFile]</a>";
+$job->write($url);
+$logfileForAggregatorToUse =~ s:^.*\/::;
+#$url = "<a onclick=\"genericPopUp('job.log.drill.through','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=775,height=585');\" target=\"job.log.drill.through\" class=\"status-blue bold\" href=\"/web/fileViewerDisplay.do?relativePath=$logfileForAggregatorToUse&root=JOB_LOG_DIR\">Aggregator Logfile</a>";
+$url = "<a href=\"/web/fileViewerDisplay.do?relativePath=$logfileForAggregatorToUse&root=JOB_LOG_FILE_DIR\" target=\"_blank\" class=\"status-blue bold\" >Aggregator Logfile</a>";
+
+$job->write("Aggregator logfile available here: [$url].");
+
+
+
+
+$job->finish();
+
+sub checkFile
+{
+	my $filename = shift;
+        my $edrCount = shift; 
+
+ 	unless ($filename =~ /\.gz$/)
+        {
+		if ( -e $filename ) {
+			system ("gzip $filename");		
+		}
+		$filename = "$filename.gz";
+        }
+	
+
+	if (-e $filename)
+	{
+		$job->write("Found file: $filename ($edrCount matching edrs)");
+		return $filename;
+	}
+        else {
+		$job->write("File no longer available on filesystem: $filename");
+                return FALSE;
+	}
+}
+
+
+sub readPidFile
+{
+	return unless (-f $pidFile);
+	$job->write("Reading PID file[$pidFile].");
+	my $pidHost = "";
+	my $pidProcessId = "";
+	my $pidLogfile = ""; 
+	open PID, $pidFile;
+	while (<PID>)
+	{
+		chomp;
+		($pidHost, $pidProcessId, $pidLogfile) = split /:/;
+		$job->write("\tFound hostname [$pidHost] and PID [$pidProcessId] writing to logfile [$pidLogfile].");
+	}
+	close PID;
+}
+sub checkTaskFileState
+{
+	if (-e $taskFile)
+	{
+		return STATE_READY;
+	}
+	elsif (-e $taskFileNoExt . FILE_EXT_FINISHED)
+	{
+		return STATE_FINISHED;
+	}
+	else 
+	{
+		return STATE_WORKING;
+	}
+}
+
+sub loadConfig
+{
+    if (not -e $configFile)
+    {
+        print "Cannot read config file [$configFile]\n";
+        exit;
+    }
+    #logger("Reading configuration [$configFile]");
+    
+	$config = XMLin($configFile, forcearray => [qw(regex parameter input_dir raw_dir)], keyattr => [qw(name)]);
+}
+
+sub prependDataDirBaseToConfigDirs
+{
+    my $dataDirBase = $generalConfig->{parameter}->{data_dir_base}->{value};
+    $dataDirBase .= "/" unless ($dataDirBase =~ m:.*/$:);
+    my $message = "Parameter: 'data_dir_base' must be defined in config file [$configFile]";
+    die ("Configuration exception: $message\n") unless (-d $dataDirBase);
+
+    while (my ($k, $v) = each (%{$config}))
+    {
+		next if ($v =~ /^\//); # don't prepend if begins with a slash
+        if ($k =~ /_dir/)
+        {
+            if ($k =~ /input|raw/)
+            {
+                my @array;
+                foreach my $dir (@{$v})
+                {
+                    push @array, $dataDirBase . $dir;
+                }
+                $config->{$k} = \@array;
+            }
+            else
+            {
+                $config->{$k} = $dataDirBase . $v;
+            }
+        }
+    }
+}

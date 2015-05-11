@@ -1,0 +1,1 @@
+select * from UM.LOG_CHECKSUM where SAMPLE_DATE > 99999 ;

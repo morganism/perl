@@ -1,0 +1,84 @@
+#!/bin/bash
+##############################################
+#Check the current OS to choose right commands
+#for options compatibility
+##############################################
+OS=`uname -a | grep Linux`
+if [ "$OS" != "" ]; then
+        ##Linux commands
+        AWK_CMD="awk"
+        DIFF_CMD="diff"
+else
+        #Solaris commands
+        AWK_CMD="nawk"
+        DIFF_CMD="sdiff"
+fi
+
+##############################################
+# check to see that ASCERTAIN_BUILD is set
+##############################################
+if [ -z $ASCERTAIN_BUILD ]; then
+  echo "ASCERTAIN_BUILD environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# check to see that ORACLE_SID is set
+##############################################
+if [ -z $ORACLE_SID ]; then
+  echo "ORACLE_SID environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# check to see that CARTESIAN_PROPERTIES is set
+##############################################
+if [ -z $CARTESIAN_PROPERTIES ]; then
+  echo "CARTESIAN_PROPERTIES environment variable not set, aborting"
+  exit
+fi
+
+##############################################
+# function to get passwords from .cpm.xml
+##############################################
+setPasswords(){
+  cpm=`grep CPM_CONFIG_FILE $CARTESIAN_PROPERTIES | $AWK_CMD '{print $2}' FS="\="`
+  for line in $(egrep "(user=|password=)" $cpm) ; do
+        lower_line=`echo $line | tr "[:upper:]" "[:lower:]"`
+    eval "$lower_line"
+    if [ "$password" != "" ] ; then
+      eval "export ${user}_pass=\"$password\""
+      user=""
+      password=""
+    fi
+  done
+}
+
+##############################################
+# load passwords using password function
+##############################################
+setPasswords
+
+# Recent versions of the F_FILE and F_MREC tables for OLAP
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/tables/um/F_FILE_RECENT.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/tables/um/F_MREC_RECENT.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/mviews/um/MV_F_FILE_RECENT_SHORT.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/mviews/um/MV_F_FILE_RECENT_SHORT_2.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/mviews/um/MV_F_FILE_RECENT_SHORT_3.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/mviews/um/MV_F_MREC_RECENT_FILE.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/mviews/um/MV_F_MREC_RECENT_TIME.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/packages/um/OLAP_UTILS.pck
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/um/UPDATE_MV_REBUILD_REF_HF03.sql
+sqlplus jobs/$jobs_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/jobs/UPDATE_JOB_CODE_REF_HF03.sql
+sqlplus utils/$utils_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/utils/UPDATE_BLE_HF03.sql
+
+# IMM updates
+sqlplus imm/$imm_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/imm/UDPATE_STATE_TRANSITIONS_HF04.sql
+
+# Dashboard fixes
+sqlplus web/$web_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/web/UPDATE_DASHBOARD_PRIVS_HF04.sql
+sqlplus um/$um_pass@$ORACLE_SID @ $ASCERTAIN_BUILD/sql/postprocess/um/UPDATE_CD_METRIC_SAMPLE_HF04.sql
+
+
+echo "HF04 installed."
+

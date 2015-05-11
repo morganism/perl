@@ -1,0 +1,5 @@
+#!/bin/bash
+find $HOME/datafeed/um/DS28/arc_P0* -type f -name *decoded* -exec rm {} \;
+
+# Also remove the hidden nfs files after a few days old - the source of these is unknown
+find $HOME/datafeed/um/DS28/raw_P0*/ -follow -daystart -mtime +2 -name ".nfs*" -exec rm {} \;

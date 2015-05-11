@@ -1,0 +1,1 @@
+select * from DGF.EDGE_JOB_REF where EDGE_JOB_ID > 99999 ;

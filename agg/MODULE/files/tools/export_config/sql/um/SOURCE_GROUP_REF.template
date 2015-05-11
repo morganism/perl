@@ -1,0 +1,1 @@
+select * from UM.SOURCE_GROUP_REF where SOURCE_GROUP_ID > 99999 ;

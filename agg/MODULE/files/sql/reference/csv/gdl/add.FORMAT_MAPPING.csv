@@ -1,0 +1,27 @@
+100000,ICCS Unbilled Importer (DS6),Importer for ICCS Unbilled (DS6),IMPORT
+100001,SMSC Importer (DS8),Importer for SMSC (DS8),IMPORT
+100002,SMS ICCS Importer (DS11),Importer for SMS ICCS (DS11),IMPORT
+100003,SMS Strip Importer (DS12),Importer for SMS Strip (DS12),IMPORT
+100004,GSM Importer (DS4),Importer for GSM (DS4),IMPORT
+100053,GSM Strip Importer (DS5),Importer for GSM Strip (DS5),IMPORT
+100054,Tapout Importer (DS20),Importer for Tapout (DS20),IMPORT
+100057,MSS Importer (DS28),Importer for MSS (DS28),IMPORT
+100058,MIS Importer (DS33),Importer for MIS (DS33),IMPORT
+100060,WAP ICCS Importer (DS39),Importer for WAP ICCS (DS39),IMPORT
+100061,ER ICCS Importer (DS40),Importer for ER ICCS (DS40),IMPORT
+100062,ER MIS Importer (DS44),Importer for ER MIS (DS44),IMPORT
+100063,CCN Data Importer (DS45),Importer for CCN Data (DS45),IMPORT
+100064,Raw MMS Importer (DS48),Importer for Raw MMS (DS48),IMPORT
+100065,CCN MMS Importer (DS49),Importer for CCN MMS (DS49),IMPORT
+100066,EMM Strip Importer (DS53),Importer for EMM Strip (DS53),IMPORT
+100067,EMM Data Importer (DS54),Importer for EMM Data (DS54),IMPORT
+100068,GPRS ICCS Importer (DS55),Importer for GPRS ICCS (DS55),IMPORT
+100069,NGME Importer (DS56),Importer for NGME (DS56),IMPORT
+100070,MMS ICCS Importer (DS64),Importer for MMS ICCS (DS64),IMPORT
+100071,CCN SMS Importer (DS65),Importer for CCN SMS (DS65),IMPORT
+100076,Tapin Importer (DS23),Importer for Tapin (DS23),IMPORT
+100077,NGIN raw Importer (DS80),Importer for NGIN raw (DS80),IMPORT
+100078,EMM NGIN Importer (DS81),Importer for EMM NGIN (DS81),IMPORT
+100079,PGW Importer (DS70),PGW Importer (DS70),IMPORT
+100080,SGW Importer (DS71),SGW Importer (DS71),IMPORT
+100081,SGSN Importer (DS72),SGSN Importer (DS72),IMPORT

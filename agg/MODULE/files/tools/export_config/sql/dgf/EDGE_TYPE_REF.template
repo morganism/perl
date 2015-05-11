@@ -1,0 +1,1 @@
+select * from DGF.EDGE_TYPE_REF where EDGE_TYPE_ID > 99999 ;

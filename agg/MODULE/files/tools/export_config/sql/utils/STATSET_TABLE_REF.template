@@ -1,0 +1,1 @@
+select * from UTILS.STATSET_TABLE_REF where STATSET_TABLE_ID > 99999 ;

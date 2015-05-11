@@ -1,0 +1,1 @@
+select * from DGF.GRAPH_TYPE_EDGE_TYPE_JN where EDGE_TYPE_ID > 99999 ;

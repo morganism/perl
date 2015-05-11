@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+      "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+      "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+
+    <!-- Main Layout Definition description  -->
+    <definition name="page.layout" path="/jsp/web/PageLayout.jsp">
+        <put name="topMenu" value="/jsp/web/TopMenu.jsp"/>
+        <put name="sideMenu" value="/jsp/web/SideMenu.jsp"/>
+        <put name="titleBar" value="/jsp/web/titlebar/TitleBar.jsp"/>
+        <put name="content" value="/jsp/web/Content.jsp"/>
+    </definition>
+
+    <definition name="vfi-um.chartMetricSwf" extends="page.layout" >
+        <put name="title"    value="Metric Chart"    direct="true"/>
+        <put name="page"     value="/jsp/vfi-um/ChartMetricSwf.jsp" />
+        <putList name="javaScript">
+            <add value="/js/web/LinkedFilters.js" />        
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+            <add value="/swf/web/amcharts/js/utils.js" />
+            <add value="/swf/web/amcharts/js/chart_utils.js" />		
+        </putList>
+    </definition>
+    
+</tiles-definitions>

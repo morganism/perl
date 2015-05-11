@@ -1,0 +1,12 @@
+100100,100120,SMS Postpaid nodes,All the Data Sources which comprise the SMS Postpaid path
+100101,100121,Voice Prepaid nodes,All the Data Sources which comprise the Voice Prepaid path
+100102,100122,Voice Postpaid nodes,All the Data Sources which comprise the Voice Postpaid path
+100103,100123,SMS Prepaid (domestic) nodes,All the Data Sources which comprise the SMS Prepaid (domestic) path
+100104,100124,MMS Prepaid,All the Data Sources which comprise the MMS Prepaid path
+100105,100125,MMS Postpaid,All the Data Sources which comprise the MMS Postpaid path
+100106,100126,Data Prepaid,All the Data Sources which comprise the Data Prepaid path
+100107,100127,Data Postpaid,All the Data Sources which comprise the Data Postpaid path
+100108,100128,Roaming TAP IN (ROBIGA),All the Data Sources which comprise the Roaming TAP IN (ROBIGA) path
+100109,100129,Voice Prepaid (Roaming),All the Data Sources which comprise the Voice Prepaid (Roaming) path
+100110,100130,Roaming TAP OUT (ROBIGA),All the Data Sources which comprise the Roaming TAP OUT (ROBIGA) path
+100111,100131,Content (ER4),All the Data Sources which comprise the Content (ER4) path

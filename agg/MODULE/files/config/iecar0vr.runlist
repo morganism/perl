@@ -1,0 +1,13 @@
+# you can add comments
+
+ # this is also a comment
+#--------------
+DS28_P01_EVEN:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS28 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS28_P01_EVEN.xml
+DS28_P03_EVEN:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS28 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS28_P03_EVEN.xml
+DS33_P01:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS33 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS33_P01.xml
+DS40:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS40 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS53:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS53 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS56:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS56 -f /usr/revo/datafeed/aggregator_config/.aggregator_DS56_01.xml
+DS6:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS6 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+DS80:/usr/revo/ASCERTAIN_BUILD/bin/aggregate -d DS80 -f /usr/revo/datafeed/aggregator_config/.aggregator.xml
+

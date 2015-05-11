@@ -1,0 +1,5 @@
+35012,35012,1,Drop Staging Partitions,Drop old partitions on Log_record_staging and f_file_staging,"call um.dropStagingPartitions()", 
+135253,35027,20,Run Volumetric Reconciliation,Run Volumetric Reconciliation,"call um.volumetricrec_daily.metricReconciliationProcBLE([mrec_id],[offset],[num_days],[job_id],'[debug]')",
+135251,35027,30,Log message,Log message,"[!log valsql select to_char(msg_date, 'HH24:MI:SS'), msg from utils.messages where job_id = [job_id] order by msg_id]",
+135255,35028,30,Run Volumetric Reconciliation by Category,Run Volumetric Reconciliation by Category,"call um.volumetricrec_daily.mRecByCategoryProcBLE([mrec_cat_id],[offset],[num_days],[job_id],'[debug]')",
+135258,35029,30,Run Volumetric Reconciliation by Billing Chain,Run Volumetric Reconciliation by Billing Chain,"call um.volumetricrec_daily.mRecByGraphProcBLE([mrec_graph_id],[offset],[num_days],[job_id],'[debug]')",

@@ -1,0 +1,64 @@
+#!/bin/bash
+# This wrapper exists to set the environmental variables needed by the 'aggregate' script
+export HOME=/usr/revo
+export AGGREGATOR_BUILD=$HOME/AGGREGATOR_BUILD
+#export PERL5LIB=/usr/revo/usr/local/lib/site_perl:/usr/revo/usr/local/lib/5.8.8
+export PERL5LIB=/usr/revo/lib/lib/perl5/site_perl/5.8.8:/usr/revo/lib/lib64/perl5/site_perl/5.8.8/x86_64-linux-thread-multi:/usr/revo/lib/lib64/perl5/5.8.8/x86_64-linux-thread-multi
+
+HALTFILE=/usr/revo/datafeed/um/pid/HALT
+if [ -e $HALTFILE ]; then
+  echo Bye: delete this file to continue: $HALTFILE
+  exit 1
+fi
+
+DS=$1
+CONFIG_FILE=$2
+BOX=$3
+THIS_BOX=`hostname`
+NOW=`date`
+echo Starting on $THIS_BOX $NOW
+
+if [ -n "$BOX" ]; then
+  if [ "$BOX" != "$THIS_BOX" ]; then
+    echo Not target box
+    exit
+  else
+    echo Box OK
+  fi
+fi
+
+
+if [ -z $DS ]; then
+	echo Datasource not specified. Usage:   aggregate_wrapper DATASOURCE
+	echo                           Example: aggregate DS6
+	exit 1
+fi
+AGG_COUNT=`ps -ef | grep 'aggregate -d DS' | grep -vc grep`
+MAX_COUNT=4
+
+#echo $AGG_COUNT
+
+if [ $AGG_COUNT -lt $MAX_COUNT ]; then
+  EXECUTE=YES
+  echo $AGG_COUNT is less than $MAX_COUNT
+else
+  EXECUTE=NO
+  echo $AGG_COUNT is NOT less than $MAX_COUNT
+fi
+echo Execute $EXECUTE
+
+
+if [ -z "$CONFIG_FILE" ]; then 
+	CMD="$AGGREGATOR_BUILD/bin/aggregate -d $DS"
+else
+	CMD="$AGGREGATOR_BUILD/bin/aggregate -d $DS -f $CONFIG_FILE"
+fi
+
+if [ $EXECUTE == "YES" ]; then
+  echo Execute it
+  `$CMD`
+else
+  echo No exec
+fi
+echo BYE
+

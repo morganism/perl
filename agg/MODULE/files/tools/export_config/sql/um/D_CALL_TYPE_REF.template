@@ -1,0 +1,1 @@
+select * from UM.D_CALL_TYPE_REF where D_CALL_TYPE_ID > 99999 ;

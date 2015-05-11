@@ -1,0 +1,1 @@
+select * from UM.OPERATOR_PARAMETER_REF where PARAMETER > 99999 ;

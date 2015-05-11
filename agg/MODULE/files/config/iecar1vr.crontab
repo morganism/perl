@@ -1,0 +1,10 @@
+####################################################
+# Run the available Aggregators
+####################################################
+* * * * * /usr/revo/datafeed/aggregator_config/bin/spawn_aggregator 1>>/usr/revo/datafeed/log/iecar1vr.spawn_aggregator.log 2>&1
+
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P02 ODD  PRE  1>>/usr/revo/datafeed/log/decode_wrapper.P02.ODD.PRE.log   2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P02 ODD  POST 1>>/usr/revo/datafeed/log/decode_wrapper.P02.ODD.POST.log  2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P02 EVEN PRE  1>>/usr/revo/datafeed/log/decode_wrapper.P02.EVEN.PRE.log  2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P02 EVEN POST 1>>/usr/revo/datafeed/log/decode_wrapper.P02.EVEN.POST.log 2>&1
+

@@ -1,0 +1,1 @@
+select * from UM.EDGE_MATCH_JN where FILE_MATCH_DEFINITION_ID > 99999 ;

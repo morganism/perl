@@ -1,0 +1,8 @@
+100200,Look days back,,,14
+36000,Datasource,,Aggregator Datasource,
+36001,Service Type,,Aggregator Service Type,
+36002,Start Date,,Aggregator Start Date,
+36003,Start Hour,,Aggregator Start Hour,
+36004,End Date,,Aggregator Start Date,
+36005,End Hour,,Aggregator End Hour,
+36006,Max Records,,Aggregator Max Records to dump,10000000

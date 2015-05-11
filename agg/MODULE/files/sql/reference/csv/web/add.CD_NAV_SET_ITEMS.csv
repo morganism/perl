@@ -1,0 +1,12 @@
+100010,100010,,Prepaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100012&back=yes,/images/icons/png/regular/72x72/prepaid-voice.png,35000
+100011,100010,,Postpaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100013&back=yes,/images/icons/png/regular/72x72/postpaid-voice.png,35000
+100012,100010,,Prepaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100010&back=yes,/images/icons/png/regular/72x72/prepaid-sms.png,35000
+100013,100010,,Postpaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100011&back=yes,/images/icons/png/regular/72x72/postpaid-sms.png,35000
+100014,100010,,Prepaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100014&back=yes,/images/icons/png/regular/72x72/prepaid-mms.png,35000
+100015,100010,,Postpaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100015&back=yes,/images/icons/png/regular/72x72/postpaid-mms.png,35000
+100016,100010,,Prepaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100016&back=yes,/images/icons/png/regular/72x72/prepaid-data.png,35000
+100017,100010,,Postpaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100017&back=yes,/images/icons/png/regular/72x72/postpaid-data.png,35000
+100018,100010,,Roaming,/web/cd/displayDashboardSetup.do?dashboardId=100018&back=yes,/images/icons/png/regular/72x72/roaming.png,35000
+100019,100010,,Content,/web/cd/displayDashboardSetup.do?dashboardId=100019&back=yes,/images/icons/png/regular/72x72/content.png,35000
+101201,1201,,[I18Nweb.cd_nav_set_items.label.Add_Job],/jobs/jobs/selectJobDisplay.do,,20
+

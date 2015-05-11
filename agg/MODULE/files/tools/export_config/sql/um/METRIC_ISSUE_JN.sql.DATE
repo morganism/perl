@@ -1,0 +1,1 @@
+select * from UM.METRIC_ISSUE_JN where D_PERIOD_ID > 99999 ;

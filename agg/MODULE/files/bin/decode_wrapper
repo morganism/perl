@@ -1,0 +1,124 @@
+#!/bin/bash
+
+DS=$1
+NEID=$2
+ODD_EVEN=$3
+PRE_POST=$4
+
+export BASEDIR=/usr/revo
+#export BASEDIR=$HOME
+export AGGREGATOR_BUILD=$BASEDIR/AGGREGATOR_BUILD
+
+DATADIR=datafeed/um
+#DATADIR=data/gdl/input
+
+PIDDIR=$BASEDIR/datafeed/um/pid
+#PIDDIR=$BASEDIR/data/gdl/input/pid
+
+#----------------------------------------------------------------------
+# test for command line variables
+#----------------------------------------------------------------------
+if [ -z $DS ] ; then 
+	echo "Usage decode_wrapper DS ... a datasource param is required"
+	exit 1
+fi
+
+if [ $DS != "DS28" ] && [ $DS != "DS70" ] && [ $DS != "DS71" ] && [ $DS != "DS72" ] ; then
+	echo "Usage decode_wrapper DS ... where DS is in (DS28|DS70|DS71|DS72)"
+	exit 1
+fi
+
+if [ $DS = "DS28" ] ; then 
+	if [ -z $NEID ] || [ -z $ODD_EVEN ] || [ -z $PRE_POST ] ; then
+		echo "Usage decode_wrapper DS28 NEID ODD_EVEN PRE_POST... where NEID in P0[1234], ODD_EVEN in (ODD|EVEN) and PRE_POST in (PRE|POST)"
+		exit 1
+	fi
+	
+	PIDFILE_NAME=decode_wrapper.${DS}.${ODD_EVEN}.${NEID}.${PRE_POST}.pid
+else 
+	PIDFILE_NAME=decode_wrapper.${DS}.pid
+fi
+#----------------------------------------------------------------------
+
+
+#----------------------------------------------------------------------
+# set PIDFILE to indicate we're running
+#----------------------------------------------------------------------
+PID=$$
+PIDFILE=$PIDDIR/decode_wrapper.${PIDFILE_NAME}
+if [ -e $PIDFILE ]; then
+	echo Instance for ${DS} ${NEID} ${ODD_EVEN} ${PRE_POST} already running, check PIDFILE [$PIDFILE].
+	exit 2
+fi
+HOSTNAME=`hostname`
+`echo ${HOSTNAME}:${PID} > $PIDFILE`
+#----------------------------------------------------------------------
+
+if [ $DS = "DS28" ]; then
+
+	# Translate the PRE or POST indicator into the appropriate file name pattern
+	if [ $PRE_POST = "PRE" ];
+	then
+	  FILETYPE="ICIFILE"
+	else
+	  FILETYPE="TTFILE"
+	fi
+
+	#----------------------------------------------------------------------
+	# find, unzip and decode
+	#----------------------------------------------------------------------
+	if [ $ODD_EVEN = "ODD" ]; then
+		PATTERN="13579"
+	else
+		PATTERN="02468"
+	fi
+
+	FILE_PATTERN="MSS${NEID}*${FILETYPE}*[$PATTERN]"
+	FINDDIR="$BASEDIR/$DATADIR/DS28/raw_${NEID}_${PRE_POST}"
+	OUTDIR="$BASEDIR/$DATADIR/DS28/in_${NEID}"
+	ARCDIR="$BASEDIR/$DATADIR/DS28/arc"
+	TMPDIR="$BASEDIR/$DATADIR/${DS}/work_${NEID}_${ODD_EVEN}"
+        ERRDIR="$BASEDIR/$DATADIR/${DS}/err_${NEID}_${ODD_EVEN}"
+	FORMAT="MSS"
+	ASN1_DECODE="$BASEDIR/AGGREGATOR_BUILD/bin/asn1_decode.pl -format $FORMAT -processChunks ";
+
+else
+
+	if [ $DS = "DS70" ]; then
+		FILE_PATTERN="*PGW*.u"
+		FORMAT="PGW"
+	elif [ $DS = "DS71" ]; then
+		FILE_PATTERN="*SGW*.u"
+		FORMAT="SGW"
+	elif [ $DS = "DS72" ]; then
+		FILE_PATTERN="*SGSN*.u"
+		FORMAT="SGSN"
+        fi
+	
+        FINDDIR="$BASEDIR/$DATADIR/${DS}/raw"
+        OUTDIR="$BASEDIR/$DATADIR/${DS}/in"
+        ARCDIR="$BASEDIR/$DATADIR/${DS}/arc"
+		TMPDIR="$BASEDIR/$DATADIR/${DS}/work"
+		ERRDIR="$BASEDIR/$DATADIR/${DS}/err"
+		ASN1_DECODE="$BASEDIR/AGGREGATOR_BUILD/bin/asn1_decode.pl -format $FORMAT "
+
+fi
+
+echo "Starting Z uncompress: find $FINDDIR -follow -type f -name ${FILE_PATTERN}.Z -exec gunzip -f {} \;"
+CMD=`find $FINDDIR -follow -type f -name "${FILE_PATTERN}.Z" -exec gunzip -f {} \;`
+
+echo "Starting GZ uncompress: find $FINDDIR -follow -type f -name ${FILE_PATTERN}.gz -exec gunzip -f {} \;"
+CMD=`find $FINDDIR -follow -type f -name "${FILE_PATTERN}.gz" -exec gunzip -f {} \;`
+
+echo "Staring decode: find $FINDDIR -follow -type f ! -name *.Z  ! -name *.gz -name $FILE_PATTERN -exec $ASN1_DECODE -inputfile {} -outputdir $OUTDIR -archivedir $ARCDIR -tmpdir $TMPDIR -errdir $ERRDIR \;"
+CMD=`find $FINDDIR -follow -type f ! -name "*.Z" ! -name "*.gz" -name "$FILE_PATTERN" -exec $ASN1_DECODE -inputfile {} -outputdir $OUTDIR -archivedir $ARCDIR -tmpdir $TMPDIR -errdir $ERRDIR \;`
+echo "$CMD"
+echo Done
+#----------------------------------------------------------------------
+
+
+#----------------------------------------------------------------------
+#----------------------------------------------------------------------
+rm $PIDFILE
+
+#----------------------------------------------------------------------

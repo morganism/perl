@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+      "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+      "http://struts.apache.org/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+
+    <!-- Main Layout Definition description  -->
+    <definition name="page.layout" path="/jsp/web/PageLayout.jsp">
+        <put name="topMenu" value="/jsp/web/TopMenu.jsp"/>
+        <put name="sideMenu" value="/jsp/web/SideMenu.jsp"/>
+        <put name="titleBar" value="/jsp/web/titlebar/TitleBar.jsp"/>
+        <put name="content" value="/jsp/web/Content.jsp"/>
+    </definition>
+
+    <definition name="content.layout" path="/jsp/web/Content.jsp">
+    	<put name="titleBar"    value="/jsp/web/titlebar/TitleBar.jsp"/>
+    </definition>
+
+    <definition name="content.chartlayout" path="/jsp/um/ChartContent.jsp">
+    	<put name="titleBar"    value="/jsp/web/titlebar/TitleBar.jsp"/>
+    </definition>
+
+    <definition name="um.config" extends="page.layout" >
+        <put name="title"    value="UM Configuration"    direct="true"/>
+        <put name="page"     value="/jsp/um/Configuration.jsp" />
+    </definition>
+
+    <definition name="um.manageMetricJobs" extends="page.layout" >
+        <put name="title"    value="Metric And Job Management"    direct="true"/>
+        <put name="page"     value="/jsp/um/ManageMetricJobs.jsp" />
+        <putList name="javaScript">
+            <add value="/js/um/ConfimMetricJobDelete.js" />
+        </putList>
+    </definition>
+
+    <definition name="um.createMetricJob" extends="page.layout" >
+        <put name="title"    value="Create Metric Job"    direct="true"/>
+        <put name="page"     value="/jsp/um/CreateMetricJob.jsp" />
+    </definition>
+
+    <definition name="um.fileHistoryReport" extends="page.layout" >
+        <put name="title"    value="File History Report" direct="true"/>
+        <put name="page"     value="/jsp/um/FileHistory.jsp" />
+    </definition>
+
+    <definition name="um.edrDrillThrough" extends="page.layout" >
+        <put name="title"    value="EDR Drill Through" direct="true"/>
+        <put name="page"     value="/jsp/um/Edrs.jsp" />
+    </definition>
+    
+    <definition name="um.viewInOutFilesInBatch" path="/jsp/um/ViewInOutFilesInBatch.jsp" />
+
+    <!-- <definition name="um.viewInOutFilesInBatch" extends="page.layout" >
+        <put name="title"    value="In and Out File" direct="true"/>
+        <put name="page"     value="/jsp/um/ViewInOutFilesInBatch.jsp" />
+    </definition>-->
+    
+    <definition name="um.dashboard" extends="page.layout" >
+        <put name="title"    value="Dashboard"    direct="true"/>
+        <put name="page"     value="/jsp/um/Dashboard.jsp" />
+    </definition>
+    
+    <definition name="um.editThresholdEdrs" extends="page.layout" >
+        <put name="title"    value="Edit Threshold EDRs"    direct="true"/>
+        <put name="page"     value="/jsp/um/EditThresholdEdrs.jsp" />
+    </definition>
+    
+	<!-- Metric management tiles -->
+
+    <definition name="um.metricDefinitionManagement" extends="page.layout" >
+        <put name="title"    value="Manage Metric Definitions"    direct="true"/>
+        <put name="page"     value="/jsp/um/MetricDefinitionManagement.jsp" />
+    </definition>
+    
+
+    <definition name="um.editMetricDefinition" extends="page.layout" >
+        <put name="title"    value="Edit Metric Definition"    direct="true"/>
+        <put name="page"     value="/jsp/um/EditMetricDefinition.jsp" />
+    </definition>
+    
+    <definition name="um.metricVersionManagement" extends="page.layout" >
+        <put name="title"    value="Manage Metric Versions"    direct="true"/>
+        <put name="page"     value="/jsp/um/MetricVersionManagement.jsp" />
+        <putList name="javaScript">
+			<add value="/js/um/MetricVersionManagement.js" />
+        </putList>
+    </definition>
+    
+    <definition name="um.editMetricVersion" extends="page.layout"  >
+        <put name="title"    value="Edit Metric Version"    direct="true"/>
+        <put name="page"     value="/jsp/um/EditMetricVersion.jsp" />
+    </definition>
+    
+    <definition name="um.metricOperatorManagement" extends="page.layout" >
+        <put name="title"    value="Manage Metric Operators"    direct="true"/>
+        <put name="page"     value="/jsp/um/MetricOperatorManagement.jsp" />
+    </definition>
+    
+    <definition name="um.editMetricOperator" extends="page.layout" >
+        <put name="title"    value="Edit Metric Operator"    direct="true"/>
+        <put name="page"     value="/jsp/um/EditMetricOperator.jsp" />
+        <putList name="javaScript">
+        	<add value="/js/web/jquery/jquery.validate.js" />
+        	<add value="/js/web/jquery/jquery.livequery.js" />
+        	<add value="/js/web/jquery/jquery.bgiframe.min.js" />
+        	<add value="/js/web/jquery/jquery.pngfix.js" />
+        	<add value="/js/um/OperatorParameter.js" />
+        </putList>
+        <putList name="css">
+        	<add value="/styles/um/operator_parameter.css" />
+        </putList>
+    </definition>    
+    
+    <definition name="um.metricDetailsReport" extends="page.layout" >
+        <put name="title"    value="Metric Details"    direct="true"/>
+        <put name="page"     value="/jsp/um/MetricDetailsReport.jsp" />
+        <putList name="javaScript">
+			<add value="/js/web/LinkedFilters.js" />
+        </putList>
+    </definition>
+
+    
+    <!-- === File Matching Tiles === -->
+    
+    <definition name="um.fileMatchDef" extends="page.layout" >
+        <put name="title"    value="Edit File Match Definitions"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchDefinitionCreate.jsp" />        
+    </definition>
+    
+    <definition name="um.fileMatchVer" extends="page.layout" >
+        <put name="title"    value="Manage File Match Versions"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchVersion.jsp" />
+    </definition>
+    
+    <definition name="um.fileMatchVerEdit" extends="page.layout" >
+        <put name="title"    value="Edit File Match Versions"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchVersionCreate.jsp" />        
+    </definition>
+    
+    <definition name="um.fileMatchOp" extends="page.layout" >
+        <put name="title"    value="Manage File Match Operators"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchOperator.jsp" />        
+    </definition>
+    
+    <definition name="um.fileMatchOpEdit" extends="page.layout" >
+        <put name="title"    value="Edit File Match Operators"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchOperatorCreate.jsp" />        
+        <putList name="javaScript">
+        	<add value="/js/web/jquery/jquery.validate.js" />
+        	<add value="/js/web/jquery/jquery.livequery.js" />
+        	<add value="/js/web/jquery/jquery.bgiframe.min.js" />
+        	<add value="/js/web/jquery/jquery.pngfix.js" />
+        	<add value="/js/um/OperatorParameter.js" />
+		</putList>
+        <putList name="css">
+        	<add value="/styles/um/operator_parameter.css" />
+        </putList>
+    </definition>
+    
+    <definition name="um.fileMatchOperatorConfig" extends="page.layout">
+    	<put name="title"    value="Manage File Match Operator Parameters"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchOperatorConfigCreate.jsp" />                
+    </definition>
+    
+    <!-- Report Deployment -->
+	<definition name="um.listDeployResponseDisplay" extends="page.layout" >
+        <put name="title"    value="Deployed Reports"    direct="true"/>
+        <put name="page"     value="/jsp/um/ListDeployResponse.jsp" />
+    </definition>
+    
+<!-- === Forecast Tiles === -->
+    
+    <definition name="um.forecastDef" extends="page.layout" >
+        <put name="title"    value="Manage Forecast Definitions"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastDefinitionCreate.jsp" />        
+        <putList name="javaScript">
+        	<add value="/js/um/ForecastDefintionCreate.js" />
+        </putList>
+    </definition>
+    
+    <definition name="um.trendDef" extends="um.forecastDef">
+        <put name="title"    value="Edit Trend Definitions"    direct="true"/>
+    </definition>
+    
+    <definition name="um.forecastVer" extends="page.layout" >
+        <put name="title"    value="Manage Forecast Versions"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastVersion.jsp" />
+    </definition>
+    
+    <definition name="um.trendVer" extends="um.forecastVer" >
+        <put name="title"    value="Manage Trend Versions"    direct="true"/>
+    </definition>
+    
+    <definition name="um.forecastVerEdit" extends="page.layout" >
+        <put name="title"    value="Edit Forecast Versions"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastVersionCreate.jsp" />        
+    </definition>
+    
+    <definition name="um.trendVerEdit" extends="um.forecastVerEdit" >
+        <put name="title"    value="Edit Trend Versions"    direct="true"/>
+    </definition>
+    
+    <definition name="um.forecastOp" extends="page.layout" >
+        <put name="title"    value="Manage Forecast Operators"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastOperator.jsp" />        
+    </definition>
+
+    <definition name="um.trendOp" extends="um.forecastOp" >
+        <put name="title"    value="Manage Trend Operators"    direct="true"/>
+    </definition>
+    
+    <definition name="um.forecastOpEdit" extends="page.layout" >
+        <put name="title"    value="Edit Forecast Operators"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastOperatorCreate.jsp" />        
+        <putList name="javaScript">
+        	<add value="/js/web/jquery/jquery.livequery.js" />
+        	<add value="/js/web/jquery/jquery.validate.js" />
+        	<add value="/js/web/jquery/jquery.pngfix.js" />
+        	<add value="/js/um/OperatorParameter.js" />
+		</putList>
+        <putList name="css">
+        	<add value="/styles/um/operator_parameter.css" />
+        </putList>
+    </definition>
+    
+    <definition name="um.trendOpEdit" extends="um.forecastOpEdit" >
+        <put name="title"    value="Edit Trend Operators"    direct="true"/>
+    </definition>
+    
+    <!-- Forecast/Trend Metric Join -->
+    <definition name="um.forecastMetricPick" extends="page.layout">
+    	<put name="title"    value="Forecast Metric Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastMetricPick.jsp" />        
+    </definition>
+    
+    <definition name="um.trendMetricPick" extends="um.forecastMetricPick">
+   		<put name="title"    value="Trend Metric Associations"    direct="true"/>
+    </definition>
+    
+	<definition name="um.forecastMetricJn" extends="page.layout" >
+        <put name="title"    value="Manage Forecast Metric Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastMetricJn.jsp" />        
+    </definition>
+	
+	<definition name="um.trendMetricJn" extends="um.forecastMetricJn" >
+        <put name="title"    value="Manage Trend Metric Associations"    direct="true"/>
+    </definition>
+    
+    <!-- Trend Date Join -->
+	<definition name="um.trendDateJnCreate" extends="um.forecastDateJnCreate">
+		<put name="title" value="Trend Exception Date Associations" direct="true"/>
+	</definition>
+	
+    <definition name="um.trendDateJn" extends="um.forecastDateJn" >
+        <put name="title"    value="Manage Trend Exception Date Associations"    direct="true"/>
+    </definition>
+	
+	<!-- Forecast Date Join -->
+	<definition name="um.forecastDateJnCreate" extends="page.layout">
+		<put name="title" value="Forecast Exception Date Associations" direct="true"/>
+		<put name="page"     value="/jsp/um/ForecastDateJoinCreate.jsp" />
+	</definition>
+	
+    <definition name="um.forecastDateJn" extends="page.layout" >
+        <put name="title"    value="Manage Forecast Exception Date Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastDateJn.jsp" />        
+    </definition>
+    
+    <!-- Report Deployment -->
+	<definition name="um.listDeployResponseDisplay" extends="page.layout" >
+        <put name="title"    value="Reports Requiring Acknowledgement"    direct="true"/>
+        <put name="page"     value="/jsp/um/ListDeployResponse.jsp" />
+    </definition>
+        
+<!-- Metric Node Edge Join Tiles -->
+	<definition name="um.metricJoin" extends="page.layout">		
+		<put name="page" value="/jsp/um/MetricNodeEdgeJoin.jsp" />
+	</definition>
+	
+	<definition name="um.metricNodeJoin" extends="um.metricJoin">
+		<put name="title" value="Manage Metric Node Associations"
+			direct="true" />		
+	</definition>
+	
+	<definition name="um.metricEdgeJoin" extends="um.metricJoin">
+		<put name="title" value="Manage Metric Edge Associations"
+			direct="true" />		
+	</definition>
+	
+	<definition name="um.metricJoinEdit" extends="page.layout">		
+		<put name="page" value="/jsp/um/MetricNodeEdgeJoinCreate.jsp" />		
+	</definition>
+
+	<definition name="um.metricEdgeJoinEdit" extends="um.metricJoinEdit">
+		<put name="title" value="Edit Metric Edge Associations"
+			direct="true" />		
+	</definition>
+	
+	<definition name="um.metricNodeJoinEdit" extends="um.metricJoinEdit">
+		<put name="title" value="Edit Metric Node Associations"
+			direct="true" />		
+	</definition>
+	
+<!-- FMO Equation -->
+
+	<definition name="um.fmoEquation" extends="page.layout">
+		<put name="title" value="Manage Metric Operator Parameters" direct="true"/>
+		<put name="page"     value="/jsp/um/FmoEquation.jsp" />
+	</definition>
+	
+	<definition name="um.fmoEquationCreate" extends="page.layout" >
+        <put name="title"    value="Edit Metric Operator Parameters"    direct="true"/>
+        <put name="page"     value="/jsp/um/FmoEquationCreate.jsp" />        
+    </definition>
+    
+<!-- File Match Edge Join -->
+	<definition name="um.fileMatchEdgeJn" extends="page.layout">
+		<put name="title" value="File Match Edge Associations" direct="true"/>
+		<put name="page"     value="/jsp/um/FileMatchEdgeJoin.jsp" />
+	</definition>
+	
+	<definition name="um.fileMatchEdgeJnEdit" extends="page.layout" >
+        <put name="title"    value="Edit File Match Edge Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchEdgeJoinCreate.jsp" />        
+    </definition>
+
+<!-- File Match node Join -->
+	<definition name="um.fileMatchNodeJn" extends="page.layout">
+		<put name="title" value="File Match Node Associations" direct="true"/>
+		<put name="page"     value="/jsp/um/FileMatchNodeJoin.jsp" />
+	</definition>
+	
+	<definition name="um.fileMatchNodeJnEdit" extends="page.layout" >
+        <put name="title"    value="Edit File Match Node Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileMatchNodeJoinCreate.jsp" />        
+    </definition>
+ 
+<!-- Forecast Edge Join -->
+	<definition name="um.forecastEdgeJn" extends="page.layout">
+		<put name="title" value="Forecast Edge Associations" direct="true"/>
+		<put name="page"     value="/jsp/um/ForecastEdgeJoin.jsp" />
+	</definition>
+	
+	<definition name="um.forecastEdgeJnEdit" extends="page.layout" >
+        <put name="title"    value="Edit Forecast Edge Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastEdgeJoinCreate.jsp" />        
+    </definition>
+
+<!-- Forecast node Join -->
+	<definition name="um.forecastNodeJn" extends="page.layout">
+		<put name="title" value="Forecast Node Associations" direct="true"/>
+		<put name="page"     value="/jsp/um/ForecastNodeJoin.jsp" />
+	</definition>
+	
+	<definition name="um.forecastNodeJnEdit" extends="page.layout" >
+        <put name="title"    value="Edit Forecast Node Associations"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastNodeJoinCreate.jsp" />        
+    </definition>
+    
+<!-- Volume Time Series Chart -->
+	<definition name="um.volumeTimeSeries" extends="page.layout" >
+        <put name="title"    value="Volumetric Summary"    direct="true"/>
+        <put name="page"     value="/jsp/um/VolumeTimeSeries.jsp" />        
+    </definition>
+
+    <definition name="um.volumetricTimeSeriesSwf" extends="page.layout" >
+        <put name="title"    value="Volumetric File Summary"    direct="true"/>
+        <put name="page"     value="/jsp/um/VolumetricTimeSeriesSwf.jsp" />
+        <put name="onLoad"   value="updateTrendList()"/>
+        <putList name="javaScript">
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+			<add value="/js/web/LinkedFilters.js" />
+        </putList>
+    </definition>
+	
+<!-- ROLLING YEAR -->  
+
+	<definition name="um.chartCombined" extends="page.layout" >
+        <put name="page"     value="/jsp/um/VolumeTimeSeriesPreparedCombined.jsp" />
+        <put name="title"    value="Traffic Statistics Rolling Chart"  direct="true"/>                
+    </definition>
+
+	<definition name="um.chart" extends="page.layout" >
+        <put name="page"     value="/jsp/um/VolumeTimeSeriesPrepared.jsp" />                
+    </definition>
+	<definition name="um.chartYear" extends="um.chart" >
+        <put name="title"    value="Traffic Statistics Rolling Year Chart"    direct="true"/>        
+    </definition>
+	<definition name="um.chartMonth" extends="um.chart" >
+        <put name="title"    value="Traffic Statistics Rolling Month Chart"    direct="true"/>        
+    </definition>
+	<definition name="um.chartMonthEnd" extends="um.chart" >
+        <put name="title"    value="Traffic Statistics Month End Chart"    direct="true"/>        
+        <put name="page"     value="/jsp/um/VolumeTimeSeriesMonthEnd.jsp" />
+    </definition>
+	<definition name="um.chartWeek" extends="um.chart" >
+        <put name="title"    value="Traffic Statistics Rolling Week Chart"    direct="true"/>        
+    </definition>
+	<definition name="um.chartDay" extends="um.chart" >
+        <put name="title"    value="Traffic Statistics Rolling Day Chart"    direct="true"/>        
+    </definition>
+    
+	<definition name="um.chartMonthEndForm" extends="page.layout" >
+        <put name="title"    value="Traffic Statistics Month End Chart"    direct="true"/>        
+		<put name="page"     value="/jsp/um/VolumeTimeSeriesMonthEndForm.jsp" />                        
+    </definition>
+
+	<definition name="um.chartSummary" extends="page.layout" >
+        <put name="title"    value="Traffic Statistics Summary Chart"    direct="true"/>        
+		<put name="page"     value="/jsp/um/VolumeTimeSeriesSummary.jsp" />                        
+    </definition>
+  
+<!-- UM Job screen stuff -->
+  
+	<definition name="um.jobs.selectJobToRun" path="/jsp/jobs/SelectJob.jsp">
+        <put name="actionProcessor"	  value="/jobs/selectJobProcess" direct="true"/>
+    </definition>
+
+    <definition name="um.jobs.selectJob" extends="page.layout">
+        <put name="title"       value="Select Job To Run"    direct="true"/>
+        <put name="page"        value="um.jobs.selectJobToRun" />
+    </definition>
+    
+	<definition name="um.jobs.selectForecastParameters" extends="page.layout" >
+        <put name="title"    value="Select Job Parameters"    direct="true"/>
+        <put name="page"     value="/jsp/job/ForecastParameters.jsp" />        
+        <put name="onLoad"   value="chooseType(); chooseNodeOrEdge();"/>        
+    </definition>
+
+	<definition name="um.jobs.selectBatchUnloadParameters" extends="page.layout" >
+        <put name="title"    value="Select Job Parameters"    direct="true"/>
+        <put name="page"     value="/jsp/job/BatchUnloadParameters.jsp" />
+        <putList name="javaScript">
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+        </putList>
+    </definition>
+
+<!-- Forecast Metric Trend Chart -->
+	<definition name="um.forecastMetricTrendForm" extends="page.layout" >
+        <put name="title"    value="Metric Chart"    direct="true"/>
+        <put name="page"     value="/jsp/um/ForecastMetricTrend.jsp" />        
+        <put name="onLoad"  value="updateTrendList()"/>
+    </definition>
+  
+    <!-- Scenario Model Overview Report -->
+    <definition name="um.scenarioModel" extends="page.layout" >
+        <put name="title"    value="Scenario Model Overview"    direct="true"/>
+        <put name="page"     value="/jsp/um/graph/ScenarioModel.jsp" />
+        <putList name="javaScript">
+        	<add value="/js/web/flex/AC_OETags.js" />
+        	<add value="/js/web/flex/Utils.js" />
+			<add value="/js/web/LinkedFilters.js" />
+        </putList>
+    </definition>
+
+	<!-- Forecast Metric Trend Chart -->
+	<definition name="um.fileProcessingTimelinessChart" extends="page.layout" >
+        <put name="title"    value="File Processing Timeliness Chart"    direct="true"/>
+        <put name="page"     value="/jsp/um/FileProcessingTimeliness.jsp" />        
+    </definition>
+  
+  	<definition name="um.queueStatus" extends="page.layout">
+        <put name="title"   value="UM Queue Management"/>
+        <put name="page"    value="/jsp/um/QueueStatus.jsp" />
+        <putList name="javaScript">
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+        </putList>
+    </definition>
+  	  
+    <!-- MREC -->
+    <definition name="um.mrecDefinition" extends="page.layout" >
+        <put name="title"	value="Metric Reconciliations"/>
+        <put name="page"	value="/jsp/um/mrec/MrecDefinition.jsp" />
+    </definition>
+    
+    <definition name="um.mrecDefinitionCreate" extends="page.layout">
+    	<put name="title" 	value="Edit Metric Reconciliation Definitions"/>
+    	<put name="page" 	value="/jsp/um/mrec/MrecDefinitionCreate.jsp"></put>
+        <putList name="javaScript">
+        	<add value="/js/um/MrecDefintionCreate.js" />
+		</putList>
+    </definition>
+    
+    <definition name="um.mrecVersion" extends="page.layout" 
+    		controllerClass="uk.co.cartesian.ascertain.um.web.action.mrec.MrecTitleDisplayController" >
+        <put name="title"    value="" direct="true"/>
+        <put name="titlePrefix"    value="Manage Metric Reconciliation Versions"/>
+        <put name="page"     value="/jsp/um/mrec/MrecVersion.jsp" />
+        <putList name="javaScript">
+			<add value="/js/um/MrecVersionManagement.js" />
+        </putList>
+    </definition>
+
+    <definition name="um.mrecVersionEdit" extends="page.layout" 
+		    controllerClass="uk.co.cartesian.ascertain.um.web.action.mrec.MrecTitleDisplayController" >
+		<put name="title"    		value="" direct="true"/>
+        <put name="titlePrefix"    	value="Edit Metric Reconciliation Versions"/>
+        <put name="page"     		value="/jsp/um/mrec/MrecVersionCreate.jsp" />
+        <putList name="javaScript">
+        	<add value="/js/um/MrecVersionCreate.js" />
+		</putList>
+    </definition>
+    
+    <definition name="um.mrecMetric" extends="page.layout"     
+		    controllerClass="uk.co.cartesian.ascertain.um.web.action.mrec.MrecTitleDisplayController" >
+		<put name="title"    		value="" direct="true"/>
+        <put name="titlePrefix"    	value="Manage Metric Reconciliation Sets"/>
+        <put name="page"     		value="/jsp/um/mrec/MrecMetric.jsp" />
+    </definition>
+
+    <definition name="um.mrecMetricEdit" extends="page.layout"
+    		controllerClass="uk.co.cartesian.ascertain.um.web.action.mrec.MrecTitleDisplayController" >
+		<put name="title"    		value="" direct="true"/>
+        <put name="titlePrefix"    	value="Edit Metric Reconciliation Set Member"/>
+        <put name="page"     		value="/jsp/um/mrec/MrecMetricCreate.jsp" />
+        <put name="onLoad"	 		value="updateMrecNodesList()"></put>
+    </definition>
+    
+	<definition name="um.mrecEdgeJoin" extends="page.layout"
+    		controllerClass="uk.co.cartesian.ascertain.um.web.action.UmTitleDisplayController" >
+		<put name="title"	value="" direct="true" />		
+        <put name="titlePrefix"    	value="Metric Reconciliation Edge Associations"/>
+        <put name="page"    value="/jsp/um/mrec/MrecEdgeJoin.jsp" />
+	</definition>
+
+	<definition name="um.mrecEdgeJoinEdit" extends="page.layout"
+    		controllerClass="uk.co.cartesian.ascertain.um.web.action.UmTitleDisplayController" >
+		<put name="title"	value="" direct="true" />		
+        <put name="titlePrefix"    	value="Edit Reconciliation Edge Associations"/>
+        <put name="page"    value="/jsp/um/mrec/MrecEdgeJoinEdit.jsp" />
+	</definition>
+
+	<definition name="um.mrecFilesetMetric" extends="page.layout"
+    		controllerClass="uk.co.cartesian.ascertain.um.web.action.UmTitleDisplayController" >
+		<put name="title"	value="" direct="true" />		
+        <put name="titlePrefix"    	value="Edit Reconciliation Fileset Metric"/>
+        <put name="page"    value="/jsp/um/mrec/MrecFilesetMetric.jsp" />
+        <putList name="javaScript">
+        	<add value="/js/web/jquery/jquery.validate.js" />
+			<add value="/js/um/MrecFilesetMetric.js" />
+			<add value="/js/web/LinkedFilters.js" />
+		</putList>
+	</definition>
+
+    <definition name="um.mrecAsyncNodes" path="/../jsp/um/AsyncMetricNoEdLookup.jsp" />
+
+    <definition name="um.mrecChartDataDisplay" extends="content.chartlayout">
+    	<put name="page"     value="/jsp/um/mrec/MrecChartDataDisplay.jsp" />
+    </definition>
+    
+	<definition name="um.mrecChart" extends="page.layout" >
+        <put name="title"    value="Metric Reconciliation Chart"    direct="true"/>
+        <put name="page"     value="/jsp/um/mrec/mrecChart.jsp" />        
+        <putList name="javaScript">
+			<add value="/js/web/LinkedFilters.js" />
+            <add value="/js/um/MrecChart.js" />
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+            <add value="/swf/web/amcharts/js/utils.js" />
+            <add value="/swf/web/amcharts/js/chart_utils.js" />            
+		</putList>
+    </definition>
+
+    <definition name="um.chartMetricSwf" extends="page.layout" >
+        <put name="title"    value="Metric Chart"    direct="true"/>
+        <put name="page"     value="/jsp/um/ChartMetricSwf.jsp" />
+        <putList name="javaScript">
+            <add value="/js/web/LinkedFilters.js" />        
+            <add value="/swf/web/amcharts/js/cart_swfobject.js" />
+            <add value="/swf/web/amcharts/js/utils.js" />
+            <add value="/swf/web/amcharts/js/chart_utils.js" />		
+        </putList>
+    </definition>
+    
+</tiles-definitions>

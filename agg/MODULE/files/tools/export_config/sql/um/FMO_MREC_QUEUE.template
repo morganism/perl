@@ -1,0 +1,1 @@
+select * from UM.FMO_MREC_QUEUE where MREC_QUEUE_ID > 99999 ;

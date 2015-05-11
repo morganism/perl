@@ -1,0 +1,1 @@
+select * from JOBS.TRANSFER_REF where TRANSFER_ID > 99999 ;

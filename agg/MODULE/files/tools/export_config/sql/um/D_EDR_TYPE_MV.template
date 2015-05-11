@@ -1,0 +1,1 @@
+select * from UM.D_EDR_TYPE_MV where D_EDR_TYPE_ID > 99999 ;

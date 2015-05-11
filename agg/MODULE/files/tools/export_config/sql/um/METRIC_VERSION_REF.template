@@ -1,0 +1,1 @@
+select * from UM.METRIC_VERSION_REF where METRIC_VERSION_ID > 99999 ;

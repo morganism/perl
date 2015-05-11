@@ -1,0 +1,1 @@
+select * from UTILS.AUDIT_LOG where CHANGE_ID > 99999 ;

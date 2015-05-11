@@ -1,0 +1,27 @@
+#!/bin/bash
+# Delete old files --> NOTE different retention periods by source
+find /usr/revo/datafeed/um/DS4/arc*  -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS5/arc*  -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS6/arc*  -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS8/arc*  -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS11/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS12/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS20/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS23/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS28/arc* -type f -mtime +21 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS28/arc* -name *decoded* -type f -mtime +1 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS33/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS39/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS40/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS44/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS45/arc* -type f -mtime +45 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS48/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS49/arc* -type f -mtime +45 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS53/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS54/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS55/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS56/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS64/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS65/arc* -type f -mtime +45 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS80/arc* -type f -mtime +30 -exec rm -f {} \;
+find /usr/revo/datafeed/um/DS81/arc* -type f -mtime +30 -exec rm -f {} \;

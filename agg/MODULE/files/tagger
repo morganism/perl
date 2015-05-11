@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd /home/msziraki/src/vfi-um-1.0.0.core/VFI-UM/files
+cvs tag -F VFI_UM_AGGREGATOR bin/aggregate
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/Readers/FixedWidth.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/Readers/CSV.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/Readers/Reader.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Aggregator.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Format.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Aggregator/DS6.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Aggregator/DS8.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Aggregator/DS11.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Aggregator/DS12.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/InputFile.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Format/DS6.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Format/DS8.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Format/DS11.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/Format/DS12.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/Ascertain/UM/VFI/StopWatch.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/XML/Simple.pm
+cvs tag -F VFI_UM_AGGREGATOR lib/XML/Simple/FAQ.pod
+cvs tag -F VFI_UM_AGGREGATOR config/aggregator.xml

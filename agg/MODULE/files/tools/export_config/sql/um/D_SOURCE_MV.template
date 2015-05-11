@@ -1,0 +1,1 @@
+select * from UM.D_SOURCE_MV where D_SOURCE_ID > 99999 ;

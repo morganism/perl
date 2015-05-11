@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+
+##################################################
+# script   : yesterday
+# author   : Cartesian Limited
+# author   : msziraki
+# date     : Thu Dec  2 17:05:08 GMT 2010
+# $Revision: 1.1 $
+##################################################
+$version = "$Revision: 1.1 $number";
+
+use English;
+
+use constant AGGREGATE_OUT_BASE_DIR => '/usr/revo/datafeed/um';
+
+my $now = time();
+my $yesterday = $now - (60 * 60 * 24);
+
+my $yyyymmdd = getTimestamp($yesterday);
+if (@ARGV)
+{
+        $dateString = shift;
+        if ($dateString =~ /20\d{6}/)
+        {
+                $yyyymmdd = $dateString;
+print "Date[$yyyymmdd]\n";
+        }
+}
+chdir(AGGREGATE_OUT_BASE_DIR);
+my $cmd = "find DS*/out* -type d -name out*";
+my @dirs = `$cmd`;
+
+my $fileList = AGGREGATE_OUT_BASE_DIR . "/filelist";
+open FILELIST, ">$fileList";
+foreach my $dir (@dirs)
+{
+        chomp $dir;
+        my $cmd = "find $dir -type f -follow -name '$yyyymmdd*.out'";
+        my @files = `$cmd`;
+        foreach my $file (@files)
+        {
+                chomp $file;
+                print FILELIST "$file\n";
+        }
+}
+close FILELIST;
+
+my $tarfilename = "$yyyymmdd.tar";
+
+eval
+{
+        $cmd = "/usr/revo/bin/tar -cf $tarfilename -T $fileList";
+        system($cmd);
+        $cmd = "gzip -v9 $tarfilename";
+        system($cmd);
+};
+if ($EVAL_ERROR)
+{
+        open OUT, ">" . $yyyymmdd . "ERROR";
+        print OUT "Error creating $tarfilename and $tarfilename.gz\n";
+        print OUT "$EVAL_ERROR\n";
+        close OUT;
+}
+else
+{
+        my $cmd = 'gzip -dc ' . $tarfilename . '.gz | tar -tf -';
+        my @files = `$cmd`;
+        for my $f (@files)
+        {
+                chomp $f;
+                my $cmd = "rm $f";
+                system($cmd);
+        }
+}
+
+sub getTimestamp
+{
+  my $t = shift;
+  my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=localtime($t);
+  #return sprintf "%4d%02d%02d%02d%02d%02d", $year+1900,$mon+1,$mday,$hour,$min,$sec;
+  return sprintf "%4d%02d%02d", $year+1900,$mon+1,$mday;
+}
+
+

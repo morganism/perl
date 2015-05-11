@@ -1,0 +1,3 @@
+100002,15.0% Weekday Threshold,Percentage,Used to check that values do not deviate by more than 15.0% in a day
+100003,20.0% Weekend Threshold,Percentage,Used to check that values do not deviate by more than 20.0% in a day
+

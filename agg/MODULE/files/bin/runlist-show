@@ -1,0 +1,26 @@
+#!/bin/bash
+##################################################
+# Show the status of the runlist files
+#
+# Steve Makinson
+##################################################
+for file in $(ls $HOME/datafeed/um/iecar?vr.runlist)
+do
+        echo "-------------------------- $file --------------------------------------------"
+        cat $file
+        echo ""
+        echo ""
+        echo ""
+done
+
+echo "##########################"
+echo "Summary of entries by file"
+echo "##########################"
+for file in $(ls $HOME/datafeed/um/iecar?vr.runlist)
+do
+        printf "  "
+        printf ${file##/*/}
+        printf " - "
+        cat $file | grep -v "#" | grep -v ^$ | wc -l
+done
+echo "##########################"

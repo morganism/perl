@@ -1,0 +1,1 @@
+select * from UM.DATE_FORECAST_JN where FORECAST_VERSION_ID > 99999 ;

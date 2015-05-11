@@ -1,0 +1,2 @@
+Place any hotfix override files in this directory.
+Files in this directory will be placed directly into the distribution overwriting existing files.

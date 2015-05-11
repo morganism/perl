@@ -1,0 +1,17 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: JOBS.OPTION_SQL_REF
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE JOBS.OPTION_SQL_REF
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+  OPTION_SQL_ID,
+  OPTION_ID,
+  FLAG CHAR (32),
+  SQL CHAR (4000)
+)

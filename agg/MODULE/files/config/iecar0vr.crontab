@@ -1,0 +1,38 @@
+# #*     *     *   *    *        command to be executed
+# #-     -     -   -    -
+# #|     |     |   |    |
+# #|     |     |   |    +----- day of week (0 - 6) (Sunday=0)
+# #|     |     |   +------- month (1 - 12)
+# #|     |     +--------- day of        month (1 - 31)
+# #|     +----------- hour (0 - 23)
+# #+------------- min (0 - 59)
+#
+####################################################
+# Clean up / Housekeeping
+####################################################
+00 1,7,13,19 * * * /usr/revo/datafeed/aggregator_config/bin/compressArchivedFiles  1>/dev/null 2>&1
+00 3 * * * /usr/revo/datafeed/aggregator_config/bin/deleteOldArchivedFiles 1>/dev/null 2>&1
+00,15,30,45 * * * * /usr/revo/datafeed/aggregator_config/bin/deleteDS28decoded 1>/dev/null 2>&1
+
+# clean up logs
+1 0 * * * /usr/revo/datafeed/aggregator_config/bin/rename_logs.sh > /usr/revo/datafeed/log/rename_logs.log 2>&1
+30 3 * * * /usr/revo/datafeed/aggregator_config/bin/delete_logs.sh > /usr/revo/datafeed/log/delete_logs.log 2>&1
+
+# monitor - use this temporary script to record various stats regarding system / machine perfromance - delete / disable this eventually
+03,23,43 * * * * /usr/revo/bin/monitor.sh 1>/dev/null 2>&1
+
+# Compress input files - shouldn't be required in the long term when input is beong processed as it arrives
+00 * * * * /usr/revo/datafeed/aggregator_config/bin/compress_files 1>/dev/null 2>&1
+####################################################
+# Run the available Aggregators
+####################################################
+* * * * * /usr/revo/datafeed/aggregator_config/bin/spawn_aggregator 1>>/usr/revo/datafeed/log/iecar0vr.spawn_aggregator.log 2>&1
+
+####################################################
+# Run this server's share of the DS28 ASN.1 decoder
+####################################################
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P01 ODD  PRE  1>>/usr/revo/datafeed/log/decode_wrapper.P01.ODD.PRE.log   2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P01 ODD  POST 1>>/usr/revo/datafeed/log/decode_wrapper.P01.ODD.POST.log  2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P01 EVEN PRE  1>>/usr/revo/datafeed/log/decode_wrapper.P01.EVEN.PRE.log  2>&1
+* * * * * /usr/revo/datafeed/aggregator_config/bin/decode_wrapper P01 EVEN POST 1>>/usr/revo/datafeed/log/decode_wrapper.P01.EVEN.POST.log 2>&1
+

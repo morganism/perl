@@ -1,0 +1,1 @@
+select * from GDL.EX_CLASS_REF where CLASS_ID > 99999 ;

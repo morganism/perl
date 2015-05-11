@@ -1,0 +1,18 @@
+####################################################
+#   Readme: VFI-UM ASN1 file decoding		   #
+#   	  					   #
+####################################################
+
+Some VFI UM datasources deliver input files in a binary ASN1 format. These files need to be decoded before they can be interpreted and loaded into UM. Each format has its own ASN1 decoder executable, and should the format of the files change then a new executable will need to be generated. The current VFI-UM ASN1 decoders are:
+
+ - MSS: ericssonR13
+ - PGW: PGW_decoder
+ - SGW: SGW_decoder
+ - SGSN: SGSN_decoder
+
+ASN1C is a set of utilities that allow you to create decoders and encoders for ASN1 formats. This will allow you to generate c code for an ASN1 specifcation that can be compiled into an ASN1 decoder executable.
+
+This director contains the current ASN1 definition files used to generate the current decoder executables.
+
+For instructions on how to generate new decoders, see http://wiki/cartwiki/UsingASN1C
+

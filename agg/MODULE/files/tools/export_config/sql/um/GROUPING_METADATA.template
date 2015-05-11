@@ -1,0 +1,1 @@
+select * from UM.GROUPING_METADATA where DIMENSION_TABLE > 99999 ;

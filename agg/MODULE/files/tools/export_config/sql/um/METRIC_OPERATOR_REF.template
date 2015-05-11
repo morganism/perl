@@ -1,0 +1,1 @@
+select * from UM.METRIC_OPERATOR_REF where METRIC_OPERATOR_ID > 99999 ;

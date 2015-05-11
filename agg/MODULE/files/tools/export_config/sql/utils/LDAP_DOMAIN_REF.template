@@ -1,0 +1,1 @@
+select * from UTILS.LDAP_DOMAIN_REF where LDAP_DOMAIN_ID > 99999 ;

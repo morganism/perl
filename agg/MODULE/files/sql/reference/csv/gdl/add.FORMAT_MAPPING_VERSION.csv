@@ -1,0 +1,27 @@
+100000,100000,,20101101,20201231,A,100000,TRUNCATE,Y,ICCS Billing file,50,Y,Y,N,D,gdl/input/DS6/out,gdl/accepted/DS6,gdl/rejected/DS6,gdl/bad/DS6,gdl/log/DS6,[0-9]{20}\.DS6\.out,",",,1
+100001,100001,,20101101,20201231,A,100003,TRUNCATE,Y,SMSC/MR importer,50,Y,Y,N,D,gdl/input/DS8/out,gdl/accepted/DS8,gdl/rejected/DS8,gdl/bad/DS8,gdl/log/DS8,[0-9]{20}\.DS8\.out,",",,1
+100002,100002,,20101101,20201231,A,100001,TRUNCATE,Y,Mediation SMS Postpaid file importer,50,Y,Y,N,D,gdl/input/DS11/out,gdl/accepted/DS11,gdl/rejected/DS11,gdl/bad/DS11,gdl/log/DS11,[0-9]{20}\.DS11\.out,",",,1
+100003,100003,,20101101,20201231,A,100002,TRUNCATE,Y,Mediation SMS Postpaid strip file importer,50,Y,Y,N,D,gdl/input/DS12/out,gdl/accepted/DS12,gdl/rejected/DS12,gdl/bad/DS12,gdl/log/DS12,[0-9]{20}\.DS12\.out,",",,1
+100004,100004,,20101101,20201231,A,100004,TRUNCATE,Y,ICCS Rating file,1,N,Y,N,D,gdl/input/DS4/out,gdl/accepted/DS4,gdl/rejected/DS4,gdl/bad/DS4,gdl/log/DS4,[0-9]{20}\.DS4\.out,",",,1
+100053,100053,,20101101,20201231,A,100005,TRUNCATE,Y,Discarded ICCS 2G non rated data - Jupiter TAP 1 Format,1,N,Y,N,D,gdl/input/DS5/out,gdl/accepted/DS5,gdl/rejected/DS5,gdl/bad/DS5,gdl/log/DS5,[0-9]{20}\.DS5\.out,",",,1
+100054,100054,,20101101,20201231,A,100006,TRUNCATE,Y,Basset Extract (Tapout),1,N,Y,N,D,gdl/input/DS20/out,gdl/accepted/DS20,gdl/rejected/DS20,gdl/bad/DS20,gdl/log/DS20,[0-9]{20}\.DS20\.out,",",,1
+100057,100057,,20101101,20201231,A,100009,TRUNCATE,Y,"MSS Output, Ericsson R13",1,N,Y,N,D,gdl/input/DS28/out,gdl/accepted/DS28,gdl/rejected/DS28,gdl/bad/DS28,gdl/log/DS28,[0-9]{20}\.DS28\.out,",",,1
+100058,100058,,20101101,20201231,A,100010,TRUNCATE,Y,Xacct Files Output - MIS ASCII Format,1,N,Y,N,D,gdl/input/DS33/out,gdl/accepted/DS33,gdl/rejected/DS33,gdl/bad/DS33,gdl/log/DS33,[0-9]{20}\.DS33\.out,",",,1
+100060,100060,,20101101,20201231,A,100012,TRUNCATE,Y,Xacct Files Output - WAP Jupiter TAP1 Output,1,N,Y,N,D,gdl/input/DS39/out,gdl/accepted/DS39,gdl/rejected/DS39,gdl/bad/DS39,gdl/log/DS39,[0-9]{20}\.DS39\.out,",",,1
+100061,100061,,20101101,20201231,A,100013,TRUNCATE,Y,ER4 Files Jupiter TAP 1 Output ,1,N,Y,N,D,gdl/input/DS40/out,gdl/accepted/DS40,gdl/rejected/DS40,gdl/bad/DS40,gdl/log/DS40,[0-9]{20}\.DS40\.out,",",,1
+100062,100062,,20101101,20201231,A,100014,TRUNCATE,Y,ER4 Files MIS Output ,1,N,Y,N,D,gdl/input/DS44/out,gdl/accepted/DS44,gdl/rejected/DS44,gdl/bad/DS44,gdl/log/DS44,[0-9]{20}\.DS44\.out,",",,1
+100063,100063,,20101101,20201231,A,100015,TRUNCATE,Y,CCN Prepaid Data,1,N,Y,N,D,gdl/input/DS45/out,gdl/accepted/DS45,gdl/rejected/DS45,gdl/bad/DS45,gdl/log/DS45,[0-9]{20}\.DS45\.out,",",,1
+100064,100064,,20101101,20201231,A,100016,TRUNCATE,Y,MMSC Files Output (Nokia),1,N,Y,N,D,gdl/input/DS48/out,gdl/accepted/DS48,gdl/rejected/DS48,gdl/bad/DS48,gdl/log/DS48,[0-9]{20}\.DS48\.out,",",,1
+100065,100065,,20101101,20201231,A,100017,TRUNCATE,Y,CCN Prepaid MMS,1,N,Y,N,D,gdl/input/DS49/out,gdl/accepted/DS49,gdl/rejected/DS49,gdl/bad/DS49,gdl/log/DS49,[0-9]{20}\.DS49\.out,",",,1
+100066,100066,,20101101,20201231,A,100018,TRUNCATE,Y,EMM stripped records ,1,N,Y,N,D,gdl/input/DS53/out,gdl/accepted/DS53,gdl/rejected/DS53,gdl/bad/DS53,gdl/log/DS53,[0-9]{20}\.DS53\.out,",",,1
+100067,100067,,20101101,20201231,A,100019,TRUNCATE,Y,EMM Session to Mediation,1,N,Y,N,D,gdl/input/DS54/out,gdl/accepted/DS54,gdl/rejected/DS54,gdl/bad/DS54,gdl/log/DS54,[0-9]{20}\.DS54\.out,",",,1
+100068,100068,,20101101,20201231,A,100020,TRUNCATE,Y,GPRS ICCS records,1,N,Y,N,D,gdl/input/DS55/out,gdl/accepted/DS55,gdl/rejected/DS55,gdl/bad/DS55,gdl/log/DS55,[0-9]{20}\.DS55\.out,",",,1
+100069,100069,,20101101,20201231,A,100021,TRUNCATE,Y,NGME e-GCDR  Records,1,N,Y,N,D,gdl/input/DS56/out,gdl/accepted/DS56,gdl/rejected/DS56,gdl/bad/DS56,gdl/log/DS56,[0-9]{20}\.DS56\.out,",",,1
+100070,100070,,20101101,20201231,A,100022,TRUNCATE,Y,MMS ICCS TAP1,1,N,Y,N,D,gdl/input/DS64/out,gdl/accepted/DS64,gdl/rejected/DS64,gdl/bad/DS64,gdl/log/DS64,[0-9]{20}\.DS64\.out,",",,1
+100071,100071,,20101101,20201231,A,100023,TRUNCATE,Y,Eircom / BT Usage,1,N,Y,N,D,gdl/input/DS65/out,gdl/accepted/DS65,gdl/rejected/DS65,gdl/bad/DS65,gdl/log/DS65,[0-9]{20}\.DS65\.out,",",,1
+100076,100076,,20101101,20201231,A,100028,TRUNCATE,Y,Syniverse,1,N,Y,N,D,gdl/input/DS23/out,gdl/accepted/DS23,gdl/rejected/DS23,gdl/bad/DS23,gdl/log/DS23,[0-9]{20}\.DS23\.out,",",,1
+100077,100077,,20101101,20201231,A,100029,TRUNCATE,Y,EMM NGIN raw,1,N,Y,N,D,gdl/input/DS80/out,gdl/accepted/DS80,gdl/rejected/DS80,gdl/bad/DS80,gdl/log/DS80,[0-9]{20}\.DS80\.out,",",,1
+100078,100078,,20101101,20201231,A,100030,TRUNCATE,Y,EMM NGIN correlated,1,N,Y,N,D,gdl/input/DS81/out,gdl/accepted/DS81,gdl/rejected/DS81,gdl/bad/DS81,gdl/log/DS81,[0-9]{20}\.DS81\.out,",",,1
+100079,100079,,20130701,20201231,A,100031,TRUNCATE,Y,PGW,1,N,Y,N,D,gdl/input/DS70/out,gdl/accepted/DS70,gdl/rejected/DS70,gdl/bad/DS70,gdl/log/DS70,[0-9]{20}\.DS70\.out,",",,1
+100080,100080,,20130701,20201231,A,100032,TRUNCATE,Y,SGW,1,N,Y,N,D,gdl/input/DS71/out,gdl/accepted/DS71,gdl/rejected/DS71,gdl/bad/DS71,gdl/log/DS71,[0-9]{20}\.DS71\.out,",",,1
+100081,100081,,20130701,20201231,A,100033,TRUNCATE,Y,SGSN,1,N,Y,N,D,gdl/input/DS72/out,gdl/accepted/DS72,gdl/rejected/DS72,gdl/bad/DS72,gdl/log/DS72,[0-9]{20}\.DS72\.out,",",,1

@@ -1,0 +1,13 @@
+#!/bin/bash
+##################################################
+# Uncomment all runlist entries previously 
+# commented out by the runlist-stop script
+#
+# Steve Makinson
+##################################################
+for file in $(ls $HOME/datafeed/um/iecar?vr.runlist)
+do 
+	sed 's/^#commented out#//' $file > $file.tmp 
+	mv $file.tmp $file
+done
+runlist-show

@@ -1,0 +1,1 @@
+select * from UM.CUSTOM_METADATA where DIMENSION_TABLE > 99999 ;

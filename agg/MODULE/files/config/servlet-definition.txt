@@ -1,0 +1,10 @@
+<!-- VFI-UM servlet definitions -->
+
+<servlet>
+    <servlet-name>VFIChartMetricSwfDataServlet</servlet-name>
+    <servlet-class>uk.co.cartesian.vfi.um.web.servlets.VFIChartMetricSwfDataServlet</servlet-class>
+  <init-param>
+   <param-name>action</param-name>
+   <param-value>/servlet/VFIChartMetricSwfDataServlet</param-value>
+  </init-param>
+</servlet>

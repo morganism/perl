@@ -1,0 +1,1 @@
+select * from UM.FMO_CONFIG where FILE_MATCH_OPERATOR_ID > 99999 ;

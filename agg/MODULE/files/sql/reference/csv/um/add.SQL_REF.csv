@@ -1,0 +1,2 @@
+100002,"begin customer.populate_um_staging($JOB_ID ,$BATCH_ID ,'[-staging_table]'); end;",GDL,Populate the UM staging tables,Populate the UM f_file_staging and log_record_staging from the imported data
+100003,"update jobs.batch b   set b.batch_status_id = 4 where exists (select null          from jobs.action a         where a.batch_id = b.batch_id           and a.job_id = $JOB_ID)",GDL,Set batch status to complete,Set batch status to complete so that the UM function will pick it up in the Load Staged Data job. 

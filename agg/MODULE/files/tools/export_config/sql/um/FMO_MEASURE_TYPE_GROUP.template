@@ -1,0 +1,1 @@
+select * from UM.FMO_MEASURE_TYPE_GROUP where MEASURE_TYPE_ID > 99999 ;

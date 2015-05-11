@@ -1,0 +1,1 @@
+select * from UM.D_EDGE_MV where D_EDGE_ID > 99999 ;

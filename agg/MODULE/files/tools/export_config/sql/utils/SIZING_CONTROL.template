@@ -1,0 +1,1 @@
+select * from UTILS.SIZING_CONTROL where OBJ_NAME > 99999 ;

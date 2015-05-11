@@ -1,0 +1,4 @@
+#!/bin/bash
+# Compress old files 
+#find /usr/revo/datafeed/um/DS*/arc*/  -type f | grep -v [.]Z$ | grep -v [.]gz$ | xargs gzip
+find /usr/revo/datafeed/um/DS*/arc*/ -follow -type f \( ! -name "*Z" ! -name "*gz" \) -exec gzip -f {} \;

@@ -1,0 +1,1 @@
+select * from UM.D_PAYMENT_TYPE_REF where D_PAYMENT_TYPE_ID > 99999 ;

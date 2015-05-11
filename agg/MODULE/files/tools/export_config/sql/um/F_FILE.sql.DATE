@@ -1,0 +1,1 @@
+select * from UM.F_FILE where D_PERIOD_ID > 99999 ;

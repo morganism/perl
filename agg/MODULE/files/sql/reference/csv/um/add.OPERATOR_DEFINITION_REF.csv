@@ -1,0 +1,2 @@
+100000,35101,uk.co.cartesian.vfi.um.operator.node.metricjn.SourceAndEdrFileMatchingOperator,-debug yes -period H -group sourceAndEdrType,,Source and Edr Node Matching Operator,Y
+135205,35102,uk.co.cartesian.vfi.um.operator.ForecastsAndTrendsMovingAverageOperator,-debug yes -threads 1,,VFI Moving Average Operator,Y

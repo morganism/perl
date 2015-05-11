@@ -1,0 +1,1 @@
+select * from GDL.FMT_MAP_ACTION_MAP where MAP_ACTION_MAP_ID > 99999 ;

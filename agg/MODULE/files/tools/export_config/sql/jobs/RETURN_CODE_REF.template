@@ -1,0 +1,1 @@
+select * from JOBS.RETURN_CODE_REF where RETURN_CODE > 99999 ;
