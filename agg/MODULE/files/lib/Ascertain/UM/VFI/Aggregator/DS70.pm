@@ -43,6 +43,30 @@ sub _aggregate
 	my $ST_DATA_2G = FALSE;
 	my $ST_DATA_3G = FALSE;
 	my $ST_DATA_4G = FALSE;
+
+	my $ST_DATA_3G_DOMESTIC = FALSE;
+	my $ST_DATA_3G_OUTBOUND_ROAMERS = FALSE;
+	my $ST_DATA_2G_DOMESTIC = FALSE;
+	my $ST_DATA_2G_OUTBOUND_ROAMERS = FALSE;
+	my $ST_DATA_4G_DOMESTIC = FALSE;
+	my $ST_DATA_4G_OUTBOUND_ROAMERS = FALSE;
+
+    my $ST_DATA_GPRS_OUTBOUND_ROAMERS = FALSE;
+    my $ST_DATA_WAP_OUTBOUND_ROAMERS = FALSE;
+
+    my $ST_DATA_2G_ARP = FALSE;
+	my $ST_DATA_3G_ARP = FALSE;
+	my $ST_DATA_4G_ARP = FALSE;
+	my $ST_DATA_WAP_ARP = FALSE;
+	my $ST_DATA_GPRS_ARP = FALSE;
+	my $ST_DATA_2G_OUTBOUND_ROAMERS_ARP = FALSE;
+	my $ST_DATA_3G_OUTBOUND_ROAMERS_ARP = FALSE;
+	my $ST_DATA_3G_OUTBOUND_ROAMERS_ARP = FALSE;
+	my $ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP = FALSE;
+	my $ST_DATA_WAP_OUTBOUND_ROAMERS_ARP = FALSE;
+
+
+
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
@@ -63,7 +87,15 @@ sub _aggregate
 	}
 	
         #----------------- TIMESLOT --------------------
-	if (defined $d->{recordOpeningTime})
+
+	if (defined $d->{timeOfFirstUsage}) 
+	{
+		$self->{debugger}("Valid timeslot");
+                $timeSlot = $self->getTimeslot($d->{timeOfFirstUsage});
+                $self->D_TIMESLOT($timeSlot) if (defined $timeSlot);
+
+	}
+	elsif (defined $d->{recordOpeningTime})
 	{
 		$self->{debugger}("Valid timeslot");
 		$timeSlot = $self->getTimeslot($d->{recordOpeningTime});
@@ -80,36 +112,135 @@ sub _aggregate
 
 	my $subscriberIMSI = $self->decodeIMSI($d->{servedIMSI});
 
+    my $ST_ARP_FLAG = FALSE;
+
+	if (defined $d->{ratingGroup} and $d->{ratingGroup} eq "1700") {
+       $ST_ARP_FLAG = TRUE;
+	}
+
+
 	# Business rules 
-	if (defined $d->{accessPointNameNI} and $d->{accessPointNameNI} !~ /live.vodafone.com|wap.vodafone.ie/)
+	if (    (defined $d->{accessPointNameNI} and $d->{accessPointNameNI} !~ /live.vodafone.com|wap.vodafone.ie/ ) 
+	    and (defined $d->{ratingGroup} and $d->{ratingGroup} ne "1499" and $d->{ratingGroup} ne "1400") )
 	{
 		$self->{debugger}("GPRS");
-		$ST_DATA_GPRS = TRUE; push @serviceTypes, "ST_DATA_GPRS";
+
+		if ($ST_ARP_FLAG) {
+            $ST_DATA_GPRS_ARP = TRUE; push @serviceTypes, "ST_DATA_GPRS_ARP";
+		}
+		else {
+		    $ST_DATA_GPRS = TRUE; push @serviceTypes, "ST_DATA_GPRS";
+        }
+
+        if ( not defined $d->{chChSelectionMode} or $d->{chChSelectionMode} !~ /^homeDefault$/ ) {
+            if ($ST_ARP_FLAG) {
+               $ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP = TRUE; push @serviceTypes, "ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP";
+            }
+            else {
+               $ST_DATA_GPRS_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_GPRS_OUTBOUND_ROAMERS";
+            }
+        }
 	}
 	else
 	{
 		$self->{debugger}("WAP");
-		$ST_DATA_WAP = TRUE; push @serviceTypes, "ST_DATA_WAP";
+
+		if ($ST_ARP_FLAG) {
+            $ST_DATA_WAP_ARP = TRUE; push @serviceTypes, "ST_DATA_WAP_ARP";
+	    }
+	    else {
+		    $ST_DATA_WAP = TRUE; push @serviceTypes, "ST_DATA_WAP";
+        }
+
+        if (   ( not defined $d->{chChSelectionMode} or $d->{chChSelectionMode} !~ /^homeDefault$/ )
+	    and ( defined $d->{ratingGroup} and $d->{ratingGroup} ne "1499" and $d->{ratingGroup} ne "1400") )
+	{
+		
+            if ($ST_ARP_FLAG) {
+               $ST_DATA_WAP_OUTBOUND_ROAMERS_ARP = TRUE; push @serviceTypes, "ST_DATA_WAP_OUTBOUND_ROAMERS_ARP";
+            }
+            else {
+               $ST_DATA_WAP_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_WAP_OUTBOUND_ROAMERS";
+            }
+        }
 	}
 
 	if (defined $d->{rATType} and $d->{rATType} eq "1") # UTRAN / 3G
 	{
-		$ST_DATA_3G = TRUE; push @serviceTypes, "ST_DATA_3G";
-		$ST_UNIDENT = FALSE;
+       
+        if ($ST_ARP_FLAG) {
+		    $ST_DATA_3G_ARP = TRUE; push @serviceTypes, "ST_DATA_3G_ARP";
+        }
+        else {
+            $ST_DATA_3G = TRUE; push @serviceTypes, "ST_DATA_3G";
+        }
+
+        $ST_UNIDENT = FALSE;
+
+        if (defined $d->{chChSelectionMode} and $d->{chChSelectionMode} =~ /^homeDefault$/ ) {
+            $ST_DATA_3G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_3G_DOMESTIC";
+        }
+        elsif ($ST_ARP_FLAG)
+        {
+            $ST_DATA_3G_OUTBOUND_ROAMERS_ARP = TRUE; push @serviceTypes, "ST_DATA_3G_OUTBOUND_ROAMERS_ARP";
+        }
+        else 
+        {
+            $ST_DATA_3G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_3G_OUTBOUND_ROAMERS";                  
+        }
 	}
 	elsif (defined $d->{rATType} and $d->{rATType} eq "2") # GETRAN / 2G
 	{
-		$ST_DATA_2G = TRUE; push @serviceTypes, "ST_DATA_2G";
+        if ($ST_ARP_FLAG) {
+		    $ST_DATA_2G_ARP = TRUE; push @serviceTypes, "ST_DATA_2G_ARP";
+        }
+        else {
+            $ST_DATA_2G = TRUE; push @serviceTypes, "ST_DATA_2G";
+        }
+
 		$ST_UNIDENT = FALSE;
+
+		if (defined $d->{chChSelectionMode} and $d->{chChSelectionMode} =~ /^homeDefault$/ ) {
+             $ST_DATA_2G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_2G_DOMESTIC";
+        }
+     	else
+     	{
+             if ($ST_ARP_FLAG) {
+      	         $ST_DATA_2G_OUTBOUND_ROAMERS_ARP = TRUE; push @serviceTypes, "ST_DATA_2G_OUTBOUND_ROAMERS_ARP";
+             }
+             else {
+                 $ST_DATA_2G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_2G_OUTBOUND_ROAMERS";
+             }
+       	}
 	}
 	elsif (defined $d->{rATType} and $d->{rATType} eq "6") # EUTRAN / 4G
 	{
-		$ST_DATA_4G = TRUE; push @serviceTypes, "ST_DATA_4G";
+        if ($ST_ARP_FLAG) {
+             $ST_DATA_4G_ARP = TRUE; push @serviceTypes, "ST_DATA_4G_ARP";
+        }
+        else {
+             $ST_DATA_4G = TRUE; push @serviceTypes, "ST_DATA_4G";
+        }
+
 		$ST_UNIDENT = FALSE;
+
+        if (defined $d->{chChSelectionMode} and $d->{chChSelectionMode} =~ /^homeDefault$/ ) {
+            $ST_DATA_4G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_4G_DOMESTIC";
+        }
+        else
+        {
+            if ($ST_ARP_FLAG) {
+                $ST_DATA_4G_OUTBOUND_ROAMERS_ARP = TRUE; push @serviceTypes, "ST_DATA_4G_OUTBOUND_ROAMERS_ARP";
+            }
+            else {
+                $ST_DATA_4G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_4G_OUTBOUND_ROAMERS";
+            }
+        }
+
 	}
 
 
-        my $duration = (defined $d->{duration}) ? $d->{duration} : 0;
+    my $duration = (defined $d->{duration}) ? $d->{duration} : 0;
 	my $upVolume = (defined $d->{datavolumeFBCUplink}) ? $d->{datavolumeFBCUplink} : 0;
 	my $downVolume = (defined $d->{datavolumeFBCDownlink}) ? $d->{datavolumeFBCDownlink} : 0;
 	my $volume = $upVolume + $downVolume;

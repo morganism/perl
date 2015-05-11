@@ -22,6 +22,8 @@ sub new
 	$self->{debugger} = $args->{debugger};
 	$self->{file_number} = $args->{file_number};
 	$self->{format_obj} = $args->{format_obj};
+    $self->{timestamp} = $args->{timestamp};
+	$self->{filesize} =  $args->{filesize};
 
 	# control totals 'lc' eq line count
 	$self->{lc_total} = 0;
@@ -33,6 +35,32 @@ sub new
 	bless $self, $class;
 	return $self;
 }
+
+sub getEdrFileSize
+{
+    my $self = shift;
+    return $self->{filesize}
+}
+
+sub setEdrFileSize
+{
+    my $self = shift;
+    $self->{filesize} = shift;
+}
+
+
+sub getTimestamp
+{
+    my $self = shift;
+    return $self->{timestamp}
+}
+
+sub setTimestamp
+{
+    my $self = shift;
+    $self->{timestamp} = shift;
+}
+
 
 sub setFormatObj
 {

@@ -231,3 +231,379 @@
 100474,100474,10,35127,100474,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_POSTPAID - EDR Bytes
 100475,100475,4,35127,100475,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_POSTPAID - EDR Duration
 100476,100476,3,35127,100476,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_POSTPAID - EDR Value
+100500,100500,3,35127,100500,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS - EDR Bytes
+100501,100501,3,35127,100501,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_IN - EDR Value
+100502,100502,3,35127,100502,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_OUT -  EDR Value
+100503,100503,10,35127,100503,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_OUT - EDR Bytes
+100504,100504,13,35127,100504,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_OUT - EDR Count
+100505,100505,10,35127,100505,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_IN - EDR Bytes
+100506,100506,13,35127,100506,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_MMS_IN - EDR Count
+100507,100507,13,35127,100507,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_SMS_OUT - EDR Count
+100508,100508,3,35127,100508,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_SMS_OUT - EDR Value
+100509,100509,13,35127,100509,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_OUT - EDR Count
+100510,100510,4,35127,100510,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_OUT - EDR Duration
+100511,100511,3,35127,100511,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_OUT- EDR Value
+100512,100512,10,35127,100512,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Bytes
+100513,100513,13,35127,100513,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Count
+100514,100514,3,35127,100514,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Value
+100515,100515,4,35127,100515,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Duration
+100516,100516,10,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Bytes (Absolute)
+100517,100517,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Count (Absolute)
+100518,100518,3,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Value (Absolute)
+100519,100519,4,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Duration (Absolute)
+100520,100520,4,35127,100520,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_IN - EDR Duration
+100521,100521,3,35127,100521,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_IN - EDR Value
+100527,100527,13,35127,100527,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_SMS_IN - EDR Count
+100528,100528,3,35127,100528,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_SMS_IN - EDR Value
+100529,100529,13,35127,100529,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_VOICE_IN - EDR Count
+100530,100530,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ITC_NOROUTE - EDR Count
+100531,100531,13,35127,100531,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID - EDR Count
+100532,100532,13,35127,100532,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID - EDR Count
+100533,100533,13,35127,100533,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS - EDR Count
+100534,100534,10,35127,100534,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes
+100535,100535,10,35127,100535,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes
+100550,100550,13,35127,100550,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP - EDR Count
+100551,100551,13,35127,100551,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count
+100552,100552,3,35127,100552,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Value
+100553,100553,13,35127,100553,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_ARP - EDR Count
+100554,100554,10,35127,100554,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS - EDR Bytes
+100555,100555,13,35127,100555,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS - EDR Count
+100556,100556,10,35127,100556,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Bytes
+100557,100557,13,35127,100557,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Count
+100558,100558,13,35127,100558,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_ARP - EDR Count
+100559,100559,10,35127,100559,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS - EDR Bytes
+100560,100560,13,35127,100560,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS - EDR Count
+100561,100561,10,35127,100561,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Bytes
+100562,100562,13,35127,100562,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Count
+100563,100563,13,35127,100563,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_ARP - EDR Count
+100564,100564,10,35127,100564,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS - EDR Bytes
+100565,100565,13,35127,100565,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS - EDR Count
+100566,100566,10,35127,100566,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Bytes
+100567,100567,13,35127,100567,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Count
+100568,100568,13,35127,100568,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_ARP - EDR Count
+100569,100569,13,35127,100569,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count
+100570,100570,10,35127,100570,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Bytes
+100571,100571,13,35127,100571,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Count
+100572,100572,13,35127,100572,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_ARP - EDR Count
+100573,100573,13,35127,100573,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count
+100574,100574,10,35127,100574,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Bytes
+100575,100575,13,35127,100575,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Count
+100576,100576,10,35127,100576,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID - EDR Bytes
+100577,100577,13,35127,100577,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID_ARP - EDR Count
+100578,100578,13,35127,100578,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID_HOME_MO_ARP - EDR Count
+100579,100579,10,35127,100579,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID - EDR Bytes
+100580,100580,13,35127,100580,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_ARP - EDR Count
+100581,100581,13,35127,100581,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_HOME_MO_ARP - EDR Count
+100582,100582,13,35127,100582,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Count
+100583,100583,4,35127,100583,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Duration
+100584,100584,13,35127,100584,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP - EDR Count
+100585,100585,4,35127,100585,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP - EDR Duration
+100586,100586,10,35127,100586,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_HOME_MO - EDR Bytes
+100631,100631,13,35127,100631,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID - EDR Count (Daily)
+100632,100632,13,35127,100632,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID - EDR Count (Daily)
+100633,100633,13,35127,100633,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS - EDR Count (Daily)
+100634,100634,10,35127,100634,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes (Daily)
+100635,100635,10,35127,100635,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes (Daily)
+100650,100650,13,35127,100650,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP - EDR Count (Daily)
+100651,100651,13,35127,100651,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count (Daily)
+100652,100652,3,35127,100652,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Value (Daily)
+100653,100653,13,35127,100653,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_ARP - EDR Count (Daily)
+100654,100654,10,35127,100654,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS - EDR Bytes (Daily)
+100655,100655,13,35127,100655,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS - EDR Count (Daily)
+100656,100656,10,35127,100656,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Bytes (Daily)
+100657,100657,13,35127,100657,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Count (Daily)
+100658,100658,13,35127,100658,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_ARP - EDR Count (Daily)
+100659,100659,10,35127,100659,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS - EDR Bytes (Daily)
+100660,100660,13,35127,100660,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS - EDR Count (Daily)
+100661,100661,10,35127,100661,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Bytes (Daily)
+100662,100662,13,35127,100662,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Count (Daily)
+100663,100663,13,35127,100663,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_ARP - EDR Count (Daily)
+100664,100664,10,35127,100664,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS - EDR Bytes (Daily)
+100665,100665,13,35127,100665,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS - EDR Count (Daily)
+100666,100666,10,35127,100666,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Bytes (Daily)
+100667,100667,13,35127,100667,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Count (Daily)
+100668,100668,13,35127,100668,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_ARP - EDR Count (Daily)
+100669,100669,13,35127,100669,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count (Daily)
+100670,100670,10,35127,100670,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Bytes (Daily)
+100671,100671,13,35127,100671,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Count (Daily)
+100672,100672,13,35127,100672,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_ARP - EDR Count (Daily)
+100673,100673,13,35127,100673,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count (Daily)
+100674,100674,10,35127,100674,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Bytes (Daily)
+100675,100675,13,35127,100675,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Count (Daily)
+100676,100676,10,35127,100676,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID - EDR Bytes (Daily)
+100677,100677,13,35127,100677,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID_ARP - EDR Count (Daily)
+100678,100678,13,35127,100678,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID_HOME_MO_ARP - EDR Count (Daily)
+100679,100679,10,35127,100679,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID - EDR Bytes (Daily)
+100680,100680,13,35127,100680,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_ARP - EDR Count (Daily)
+100681,100681,13,35127,100681,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_HOME_MO_ARP - EDR Count (Daily)
+100682,100682,13,35127,100682,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Count (Daily)
+100683,100683,4,35127,100683,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Duration (Daily)
+100684,100684,13,35127,100684,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP - EDR Count (Daily)
+100685,100685,4,35127,100685,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP - EDR Duration (Daily)
+100686,100686,10,35127,100686,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_HOME_MO - EDR Bytes (Daily)
+100747,100747,13,35127,100747,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count (Daily)
+100748,100748,13,35127,100748,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count (Daily)
+100756,100756,4,35127,100756,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration (Daily)
+100757,100757,4,35127,100757,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration (Daily)
+100923,100923,13,35127,100923,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_PREPAID_HOME_MO - EDR Count (Daily)
+101057,101057,10,35127,101057,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_POSTPAID_HOME_MO - EDR Bytes (Daily)
+100800,100800,13,35127,100800,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_AGG_SUCCESS - EDR Count (Daily) 
+100801,100801,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_AGG_FAILED - EDR Count (Daily) (Absolute)
+100802,100802,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_AGG_REJECTED - EDR Count (Daily) (Absolute)
+102001,102001,10,35127,102001,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Bytes
+102002,102002,10,35127,102002,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Bytes (Daily)
+102003,102003,13,35127,102003,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Count
+102004,102004,13,35127,102004,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Count (Daily)
+102005,102005,13,35127,102005,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Count
+102006,102006,13,35127,102006,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Count (Daily)
+102007,102007,13,35127,102007,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS - EDR Count (Daily)
+102008,102008,3,35127,102008,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS - EDR Value (Daily)
+102009,102009,13,35127,102009,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Count
+102010,102010,13,35127,102010,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Count (Daily)
+102011,102011,13,35127,102011,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE - EDR Count (Daily)
+102012,102012,4,35127,102012,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE - EDR Duration (Daily)
+102013,102013,3,35127,102013,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE - EDR Value (Daily)
+102014,102014,13,35127,102014,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Count
+102015,102015,13,35127,102015,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Count (Daily)
+102016,102016,13,35127,102016,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Count
+102017,102017,13,35127,102017,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Count (Daily)
+102018,102018,4,35127,102018,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Duration
+102019,102019,4,35127,102019,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Duration (Daily)
+102020,102020,3,35127,102020,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Value
+102021,102021,3,35127,102021,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_ANCILIARY - EDR Value (Daily)
+102028,102028,13,35127,102028,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Count
+102029,102029,13,35127,102029,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Count (Daily)
+102030,102030,13,35127,102030,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Count
+102031,102031,13,35127,102031,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Count (Daily)
+102032,102032,4,35127,102032,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Duration
+102033,102033,4,35127,102033,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Duration (Daily)
+102034,102034,3,35127,102034,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Value
+102035,102035,3,35127,102035,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DOM - EDR Value (Daily)
+102036,102036,13,35127,102036,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Count
+102037,102037,13,35127,102037,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Count (Daily)
+102038,102038,4,35127,102038,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Duration
+102039,102039,4,35127,102039,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Duration (Daily)
+102040,102040,3,35127,102040,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Value
+102041,102041,3,35127,102041,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DQ - EDR Value (Daily)
+102042,102042,13,35127,102042,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Count
+102043,102043,13,35127,102043,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Count (Daily)
+102044,102044,13,35127,102044,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Count
+102045,102045,13,35127,102045,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Count (Daily)
+102046,102046,4,35127,102046,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Duration
+102047,102047,4,35127,102047,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Duration (Daily)
+102048,102048,3,35127,102048,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Value
+102049,102049,3,35127,102049,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FO - EDR Value (Daily)
+102050,102050,13,35127,102050,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Count
+102051,102051,13,35127,102051,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Count (Daily)
+102052,102052,4,35127,102052,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Duration
+102053,102053,4,35127,102053,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Duration (Daily)
+102054,102054,3,35127,102054,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Value
+102055,102055,3,35127,102055,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_FT - EDR Value (Daily)
+102056,102056,13,35127,102056,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Count
+102057,102057,13,35127,102057,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Count (Daily)
+102058,102058,4,35127,102058,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Duration
+102059,102059,4,35127,102059,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Duration (Daily)
+102060,102060,3,35127,102060,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Value
+102061,102061,3,35127,102061,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INBOUND - EDR Value (Daily)
+102062,102062,13,35127,102062,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Count
+102063,102063,13,35127,102063,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Count (Daily)
+102064,102064,4,35127,102064,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Duration
+102065,102065,4,35127,102065,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Duration (Daily)
+102066,102066,3,35127,102066,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Value
+102067,102067,3,35127,102067,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTERNET - EDR Value (Daily)
+102068,102068,13,35127,102068,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Count
+102069,102069,13,35127,102069,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Count (Daily)
+102070,102070,4,35127,102070,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Duration
+102071,102071,4,35127,102071,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Duration (Daily)
+102072,102072,3,35127,102072,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Value
+102073,102073,3,35127,102073,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL - EDR Value (Daily)
+102074,102074,13,35127,102074,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Count
+102075,102075,13,35127,102075,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Count (Daily)
+102076,102076,4,35127,102076,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Duration
+102077,102077,4,35127,102077,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Duration (Daily)
+102078,102078,13,35127,102078,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Count
+102079,102079,13,35127,102079,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Count (Daily)
+102080,102080,4,35127,102080,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Duration
+102081,102081,4,35127,102081,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Duration (Daily)
+102082,102082,3,35127,102082,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Value
+102083,102083,3,35127,102083,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_IN_BUNDLE - EDR Value (Daily)
+102084,102084,13,35127,102084,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Count
+102085,102085,13,35127,102085,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Count (Daily)
+102086,102086,4,35127,102086,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Duration
+102087,102087,4,35127,102087,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Duration (Daily)
+102088,102088,3,35127,102088,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Value
+102089,102089,3,35127,102089,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_LOW_CALL - EDR Value (Daily)
+102090,102090,13,35127,102090,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Count
+102091,102091,13,35127,102091,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Count (Daily)
+102092,102092,4,35127,102092,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Duration
+102093,102093,4,35127,102093,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Duration (Daily)
+102094,102094,3,35127,102094,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Value
+102095,102095,3,35127,102095,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT - EDR Value (Daily)
+102096,102096,13,35127,102096,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Count
+102097,102097,13,35127,102097,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Count (Daily)
+102098,102098,4,35127,102098,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Duration
+102099,102099,4,35127,102099,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Duration (Daily)
+102100,102100,3,35127,102100,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Value
+102101,102101,3,35127,102101,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_MT_INTL - EDR Value (Daily)
+102102,102102,13,35127,102102,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Count
+102103,102103,13,35127,102103,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Count (Daily)
+102104,102104,4,35127,102104,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Duration
+102105,102105,4,35127,102105,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Duration (Daily)
+102106,102106,3,35127,102106,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Value
+102107,102107,3,35127,102107,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_NGN - EDR Value (Daily)
+102108,102108,13,35127,102108,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Count
+102109,102109,13,35127,102109,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Count (Daily)
+102110,102110,4,35127,102110,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Duration
+102111,102111,4,35127,102111,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Duration (Daily)
+102112,102112,3,35127,102112,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Value
+102113,102113,3,35127,102113,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_OUT_BUNDLE - EDR Value (Daily)
+102114,102114,13,35127,102114,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Count
+102115,102115,13,35127,102115,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Count (Daily)
+102116,102116,4,35127,102116,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Duration
+102117,102117,4,35127,102117,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Duration (Daily)
+102118,102118,13,35127,102118,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Count
+102119,102119,13,35127,102119,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Count (Daily)
+102120,102120,4,35127,102120,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Duration
+102121,102121,4,35127,102121,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Duration (Daily)
+102122,102122,3,35127,102122,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Value
+102123,102123,3,35127,102123,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM - EDR Value (Daily)
+102124,102124,13,35127,102124,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Count
+102125,102125,13,35127,102125,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Count (Daily)
+102126,102126,4,35127,102126,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Duration
+102127,102127,4,35127,102127,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Duration (Daily)
+102128,102128,3,35127,102128,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Value
+102129,102129,3,35127,102129,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PREMIUM_INTL - EDR Value (Daily)
+102130,102130,13,35127,102130,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Count
+102131,102131,13,35127,102131,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Count (Daily)
+102132,102132,4,35127,102132,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Duration
+102133,102133,4,35127,102133,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Duration (Daily)
+102134,102134,3,35127,102134,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Value
+102135,102135,3,35127,102135,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PROMOTIONAL - EDR Value (Daily)
+102136,102136,13,35127,102136,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Count
+102137,102137,13,35127,102137,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Count (Daily)
+102138,102138,4,35127,102138,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Duration
+102139,102139,4,35127,102139,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Duration (Daily)
+102140,102140,13,35127,102140,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Count
+102141,102141,13,35127,102141,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Count (Daily)
+102142,102142,4,35127,102142,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Duration
+102143,102143,4,35127,102143,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Duration (Daily)
+102144,102144,3,35127,102144,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Value
+102145,102145,3,35127,102145,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_VOIP - EDR Value (Daily)
+102146,102146,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Count (Daily) (Absolute)
+102147,102147,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Count (Daily) (Absolute)
+102331,102331,10,35127,102331,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Bytes
+102332,102332,10,35127,102332,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Bytes (Daily)
+102333,102333,13,35127,102333,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Count
+102334,102334,13,35127,102334,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Count (Daily)
+102335,102335,3,35127,102335,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Value
+102336,102336,3,35127,102336,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_IN_BUNDLE - EDR Value (Daily)
+102337,102337,10,35127,102337,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Bytes
+102338,102338,10,35127,102338,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Bytes (Daily)
+102339,102339,13,35127,102339,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Count
+102340,102340,13,35127,102340,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Count (Daily)
+102341,102341,3,35127,102341,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Value
+102342,102342,3,35127,102342,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_OUT_BUNDLE - EDR Value (Daily)
+102343,102343,10,35127,102343,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Bytes
+102344,102344,10,35127,102344,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Bytes (Daily)
+102345,102345,13,35127,102345,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Count
+102346,102346,13,35127,102346,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Count (Daily)
+102347,102347,3,35127,102347,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Value
+102348,102348,3,35127,102348,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_IN_BUNDLE - EDR Value (Daily) 
+102349,102349,10,35127,102349,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Bytes
+102350,102350,10,35127,102350,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Bytes (Daily)
+102351,102351,13,35127,102351,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Count
+102352,102352,13,35127,102352,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Count (Daily)
+102353,102353,3,35127,102353,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Value
+102354,102354,3,35127,102354,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_MMS_OUT_BUNDLE - EDR Value (Daily)
+102355,102355,13,35127,102355,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_IN_BUNDLE - EDR Count
+102356,102356,13,35127,102356,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_IN_BUNDLE - EDR Count (Daily)
+102357,102357,3,35127,102357,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_IN_BUNDLE - EDR Value
+102358,102358,3,35127,102358,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_IN_BUNDLE - EDR Value (Daily)
+102359,102359,13,35127,102359,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUT_BUNDLE - EDR Count
+102360,102360,13,35127,102360,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUT_BUNDLE - EDR Count (Daily)
+102361,102361,3,35127,102361,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUT_BUNDLE - EDR Value
+102362,102362,3,35127,102362,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SMS_OUT_BUNDLE - EDR Value (Daily)
+102401,102401,3,35127,102401,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Value
+102402,102402,3,35127,102402,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_PARTNERS - EDR Value (Daily)
+102403,102403,3,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Value (Absolute)
+102404,102404,3,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Value (Daily) (Absolute)
+102405,102405,3,35127,102405,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Value
+102406,102406,3,35127,102406,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Value (Daily)
+102407,102407,4,35127,102407,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Duration
+102408,102408,4,35127,102408,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Duration (Daily)
+102409,102409,3,35127,102409,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Value
+102410,102410,3,35127,102410,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_AGED - EDR Value (Daily)
+102411,102411,3,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Value (Absolute)
+102412,102412,3,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Value (Daily) (Absolute)
+102413,102413,4,35127,102413,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Duration
+102414,102414,4,35127,102414,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Duration (Daily)
+102415,102415,3,35127,102415,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Value
+102416,102416,3,35127,102416,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_EXPIRING - EDR Value (Daily)
+102417,102417,3,35127,102417,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Value
+102418,102418,3,35127,102418,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_INTL_FREE - EDR Value (Daily)
+102419,102419,3,35127,102419,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Value
+102420,102420,3,35127,102420,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_PARTNERS - EDR Value (Daily)
+102421,102421,3,35127,102421,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Value
+102422,102422,3,35127,102422,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_SUSPENSE - EDR Value (Daily)
+102451,102451,4,35127,102451,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Duration
+102452,102452,4,35127,102452,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DISCARDED - EDR Duration (Daily)
+102453,102453,4,35127,102453,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Duration
+102454,102454,4,35127,102454,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_SUSPENSE - EDR Duration (Daily)
+102455,102455,4,35127,102455,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Duration
+102456,102456,4,35127,102456,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_VOICE_DISCARDED - EDR Duration (Daily)
+102501,102501,10,35127,102501,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ALL - EDR Bytes (Daily)
+102502,102502,13,35127,102502,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ALL - EDR Count (Daily)
+102503,102503,3,35127,102503,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_ALL - EDR Value (Daily)
+102504,102504,10,35127,102504,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Bytes
+102505,102505,10,35127,102505,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Bytes (Daily)
+102506,102506,13,35127,102506,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Count
+102507,102507,13,35127,102507,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Count (Daily)
+102508,102508,3,35127,102508,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Value
+102509,102509,3,35127,102509,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA - EDR Value (Daily)
+102510,102510,10,35127,102510,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G - EDR Bytes (Daily)
+102511,102511,13,35127,102511,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G - EDR Count (Daily)
+102512,102512,3,35127,102512,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_2G - EDR Value (Daily)
+102513,102513,10,35127,102513,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G - EDR Bytes (Daily)
+102514,102514,13,35127,102514,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G - EDR Count (Daily)
+102515,102515,3,35127,102515,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_3G - EDR Value (Daily)
+102516,102516,10,35127,102516,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G - EDR Bytes (Daily)
+102517,102517,13,35127,102517,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G - EDR Count (Daily)
+102518,102518,3,35127,102518,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_4G - EDR Value (Daily)
+102519,102519,10,35127,102519,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS - EDR Bytes (Daily)
+102520,102520,13,35127,102520,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS - EDR Count (Daily)
+102521,102521,3,35127,102521,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS - EDR Value (Daily)
+102522,102522,3,35127,102522,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value
+102523,102523,3,35127,102523,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value (Daily)
+102524,102524,10,35127,102524,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Bytes
+102525,102525,10,35127,102525,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Bytes (Daily)
+102526,102526,13,35127,102526,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Count
+102527,102527,13,35127,102527,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Count (Daily)
+102528,102528,3,35127,102528,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Value
+102529,102529,3,35127,102529,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Value (Daily)
+102530,102530,10,35127,102530,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily)
+102531,102531,13,35127,102531,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_POSTPAID - EDR Count (Daily)
+102532,102532,3,35127,102532,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_GPRS_POSTPAID - EDR Value (Daily)
+102533,102533,10,35127,102533,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Bytes
+102534,102534,10,35127,102534,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Bytes (Daily)
+102535,102535,13,35127,102535,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Count
+102536,102536,13,35127,102536,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Count (Daily)
+102537,102537,3,35127,102537,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Value
+102538,102538,3,35127,102538,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_STRIP - EDR Value (Daily)
+102539,102539,10,35127,102539,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP - EDR Bytes (Daily)
+102540,102540,13,35127,102540,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP - EDR Count (Daily)
+102541,102541,3,35127,102541,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP - EDR Value (Daily)
+102542,102542,3,35127,102542,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value
+102543,102543,3,35127,102543,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value (Daily)
+102544,102544,10,35127,102544,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Bytes
+102545,102545,10,35127,102545,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Bytes (Daily)
+102546,102546,13,35127,102546,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Count
+102547,102547,13,35127,102547,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Count (Daily)
+102548,102548,3,35127,102548,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Value
+102549,102549,3,35127,102549,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Value (Daily)
+102550,102550,10,35127,102550,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_POSTPAID - EDR Bytes (Daily)
+102551,102551,13,35127,102551,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_POSTPAID - EDR Count (Daily)
+102552,102552,3,35127,102552,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_DATA_WAP_POSTPAID - EDR Value (Daily)
+102553,102553,10,35127,102553,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_UNIDENT - EDR Bytes (Daily)
+102554,102554,13,35127,102554,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_UNIDENT - EDR Count (Daily)
+102555,102555,3,35127,102555,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_UNIDENT - EDR Value (Daily)
+100810,100810,13,35123,,1,-syncOnMerge no -function sum -debug no -switch_to_raw no -threads 1 -distinct_filenames no,ST_AGG_SUCCESS - EDR Count (Daily) 

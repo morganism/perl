@@ -160,4 +160,130 @@
 100210,100081,5007,POST,20,,
 100211,100081,5001,POST,30,il_success_dir gdl/accepted/DS72 il_reject_dir gdl/rejected/DS72,
 100212,100081,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
-
+109003,100090,5017,INIT,10,,
+109002,100090,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109001,100090,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds73 -scn sql -et U,
+109004,100090,5007,POST,20,,
+109005,100090,5001,POST,30,il_success_dir gdl/accepted/ds73 il_reject_dir gdl/rejected/ds73,
+109006,100090,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109103,100091,5017,INIT,10,,
+109102,100091,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109101,100091,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds74 -scn sql -et U,
+109104,100091,5007,POST,20,,
+109105,100091,5001,POST,30,il_success_dir gdl/accepted/ds74 il_reject_dir gdl/rejected/ds74,
+109106,100091,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109203,100092,5017,INIT,10,,
+109202,100092,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109201,100092,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds75 -scn sql -et U,
+109204,100092,5007,POST,20,,
+109205,100092,5001,POST,30,il_success_dir gdl/accepted/ds75 il_reject_dir gdl/rejected/ds75,
+109206,100092,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109303,100093,5017,INIT,10,,
+109302,100093,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109301,100093,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds76 -scn sql -et U,
+109304,100093,5007,POST,20,,
+109305,100093,5001,POST,30,il_success_dir gdl/accepted/ds76 il_reject_dir gdl/rejected/ds76,
+109306,100093,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109401,100094,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds21 -scn sql -et U,
+109402,100094,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109403,100094,5017,INIT,10,,
+109404,100094,5007,POST,20,,
+109405,100094,5001,POST,30,il_success_dir gdl/accepted/ds21 il_reject_dir gdl/rejected/ds21,
+109406,100094,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109501,100095,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds47 -scn sql -et U,
+109502,100095,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109503,100095,5017,INIT,10,,
+109504,100095,5007,POST,20,,
+109505,100095,5001,POST,30,il_success_dir gdl/accepted/ds47 il_reject_dir gdl/rejected/ds47,
+109506,100095,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+109601,100096,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds78 -scn sql -et U,
+109602,100096,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+109603,100096,5017,INIT,10,,
+109604,100096,5007,POST,20,,
+109605,100096,5001,POST,30,il_success_dir gdl/accepted/ds78 il_reject_dir gdl/rejected/ds78,
+109606,100096,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+110001,100100,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds90 -scn sql -et U
+110002,100100,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110003,100100,5017,INIT,10,
+110004,100100,5007,POST,20,
+110005,100100,5001,POST,30,il_success_dir gdl/accepted/ds90 il_reject_dir gdl/rejected/ds90
+110006,100100,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110101,100101,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds91 -scn sql -et U
+110102,100101,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110103,100101,5017,INIT,10,
+110104,100101,5007,POST,20,
+110105,100101,5001,POST,30,il_success_dir gdl/accepted/ds91 il_reject_dir gdl/rejected/ds91
+110106,100101,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110201,100102,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds92 -scn sql -et U
+110202,100102,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110203,100102,5017,INIT,10,
+110204,100102,5007,POST,20,
+110205,100102,5001,POST,30,il_success_dir gdl/accepted/ds92 il_reject_dir gdl/rejected/ds92
+110206,100102,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110301,100103,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds93 -scn sql -et U
+110302,100103,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110303,100103,5017,INIT,10,
+110304,100103,5007,POST,20,
+110305,100103,5001,POST,30,il_success_dir gdl/accepted/ds93 il_reject_dir gdl/rejected/ds93
+110306,100103,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110401,100104,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds94 -scn sql -et U
+110402,100104,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110403,100104,5017,INIT,10,
+110404,100104,5007,POST,20,
+110405,100104,5001,POST,30,il_success_dir gdl/accepted/ds94 il_reject_dir gdl/rejected/ds94
+110406,100104,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110501,100105,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds95 -scn sql -et U
+110502,100105,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110503,100105,5017,INIT,10,
+110504,100105,5007,POST,20,
+110505,100105,5001,POST,30,il_success_dir gdl/accepted/ds95 il_reject_dir gdl/rejected/ds95
+110506,100105,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110601,100106,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds96 -scn sql -et U
+110602,100106,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110603,100106,5017,INIT,10,
+110604,100106,5007,POST,20,
+110605,100106,5001,POST,30,il_success_dir gdl/accepted/ds96 il_reject_dir gdl/rejected/ds96
+110606,100106,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110801,100108,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds98 -scn sql -et U
+110802,100108,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110803,100108,5017,INIT,10,
+110804,100108,5007,POST,20,
+110805,100108,5001,POST,30,il_success_dir gdl/accepted/ds98 il_reject_dir gdl/rejected/ds98
+110806,100108,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+110807,100108,5014,POST,70,-iv 100004 -icn sql_id -tn um.sql_ref -scn sql -et U,
+110901,100109,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds99 -scn sql -et U
+110902,100109,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false
+110903,100109,5017,INIT,10,
+110904,100109,5007,POST,20,
+110905,100109,5001,POST,30,il_success_dir gdl/accepted/ds99 il_reject_dir gdl/rejected/ds99
+110906,100109,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U
+111000,100110,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds83 -scn sql -et U,
+111001,100110,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+111002,100110,5017,INIT,10,,
+111003,100110,5007,POST,20,,
+111004,100110,5001,POST,30,il_success_dir gdl/accepted/ds83 il_reject_dir gdl/rejected/ds83,
+111005,100110,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+111100,100111,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds84 -scn sql -et U,
+111101,100111,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+111102,100111,5017,INIT,10,,
+111103,100111,5007,POST,20,,
+111104,100111,5001,POST,30,il_success_dir gdl/accepted/ds84 il_reject_dir gdl/rejected/ds84,
+111105,100111,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+112100,100112,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds85 -scn sql -et U,
+112101,100112,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+112102,100112,5017,INIT,10,,
+112103,100112,5007,POST,20,,
+112104,100112,5001,POST,30,il_success_dir gdl/accepted/ds85 il_reject_dir gdl/rejected/ds85,
+112105,100112,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+113100,100113,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds86 -scn sql -et U,
+113101,100113,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+113102,100113,5017,INIT,10,,
+113103,100113,5007,POST,20,,
+113104,100113,5001,POST,30,il_success_dir gdl/accepted/ds86 il_reject_dir gdl/rejected/ds86,
+113105,100113,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,
+114100,100114,5014,POST,10,-iv 100002 -icn sql_ID -tn um.sql_ref -staging_table customer.stg_agg_data_ds7 -scn sql -et U,
+114101,100114,5002,EXEC,10,-direct false -parallel false -loadRejectedFiles false,
+114102,100114,5017,INIT,10,,
+114103,100114,5007,POST,20,,
+114104,100114,5001,POST,30,il_success_dir gdl/accepted/ds7 il_reject_dir gdl/rejected/ds7,
+114105,100114,5014,POST,40,-iv 100003 -icn sql_id -tn um.sql_ref -scn sql -et U,

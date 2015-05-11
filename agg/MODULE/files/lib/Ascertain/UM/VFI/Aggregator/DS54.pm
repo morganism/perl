@@ -43,6 +43,10 @@ sub _aggregate
   my $ST_DATA_GPRS_POSTPAID = FALSE;
   my $ST_DATA_WAP_PREPAID = FALSE;
   my $ST_DATA_WAP_POSTPAID = FALSE;
+ 
+  my $ST_DATA_GPRS_OUTBOUND_ROAMERS = FALSE;
+  my $ST_DATA_WAP_OUTBOUND_ROAMERS = FALSE;
+ 
   my $ST_DATA_2G = FALSE;
   my $ST_DATA_3G = FALSE;
   my $ST_DATA_4G = FALSE;
@@ -52,6 +56,14 @@ sub _aggregate
   my $ST_DATA_3G_POSTPAID = FALSE;
   my $ST_DATA_4G_PREPAID = FALSE;
   my $ST_DATA_4G_POSTPAID = FALSE;
+
+  my $ST_DATA_3G_DOMESTIC = FALSE;
+  my $ST_DATA_3G_OUTBOUND_ROAMERS = FALSE;
+  my $ST_DATA_2G_DOMESTIC = FALSE;
+  my $ST_DATA_2G_OUTBOUND_ROAMERS = FALSE;
+  my $ST_DATA_4G_DOMESTIC = FALSE;
+  my $ST_DATA_4G_OUTBOUND_ROAMERS = FALSE;
+  
   my $ST_UNIDENT = TRUE;
 
   my @serviceTypes; # each time a service type tests TRUE push it
@@ -81,6 +93,10 @@ sub _aggregate
   {
     $GPRS_FLAG = TRUE;
     $ST_DATA_GPRS = TRUE; push @serviceTypes, "ST_DATA_GPRS";
+
+	if (defined $d->{GPPIMSIMCCMNC} and $d->{GPPIMSIMCCMNC} !~ /^27201$/ ) {
+		$ST_DATA_GPRS_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_GPRS_OUTBOUND_ROAMERS";
+	}
   }
   else
   {
@@ -89,6 +105,10 @@ sub _aggregate
     {
       $WAP_FLAG = TRUE;
     }
+
+	if (defined $d->{GPPIMSIMCCMNC} and $d->{GPPIMSIMCCMNC} !~ /^27201$/ ) {
+		$ST_DATA_WAP_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_WAP_OUTBOUND_ROAMERS";
+	}
   }
 
   if ($PREPAID_FLAG)
@@ -118,6 +138,14 @@ sub _aggregate
   if (defined $d->{RadioAccessTechnology} and $d->{RadioAccessTechnology} eq "1" ) # UTRAN / 3G
   {
      $ST_DATA_3G = TRUE; push @serviceTypes, "ST_DATA_3G";
+                      
+     if (defined $d->{GPPIMSIMCCMNC} and $d->{GPPIMSIMCCMNC} =~ /^27201$/ ) {
+	$ST_DATA_3G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_3G_DOMESTIC";
+     }
+     else 
+     {
+	$ST_DATA_3G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_3G_OUTBOUND_ROAMERS";
+     }
 
      if ($POSTPAID_FLAG) 
      {
@@ -132,6 +160,15 @@ sub _aggregate
   {
      $ST_DATA_2G = TRUE; push @serviceTypes, "ST_DATA_2G";
      
+     if (defined $d->{GPPIMSIMCCMNC} and $d->{GPPIMSIMCCMNC} =~ /^27201$/ ) {
+        $ST_DATA_2G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_2G_DOMESTIC";
+     }
+     else
+     {
+        $ST_DATA_2G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_2G_OUTBOUND_ROAMERS";
+     }
+
+
      if ($POSTPAID_FLAG)
      {
         $ST_DATA_2G_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_2G_POSTPAID";
@@ -146,6 +183,14 @@ sub _aggregate
   {
      $ST_DATA_4G = TRUE; push @serviceTypes, "ST_DATA_4G";
      
+     if (defined $d->{GPPIMSIMCCMNC} and $d->{GPPIMSIMCCMNC} =~ /^27201$/ ) {
+        $ST_DATA_4G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_4G_DOMESTIC";
+     }
+     else
+     {
+        $ST_DATA_4G_OUTBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_4G_OUTBOUND_ROAMERS";
+     }
+
      if ($POSTPAID_FLAG)
      {
         $ST_DATA_4G_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_4G_POSTPAID";

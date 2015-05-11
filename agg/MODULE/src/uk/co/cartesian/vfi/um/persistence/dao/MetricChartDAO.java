@@ -1,4 +1,4 @@
-package uk.co.cartesian.vfi.um.persistence.dao;
+package uk.co.cartesian.ascertain.um.persistence.dao;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -13,34 +13,11 @@ import org.apache.log4j.Logger;
 import uk.co.cartesian.ascertain.um.forecasting.ForecastException;
 import uk.co.cartesian.ascertain.um.forecasting.ForecastPackageWrapper;
 import uk.co.cartesian.ascertain.um.forecasting.ForecastValuesBean;
-import uk.co.cartesian.ascertain.um.persistence.dao.UmDatabaseDAOUtils;
 import uk.co.cartesian.ascertain.utils.database.DBCleaner;
 import uk.co.cartesian.ascertain.utils.log.LogInitialiser;
 import uk.co.cartesian.ascertain.utils.persistence.dropdown.DropDown;
 import uk.co.cartesian.ascertain.web.helpers.Utils;
 
-/**
- * VFI Specific implementation 
- * 
- * VFI use time based metrics. This class has been modified so that the metric chart only returns 
- * values which are useful/meaningful to VFI.
- * 
- * The main differences are: 
- * 		- summing() the metric values
- * 		- removing meaningless values (e.g. min()/max())
- * 		- modifying the way forecasts are calculated
- * 
- * There is a custom forecast package which is called to calculate the aggregate forecast value for 
- * the given options. 
- * 
- * Currently, for both metrics and forecasts, correct values will only be returned if there is no 
- * duplicate data in the f_metric or forecast/forecast_model_values tables. I.e. if you have run 
- * a forecast job twice given exactly the same parameters, this class will aggregate BOTH of those
- * values and thus return an incorrect value. 
- * 
- * @author jeremy.sumner
- *
- */
 public class MetricChartDAO
 {
     private static final long serialVersionUID = 1L;
@@ -48,149 +25,134 @@ public class MetricChartDAO
     private static Logger logger = LogInitialiser.getLogger(MetricChartDAO.class.getName());
     
     private static final String _FILE_METRIC_SQL =
-    		 " select d_period_id\n" +
-    		 "     ,sum_metric\n" +
-    		 "     ,forecast_metric_id\n" +
-    		 "     ,nvl2(forecast_metric_id,compare_value,null) as forecast_value\n" +
-    		 "     ,is_operator_relative\n" +
-    		 "     ,threshold_version_id\n" +
-    	     "       _THRESHOLDS_SELECT_ " +
-    		 " from (\n" +
-    		 " with c as -- define static constants/variables used below   \n" +
-    		 " (select ? as node_id\n" +
-    		 "  ,? as edge_id\n" +
-    		 "  ,? as source_id\n" +
-    		 "  ,? as source_type_id\n" +
-    		 "  ,? as edr_type_id\n" +
-    		 "  ,? as edr_sub_type_id\n" +
-    		 "  ,? as start_date\n" +
-    		 "  ,? as end_date\n" +
-    		 "  ,mr.metric_operator_id\n" +
-    		 "  ,mr.forecast_metric_id\n" +
-    		 "  ,mr.operator_order\n" +
-    		 "  ,metric_definition_id\n" +
-    		 "  ,nvl2(odr.operator_definition_id\n" +
-    		 "       ,decode(lower(etl.get_parameter(odr.parameters\n" +
-    		 "                                      ,'-relative'))\n" +
-    		 "              ,'no'\n" +
-    		 "              ,'N'\n" +
-    		 "              ,'Y')\n" +
-    		 "       ,'N') is_operator_relative\n" +
-    		 " from metric_definition_ref m\n" +
-    		 " left outer join metric_operator_ref mr\n" +
-    		 " on mr.metric_operator_id =\n" +
-    		 "   um.metrics.getActiveOperatorId(m.metric_definition_id)\n" +
-    		 " left outer join operator_definition_ref odr\n" +
-    		 " on odr.operator_definition_id = mr.operator_definition_id\n" +
-    		 " where m.metric_definition_id = ?)\n" +
-    		 " , t1 as (select t.d_period_id\n" +
-    		 "       ,null as sum_metric\n" +
-    		 "       ,null as threshold_version_id\n" +
-    		 "       ,c.metric_definition_id\n" +
-    		 "  from um.d_period t\n" +
-    		 "  join c on t.d_period_id > c.start_date\n" +
-    		 "        and t.d_period_id < c.end_date\n" +
-    		 " group by t.d_period_id,metric_definition_id)\n" +
-    		 " , t2 as (select d_period_id\n" +
-    		 "       ,sum_metric\n" +
-    		 "       ,threshold_version_id\n" +
-    		 "       ,metric_definition_id\n" +
-    		 "   from (select t.d_period_id\n" +
-    		 "               ,t.metric as sum_metric\n" +
-    		 "               ,t.threshold_version_id as threshold_version_id\n" +
-    		 "               ,row_number() over(partition by d_period_id, d_source_id, t.source_type_id, t.edr_type_id, t.edr_sub_type_id order by creation_date desc) rn\n" +
-    		 "               ,c.metric_definition_id\n" +
-    		 "           from um.f_metric t\n" +
-    		 "           join c\n" +
-    		 "            on  t.metric_definition_id = c.metric_definition_id\n" +
-    		 "            and t.d_period_id > c.start_date\n" +
-    		 "            and t.d_period_id < c.end_date             \n" +
-    		 "            _WHERE_CLAUSES_   \n" +
-    		 "            ) t\n" + 
-    		 "  where t.rn = 1)\n" +
-    		 " select d_period_id\n" +
-    		 " ,sum_metric\n" +
-    		 " ,c.metric_definition_id\n" +
-    		 " ,c.forecast_metric_id\n" +
-    		 " ,c.metric_operator_id\n" +
-    		 " -- if forecast metric is defined, this overrides a last-value compare   \n" +
-    		 " , nvl2(c.forecast_metric_id ,'Y' ,c.is_operator_relative) is_operator_relative\n" +
-    		 " -- value to apply threshold to (if not forecast)   \n" +
-    		 " -- if forecast metric id defined, then use forecast value (whether it exists or not)   \n" +
-    		 " -- else if active operator is defined as relative, use last value   \n" +
-    		 " -- otherwise active operator is absolute, use value defined in threshold   \n" +
-    		 " ,case\n" +
-    		 "   when c.forecast_metric_id is not null then\n" +
-    		 "    customer.forecasting.getForecast(c.forecast_metric_id\n" +
-    		 "                                    ,c.node_id\n" +
-    		 "                                    ,null\n" +
-    		 "                                    ,c.source_id\n" +
-    		 "                                    ,c.edr_type_id\n" +
-    		 "                                    ,c.edr_sub_type_id\n" +
-    		 "                                    ,d_period_id\n" +
-    		 "                                    ,c.source_type_id)\n" +
-    		 "   else decode(c.is_operator_relative\n" +
-    		 "          ,'Y'\n" +
-    		 "          ,metrics.getLastValue(d_period_id\n" +
-    		 "                               ,c.node_id\n" +
-    		 "                               ,c.edge_id\n" +
-    		 "                               ,c.source_id\n" +
-    		 "                               ,c.source_type_id\n" +
-    		 "                               ,c.metric_operator_id\n" +
-    		 "                               ,c.metric_definition_id\n" +
-    		 "                               ,c.operator_order)\n" +
-    		 "          ,0)\n" +
-    		 "         end compare_value\n" +
-    		 "   ,nvl(t3.threshold_version_id\n" +
-    		 "       ,forecasting.getThresholdVersionId(c.edge_id\n" +
-    		 "                                         ,c.node_id\n" +
-    		 "                                         ,c.metric_definition_id\n" +
-    		 "                                         ,c.source_type_id\n" +
-    		 "                                         ,c.source_id\n" +
-    		 "                                         ,c.edr_type_id\n" +
-    		 "                                         ,c.edr_sub_type_id\n" +
-    		 "                                         ,d_period_id)) as threshold_version_id\n" +
-    		 " from (select mt.d_period_id as d_period_id\n" +
-    		 " ,metric_definition_id\n" +
-    		 " ,round(sum(mt.sum_metric) ,2) as sum_metric\n" +
-    		 " ,max(mt.threshold_version_id) as threshold_version_id\n" +
-    		 " from (select * from t1\n" +
-    		 "      union all\n" +
-    		 "      select *\n" +
-    		 "      from t2 ) mt\n" +
-    		 " group by mt.d_period_id,metric_definition_id\n" +
-    		 " ) t3\n" +
-    		 " join c on  t3.metric_definition_id = c.metric_definition_id\n" +
-    		 "     and t3.d_period_id > c.start_date\n" +
-    		 "     and t3.d_period_id < c.end_date      \n" +
-    		 " )\n" +
-    		 " order by d_period_id\n";
-
+        "    WITH c AS -- define static constants/variables used below \n" + 
+        "    ( SELECT ? as node_id, \n" + 
+        "             ? as edge_id, \n" + 
+        "             ? as source_id, \n" + 
+        "             ? as source_type_id, \n" + 
+        "             ? as edr_type_id, \n" + 
+        "             ? as edr_sub_type_id, \n" + 
+        "             ? as start_date, \n" + 
+        "             ? as end_date, \n" + 
+        "             mr.metric_operator_id, \n" + 
+        "             mr.forecast_metric_id, \n" + 
+        "             mr.operator_order, \n" + 
+        "             m.metric_definition_id, \n" + 
+        "             nvl2(odr.operator_definition_id, decode(lower(etl.get_parameter(odr.parameters, '-relative')), 'no', 'N', 'Y'), 'N') is_operator_relative \n" + 
+        "       FROM metric_definition_ref m \n" + 
+        "       LEFT OUTER JOIN metric_operator_ref mr on mr.metric_operator_id = um.metrics.getActiveOperatorId(m.metric_definition_id) \n" + 
+        "       LEFT OUTER JOIN operator_definition_ref odr on odr.operator_definition_id = mr.operator_definition_id \n" + 
+        "      WHERE m.metric_definition_id = ? \n" + 
+        "    ), \n" + 
+        "    t1 AS \n" + 
+        "    ( \n" + 
+        "      SELECT t.d_period_id, \n" + 
+        "             null as max_metric, \n" + 
+        "             null as min_metric, \n" + 
+        "             null as average_metric, \n" + 
+        "             null as moving_average, \n" + 
+	"             null as sum_metric, \n" +
+        "             null as threshold_version_id \n" + 
+        "        FROM um.d_period t, c \n" + 
+        "       WHERE t.d_period_id > c.start_date \n" + 
+        "         AND t.d_period_id < c.end_date \n" + 
+        "       GROUP BY t.d_period_id \n" + 
+        "    ), \n" + 
+        "    t2 as \n" + 
+        "    ( \n" + 
+        "      SELECT t.d_period_id, \n" + 
+        "             max(t.metric) as max_metric, \n" + 
+        "             min(t.metric) as min_metric, \n" + 
+        "             avg(t.metric) as average_metric, \n" + 
+        "             avg(avg(t.metric)) OVER (ORDER BY t.d_period_id ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) as moving_average, \n" + 
+	"             sum(t.metric) as sum_metric, \n" +
+        "             max(t.threshold_version_id) as threshold_version_id \n" + 
+        "        FROM um.f_metric t, c \n" + 
+        "       WHERE t.d_period_id > c.start_date \n" + 
+        "         AND t.d_period_id < c.end_date \n" + 
+        "         AND t.metric_definition_id = c.metric_definition_id \n" + 
+	"         AND t.creation_date =   \n" +
+	"                         (select max(fm2.creation_date) \n" +
+ 	"                          from   um.f_metric fm2 \n" +
+	"                          where  t.d_period_id = fm2.d_period_id \n" + 
+	"                          and    t.d_metric_id = fm2.d_metric_id \n" +
+	"    --                      and    nvl(t.d_node_id,-1) = nvl(fm2.d_node_id,-1) \n" +
+	"    --                      and    nvl(t.d_edge_id,-1) = nvl(fm2.d_edge_id,-1) \n" +
+	"			   _WHERE_INNER_ \n" +
+	"                          and    t.d_source_id = fm2.d_source_id \n" +
+	"                          and    t.edr_type_id = fm2.edr_type_id \n" +
+	"			   and	  fm2.d_period_id > ? \n" +
+	"			   and	  fm2.d_period_id < ? \n" +
+	"                          and    t.edr_sub_type_id = fm2.edr_sub_type_id) \n" +
+        "         _WHERE_CLAUSES_" + 
+        "       GROUP BY t.d_period_id, t.metric_definition_id \n" + 
+        "    ), \n" + 
+        "    t3 as \n" + 
+        "    ( \n" + 
+        "       SELECT mt.d_period_id as d_period_id, \n" + 
+        "              round(sum(mt.max_metric),4) as max_metric, \n" + 
+        "              round(sum(mt.min_metric),4) as min_metric, \n" + 
+        "              round(sum(mt.average_metric),4) as average_metric, \n" + 
+        "              round(sum(mt.moving_average),4) as moving_average, \n" + 
+	"              round(sum(mt.sum_metric),4) as sum_metric, \n" +
+        "              max(mt.threshold_version_id) as threshold_version_id \n" + 
+        "        FROM \n" + 
+        "        (   SELECT * from t1 \n" + 
+        "             UNION ALL \n" + 
+        "            SELECT * from t2 \n" + 
+        "        ) mt \n" + 
+        "       GROUP BY mt.d_period_id \n" + 
+        "    ), \n" +
+        "    t4 as \n" +
+        "    (  SELECT /*+ materialize */ \n" +
+        "              d_period_id, \n" + 
+        "              max_metric, \n" + 
+        "              min_metric, \n" + 
+        "              average_metric, \n" + 
+        "              moving_average, \n" + 
+	"              sum_metric, \n" +
+        "              c.forecast_metric_id, \n" + 
+        "              c.metric_operator_id, \n" + 
+        "              -- if forecast metric is defined, this overrides a last-value compare \n" + 
+        "              nvl2(c.forecast_metric_id, 'Y', c.is_operator_relative) is_operator_relative, \n" + 
+        "              -- value to apply threshold to (if not forecast) \n" + 
+        "              -- if forecast metric id defined, then use forecast value (whether it exists or not) \n" + 
+        "              -- else if active operator is defined as relative, use last value \n" + 
+        "              -- otherwise active operator is absolute, use value defined in threshold \n" + 
+        "              case when c.forecast_metric_id is not null \n" +
+        "                   then forecasting.getForecast(c.forecast_metric_id, c.node_id, c.edge_id, c.source_id, c.edr_type_id, c.edr_sub_type_id, d_period_id, c.source_type_id) \n" + 
+        "                   else decode(c.is_operator_relative, 'Y', metrics.getLastValue(d_period_id, c.node_id, c.edge_id, c.source_id, c.source_type_id, c.metric_operator_id, c.metric_definition_id, c.operator_order), 0) \n" +
+        "              end compare_value, \n" + 
+        "              nvl(t3.threshold_version_id, forecasting.getThresholdVersionId(c.edge_id, c.node_id, c.metric_definition_id, c.source_type_id, c.source_id, c.edr_type_id, c.edr_sub_type_id, d_period_id)) as threshold_version_id \n" + 
+        "         FROM t3, c \n" +
+        "    ) \n" +
+        "SELECT d_period_id, \n" + 
+        "       max_metric, \n" + 
+        "       min_metric, \n" + 
+        "       average_metric, \n" + 
+        "       moving_average, \n" + 
+        "       sum_metric, \n" +
+        "       forecast_metric_id, \n" + 
+        "       nvl2(forecast_metric_id, compare_value, null) as forecast_value, \n" + 
+        "       is_operator_relative, \n" + 
+        "       threshold_version_id \n" +
+        "       _EXTRA_SELECT_ " +
+        "  FROM t4 \n" + 
+        "  ORDER BY d_period_id";
     private static final String _FILE_METRIC_SELECT_THRESHOLDS = 
-        "       ,forecasting.getThresholdLimit(3000, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_critical_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3000, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_critical_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3001, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_severe_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3001, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_severe_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3002, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_major_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3002, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_major_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3003, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_minor_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3003, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_minor_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3004, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_info_threshold \n" + 
-        "       ,forecasting.getThresholdLimit(3004, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_info_threshold \n";
+        "       ,\n" +
+        "       forecasting.getThresholdLimit(3000, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_critical_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3000, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_critical_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3001, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_severe_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3001, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_severe_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3002, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_major_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3002, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_major_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3003, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_minor_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3003, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_minor_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3004, 'MAX', threshold_version_id, compare_value, is_operator_relative) max_info_threshold, \n" + 
+        "       forecasting.getThresholdLimit(3004, 'MIN', threshold_version_id, compare_value, is_operator_relative) min_info_threshold \n";
 
-    private static final String _FILE_METRIC_SELECT_NO_THRESHOLDS = 
-		 "     ,null max_critical_threshold \n" +
-		 "     ,null min_critical_threshold \n" +
-		 "     ,null max_severe_threshold \n" +
-		 "     ,null min_severe_threshold \n" +
-		 "     ,null max_major_threshold \n" +
-		 "     ,null min_major_threshold \n" +
-		 "     ,null max_minor_threshold \n" +
-		 "     ,null min_minor_threshold \n" +
-		 "     ,null max_info_threshold \n" +
-		 "     ,null min_info_threshold \n";
-
-		 public static ResultSet getMetricData(
+    public static ResultSet getMetricData(
         Date fromDate,
         Date toDate,
         Integer metricDefinitionId,
@@ -242,39 +204,41 @@ public class MetricChartDAO
         {
             String sql = _FILE_METRIC_SQL;
             String whereClause = getWhereClause(nodeId, edgeId, sourceTypeId, sourceId, edrTypeId, edrSubTypeId);
-            sql = sql.replaceFirst("_WHERE_CLAUSES_", whereClause);       
-            
+            sql = sql.replaceFirst("_WHERE_CLAUSES_", whereClause);
+ 	    String whereClauseInner = whereClause.replace("t.", "fm2.");        
+ 	    sql = sql.replaceFirst("_WHERE_INNER_",whereClauseInner); 
+
             if (thresholds)
             {
-                sql = sql.replaceFirst("_THRESHOLDS_SELECT_", _FILE_METRIC_SELECT_THRESHOLDS);       
+                sql = sql.replaceFirst("_EXTRA_SELECT_", _FILE_METRIC_SELECT_THRESHOLDS);       
             }
             else
             {
-                sql = sql.replaceFirst("_THRESHOLDS_SELECT_", _FILE_METRIC_SELECT_NO_THRESHOLDS);
+                sql = sql.replaceFirst("_EXTRA_SELECT_", "");
             }
-
+            
             if (logger.isDebugEnabled())
             {
                 logger.debug("MetricChartDAO.getMetricData(): Retrieving metric data points using sql - " + sql);
             }
             
             conn = UmDatabaseDAOUtils.getAutoConnection();
-            cleaner.add(conn); 
+            cleaner.add(conn);
 
             // NOTE Avoid using bind variables as this can result in Oracle using
-            // inappropriate/inefficient/cached execution plans  
-            //Integer ALL_ID = new Integer(DropDown.ALL_ID);
-            
-            // JS: Reinstated '0' as a valid selection so that aggregate values can be calculated
-            sql = sql.replaceFirst("\\?", nodeId == null ? "null" : nodeId.toString())
-                     .replaceFirst("\\?", edgeId == null ? "null" : edgeId.toString())
-                     .replaceFirst("\\?", sourceId == null ? "null" : sourceId.toString())
-                     .replaceFirst("\\?", sourceTypeId == null ? "null" : sourceTypeId.toString())
-                     .replaceFirst("\\?", edrTypeId == null ? "null" : edrTypeId.toString())
-                     .replaceFirst("\\?", edrSubTypeId == null ? "null" : edrSubTypeId.toString())
+            // inappropriate/inefficient/cached execution plans
+            Integer ALL_ID = new Integer(DropDown.ALL_ID);
+            sql = sql.replaceFirst("\\?", nodeId == null || ALL_ID.equals(nodeId) ? "null" : nodeId.toString())
+                     .replaceFirst("\\?", edgeId == null || ALL_ID.equals(edgeId) ? "null" : edgeId.toString())
+                     .replaceFirst("\\?", sourceId == null || ALL_ID.equals(sourceId) ? "null" : sourceId.toString())
+                     .replaceFirst("\\?", sourceTypeId == null || ALL_ID.equals(sourceTypeId) ? "null" : sourceTypeId.toString())
+                     .replaceFirst("\\?", edrTypeId == null || ALL_ID.equals(edrTypeId) ? "null" : edrTypeId.toString())
+                     .replaceFirst("\\?", edrSubTypeId == null || ALL_ID.equals(edrSubTypeId) ? "null" : edrSubTypeId.toString())
                      .replaceFirst("\\?", "to_date( '"+fromDate+"','DY, DD MONTH YYYY')")
                      .replaceFirst("\\?", "to_date( '"+toDate+"','DY, DD MONTH YYYY')")
-                     .replaceFirst("\\?", metricDefinitionId.toString());
+                     .replaceFirst("\\?", metricDefinitionId.toString())
+		     .replaceFirst("\\?", "to_date( '"+fromDate+"','DY, DD MONTH YYYY')")
+                     .replaceFirst("\\?", "to_date( '"+toDate+"','DY, DD MONTH YYYY')");
 
             logger.debug("MetricChartDAO.getMetricData(): sql=" + sql);
             stmnt = conn.createStatement();
@@ -368,11 +332,11 @@ public class MetricChartDAO
         ForecastValuesBean forecast = ForecastPackageWrapper.getForecast(
                 forecastMetricId,
                 metricDefinitionId,
-                nodeId == null ? null : nodeId,
-                edgeId == null ? null : edgeId,
-                sourceId == null ? null : sourceId,
-                edrTypeId == null ? null : edrTypeId,
-                edrSubTypeId == null ? null : edrSubTypeId,
+                nodeId == null || DropDown.ALL_ID.equals(String.valueOf(nodeId)) ? null : nodeId,
+                edgeId == null || DropDown.ALL_ID.equals(String.valueOf(edgeId)) ? null : edgeId,
+                sourceId == null || DropDown.ALL_ID.equals(String.valueOf(sourceId)) ? null : sourceId,
+                edrTypeId == null || DropDown.ALL_ID.equals(String.valueOf(edrTypeId)) ? null : edrTypeId,
+                edrSubTypeId == null || DropDown.ALL_ID.equals(String.valueOf(edrSubTypeId)) ? null : edrSubTypeId,
                 dPeriodId);
 
         if(forecast!=null)
@@ -382,3 +346,4 @@ public class MetricChartDAO
         return returnValue;
     }
 }
+

@@ -1,0 +1,244 @@
+#!/usr/bin/perl
+
+##################################################
+# script   : mkCtrlSqlForTestingFromFormat
+# author   : Cartesian Limited
+# author   : rathdv03
+# date     : Tue Feb 11 16:52:57 GMT 2014
+# $Revision: 1.7 
+##################################################
+$version = "$Revision: 1.1 $number";
+
+use lib "$ENV{AGGREGATOR_BUILD}/lib";
+
+use Ascertain::UM::VFI::Format;
+use Data::Dumper;
+
+# N.B.: add lexically scoped variables and assign them in getArgs ($file, below)
+my $table = "TABLE";
+my $datasource;
+
+# comment this out if necessary
+usage() unless (@ARGV);
+getArgs(@ARGV);
+usage() unless (defined $datasource);
+
+my $module = "Ascertain::UM::VFI::Format::$datasource";
+eval 
+{
+	(my $file = $module) =~ s|::|/|g;
+	require $file . '.pm';
+	$module->import();
+    1;
+}
+or do 
+{
+	my $error = $@;
+};
+
+my $oFormat = new Ascertain::UM::VFI::Format({data_source => $datasource, logger => \&logger, debugger => \&logger});
+my $delim = $oFormat->getDelimiter();
+
+
+
+# begin MAIN section
+
+# read the input file 
+my @fields;
+open IN, $file;
+while (<IN>)
+{
+	chomp;
+	@fields = split /$delim/;
+}
+close IN;
+
+my $part1 = 
+"
+LOAD DATA
+  INTO TABLE $table
+  APPEND
+  FIELDS TERMINATED BY '$delim'
+  OPTIONALLY ENCLOSED BY '\"'
+  TRAILING NULLCOLS
+(
+";
+my $part2 = 
+"
+)
+";
+
+my $ctrlFileName = "$table.ctrl";
+my $sqlFileName = "$table.sql";
+open OUT, ">$ctrlFileName";
+open SQL, ">$sqlFileName";
+print OUT "$part1\n";
+print SQL "CREATE TABLE $table\n(";
+my $n = 1;
+my @fields = getFields($oFormat);
+my $fc = scalar(@fields);
+foreach my $f (@fields)
+{
+	print OUT "\t$f CHAR(1024)";
+	print SQL "\t$f VARCHAR2(1024)";
+	unless ($n >= $fc)
+	{
+		print OUT ",";
+		print SQL ",";
+	}
+	print OUT "\n";
+	print SQL "\n";
+	$n++;
+}
+print OUT "$part2\n";
+print SQL ")\nTABLESPACE ASCERTAIN_DATA;\nexit;\n";
+close OUT;
+
+
+sub getFields
+{
+	my $oFormat = shift;
+	my @fields;
+	foreach my $ref (@{$oFormat->getFormat()})
+	{
+		push @fields, $ref->{name};
+	}
+	return @fields;
+}
+
+sub logger
+{
+	my $msg = shift;
+	print "$msg\n";
+}
+
+
+
+# put subs below here
+
+# display some help
+sub usage
+{
+	my $script = $0;
+	my @parts = split /\//, $script;
+	$script = pop(@parts);
+	$script =~ s/\.\///;
+	print "	$script Version: $version\n\n";
+	print "	WHAT DO I DO ? : I create a control file for sqlldr and a sql file to create a table \n";
+	print "	                 that will hold raw recods for an input file for a datasource\n";
+	print "	USAGE:\n\n";
+	print "		$script [{-h|--help}] [{-v|--version}] {-d|--data-source} DS# -t TABLE_NAME [OPTIONS]\n\n";
+	print "\n";
+	print "	OPTIONS:\n";
+	print "		 -h, --help        Display this usage screen.\n";
+	print "		 -v, --version     Display version information.\n";
+	print "		 -d, --data-source Specify datasource.\n";
+	print "		 -t, --table-name  Specify target table name.\n";
+	print "\n";
+	print "	NOTES:\n";
+
+	exit;
+}
+
+# process the arguments -- add as necessary
+sub getArgs
+{
+	while (@_)
+	{
+		my $arg = shift;
+		if ($arg eq '-h' || $arg eq '--help')
+		{
+			usage();
+			exit;
+		}
+		elsif ($arg eq '-v' || $arg eq '--version')
+		{
+			print "Version: $version\n";
+			exit;
+		}
+		elsif ($arg eq '-d' || $arg eq '--data-source')
+		{
+			$datasource = shift;
+		}
+		elsif ($arg eq '-t' || $arg eq '--table-name')
+		{
+			$table = shift;
+		}
+	}
+}
+
+
+=head1 NAME
+
+mkCtrlSqlForTestingFromFormat - Some short description
+
+
+=head1 SYNOPSIS
+
+B<mkCtrlSqlForTestingFromFormat> [OPTION] ...
+
+=head1 DESCRIPTION
+
+Place a desription of this here.
+
+=head2 OPTIONS        
+
+Should include options and parameters.
+
+
+B<-h, --help>
+        display some help and usage.
+
+B<-v, --version>
+        display version information.
+
+
+=head1 USAGE
+
+Usage information goes here.
+
+
+=head1 EXAMPLES
+
+Place examples here.
+
+=head1 RETURN VALUES  
+
+Sections two and three function calls.
+
+=head1 ENVIRONMENT    
+
+Describe environment variables.
+
+=head1 FILES          
+
+Files associated with the subject.
+
+=head1 DIAGNOSTICS    
+
+Normally used for section 4 device interface diagnostics.
+
+=head1 ERRORS         
+
+Sections two and three error and signal handling.
+
+=head1 SEE ALSO       
+
+Cross references and citations.
+
+=head1 STANDARDS      
+
+Conformance to standards if applicable.
+
+=head1 BUGS           
+
+Gotchas and caveats.
+
+=head1 SECURITY CONSIDERATIONS
+
+=head1 COPYRIGHT
+
+Copyright 2014, Cartesian Limited
+
+=cut
+

@@ -20,8 +20,8 @@ sub init
 	$self->{header_regex} = qr/^ASN1BlockNumber/;
 
 	$self->{has_trailer} = FALSE;
-  $self->{currency_factor} = 100; # if in euros then 100, if in cents then 1
-  $self->{data_factor} = 1; # if in MB then 1048576, if in bytes then 1
+	$self->{currency_factor} = 100; # if in euros then 100, if in cents then 1
+	$self->{data_factor} = 1; # if in MB then 1048576, if in bytes then 1
 
 	my $format = 
 	[

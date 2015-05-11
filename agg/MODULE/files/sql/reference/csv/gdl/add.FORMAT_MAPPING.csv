@@ -25,3 +25,24 @@
 100079,PGW Importer (DS70),PGW Importer (DS70),IMPORT
 100080,SGW Importer (DS71),SGW Importer (DS71),IMPORT
 100081,SGSN Importer (DS72),SGSN Importer (DS72),IMPORT
+100090,SMS Interconnect Importer (DS73),SMS Interconnect Importer (DS73),IMPORT
+100091,MSS Interconnect Importer (DS74),MSS Interconnect Importer (DS74),IMPORT
+100092,MMS Interconnect Importer (DS75),MMS Interconnect Importer (DS75),IMPORT
+100093,DWF Output Records Importer (DS76),DWF Output Records  Importer (DS76),IMPORT
+100094,TAPIN MO Importer(DS21),TAPIN MO Importer(DS21),IMPORT
+100095,MMSC ARP Importer(DS47),MMSC ARP Importer(DS47),IMPORT
+100096,GMSC ICCS (Roaming MT) Importer(DS78),GMSC ICCS (Roaming MT) Importer(DS78),IMPORT
+100100,Eircom Importer (DS90),Importer for Eircom (DS90),IMPORT
+100101,BT Importer (DS91),Importer for BT (DS91),IMPORT
+100102,C&W Importer (DS92),Importer for C&W (DS92),IMPORT
+100103,SS Rated Importer (DS93),Importer for SS Rated (DS93),IMPORT
+100104,SS Rated Discarded Importer (DS94),Importer for SS Rated Discarded (DS94),IMPORT
+100105,SS Billed Importer (DS95),Importer for SS Billed (DS95),IMPORT
+100106,VOIP Importer (DS96),Importer for VOIP (DS96),IMPORT
+100108,SS Rated Suspense Importer (DS98),Importer for SS Rated Suspense (DS98),IMPORT
+100109,SS Rated Suspense History Importer (DS99),Importer for SS Rated Suspense History (DS99),IMPORT
+100110,CCS AMA Intermeidate (DS83),CCS AMA Intermeidate (DS83),IMPORT
+100111,CCS AMA Daily (DS83),CCS AMA Daily (DS83),IMPORT
+100112,WAP ICCS (CCS),WAP ICCS (CCS),IMPORT
+100113,GPRS ICCS (CCS),GPRS ICCS (CCS),IMPORT
+100114,ICCS Billed (DS7),ICCS Billed (DS7),IMPORT

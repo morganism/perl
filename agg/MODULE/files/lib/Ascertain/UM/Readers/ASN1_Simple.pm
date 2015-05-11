@@ -39,7 +39,8 @@ sub hasMoreRecords
 	}
 
 	$self->{debugger}( ( defined $self->{current_line} && $self->{current_line} =~ m:/$openTag: ) ? "found </$openTag>" : ( $self->{current_line} ? "return TRUE" : (  $self->{eof} ? "return FALSE" : "call getNextLine and recurse" ) ) );
-			
+	
+	return TRUE if ( defined $self->{numInnerRecs} and  $self->{numInnerRecs} > 0 );
 	return FALSE if ( defined $self->{current_line} && $self->{current_line} =~ m:/$openTag: );
 	return FALSE if ($self->{eof});
 	return TRUE  if ($self->{current_line});
@@ -79,18 +80,46 @@ sub getNextLine
 sub getRecord
 {
 	my $self = shift;
+	
+	if ( defined $self->{numInnerRecs} and  $self->{numInnerRecs} > 0 ) {
+		
+		$self->{record} = undef;
+		my $rec = $self->{record_top_level};
+		my $ir = pop(@{$self->{innerRecs}});
+			
+                foreach my $irKey (keys %$ir) {
+                       $rec->{$irKey} = $ir->{$irKey};
+                }
+
+                $self->{numInnerRecs}--;
+		$self->{record} = $rec;
+	
+		return $self->{record};
+	}
+
 	$self->{record} = undef;
+	$self->{numInnerRecs} = undef;
+	$self->{record_top_level} = undef;
+	$self->{innerRecs} = undef;
 
 	my $rec = {};
 	my $done = 0;
 
 	my $getRecordType = 0;
 	my $fieldCount = 0;
+	
+	my $inInnerRec = 0;
+	my $innerRecCount = 0;
+	my $innerRec = {};
+	my @innerRecs = ();
 
 	my $startRecTag = $self->{asn_start_record_tag};
 	my $endRecTag = $self->{asn_end_record_tag};
 	my $openTag = $self->{asn_opening_tag};
 	
+	my $innerRecStartTag = $self->{asn_inner_start_record_tag};
+	my $innerRecEndTag = $self->{asn_inner_end_record_tag};
+
 	$self->{open_tag} = $openTag;
 
 
@@ -148,6 +177,20 @@ sub getRecord
 			$self->getNextLine();
 			next;
 		}
+		elsif (defined $innerRecStartTag and $line =~ m:(?<!/)$innerRecStartTag:) # negative look behind, match innerRecStartTag not preceded by /
+		{
+			$inInnerRec = 1;
+			$innerRecCount++;
+			next;
+		}
+		elsif (defined $innerRecEndTag and $line =~ m:/$innerRecEndTag:)
+		{
+			$inInnerRec = 0;
+			
+			push(@innerRecs, $innerRec );
+			$innerRec = undef;
+			next;
+		}
 		#------------------------------------------------------------
 		# any other TAG
 		#------------------------------------------------------------
@@ -167,27 +210,47 @@ sub getRecord
 			{
 				my $value = (not defined $val or not length($val)) ? "__PRESENT__" : $val;
 				$value =~ s:[<>/]::g;
-				if (defined $rec->{$key})
-				{
-					if ($key =~ /Generic/) # hack, I know, but limit this to GenericDigits or GenericNumbers
+				
+				if ($inInnerRec) {
+					$innerRec->{$key} = $value;
+				}
+				else { 
+
+					if (defined $rec->{$key})
 					{
-						if (ref ($rec->{$key}) eq "ARRAY")
+						if ($key =~ /Generic/) # hack, I know, but limit this to GenericDigits or GenericNumbers
 						{
-							push @{$rec->{$key}}, $value;
-						}
-						else
-						{
-							my $initialValue = $rec->{$key};
-							$rec->{$key} = [$initialValue, $value];
+							if (ref ($rec->{$key}) eq "ARRAY")
+							{
+								push @{$rec->{$key}}, $value;
+							}
+							else
+							{
+								my $initialValue = $rec->{$key};
+								$rec->{$key} = [$initialValue, $value];
+							}
 						}
 					}
-				}
-				else
-				{
-					$rec->{$key} = $value;
+					else
+					{
+						$rec->{$key} = $value;
+					}
 				}
 			}
 		}
+	}
+
+	$self->{record_top_level} = $rec;
+
+	if ($innerRecCount > 0) {
+	
+		my $ir = pop(@innerRecs);
+		foreach my $irKey (keys %$ir) {
+			$rec->{$irKey} = $ir->{$irKey};
+		}
+
+		$self->{innerRecs} = \@innerRecs;
+		$self->{numInnerRecs} = $innerRecCount - 1;
 	}
 
 	$self->{record} = $rec;

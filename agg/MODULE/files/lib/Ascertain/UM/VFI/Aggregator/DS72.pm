@@ -39,14 +39,23 @@ sub _aggregate
 
 	my $ST_ALL = FALSE;
 	my $ST_DATA_GPRS = FALSE;
-        my $ST_DATA_WAP = FALSE;
-        my $ST_DATA_2G = FALSE;
-        my $ST_DATA_3G = FALSE;
-        my $ST_DATA_4G = FALSE;
+	my $ST_DATA_WAP = FALSE;
+	my $ST_DATA_2G = FALSE;
+	my $ST_DATA_3G = FALSE;
+	my $ST_DATA_4G = FALSE;
+	
+	my $ST_DATA_2G_INBOUND_ROAMERS = FALSE;
+	my $ST_DATA_2G_DOMESTIC = FALSE;
+ 	my $ST_DATA_3G_INBOUND_ROAMERS = FALSE;
+	my $ST_DATA_3G_DOMESTIC = FALSE;
+	my $ST_DATA_PARTNERS = FALSE;
+
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
+
+	$self->specifySourceInit();
 
 	$self->D_USAGE_TYPE("DATA");        #AGGREGATOR KEY
 
@@ -89,11 +98,25 @@ sub _aggregate
         {
                 $ST_DATA_3G = TRUE; push @serviceTypes, "ST_DATA_3G";
                 $ST_UNIDENT = FALSE;
+
+		if (defined $subscriberIMSI and $subscriberIMSI =~ /^27201/ ) {
+			$ST_DATA_3G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_3G_DOMESTIC";
+		}
+		else {
+			$ST_DATA_3G_INBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_3G_INBOUND_ROAMERS";
+		}
         }
         elsif (defined $d->{systemType} and $d->{systemType} =~ /GERAN/  ) # 2G
         {
                 $ST_DATA_2G = TRUE; push @serviceTypes, "ST_DATA_2G";
                 $ST_UNIDENT = FALSE;
+
+		if (defined $subscriberIMSI and $subscriberIMSI =~ /^27201/ ) {
+                        $ST_DATA_2G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_2G_DOMESTIC";
+                }
+                else {
+                        $ST_DATA_2G_INBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_2G_INBOUND_ROAMERS";
+                }
         }
         # 4G traffic should not occur in SGSN but will leave rule here just in case
         elsif (defined $d->{systemType} and $d->{systemType} =~ /EUTRAN/ )  # 4G
@@ -105,12 +128,23 @@ sub _aggregate
         {
                 $ST_DATA_2G = TRUE; push @serviceTypes, "ST_DATA_2G";
                 $ST_UNIDENT = FALSE;
+	
+		if (defined $subscriberIMSI and $subscriberIMSI =~ /^27201/ ) {
+                        $ST_DATA_2G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_2G_DOMESTIC";
+                }
+                else {
+                        $ST_DATA_2G_INBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_2G_INBOUND_ROAMERS";
+                }
         }
 
+	if (    $self->isPartner($subscriberIMSI) ne 0 )
+	{
+		$ST_DATA_PARTNERS = TRUE; push @serviceTypes, "ST_DATA_PARTNERS";
+		$self->specifySourceForAggRecords("ST_DATA_PARTNERS",$self->isPartner($subscriberIMSI));
+	}
 
 
-
-        my $duration = (defined $d->{duration}) ? $d->{duration} : 0;
+	my $duration = (defined $d->{duration}) ? $d->{duration} : 0;
 	my $upVolume = (defined $d->{dataVolumeGPRSUplink}) ? $d->{dataVolumeGPRSUplink} : 0;
 	my $downVolume = (defined $d->{dataVolumeGPRSDownlink}) ? $d->{dataVolumeGPRSDownlink} : 0;
 

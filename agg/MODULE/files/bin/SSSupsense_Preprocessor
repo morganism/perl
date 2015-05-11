@@ -1,0 +1,24 @@
+#!/bin/bash
+
+export BASEDIR=$HOME
+export AGGREGATOR_BUILD=$BASEDIR/AGGREGATOR_BUILD
+
+#DATADIR=datafeed/um
+DATADIR=data/gdl/input
+DS=DS93
+
+FILE_PATTERN_SUSP="Daily_Suspense_*csv.gz"
+FILE_PATTERN_RATED="Daily_RatingSuspense_*csv.gz"
+FINDDIR="$BASEDIR/$DATADIR/$DS/raw"
+OUTDIR_RATED="$BASEDIR/$DATADIR/DS93/in"
+OUTDIR_SUSPENSE="$BASEDIR/$DATADIR/DS98/in"
+OUTDIR_SUSPENSE_HIST="$BASEDIR/$DATADIR/DS99/in"
+
+
+echo "Preprocessing : find $FINDDIR -follow -type f -name $FILE_PATTERN -exec mv $FINDDIR/{} $OUTDIR_SUSPENSE \;"
+
+find $FINDDIR -follow -type f -name "$FILE_PATTERN_RATED" -exec mv -t $OUTDIR_RATED {} +
+find $FINDDIR -follow -type f -name "$FILE_PATTERN_SUSP" -exec cp -t $OUTDIR_SUSPENSE {} +
+find $FINDDIR -follow -type f -name "$FILE_PATTERN_SUSP" -exec mv -t $OUTDIR_SUSPENSE_HIST {} +
+echo Done
+

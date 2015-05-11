@@ -277,13 +277,13 @@ create or replace package metrics is
                      rval number,
                      optype varchar2) return boolean deterministic;
 
-  function getLastValue(a_d_period_id date, 
-                        a_node_id integer, 
-                        a_edge_id integer, 
-                        a_source_id integer, 
-                        a_source_type_id integer, 
-                        a_metric_operator_id integer, 
-                        a_metric_definition_id integer, 
+  function getLastValue(a_d_period_id date,
+                        a_node_id integer,
+                        a_edge_id integer,
+                        a_source_id integer,
+                        a_source_type_id integer,
+                        a_metric_operator_id integer,
+                        a_metric_definition_id integer,
                         a_operator_order integer) return number;
 
   function getLastValue(a_last_value_data last_value_data) return last_value;
@@ -1293,18 +1293,18 @@ create or replace package body metrics is
     return severity_data_ret;
 
   end;
-  
+
   /********
   * Returns the last comparable metric value.
   * Convenience function for getLastValue(last_value_data)
   ********/
-  function getLastValue(a_d_period_id date, 
-                        a_node_id integer, 
-                        a_edge_id integer, 
-                        a_source_id integer, 
-                        a_source_type_id integer, 
-                        a_metric_operator_id integer, 
-                        a_metric_definition_id integer, 
+  function getLastValue(a_d_period_id date,
+                        a_node_id integer,
+                        a_edge_id integer,
+                        a_source_id integer,
+                        a_source_type_id integer,
+                        a_metric_operator_id integer,
+                        a_metric_definition_id integer,
                         a_operator_order integer) return number is
     the_last_value last_value;
     the_last_value_data last_value_data;
@@ -1525,12 +1525,12 @@ create or replace package body metrics is
       return;
     else
       -- get the forecast for this metric/edge/src/d_period
-      
+
       -- VFI-UM: we call the customer version here instead of the out-of-the-box version. reason: it is possible to get
-      -- multiple forecasts covering the same time period. the default getforecast() function retrieves an average of 
+      -- multiple forecasts covering the same time period. the default getforecast() function retrieves an average of
       -- these values. for vfi, because we use time based metrics, we want to return a sum() of only the latest forecasts
       -- for the specified node and sources.
-      
+
       a_metric_return_value.forecast_value := customer.forecasting.getForecast(a_forecast_metric_id,
                                                                       a_node_id,
                                                                       a_edge_id,
@@ -1638,6 +1638,8 @@ create or replace package body metrics is
     I_FILESET_ID              constant integer := 35026;
     J_FILESET_ID              constant integer := 35028;
 
+    v_element_name            varchar2(500);
+    
   begin
     -- the 'compare value will be the metric for non-forecast operators
     -- or the value of abs(forecast - metric) for forecast operators
@@ -1655,10 +1657,32 @@ create or replace package body metrics is
 
       if a_edge_id is not null then
         issue_attrs(EDGE_ATTR_ID) := a_edge_id;
+        
+        begin 
+          select name
+          into   v_element_name
+          from   dgf.edge_ref
+          where  edge_id = a_edge_id;        
+        exception
+          when others then            
+               v_element_name := '';
+        end;
+        
       end if;
 
       if a_node_id is not null then
         issue_attrs(NODE_ATTR_ID) := a_node_id;
+       
+       begin 
+          select name
+          into   v_element_name
+          from   dgf.node_ref
+          where  node_id = a_node_id;        
+        exception
+          when others then            
+               v_element_name := '';
+        end;            
+        
       end if;
 
       if a_source_id is not null then
@@ -1689,8 +1713,9 @@ create or replace package body metrics is
       issue_id := IMM.Issues.insertIssue(the_severity_data.issue_start_issue_type,
                                          the_severity_data.severity_id,
                                          the_severity_data.priority_id,
-                                         NVL(global_operator_desc,
-                                             global_metric_definition_name),
+                                         NVL(v_element_name || ': ' || global_metric_definition_name,
+                                             global_operator_desc
+                                             ),
                                          raisedByUserId, --admin CONSTANT
                                          the_severity_data.issue_start_group_id,
                                          the_severity_data.issue_start_user_id,
@@ -2754,6 +2779,8 @@ create or replace package body metrics is
 
     the_severity_data severity_data;
 
+    v_non_regen_metric  number;
+    
     cursor filesets is
       select i_fileset_id,
              j_fileset_id,
@@ -2969,26 +2996,60 @@ create or replace package body metrics is
                                   .source_type_id;
       end if;
 
-      -- GET THRESHOLD VERSION HERE
-      current_threshold_version_id := getNewThresholdVersionId(NVL(current_edge_id,
-                                                                   current_node_id),
-                                                               current_source_id,
-                                                               current_source_type_id,
-                                                               current_i_max_d_period_id,
-                                                               current_edr_type_id,
-                                                               current_edr_sub_type_id);
+      -- Check if regen is turned on for this metric
+      -- and if the metric already exists  
+      BEGIN  
+          select sum(1)
+          into   v_non_regen_metric
+          from   um.f_metric f
+          where  f.d_period_id = current_d_period
+          and    f.metric_definition_id = current_metric_definition_id
+          and    ( f.d_node_id = current_node_id or current_node_id is null )
+          and    ( f.d_edge_id = current_edge_id or current_edge_id is null )
+          and    not exists ( select 1
+                              from   um.node_metric_jn n 
+                              where  n.node_id = current_node_id
+                              and    n.metric_definition_id = current_metric_definition_id
+                              and    n.is_regenerate = 'Y' )
+          and    not exists ( select 1
+                              from   um.edge_metric_jn e 
+                              where  e.edge_id = current_edge_id
+                              and    e.metric_definition_id = current_metric_definition_id
+                              and    e.is_regenerate = 'Y' );
+       EXCEPTION
+           when others then
+                v_non_regen_metric := 0;
+       END;
 
-      -- CALCULATE the metric!
-      -- use fmo_equation to poulate global_fmo_equation details
-      --loggerAuto('edrCalcMetricFmoEqn: start');
-      the_metric_return_value := edrCalcMetricFmoEqn(the_i_fileset_id,
-                                                     current_i_min_d_period_id,
-                                                     current_i_max_d_period_id,
-                                                     the_j_fileset_id,
-                                                     current_j_min_d_period_id,
-                                                     current_j_max_d_period_id,
-                                                     current_edr_type_id,
-                                                     current_edr_sub_type_id);
+                   
+      -- if not a regen metric and metric already exists then dont re-process, skip to next metric        
+      if (v_non_regen_metric > 0 ) then
+      
+          the_metric_return_value := null;
+      
+      else
+       
+          -- GET THRESHOLD VERSION HERE
+          current_threshold_version_id := getNewThresholdVersionId(NVL(current_edge_id,
+                                                                       current_node_id),
+                                                                   current_source_id,
+                                                                   current_source_type_id,
+                                                                   current_i_max_d_period_id,
+                                                                   current_edr_type_id,
+                                                                   current_edr_sub_type_id);
+
+          -- CALCULATE the metric!
+          -- use fmo_equation to poulate global_fmo_equation details
+          --loggerAuto('edrCalcMetricFmoEqn: start');
+          the_metric_return_value := edrCalcMetricFmoEqn(the_i_fileset_id,
+                                                         current_i_min_d_period_id,
+                                                         current_i_max_d_period_id,
+                                                         the_j_fileset_id,
+                                                         current_j_min_d_period_id,
+                                                         current_j_max_d_period_id,
+                                                         current_edr_type_id,
+                                                         current_edr_sub_type_id);
+      end if;
 
       --loggerAuto('edrCalcMetricFmoEqn: end');
 
@@ -6117,4 +6178,4 @@ create or replace package body metrics is
 end metrics;
 /
 
-exit;
+exit

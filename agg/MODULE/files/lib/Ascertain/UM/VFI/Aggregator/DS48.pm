@@ -93,13 +93,18 @@ sub _aggregate
 	my $ST_DATA_WAP_POSTPAID_STRIP = FALSE;
 	my $ST_CONTENT_POSTPAID = FALSE;
 	my $ST_CONTENT_PREPAID = FALSE;
+
+	my $ST_ICT_MMS = FALSE;
+	my $ST_ICT_MMS_OUT = FALSE;
+	my $ST_ICT_MMS_IN = FALSE;
+	
 	my $ST_UNIDENT = TRUE;
 
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
 	$ST_MMS = TRUE; push @serviceTypes, "ST_MMS";
-  $self->D_USAGE_TYPE("MMS");        #AGGREGATOR KEY
+	$self->D_USAGE_TYPE("MMS");        #AGGREGATOR KEY
 
 
 
@@ -162,6 +167,28 @@ sub _aggregate
 
 
 
+	# INTERCONNECT Service Types
+
+	if (     ( defined $d->{MSG_LEN} and $d->{MSG_LEN} > 0)
+	     and ( defined $d->{OADDR} and defined $d->{DADDR} )
+	     and ( defined $d->{SUCCESS_INDICATOR} and $d->{SUCCESS_INDICATOR} eq "128" ) # TODO: are further values required?
+	     and ( (   defined $d->{DEST_MMSC} and $d->{DEST_MMSC} ne "mms.vodafone.ie" )
+		    or 
+		   (   defined $d->{ORIG_MMSC} and $d->{ORIG_MMSC} ne "mms.vodafone.ie" )
+		 ) 
+	   )
+	{
+		$ST_ITC_MMS = TRUE; push @serviceTypes, "ST_ITC_MMS";
+
+		if ( defined $d->{DIWTYPE} and $d->{DIWTYPE} eq "450" ) # these values need to be confirmed
+		{
+			$ST_ITC_MMS_OUT = TRUE; push @serviceTypes, "ST_ITC_MMS_OUT";
+		}
+		elsif ( defined $d->{OIWTYPE} and $d->{OIWTYPE} eq "451") # these values need to be confirmed
+		{
+			$ST_ITC_MMS_IN = TRUE; push @serviceTypes, "ST_ITC_MMS_IN";
+		}
+	}
 
 	# ---- TIMESLOT
 	# 2011-01-20 14:50:05

@@ -4,7 +4,7 @@
 # Author: Cartesian Limited
 # Author: Chris Hatch
 #
-# $Revision: 1.4 $
+# $Revision: 1.6 $
 ###########################################################
 use strict;
 use English qw( -no_match_vars );
@@ -52,7 +52,7 @@ if ($EVAL_ERROR)
 # Set globals and constants: debugging is off by default and 
 # is overriden by the -debug TYPE arguments are provided
 ###########################################################
-use constant VERSION => '$Revision: 1.4 $';
+use constant VERSION => '$Revision: 1.6 $';
 use constant USAGE   => "Usage: $PROGRAM_NAME <jobId> <logFile> [-f <CONFIG_FILE> -debug <all|base|sql> -version]";
 
 my $defaultConfigFile = $ENV{HOME} . "/.aggregator.xml";
@@ -147,17 +147,30 @@ $job->write($msg) if (not $dbh);
 my $sth = $dbh->prepare($sql);
 $sth->execute();
 
-$job->write("ONXP Datafile file is [$onxpDataFile]");
-open OUT, ">$onxpDataFile";
-while (my ($product, $msisdn, $imsi) = $sth->fetchrow_array())
-{
+my ($product, $msisdn, $imsi) = $sth->fetchrow_array();
+
+# Only write to file if records exist
+if (defined $product) {
+
+    $job->write("ONXP Datafile file is [$onxpDataFile]");
+    open OUT, ">$onxpDataFile";
 	print OUT "$product,$msisdn,$imsi\n";
-}
-close OUT;
-$sth->finish();
-if (-e $onxpDataFile)
-{
+
+    while (($product, $msisdn, $imsi) = $sth->fetchrow_array())
+    {
+    	print OUT "$product,$msisdn,$imsi\n";
+    }
+    close OUT;
+    $sth->finish();
+    if (-e $onxpDataFile)
+    {
 	$job->write("Wrote ONXP Datafile.");
+    }
+}
+else {
+
+    $job->write("Not writing ONXP Datafile, as sql query returning no rows");
+
 }
 
 

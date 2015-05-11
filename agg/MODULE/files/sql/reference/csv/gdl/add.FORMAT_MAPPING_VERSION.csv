@@ -25,3 +25,24 @@
 100079,100079,,20130701,20201231,A,100031,TRUNCATE,Y,PGW,1,N,Y,N,D,gdl/input/DS70/out,gdl/accepted/DS70,gdl/rejected/DS70,gdl/bad/DS70,gdl/log/DS70,[0-9]{20}\.DS70\.out,",",,1
 100080,100080,,20130701,20201231,A,100032,TRUNCATE,Y,SGW,1,N,Y,N,D,gdl/input/DS71/out,gdl/accepted/DS71,gdl/rejected/DS71,gdl/bad/DS71,gdl/log/DS71,[0-9]{20}\.DS71\.out,",",,1
 100081,100081,,20130701,20201231,A,100033,TRUNCATE,Y,SGSN,1,N,Y,N,D,gdl/input/DS72/out,gdl/accepted/DS72,gdl/rejected/DS72,gdl/bad/DS72,gdl/log/DS72,[0-9]{20}\.DS72\.out,",",,1
+100090,100090,,20131101,20201231,A,100090,TRUNCATE,Y,SMS Interconnect,1,N,Y,N,D,gdl/input/DS73/out,gdl/accepted/DS73,gdl/rejected/DS73,gdl/bad/DS73,gdl/log/DS73,[0-9]{20}\.DS73\.out,",",,1
+100091,100091,,20131101,20201231,A,100091,TRUNCATE,Y,MSS Interconnect,1,N,Y,N,D,gdl/input/DS74/out,gdl/accepted/DS74,gdl/rejected/DS74,gdl/bad/DS74,gdl/log/DS74,[0-9]{20}\.DS74\.out,",",,1
+100092,100092,,20131101,20201231,A,100092,TRUNCATE,Y,MMS Interconnect,1,N,Y,N,D,gdl/input/DS75/out,gdl/accepted/DS75,gdl/rejected/DS75,gdl/bad/DS75,gdl/log/DS75,[0-9]{20}\.DS75\.out,",",,1
+100093,100093,,20131101,20201231,A,100093,TRUNCATE,Y,DWF Output Records,1,N,Y,N,D,gdl/input/DS76/out,gdl/accepted/DS76,gdl/rejected/DS76,gdl/bad/DS76,gdl/log/DS76,[0-9]{20}\.DS76\.out,",",,1
+100094,100094,,20131101,20201231,A,100094,TRUNCATE,Y,TAPIN MO,1,N,Y,N,D,gdl/input/DS21/out,gdl/accepted/DS21,gdl/rejected/DS21,gdl/bad/DS21,gdl/log/DS21,[0-9]{20}\.DS21\.out,",",,1
+100095,100095,,20131101,20201231,A,100095,TRUNCATE,Y,MMSC ARP,1,N,Y,N,D,gdl/input/DS47/out,gdl/accepted/DS47,gdl/rejected/DS47,gdl/bad/DS47,gdl/log/DS47,[0-9]{20}\.DS47\.out,",",,1
+100096,100096,,20131101,20201231,A,100096,TRUNCATE,Y,GMSC ICCS (Roaming MT),1,N,Y,N,D,gdl/input/DS78/out,gdl/accepted/DS78,gdl/rejected/DS78,gdl/bad/DS78,gdl/log/DS78,[0-9]{20}\.DS78\.out,",",,1
+100100,100100,,20141001,20201231,A,100100,TRUNCATE,Y,Eircom,1,N,Y,N,D,gdl/input/DS90/out,gdl/accepted/DS90,gdl/rejected/DS90,gdl/bad/DS90,gdl/log/DS90,[0-9]{20}\.DS90\.out,",",,1
+100101,100101,,20141001,20201231,A,100101,TRUNCATE,Y,BT,1,N,Y,N,D,gdl/input/DS91/out,gdl/accepted/DS91,gdl/rejected/DS91,gdl/bad/DS91,gdl/log/DS91,[0-9]{20}\.DS91\.out,",",,1
+100102,100102,,20141001,20201231,A,100102,TRUNCATE,Y,C&W,1,N,Y,N,D,gdl/input/DS92/out,gdl/accepted/DS92,gdl/rejected/DS92,gdl/bad/DS92,gdl/log/DS92,[0-9]{20}\.DS92\.out,",",,1
+100103,100103,,20141001,20201231,A,100103,TRUNCATE,Y,SS Rated,1,N,Y,N,D,gdl/input/DS93/out,gdl/accepted/DS93,gdl/rejected/DS93,gdl/bad/DS93,gdl/log/DS93,[0-9]{20}\.DS93\.out,",",,1
+100104,100104,,20141001,20201231,A,100104,TRUNCATE,Y,SS Rated Discarded,1,N,Y,N,D,gdl/input/DS94/out,gdl/accepted/DS94,gdl/rejected/DS94,gdl/bad/DS94,gdl/log/DS94,[0-9]{20}\.DS94\.out,",",,1
+100105,100105,,20141001,20201231,A,100105,TRUNCATE,Y,SS Billed,1,N,Y,N,D,gdl/input/DS95/out,gdl/accepted/DS95,gdl/rejected/DS95,gdl/bad/DS95,gdl/log/DS95,[0-9]{20}\.DS95\.out,",",,1
+100106,100106,,20141001,20201231,A,100106,TRUNCATE,Y,VOIP,1,N,Y,N,D,gdl/input/DS96/out,gdl/accepted/DS96,gdl/rejected/DS96,gdl/bad/DS96,gdl/log/DS96,[0-9]{20}\.DS96\.out,",",,1
+100108,100108,,20141001,20201231,A,100108,TRUNCATE,Y,SS Rated Suspense,1,N,Y,N,D,gdl/input/DS98/out,gdl/accepted/DS98,gdl/rejected/DS98,gdl/bad/DS98,gdl/log/DS98,[0-9]{20}\.DS98\.out,",",,1
+100109,100109,,20141001,20201231,A,100109,TRUNCATE,Y,SS Rated Suspense History,1,N,Y,N,D,gdl/input/DS99/out,gdl/accepted/DS99,gdl/rejected/DS99,gdl/bad/DS99,gdl/log/DS99,[0-9]{20}\.DS99\.out,",",,1
+100110,100110,,20141001,20201231,A,100110,TRUNCATE,Y,CCS AMA Intermeidate (DS83),1,N,Y,N,D,gdl/input/DS83/out,gdl/accepted/DS83,gdl/rejected/DS83,gdl/bad/DS83,gdl/log/DS83,[0-9]{20}\.DS83\.out,",",,1
+100111,100111,,20141001,20201231,A,100111,TRUNCATE,Y,CCS AMA Daily (DS83),1,N,Y,N,D,gdl/input/DS84/out,gdl/accepted/DS84,gdl/rejected/DS84,gdl/bad/DS84,gdl/log/DS84,[0-9]{20}\.DS84\.out,",",,1
+100112,100112,,20141001,20201231,A,100112,TRUNCATE,Y,WAP ICCS (CCS),1,N,Y,N,D,gdl/input/DS85/out,gdl/accepted/DS85,gdl/rejected/DS85,gdl/bad/DS85,gdl/log/DS85,[0-9]{20}\.DS85\.out,",",,1
+100113,100113,,20141001,20201231,A,100113,TRUNCATE,Y,GPRS ICCS (CCS),1,N,Y,N,D,gdl/input/DS86/out,gdl/accepted/DS86,gdl/rejected/DS86,gdl/bad/DS86,gdl/log/DS86,[0-9]{20}\.DS86\.out,",",,1
+100114,100114,,20141001,20201231,A,100114,TRUNCATE,Y,ICCS Billed (DS7),1,N,Y,N,D,gdl/input/DS7/out,gdl/accepted/DS7,gdl/rejected/DS7,gdl/bad/DS7,gdl/log/DS7,[0-9]{20}\.DS7\.out,",",,1

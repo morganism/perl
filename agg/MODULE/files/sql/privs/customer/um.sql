@@ -21,7 +21,7 @@ grant select, insert, update, delete, references on um.d_custom_01 to customer;
 grant select                                     on um.node_metric_jn to customer;
 grant select                                     on um.file_match_operator_ref to customer;
 grant select                                     on um.mrec_metric_ref  to customer;
-
+grant select                                     on metric_issue_jn to customer;
 
 --Needed for CUSTOMER.V_MREC_CAT_OPEN_ISSUES - view behind mrec category main dashboard table
 grant select on um.mrec_definition_ref to customer;
@@ -69,6 +69,7 @@ grant select on UM.MREC_DEFINITION_REF to customer with grant option;
 grant select on UM.MREC_VERSION_REF to customer with grant option;
 grant select on UM.NODE_METRIC_JN to customer with grant option;
 grant select on UM.SOURCE_REF to customer with grant option;
+
 
 grant execute on um.etl to customer;
 

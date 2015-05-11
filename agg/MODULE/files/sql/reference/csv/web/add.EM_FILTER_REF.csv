@@ -1,0 +1,6 @@
+100000,FREETEXT,Incoming Route,,,N,N,,,Y,N,Y
+100001,FREETEXT,Outgoing Route,,,N,N,,,Y,N,Y
+100002,DROPDOWN,Interconnect,,,N,N,,#{"Yes","Y"}{"No","N"}#,Y,N,Y
+100003,FREETEXT,Service Centre Address,,,N,N,,,Y,N,Y
+100004,DROPDOWN,Exclude,,,N,N,,#{"Yes","Y"}{"No","N"}#,Y,N,Y
+100005,FREETEXT,Dialled Digits,,,N,N,,,,N,Y

@@ -32,12 +32,13 @@ sub _aggregate
   #-- set the vars used as keys and counters when aggregating
   #-- the parent class Aggregator.pm defines available AUTOLOADed terms
 	$self->D_TIMESLOT("1999011401");          #AGGREGATOR KEY
-	$self->D_USAGE_TYPE(UNKNOWN);        #AGGREGATOR KEY
+	$self->D_USAGE_TYPE("MMS");        #AGGREGATOR KEY
 	$self->D_SERVICE_TYPE(UNKNOWN);      #AGGREGATOR KEY
   #--- EVERYTHING ABOVE IS REQUIRED
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
+    $ST_UNIDENT = TRUE;
 
 	#ServiceType = 10 
 #and ServiceID in ("40","41","42","43","44","50","51")
@@ -48,10 +49,10 @@ sub _aggregate
 	)
 	{
 		$ST_MMS = TRUE; push @serviceTypes, "ST_MMS";
-		$self->D_USAGE_TYPE("MMS");        #AGGREGATOR KEY
 		$ST_MMS_POSTPAID = TRUE; push @serviceTypes, "ST_MMS_POSTPAID";
 		$ST_MMS_POSTPAID_HOME = TRUE; push @serviceTypes, "ST_MMS_POSTPAID_HOME";
 		$ST_MMS_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_MMS_POSTPAID_HOME_MO";
+		$ST_UNIDENT = FALSE;
 	}
 
 	
@@ -77,6 +78,8 @@ sub _aggregate
 
 	#--- EVERYTHING BELOW IS REQUIRED
 	# ---- FILL AGGREGATION DATA STRUCTURE
+	
+	push @serviceTypes, "ST_UNIDENT" if ($ST_UNIDENT);
 	$self->{service_types} = \@serviceTypes; # store this in object
 	$self->process
 	(

@@ -1,0 +1,42 @@
+<aggregator>
+
+	<!--General configuration -->
+	<general>
+		<binary name="uncompress" path="/usr/bin/uncompress -c"></binary>
+		<binary name="gunzip" path="/bin/gunzip -c"></binary>
+		<parameter name="timeslot_validity_window" value="999"></parameter><!-- discard records older than this -->
+		<parameter name="validate_files" value="yes"></parameter><!-- perform header/trailer validation -->
+		<parameter name="data_dir_base" value="/usr/revo/datafeed/um"></parameter><!-- all dirs relative to this -->
+		<parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
+		<parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
+		<parameter name="input_batch_size" value="1000"></parameter><!-- number of files to process before writing results -->
+		<parameter name="task_out_dir" value="/usr/revo/BUILD/htdocs/finished_tasks"></parameter>
+		<parameter name="task_dir" value="/usr/revo/datafeed/um/task_files"></parameter>
+		<parameter name="onxp_datafile" value="/usr/revo/datafeed/um/ONXP/onxp.dat"></parameter>
+                <parameter name="iccs_free_number_datafile" value="/usr/revo/datafeed/um/aggregator_ref_data/postpaid_voice_free_of_charge.dat"></parameter>
+                <parameter name="itc_route_datafile" value="/usr/revo/datafeed/um/aggregator_ref_data/interconnect_routes.dat"></parameter>
+                <parameter name="itc_serviceCentre_datafile" value="/usr/revo/datafeed/um/aggregator_ref_data/itc_excl_service_centre.dat"></parameter>
+	</general>
+
+	<datasource name="DS28" type="asn1">
+		<!-- There maybe more than 1 regex container -->
+		<!-- regex is for the RAW format and location -->
+		<raw_regex>^706MSS1-(TT|ICI)FILE\d{2}-03\d+</raw_regex>
+		<!-- N.B. negative lookahead assertion, match 2 '...decoded' not followed by '.tmp' :: (?!\.tmp) -->
+		<regex>^(706MSS1)-(ICI|TT)FILE\d{2}-03\d{4}\.decoded(?!\.tmp)</regex>
+		<neid type="value" value="706MSS103"></neid>
+		<input_dir>DS28/in_706</input_dir>
+		<work_dir>DS28/work_706_03</work_dir>
+		<output_dir>DS28/out</output_dir>
+		<archive_dir>DS28/arc_706_03</archive_dir>
+		<error_dir>DS28/err_706_03</error_dir>
+		<log_dir>DS28/log_706_03</log_dir>
+		<pid_file>/usr/revo/datafeed/um/pid/DS28_706_03.pid</pid_file>
+                <asn_start_record_tag>callModule</asn_start_record_tag>
+                <asn_end_record_tag>callDataRecord</asn_end_record_tag>
+                <asn_opening_tag>MSS_DECODED</asn_opening_tag>
+	</datasource>
+  <datasource name="DUMMY" type="DUMMY">
+    <!-- this is just here to get the multiple datasource containers to "roll up" -->
+  </datasource>
+</aggregator>

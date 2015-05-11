@@ -36,6 +36,8 @@ sub _aggregate
   $self->D_USAGE_TYPE("DATA");        #AGGREGATOR KEY
   #--- EVERYTHING ABOVE IS REQUIRED
 
+	$self->specifySourceInit();
+
 	my $ST_ALL = FALSE;
 	my $ST_DATA = FALSE;
 	my $ST_DATA_GPRS = FALSE;
@@ -45,7 +47,8 @@ sub _aggregate
 	my $ST_DATA_4G = FALSE;
 	my $ST_DATA_2G_POSTPAID = FALSE;
 	my $ST_DATA_3G_POSTPAID = FALSE;
-	my $ST_DATA_4G_POSTPAID = FALSE;		
+	my $ST_DATA_4G_POSTPAID = FALSE;	
+	my $ST_DATA_PARTNERS = FALSE;	
 	my $ST_UNIDENT = FALSE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
@@ -69,6 +72,12 @@ sub _aggregate
 			$ST_DATA_4G_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_4G_POSTPAID";			
 		}	
 	}
+
+    if ($self->isPartner($d->{IMSI}) ne 0) {
+        $ST_DATA_PARTNERS = TRUE; push @serviceTypes, "ST_DATA_PARTNERS";
+		$self->specifySourceForAggRecords("ST_DATA_PARTNERS",$self->isPartner($d->{IMSI}));
+    }
+
 
 	#-- TIMESLOT ----------------------------------------------------------------
 	my $startDate = "20";

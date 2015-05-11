@@ -1,4 +1,4 @@
-100005,UNSPECIFIED,,,#'/imm/issueManagementSetup.do?imId=35000&filter_3010=TODAYS_DATE,TODAYS_DATE&filter_35000='||METRIC_DEFINITION_ID#,,,,,,,Y,
+100005,UNSPECIFIED,,,#'/imm/alertManagementSetup.do?imId=35000&filter_3010=TODAYS_DATE-7,TODAYS_DATE&filter_3002=35200&filter_3017=0&filter_3009=%25'||METRIC_NAME||'%25'#,,,,,,,Y,
 100000,UNSPECIFIED,,,'/web/cd/displayDashboardSetup.do?dashboardId='||MREC_CATEGORY_ID||'&back=yes',,,,,,,Y,
 100300,UNSPECIFIED,,NODE,,,,,,,,Y,
 100301,UNSPECIFIED,,TYPE,,,,,,,,Y,
@@ -14,3 +14,7 @@
 100311,UNSPECIFIED,,PERIOD1_STATUS,,,,,,,,Y,
 100312,UNSPECIFIED,,PERIOD2_STATUS,,,,,,,,Y,
 100313,UNSPECIFIED,,PERIOD3_STATUS,,,,,,,,Y,
+100530,SPECIFIED,'Y','/images/icons/png/regular/16x16/bullet_ball_green.png',,'Yes',,,,,,Y,
+100530,SPECIFIED,'N','/images/icons/png/regular/16x16/bullet_ball_red.png',,'No',,,,,,Y,
+105004,UNSPECIFIED,,,#'/imm/issueManagementSetup.do?imId=3002&filter_3010=TODAYS_DATE-14,TODAYS_DATE&filter_3001='||ISSUE_ID#,,,,,,,Y,
+105002,UNSPECIFIED,,,#'/vfi-um/vfi-um/chartMetricSwfDisplay.do?rebuildFilters=true?isNodeSelected=true&nodeId='||NODE_ID||'&nodeMetricId='||METRIC_DEFINITION_ID||'&sourceId=0&sourceTypeId=0&edrTypeId=0&edrSubTypeId=0&fromDate='||to_char(trunc(sysdate-14),'Dy, DD Month YYYY')||'&toDate='||to_char(trunc(sysdate),'Dy, DD Month YYYY')#,,,,,,,Y,

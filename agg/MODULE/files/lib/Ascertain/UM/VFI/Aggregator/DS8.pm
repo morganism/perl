@@ -70,8 +70,8 @@ sub _aggregate
 	my $ST_SMS_PREPAID = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MT = FALSE;
-	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = FALSE;
-	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MT = FALSE;
+	my $ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = FALSE;
+	my $ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP = FALSE;
 	my $ST_SMS_ROAMING_MO_PREPAID = FALSE;
 	my $ST_SMS_PREMIUM_MO_PREPAID = FALSE;
 	my $ST_SMS_PREMIUM_MT_PREPAID = FALSE;
@@ -95,6 +95,19 @@ sub _aggregate
 	my $ST_DATA_WAP_POSTPAID_STRIP = FALSE;
 	my $ST_CONTENT_POSTPAID = FALSE;
 	my $ST_CONTENT_PREPAID = FALSE;
+
+	my $ST_ITC_SMS_OUT_O2 = FALSE;
+	my $ST_ITC_SMS_OUT_METEOR = FALSE;
+	my $ST_ITC_SMS_OUT_HUTCHINSON = FALSE;
+	my $ST_ITC_SMS_OUT_TESCO = FALSE;
+	my $ST_ITC_SMS_OUT_POSTFONE = FALSE;
+	my $ST_ITC_SMS_OUT_JUSTMOBILE = FALSE;
+	my $ST_ITC_SMS_OUT_LYCA = FALSE;
+	my $ST_ITC_SMS_OUT_OTHER_DEST = FALSE;
+	my $ST_ITC_SMS_OUT = FALSE;
+	
+    my $ST_ARP_FLAG = FALSE;
+
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
@@ -103,51 +116,103 @@ sub _aggregate
 	# common var
 	$ST_SMS = TRUE if (defined $d->{TrafficEventType} and $d->{TrafficEventType} eq "5"); # one of: 21,22,81,82,83,84,86,88,89
 
+    if (defined $d->{PrepaidServerIdentity} and $d->{PrepaidServerIdentity} eq "1") {
+       $ST_ARP_FLAG = TRUE;
+    }
+
 	if ($ST_SMS)
 	{
-		$ST_UNIDENT = FALSE;
-		$ST_SMS = TRUE; push @serviceTypes, "ST_SMS";
-		$ST_SMS_HOME = TRUE; push @serviceTypes, "ST_SMS_HOME";
-
+	
 		# dimensions
-		# UsageType,SubsType,ServiceType(Destination),CallDirection,Roaming,TimeSlot
+        # UsageType,SubsType,ServiceType(Destination),CallDirection,Roaming,TimeSlot
 		my $usageType = "SMS";
 		$self->D_USAGE_TYPE($usageType); #AGGREGATOR KEY
 
-
-
 		# DestinationAddress and OriginatingAddress look like " 91   3576536563565"
-		# trim it
-		my $destinationAddress = (defined $d->{DestinationAddress}) ? $d->{DestinationAddress} : "";
-		my $originatingAddress = (defined $d->{OriginatingAddress}) ? $d->{OriginatingAddress} : "";
-		$destinationAddress =~ s/^\d+\s+//;
-		$originatingAddress =~ s/^\d+\s+//;
-		if 
-		(
-			($destinationAddress =~ /^5\d{4}/) or ($originatingAddress =~ /^5\d{4}/)#
-		) # begins with 5 and has length of 5 digits
+        # trim it
+        my $destinationAddress = (defined $d->{DestinationAddress}) ? $d->{DestinationAddress} : "";
+        my $originatingAddress = (defined $d->{OriginatingAddress}) ? $d->{OriginatingAddress} : "";
+        $destinationAddress =~ s/^\d+\s+//;
+        $originatingAddress =~ s/^\d+\s+//;
+
+		if (not $ST_ARP_FLAG) {
+			$ST_UNIDENT = FALSE;
+			$ST_SMS = TRUE; push @serviceTypes, "ST_SMS";
+			$ST_SMS_HOME = TRUE; push @serviceTypes, "ST_SMS_HOME";
+
+			if 
+			(
+				($destinationAddress =~ /^5\d{4}/) or ($originatingAddress =~ /^5\d{4}/)#
+			) # begins with 5 and has length of 5 digits
+			{
+				$ST_SMS_PREMIUM = TRUE; push @serviceTypes, "ST_SMS_PREMIUM";
+			}
+
+
+			if ((defined $d->{MessageSource} and $d->{MessageSource} eq "0") and ($d->{OriginatingIMSI} =~ /^27201/))
+			{
+				$ST_SMS_HOME_MO = TRUE; push @serviceTypes, "ST_SMS_HOME_MO";
+			}
+			elsif (defined $d->{OriginatingIMSI} and $d->{OriginatingIMSI} eq "0000000000000000")
+			{
+				$ST_SMS_HOME_MT = TRUE; push @serviceTypes, "ST_SMS_HOME_MT";
+			}
+		}
+
+		if ($d->{SourceNode} !~ /^1208001204538367/ and $d->{SourceNode} ne "0000000000000000")
 		{
-			$ST_SMS_PREMIUM = TRUE; push @serviceTypes, "ST_SMS_PREMIUM";
+			if ($ST_ARP_FLAG) {
+				$ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP = TRUE; push @serviceTypes, "ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP";
+			}
+			else {
+				$ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = TRUE; push @serviceTypes, "ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO";
+			}
 		}
 
 
-		if ((defined $d->{MessageSource} and $d->{MessageSource} eq "0") and ($d->{OriginatingIMSI} =~ /^27201/))
-		{
-			$ST_SMS_HOME_MO = TRUE; push @serviceTypes, "ST_SMS_HOME_MO";
+		# Interconnect Service Types
+
+		my $destinationIMSI = (defined $d->{DestinationIMSI}) ? $d->{DestinationIMSI} : "";
+		$destinationIMSI =~ s/\s+//;
+
+		# These are not strictly required but will leave them here for now
+		if ($destinationIMSI  =~ /^27202/) {
+			$ST_ITC_SMS_OUT_O2 = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_O2";
 		}
-		elsif (defined $d->{OriginatingIMSI} and $d->{OriginatingIMSI} eq "000000000000000")
-		{
-			$ST_SMS_HOME_MT = TRUE; push @serviceTypes, "ST_SMS_HOME_MT";
+		elsif ($destinationIMSI  =~ /^27203/) {
+			$ST_ITC_SMS_OUT_METEOR = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_METEOR";
+		}
+		elsif ($destinationIMSI  =~ /^27205/) {
+			$ST_ITC_SMS_OUT_HUTCHINSON = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_HUTCHINSON";
+		}
+		elsif ($destinationIMSI  =~ /^27211/) {
+			$ST_ITC_SMS_OUT_TESCO = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_TESCO";
+		}
+		elsif ($destinationIMSI  =~ /^27201110/) {
+			$ST_ITC_SMS_OUT_POSTFONE = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_POSTFONE";
+		}
+		elsif ($destinationIMSI  =~ /^27201111/) {
+			$ST_ITC_SMS_OUT_JUSTMOBILE = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_JUSTMOBILE";
+		}
+		elsif ($destinationIMSI  =~ /^27213/) {
+			$ST_ITC_SMS_OUT_LYCA = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_LYCA";
+		}
+		elsif ($destinationIMSI  !~ /^27201/ and $destinationAddress  !~ /^00000/) {
+			$ST_ITC_SMS_OUT_OTHER_DEST = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT_OTHER_DEST";
+		}
+
+		if (    (   $destinationIMSI  !~ /^27201/ 
+                         or $destinationIMSI  =~ /^27201111/ # Postfone
+			 or $destinationIMSI  =~ /^27201110/ # Just Mobile
+			)
+		    and $destinationIMSI  !~ /^00000/
+		   )
+                {
+			$ST_ITC_SMS_OUT = TRUE; push @serviceTypes, "ST_ITC_SMS_OUT";
 		}
 
 
-		if (defined $d->{SourceNode} and $d->{SourceNode} !~ /^1208001204538367/)
-		{
-			$ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = TRUE; push @serviceTypes, "ST_SMS_OTHER_OUTBOUND_ROAMERS_MO";
-		}
-
-
-		my $startDateTime = (defined $d->{TrafficEventTime}) ? $d->{TrafficEventTime} : "";
+		my $startDateTime = (defined $d->{AcceptTime}) ? $d->{AcceptTime} : "";
 		$startDateTime =~ s:^(\d{2})(\d{2})(\d{2})(\d{2})(\d*)$:20$1$2$3$4:;
 		my $timeSlot = $startDateTime;
 		unless ($timeSlot =~ m/\d{10}/)

@@ -33,7 +33,7 @@ sub init
 		{name => '3GPPGGSNMCCMNC'},
 		{name => '3GPPGPRSQoSNegotiatedProfile'},
 		{name => '3GPPIMSI'},
-		{name => '3GPPIMSIMCCMNC'},
+		{name => 'GPPIMSIMCCMNC'},
 		{name => '3GPPNSAPI'},
 		{name => '3GPPPDPType'},
 		{name => '3GPPSGSNAddress'},

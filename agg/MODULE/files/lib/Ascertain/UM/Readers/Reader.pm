@@ -8,6 +8,7 @@ use Ascertain::UM::VFI::InvalidLine;
 
 use constant READER_CSV   => "csv";
 use constant READER_FIXED => "fixedwidth";
+use constant READER_AMA   => "ama";
 use constant READER_ASN1  => "asn1";
 
 use constant FALSE => undef;
@@ -36,6 +37,10 @@ sub new
 	$self->{asn_end_record_tag} =  $args->{asn_end_record_tag};
 	$self->{asn_opening_tag} =  $args->{asn_opening_tag};
 
+	$self->{asn_inner_start_record_tag} =  $args->{asn_inner_start_record_tag};
+        $self->{asn_inner_end_record_tag} =  $args->{asn_inner_end_record_tag};
+
+
 	# for convenience : could've got from input_file_obj, oh well 
 	my ($edrFileName, $inputDir, $extension) = fileparse($self->{input_file});
 	$self->{edrFileName} = $edrFileName;
@@ -44,6 +49,7 @@ sub new
 	# can't determine this at first for multis
 	unless ($self->{format_obj}->isMultiFormat())
 	{
+		# @NOTE: ensure all formats do setFormatFields at some point
 		@{$self->{format_fields}} = map {$_->{name}} @{$self->{format_obj}->getFormat()};
 		$self->{format_field_count} = scalar(@{$self->{format_fields}});
 	}
@@ -99,6 +105,10 @@ sub openFile
 		$fileOpenCommand = "$command " . $inputFile . '|';
 		$self->{logger}("Opening compressed file as stream.");
 	}
+        if ($self->{format_obj}->hasDecoder()){
+            $fileOpenCommand .= $self->{format_obj}->getDecoder().'|';
+        }
+
 	$self->{debugger}("Opening file with command: $fileOpenCommand");
 	open (my $fh, "$fileOpenCommand") or die "Reader.pm->openFile: Error opening file $fileOpenCommand : Reason[$!]";
 	$self->{fh} = $fh;	

@@ -3,3 +3,7 @@
 135251,35027,30,Log message,Log message,"[!log valsql select to_char(msg_date, 'HH24:MI:SS'), msg from utils.messages where job_id = [job_id] order by msg_id]",
 135255,35028,30,Run Volumetric Reconciliation by Category,Run Volumetric Reconciliation by Category,"call um.volumetricrec_daily.mRecByCategoryProcBLE([mrec_cat_id],[offset],[num_days],[job_id],'[debug]')",
 135258,35029,30,Run Volumetric Reconciliation by Billing Chain,Run Volumetric Reconciliation by Billing Chain,"call um.volumetricrec_daily.mRecByGraphProcBLE([mrec_graph_id],[offset],[num_days],[job_id],'[debug]')",
+135260,35027,15,Count active Mrec,Produce a count of active Mrec versions,"[!create varsql mrec_active_count select count(*) from um.mrec_version_ref mvr where mvr.mrec_definition_id = [mrec_id] and status = 'A']",
+135261,35027,16,Log active versions,Notify if no active Mrec versions exist,"[!log valsql select decode([mrec_active_count], 0, 'Warning: No active reconciliations found','[mrec_active_count] Active Reconciliations found') from dual]",
+135262,35027,17,Exit if no active Mrec versions,Exit job if active Mrec versions < 1,"[!exitTest valsql SELECT decode([mrec_active_count], 0, 31,0) FROM DUAL]",
+10001001,100010,1,Add partner sources,Add partner sources,EXTERNAL.10001001,N

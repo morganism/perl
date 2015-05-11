@@ -14,7 +14,7 @@ our @ISA = qw(Ascertain::UM::VFI::Aggregator);
 #------------------------------------------------------------------------------
 
 use constant TRUE => 1;
-use constant FALSE => undef;
+use constant FALSE => 0;
 use constant UNKNOWN => "UNKNOWN";
 
 
@@ -43,7 +43,10 @@ sub _aggregate
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MT = FALSE;
 	my $ST_DATA_GPRS = FALSE;
+	my $ST_VOICE_PARTNERS = FALSE;
+	my $ST_DATA_PARTNERS = FALSE;
 
+	$self->specifySourceInit();
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
@@ -69,10 +72,18 @@ sub _aggregate
 				if ($d->{recordtype} =~ /20|71/)
 				{
 					$ST_VOICE_INBOUND_ROAMERS_MO = TRUE; push @serviceTypes, "ST_VOICE_INBOUND_ROAMERS_MO";
+					if ($self->isPartner($d->{imsi}) ne 0) {
+            			$ST_VOICE_PARTNERS = TRUE; push @serviceTypes, "ST_VOICE_PARTNERS";
+        				$self->specifySourceForAggRecords("ST_VOICE_PARTNERS",$self->isPartner($d->{imsi}));
+        			}
 				}
 				elsif ($d->{recordtype} eq "30" && $d->{location_area_id} ne "99999")
 				{
 					$ST_VOICE_INBOUND_ROAMERS_MT = TRUE; push @serviceTypes, "ST_VOICE_INBOUND_ROAMERS_MT";
+					if ($self->isPartner($d->{imsi}) ne 0) {
+                        $ST_VOICE_PARTNERS = TRUE; push @serviceTypes, "ST_VOICE_PARTNERS";
+                        $self->specifySourceForAggRecords("ST_VOICE_PARTNERS",$self->isPartner($d->{imsi}));
+                    }
 				}
 			}
 		}
@@ -92,10 +103,13 @@ sub _aggregate
 			{
 				$ST_DATA_GPRS = TRUE; push @serviceTypes, "ST_DATA_GPRS";
 				$self->D_USAGE_TYPE("DATA");        #AGGREGATOR KEY
+				if ($self->isPartner($d->{imsi}) ne 0) {
+            		$ST_DATA_PARTNERS = TRUE; push @serviceTypes, "ST_DATA_PARTNERS";
+        			$self->specifySourceForAggRecords("ST_DATA_PARTNERS",$self->isPartner($d->{imsi}));
+        		}
 			}
 		}
 	}
-
 
 	# ---- TIMESLOT
 	#2010-12-17 11:53:46
@@ -110,6 +124,12 @@ sub _aggregate
 	$self->D_TIMESLOT($timeSlot); #AGGREGATOR KEY
 	# ---- TIMESLOT
 	my $revenue = (defined $d->{charge_sdr}) ? $d->{charge_sdr} : 0;
+	my $duration = (defined $d->{duration}) ? $d->{duration} : 0;
+        my $bytes1 = (defined $d->{data_vol_ref}) ? $d->{data_vol_ref} : 0;
+ 	my $bytes2 = (defined $d->{data_vol}) ? $d->{data_vol} : 0;
+
+	my $bytes = $bytes2 . $bytes1;
+	
 	$revenue =~ s/\D//g; # has an 'A' in it
 
 	#--- EVERYTHING BELOW IS REQUIRED
@@ -119,8 +139,8 @@ sub _aggregate
 	(
 		{
 			event_count  => 1,
-			sum_duration => 0,
-			sum_bytes    => 0,
+			sum_duration => $duration,
+			sum_bytes    => $bytes,
 			sum_value    => $revenue
 		}
 	); # call the method in the parent class

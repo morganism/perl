@@ -100,7 +100,7 @@ $(document).ready(function() {
 			<tr align="left" class="fileBlock"  style="${fileBlockDisplay};">
 				<asc:showFilterAjaxTD name="UmMrecEdge" selectClass="fixedwidth100"  showAll="true" allText="&lt;Please Select&gt;"/>
 			</tr>
-             <tr>
+            <tr>
                 <td class="filter_label" nowrap="nowrap">
                     Include Thresholds?
                 </td>
@@ -109,15 +109,7 @@ $(document).ready(function() {
                 <%
                   String incThresh;
                   incThresh = request.getParameter("includeThresholds");
-                  if (incThresh == null || "false".equals(incThresh))
-                  {
-                %>
-                    <input type="radio" name="includeThresholds" value="true"/>Yes
-                    &nbsp;&nbsp;
-                    <input type="radio" name="includeThresholds" value="false" checked="true"/>No
-                <%
-                  }
-                  else
+                  if (incThresh == null || "true".equals(incThresh))
                   {
                 %>
                     <input type="radio" name="includeThresholds" value="true" checked="true"/>Yes
@@ -125,8 +117,73 @@ $(document).ready(function() {
                     <input type="radio" name="includeThresholds" value="false"/>No
                 <%
                   }
+                  else
+                  {
+                %>
+                    <input type="radio" name="includeThresholds" value="true"/>Yes
+                    &nbsp;&nbsp;
+                    <input type="radio" name="includeThresholds" value="false" checked="true"/>No
+                <%
+                  }
                 %>
                 </td>
+            </tr>
+            <tr>
+                <td class="filter_label" nowrap="nowrap">
+                    Display Type?
+                </td>
+                <td width="1">&nbsp;</td>
+                <td class="filter_value" nowrap="nowrap">
+                <%
+                  String displayType;
+                displayType = request.getParameter("displayType");
+                  if (displayType == null || "percentage".equals(displayType))
+                  {
+                %>
+                    <input type="radio" name="displayType" value="absolute"/>Absolute
+                    &nbsp;&nbsp;
+                    <input type="radio" name="displayType" value="percentage" checked="true"/>Percentage
+                <%
+		  }
+		  else
+                  {
+                %>
+                    <input type="radio" name="displayType" value="absolute" checked="true"/>Absolute
+                    &nbsp;&nbsp;
+                    <input type="radio" name="displayType" value="percentage"/>Percentage
+                <%
+                  }
+                %>
+                </td>
+            </tr>
+	    <tr>
+                <td class="filter_label" nowrap="nowrap">
+                    Reconciliation Type?
+                </td>
+                <td width="1">&nbsp;</td>
+                <td class="filter_value" nowrap="nowrap">
+                <%
+                  String reconciliationType;
+                reconciliationType = request.getParameter("reconciliationType");
+                  if (reconciliationType == null || "value".equals(reconciliationType))
+                  {
+                %>
+                    <input type="radio" name="reconciliationType" value="value" checked="true"/>Value
+                    &nbsp;&nbsp;
+                    <input type="radio" name="reconciliationType" value="forecast"/>Forecast
+                <%
+                  }
+                  else
+                  {
+                %>
+                    <input type="radio" name="reconciliationType" value="value"/>Value
+                    &nbsp;&nbsp;
+                    <input type="radio" name="reconciliationType" value="forecast" checked="true"/>Forecast
+                <%
+                  }
+                %>
+                </td>
+            </tr>
             <tr>
                 <td class="filter_label"></td>               
 	            <td width="1">&nbsp;</td>

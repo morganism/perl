@@ -15,6 +15,4 @@ if [ -z $CARTESIAN_PROPERTIES ]; then
   exit
 fi
 
-cp $ASCERTAIN_BUILD/config/aggregator_DS45.xml $HOME/datafeed/aggregator_config/.aggregator_DS45.xml
-
 

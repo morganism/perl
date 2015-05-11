@@ -29,7 +29,7 @@ create or replace package partitioning_utils AUTHID CURRENT_USER is
         pPartitionType in varchar2 default 'D');
 
     /**
-    * This procedure will partition the given table between the specified dates 
+    * This procedure will partition the given table between the specified dates
     * If the start date is null then the first partition will be created directly after the most recent partition
     * The end date must be defined
     */
@@ -41,10 +41,10 @@ create or replace package partitioning_utils AUTHID CURRENT_USER is
         pEndDate       in varchar2,
         pPartitionType in varchar2 default 'D');
 
-                          
+
     /**
-    * This procedure will partition all table in a given schema to ensure that there are enough 
-    * partitions to provide the required buffer 
+    * This procedure will partition all table in a given schema to ensure that there are enough
+    * partitions to provide the required buffer
     */
     procedure addNumRangePartitionsToSchema (
         pJobId         in pls_integer,
@@ -52,8 +52,8 @@ create or replace package partitioning_utils AUTHID CURRENT_USER is
         pBuffer        in varchar2);
 
     /**
-    * This procedure will partition the given table to ensure that there are enough 
-    * partitions to provide the required buffer 
+    * This procedure will partition the given table to ensure that there are enough
+    * partitions to provide the required buffer
     */
     procedure addNumRangePartitionsToTable(
         pJobId         in pls_integer,
@@ -61,7 +61,7 @@ create or replace package partitioning_utils AUTHID CURRENT_USER is
         pTable         in varchar2,
         pBuffer        in varchar2);
 
-                          
+
 end partitioning_utils;
 /
 create or replace package body partitioning_utils is
@@ -69,9 +69,9 @@ create or replace package body partitioning_utils is
     ----------------------------------------------------------------------------------------------
     -- Private variable definitions
     ----------------------------------------------------------------------------------------------
-    
+
     NUMBER_RANGE_PARTITION_SIZE integer := 100000;  -- If you feel the need to change this please stick to multiples of 1000!!!!
-    
+
     vModuleName   varchar2(100); -- output for debugging
     vParmList     varchar2(200); -- parameter list used for debugging
 
@@ -88,7 +88,7 @@ create or replace package body partitioning_utils is
         pJobId         in pls_integer,
         pSchema        in varchar2,
         pMonths        in number,
-        pPartitionType in varchar2 default 'D') 
+        pPartitionType in varchar2 default 'D')
     is
         vStartDate varchar2(8);
         vEndDate   varchar2(8);
@@ -100,7 +100,7 @@ create or replace package body partitioning_utils is
 
         vStartDate := TO_CHAR(sysdate, 'yyyymmdd');
         vEndDate   := TO_CHAR(add_months(sysdate, pMonths), 'yyyymmdd');
-    
+
         addDateRangePartitionsToSchema(pJobId, pSchema, vStartDate, vEndDate, pPartitionType);
     end;
 
@@ -115,11 +115,13 @@ create or replace package body partitioning_utils is
         pSchema        in varchar2,
         pStartDate     in varchar2 default null,
         pEndDate       in varchar2,
-        pPartitionType in varchar2 default 'D') 
+        pPartitionType in varchar2 default 'D')
     is
         TYPE tPartTabs is TABLE of all_tables.table_name%type;
         vPartTabs tPartTabs; -- table of partitioned table names
 
+        is_interval number;
+        
     begin
         -- log the call to utils.messages
         vModuleName := 'partitioning_utils.addPartitionsToSchema';
@@ -127,27 +129,43 @@ create or replace package body partitioning_utils is
         utils.logging_utils.putMessage(vModuleName, vModuleName || chr(10) || vParmList, pJobId, 'Y');
 
         -- get a list of all range partitioned tables in the specified schema
-        -- we assume that they are all date range partitions, if not this method is not for you 
+        -- we assume that they are all date range partitions, if not this method is not for you
         select t.table_name bulk collect
         into vPartTabs
         from all_tables t, all_part_tables t1
         where t.owner = pSchema
         and t.table_name = t1.table_name
-        and t1.partitioning_type = 'RANGE';
+        and t1.partitioning_type = 'RANGE' ;
 
         -- iterate through these tables
         FOR cPartTabs IN 1 .. vPartTabs.COUNT loop
-            addDateRangePartitionsToTable(pJobId, pSchema, vPartTabs(cPartTabs), pStartDate, pEndDate, pPartitionType);
-        end loop;
+          
+            begin 
+              select regexp_instr(DBMS_METADATA.GET_DDL('TABLE',upper(vPartTabs(cPartTabs))),'PARTITION BY.*INTERVAL')
+              into   is_interval
+              from   dual;
+            exception 
+                 when others then
+                   is_interval := 0;      
+            end;
+              
+            if is_interval = 0 then 
+               addDateRangePartitionsToTable(pJobId, pSchema, vPartTabs(cPartTabs), pStartDate, pEndDate, pPartitionType);
+            else 
+               utils.logging_utils.putMessage(vModuleName, 'Not adding partitions to ' || vPartTabs(cPartTabs) || ' as it has Interval partitioning.', pJobId, 'Y');       
+            end if;
         
+            
+        end loop;
+
         exception
             when others then
               utils.logging_utils.putMessage(vModuleName, sqlerrm, pJobId, 'Y');
               RAISE_APPLICATION_ERROR(-20003, 'Job Id:' || pJobId || ' Module ' || vModuleName || ' error:' || sqlerrm);
     end;
-    
+
     /**
-    * This procedure will partition the given table between the specified dates 
+    * This procedure will partition the given table between the specified dates
     * If the start date is null then the first partition will be created directly after the most recent partition
     * The end date must be defined
     */
@@ -157,7 +175,7 @@ create or replace package body partitioning_utils is
         pTable         in varchar2,
         pStartDate     in varchar2 default null,
         pEndDate       in varchar2,
-        pPartitionType in varchar2 default 'D') 
+        pPartitionType in varchar2 default 'D')
     is
         vNextPartition date;
         vTempDate      date;
@@ -183,17 +201,17 @@ create or replace package body partitioning_utils is
         )
         and table_owner = pSchema
         and table_name = pTable;
-        
+
         --If tablespace is null then this is most likly and IOT table, if it isn't then this needs fixing!!
-        if vTablespace is null 
+        if vTablespace is null
         then
-            select distinct ds.tablespace_name 
+            select distinct ds.tablespace_name
             into vTablespace
             from all_constraints ac
             inner join user_segments ds
                     on ac.constraint_name = ds.segment_name
 --                   and ac.owner = ds.owner
-            where ac.owner = pSchema       
+            where ac.owner = pSchema
             and ac.table_name = pTable
             and ac.constraint_type = 'P';
         end if;
@@ -230,7 +248,7 @@ create or replace package body partitioning_utils is
             end if;
         end if;
 
-        -- check that the end date is later than the last current partition, 
+        -- check that the end date is later than the last current partition,
         -- and that it is also later than the start date
         vTempEndDate := TO_DATE(pEndDate, 'yyyymmdd');
 
@@ -285,7 +303,7 @@ create or replace package body partitioning_utils is
         utils.logging_utils.putMessage(vModuleName, vModuleName || chr(10) || vParmList, pJobId, 'Y');
 
         -- get a list of all range partitioned tables in the specified schema
-        -- we assume that they are all number range partitions, if not this method is not for you 
+        -- we assume that they are all number range partitions, if not this method is not for you
         select t.table_name bulk collect
         into vPartTabs
         from all_tables t, all_part_tables t1
@@ -298,15 +316,15 @@ create or replace package body partitioning_utils is
         FOR cPartTabs IN 1 ..  vPartTabs.COUNT loop
             addNumRangePartitionsToTable(pJobId, pSchema, vPartTabs(cPartTabs), pBuffer);
         end loop;
-        
+
         exception
             when others then
               utils.logging_utils.putMessage(vModuleName, sqlerrm, pJobId, 'Y');
               RAISE_APPLICATION_ERROR(-20003, 'Job Id:' || pJobId || ' Module ' || vModuleName || ' error:' || sqlerrm);
     end;
-    
+
     /**
-    * This procedure will partition the given table between the specified dates 
+    * This procedure will partition the given table between the specified dates
     * If the start date is null then the first partition will be created directly after the most recent partition
     * The end date must be defined
     */
@@ -341,7 +359,7 @@ create or replace package body partitioning_utils is
         where table_owner = pSchema
         and table_name = pTable
         and nvl(num_rows,0) = 0;
-        
+
         vSpareCapacity := vEmptyPartitions * (NUMBER_RANGE_PARTITION_SIZE);
         if vSpareCapacity < pBuffer
         then
@@ -358,9 +376,9 @@ create or replace package body partitioning_utils is
             )
             and table_owner = pSchema
             and table_name = pTable;
-            
+
             --If tablespace is null then this is most likely an IOT table, if it isn't then this needs fixing!!
-            if vTablespace is null 
+            if vTablespace is null
             then
                 select distinct ds.tablespace_name
                 into vTablespace
@@ -368,7 +386,7 @@ create or replace package body partitioning_utils is
                 inner join user_segments ds
                         on ac.constraint_name = ds.segment_name
 --                       and ac.owner = ds.owner
-                where ac.owner = pSchema       
+                where ac.owner = pSchema
                 and ac.table_name = pTable
                 and ac.constraint_type = 'P';
             end if;
@@ -381,26 +399,26 @@ create or replace package body partitioning_utils is
             vCounter := 0;
             while vCounter < vNewPartitionCount loop
                 --Decrement partition count
-                vCounter := vCounter + 1; 
-    
+                vCounter := vCounter + 1;
+
                 --Create SQL
                 vNewPartitionValue := (vCurrentPartition + (vCounter * NUMBER_RANGE_PARTITION_SIZE))/1000;
-                vNewPartitionName := 'P' || vNewPartitionValue || 'k'; 
+                vNewPartitionName := 'P' || vNewPartitionValue || 'k';
                 vStmt := 'ALTER TABLE ' || pSchema || '.' || pTable ||
                          ' ADD PARTITION ' || vNewPartitionName ||
                          ' VALUES LESS THAN (' || ((vCounter * NUMBER_RANGE_PARTITION_SIZE) + vCurrentPartition) || ')' ||
                          ' TABLESPACE ' || vtablespace;
-    
+
                 -- and log a message
                 utils.logging_utils.putMessage(vModuleName, 'executing: ' || vStmt, pJobId, 'Y');
-    
+
                 -- execute the sql
                 execute immediate vStmt;
-                
+
             end loop;
         end if;
     end;
 end partitioning_utils;
 /
-exit;
 
+exit;

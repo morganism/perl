@@ -83,3 +83,93 @@
 100082,ST_DATA_3G_POSTPAID,Data 3G Postpaid
 100083,ST_DATA_4G_PREPAID,Data 4G Prepaid
 100084,ST_DATA_4G_POSTPAID,Data 4G Postpaid
+100090,ST_ITC_SMS_OUT_O2,Interconnect SMS Outgoing O2
+100091,ST_ITC_SMS_OUT_METEOR,Interconnect SMS Outgoing Meteor
+100092,ST_ITC_SMS_OUT_HUTCHINSON,Interconnect SMS Outgoing Hutschinson
+100093,ST_ITC_SMS_OUT_TESCO,Interconnect SMS Outgoing Tesco
+100094,ST_ITC_SMS_OUT_POSTFONE,Interconnect SMS Outgoing Postfone
+100095,ST_ITC_SMS_OUT_JUSTMOBILE,Interconnect SMS Outgoing Just Mobile
+100096,ST_ITC_SMS_OUT_LYCA,Interconnect SMS Outgoing Lyca
+100097,ST_ITC_SMS_OUT_OTHER_DEST,Interconnect SMS Outgoing Other
+100098,ST_ITC_SMS,Interconnect SMS
+100099,ST_ITC_VOICE,Interconnect Voice
+100100,ST_ITC_MMS,Interconnect MMS
+100101,ST_ITC_MMS_OUT,Interconnect MMS Outgoing
+100102,ST_ITC_MMS_IN,Interconnect MMS Incoming
+100103,ST_ITC_VOICE_OUT,Interconnect Voice Outgoing
+100104,ST_ITC_VOICE_IN,Interconnect Voice Incoming
+100105,ST_ITC_SMS_OUT,Interconnect SMS Outgoing
+100106,ST_ITC_SMS_IN,Interconnect SMS Incoming
+100107,ST_ITC_NOROUTE,Interconnect No Interconnect Route
+100110,ST_VOICE_POSTPAID_HOME_MO_FREE,Voice Postpaid Home Mobile Originated Free
+100120,ST_DATA_2G_DOMESTIC,Data 2G Domestic
+100121,ST_DATA_3G_DOMESTIC,Data 3G Domestic
+100122,ST_DATA_4G_DOMESTIC,Data 4G Domestic
+100123,ST_DATA_4G_INBOUND_ROAMERS,Data 4G Inbound Roamers
+100124,ST_DATA_3G_INBOUND_ROAMERS,Data 3G Inbound Roamers
+100125,ST_DATA_2G_INBOUND_ROAMERS,Data 2G Inbound Roamers
+100126,ST_DATA_4G_OUTBOUND_ROAMERS,Data 4G Outbound Roamers
+100127,ST_DATA_3G_OUTBOUND_ROAMERS,Data 3G Outbound Roamers
+100128,ST_DATA_2G_OUTBOUND_ROAMERS,Data 2G Outbound Roamers
+100129,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP,SMS Outbound Postpaid Roamers Mobile Originating Alternative Roaming Provider
+100130,ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO,SMS Outbound Postpaid Roamers Mobile Originating
+100131,ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP,Voice Outbound Postpaid Roamers Mobile Terminating Alternative Roaming Provider
+100132,ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP,Voice Outbound Prepaid Roamers Mobile Terminating Alternative Roaming Provider
+100133,ST_MMS_POSTPAID_ARP,MMS Postpaid Alternative Roaming Provider
+100134,ST_MMS_POSTPAID_HOME_MO_ARP,MMS Postpaid Home Mobile Originating Alternative Roaming Provider
+100135,ST_MMS_PREPAID_ARP,MMS Prepaid Alternative Roaming Provider
+100136,ST_MMS_PREPAID_HOME_MO_ARP,MMS Prepaid Home Mobile Originating Alternative Roaming Provider
+100137,ST_DATA_2G_ARP,Data 2G Alternative Roaming Provider
+100138,ST_DATA_3G_ARP,Data 3G Alternative Roaming Provider
+100139,ST_DATA_4G_ARP,Data 4G Alternative Roaming Provider
+100140,ST_DATA_WAP_ARP,Data WAP Alternative Roaming Provider
+100141,ST_DATA_GPRS_ARP,Data GPRS Alternative Roaming Provider
+100142,ST_DATA_GPRS_OUTBOUND_ROAMERS,Data GPRS Outbound Roamers
+100143,ST_DATA_WAP_OUTBOUND_ROAMERS,Data WAP Outbound Roamers
+100154,ST_DATA_2G_OUTBOUND_ROAMERS_ARP,Data 2G Outbound Roamers Alternative Roaming Provider
+100155,ST_DATA_3G_OUTBOUND_ROAMERS_ARP,Data 3G Outbound Roamers Alternative Roaming Provider
+100156,ST_DATA_4G_OUTBOUND_ROAMERS_ARP,Data 4G Outbound Roamers Alternative Roaming Provider
+100157,ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP,Data GPRS Outbound Roamers Alternative Roaming Provider
+100158,ST_DATA_WAP_OUTBOUND_ROAMERS_ARP,Data WAP Outbound Roamers Alternative Roaming Provider
+100160,ST_AGG_SUCCESS,Successful Aggregation of a file
+100161,ST_AGG_FAILED,Failed Aggregation of a file
+100162,ST_AGG_REJECTED,Rejected Records during Aggregation
+100170,ST_VOICE_PARTNERS,Voice for Partner customers (MVNO & Wholesale)
+100171,ST_DATA_PARTNERS,Data for Partner customers (MVNO & Wholesale)
+100172,ST_VOICE_IN_BUNDLE,Voice In Bundle
+100173,ST_VOICE_OUT_BUNDLE,Voice Out of Bundle
+100174,ST_VOICE_FO,Fixed Line Voice Originating
+100175,ST_VOICE_FT,Fixed Line Voice Terminating
+100176,ST_VOICE_INTL,Voice International
+100177,ST_VOICE_DOM,Voice Domestic
+100178,ST_VOICE_MT,Voice Mobile
+100179,ST_VOICE_MT_INTL,Voice Mobile International
+100180,ST_VOICE_INTL_FREE,Voice Mobile International Free
+100181,ST_VOICE_PREMIUM,Voice Premium
+100182,ST_VOICE_PREMIUM_INTL,Vocie Premium International
+100183,ST_VOICE_INTERNET,Voice Internet
+100184,ST_VOICE_VOIP,Voip
+100185,ST_VOICE_DQ,Directory Enquiries
+100186,ST_VOICE_LOW_CALL,Voice Low-Call
+100187,ST_VOICE_NGN,NGN
+100188,ST_VOICE_PROMOTIONAL,Voice Promotional
+100189,ST_VOICE_ANCILIARY,Anciliary
+100190,ST_VOICE_INBOUND,Voice Inbound
+100191,ST_SUSPENSE,Suspense
+100192,ST_VOICE_SUSPENSE,Voice Suspense
+100193,ST_VOICE_AGED,Voice Suspense Aged
+100194,ST_VOICE_EXPIRING,Voice Suspense About to Expire
+100195,ST_VOICE_DISCARDED,Voice Discarded
+100196,ST_DISCARDED,Discarded CDR
+100197,ST_SMS_IN_BUNDLE,SMS In Bundle
+100198,ST_SMS_OUT_BUNDLE,SMS Out of Bundle
+100199,ST_DATA_IN_BUNDLE,Data In Bundle
+100200,ST_DATA_OUT_BUNDLE,Data Out of Bundle
+100201,ST_MMS_IN_BUNDLE,MMS In Bundle
+100202,ST_MMS_OUT_BUNDLE,MMS Out of Bundle
+100203,ST_OTHER_SUSPENSE,Other Suspense
+100204,ST_OTHER_DISCARDED,Other Discarded
+100210,ST_DATA_STRIP,Stripped Data
+100211,ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP,Stripped Data GPRS Roamers
+100212,ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP,Stripped Data WAP Roamers
+100213,ST_DATA,Data

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+export BASEDIR=$HOME
+export AGGREGATOR_BUILD=$BASEDIR/AGGREGATOR_BUILD
+
+DATADIR=datafeed/um
+#DATADIR=data/gdl/input
+
+#PIDDIR=$BASEDIR/data/gdl/input/pid
+PIDDIR=$BASEDIR/datafeed/um/pid
+PIDFILE_NAME=SSRated_Preprocessor.1.pid
+DS=DS93
+
+#----------------------------------------------------------------------
+# set PIDFILE to indicate we're running
+#----------------------------------------------------------------------
+PID=$$
+PIDFILE=$PIDDIR/${PIDFILE_NAME}
+if [ -e $PIDFILE ]; then
+	echo SSRated_Preprocessor instance check PIDFILE [$PIDFILE].
+	exit 2
+fi
+HOSTNAME=`hostname`
+`echo ${HOSTNAME}:${PID} > $PIDFILE`
+#----------------------------------------------------------------------
+				
+FILE_PATTERN="Daily_RatingSuspense_*csv"
+TMPDIR="$BASEDIR/$DATADIR/${DS}/work_preprocess"
+ERRDIR="$BASEDIR/$DATADIR/${DS}/err_preprocess"
+
+FINDDIR="$BASEDIR/$DATADIR/$DS/raw"
+OUTDIR_RATED="$BASEDIR/$DATADIR/$DS/in"
+OUTDIR_SUSPENSE="$BASEDIR/$DATADIR/DS98/in"
+OUTDIR_SUSPENSE_HIST="$BASEDIR/$DATADIR/DS99/in"
+ARCDIR="$BASEDIR/$DATADIR/$DS/arc/preprocess"
+SCRIPT="$BASEDIR/AGGREGATOR_BUILD/bin/SSRated_pp.pl";
+
+
+
+echo "Starting Z uncompress: find $FINDDIR -follow -type f -name ${FILE_PATTERN}.Z -exec gunzip -f {} \;"
+CMD=`find $FINDDIR -follow -type f -name "${FILE_PATTERN}.Z" -exec gunzip -f {} \;`
+
+echo "Starting GZ uncompress: find $FINDDIR -follow -type f -name ${FILE_PATTERN}.gz -exec gunzip -f {} \;"
+CMD=`find $FINDDIR -follow -type f -name "${FILE_PATTERN}.gz" -exec gunzip -f {} \;`
+
+echo "Preprocessing : find $FINDDIR -follow -type f ! -name *.Z ! -name *.gz -name $FILE_PATTERN -exec $SCRIPT -inputfile {} -outRatedDir $OUTDIR_RATED -outSuspenseDir $OUTDIR_SUSPENSE -outSuspenseHistDir $OUTDIR_SUSPENSE_HIST -archivedir $ARCDIR -tmpdir $TMPDIR -errdir $ERRDIR \;"
+
+CMD=`find $FINDDIR -follow -type f ! -name "*.Z" ! -name "*.gz" -name "$FILE_PATTERN" -exec $SCRIPT -inputfile {} -outRatedDir $OUTDIR_RATED -outSuspenseDir $OUTDIR_SUSPENSE -outSuspenseHistDir $OUTDIR_SUSPENSE_HIST -archivedir $ARCDIR -tmpdir $TMPDIR -errdir $ERRDIR \;`
+echo "$CMD"
+echo Done
+
+rm $PIDFILE
+

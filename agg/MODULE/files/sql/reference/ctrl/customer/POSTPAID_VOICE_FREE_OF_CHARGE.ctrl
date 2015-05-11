@@ -1,0 +1,15 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.POSTPAID_VOICE_FREE_OF_CHARGE
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.POSTPAID_VOICE_FREE_OF_CHARGE
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+	dialled_digits,
+  	description
+)

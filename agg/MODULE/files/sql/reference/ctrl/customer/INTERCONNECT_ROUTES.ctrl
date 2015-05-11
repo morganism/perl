@@ -1,0 +1,17 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.INTERCONNECT_ROUTES
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.INTERCONNECT_ROUTES
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+	 incomingroute,
+ 	 outgoingroute,
+ 	 interconnect,
+ 	 description   
+)

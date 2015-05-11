@@ -1,0 +1,6 @@
+1800\d{6},Freephone (1800 XYZ ABC)
+112,Emergency Service (112)
+999,Emergency Service (999)
+19\d{2},Customer Care Access ? any network (19NN)
+116\d{3},European Harmonised Codes of Social Value (116XYZ)
+99927201\d*,Emergency Service (999) - MSS Translated Number

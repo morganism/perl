@@ -15,8 +15,8 @@ sub init
 
 	$self->{type} = "csv"; # csv fixedwidth asn1
 	$self->{delimiter} = ',';
-	$self->{has_header} = FALSE;
-	#$self->{skip_header_lines} = 1;
+	$self->{has_header} = TRUE;
+	$self->{skip_header_lines} = 1;
 	#$self->{header_regex} = qr/^$/;
 	$self->{trim_values} = TRUE;
 	#$self->{has_trailer} = TRUE;

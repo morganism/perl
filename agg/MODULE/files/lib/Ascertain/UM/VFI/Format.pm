@@ -75,6 +75,17 @@ sub getTrailerRegex
 	return $self->{trailer_regex};
 }
 
+sub getDecoder
+{
+    my $self = shift;
+    return $self->{decoder};
+}
+sub hasDecoder
+{
+    my $self = shift;
+    return $self->{decoder};
+}
+
 sub hasHeader
 {
 	my $self = shift;

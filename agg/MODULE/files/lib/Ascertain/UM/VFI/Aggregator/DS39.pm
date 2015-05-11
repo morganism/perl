@@ -40,14 +40,24 @@ sub _aggregate
 	my $ST_DATA = FALSE;
 	my $ST_DATA_WAP = FALSE;
 	my $ST_DATA_WAP_POSTPAID = FALSE;
+	my $ST_DATA_PARTNERS = FALSE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
+
+	$self->specifySourceInit();
 
 	$ST_DATA = TRUE; push @serviceTypes, "ST_DATA";
 	$ST_DATA_WAP = TRUE; push @serviceTypes, "ST_DATA_WAP";	
 	$ST_DATA_WAP_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_WAP_POSTPAID";
 	
+	if ($self->isPartner($d->{Served_IMSI}) ne 0) {
+		$ST_DATA_PARTNERS = TRUE; push @serviceTypes, "ST_DATA_PARTNERS";
+		$self->specifySourceForAggRecords("ST_DATA_PARTNERS",$self->isPartner($d->{Served_IMSI}));
+	}
+
+
+
   	$self->D_USAGE_TYPE("DATA");        #AGGREGATOR KEY
 
 

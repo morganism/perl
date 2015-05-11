@@ -5,6 +5,8 @@ create table customer.data_feed_frequency_ref
 ,expected_files_per_period number
 ,alarm_threshold           number
 ,latency				   number
+,cap			   number
+,node_id                   number
 )
 /
 

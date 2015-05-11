@@ -6,3 +6,5 @@
 36004,End Date,,Aggregator Start Date,
 36005,End Hour,,Aggregator End Hour,
 36006,Max Records,,Aggregator Max Records to dump,10000000
+100300,Schema Name,,Schema Name,customer
+100301,Table Name,,Table Name,

@@ -69,6 +69,7 @@ sub _aggregate
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MT = FALSE;
 	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = FALSE;
+	my $ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MT = FALSE;
 	my $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO = FALSE;
 	my $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT = FALSE;
@@ -109,10 +110,25 @@ sub _aggregate
 	my $ST_ROAMING = FALSE;
 	my $ST_VOICE_ROAMING = FALSE;
 	my $ST_DATA_GPRS_POSTPAID_TAP = FALSE;
+	my $ST_VOICE_POSTPAID_HOME_MO_FREE = FALSE;
+
+	my $ST_VOICE_PARTNERS = FALSE;
+	my $ST_DATA_PARTNERS = FALSE;
+
+	my $ST_VOICE_IN_BUNDLE = FALSE; 
+	my $ST_VOICE_OUT_BUNDLE = FALSE;
+	my $ST_SMS_IN_BUNDLE = FALSE;
+	my $ST_SMS_OUT_BUNDLE = FALSE;
+	my $ST_DATA_IN_BUNDLE = FALSE;
+	my $ST_DATA_OUT_BUNDLE = FALSE;
+	my $ST_MMS_IN_BUNDLE = FALSE;
+	my $ST_MMS_OUT_BUNDLE = FALSE;
+
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
 
+	$self->specifySourceInit();
 
 	# ----- PREDEFINE variables used in data structure
 	my $usageType     = UNKNOWN;
@@ -137,7 +153,7 @@ sub _aggregate
 		}
 		#elsif ($d->{CALL_SERVICE_CODE} eq '11')   # superseded 16th Nov 
 	    # one of: 11,26,28,62
-		elsif (    $d->{CALL_SERVICE_CODE} =~ /^11$|^12$|^24$|^26$|^28$|^31$|^62$/
+		elsif (    $d->{CALL_SERVICE_CODE} =~ /^11$|^12$|^13$|^24$|^26$|^27$|^28$|^31$|^62$/
 				or (    defined $d->{CALL_SERVICE_TYPE} and $d->{CALL_SERVICE_TYPE} eq '60'
                     and $d->{CALL_SERVICE_CODE} !~ /^5[01]$/
                    )
@@ -162,14 +178,14 @@ sub _aggregate
 
 	if (defined $d->{CALL_BREAKDOWN_CODE})
 	{
-		if($d->{CALL_BREAKDOWN_CODE} =~ /3GPS|GPRS|ROAMB|ROAME|ROAMI|ROAMO|ROAMW|DRNFP|DRTFP|DRTEU/)
+		if($d->{CALL_BREAKDOWN_CODE} =~ /3GPS|GPRS|ROAMB|ROAME|ROAMI|ROAMO|ROAMW|DRNFP|DRTFP|DRTEU|4GPS|DRTBL|GPREU|GPRRW|GPRUS/)
 		{
 			$ST_DATA = TRUE;
 			$ST_DATA_GPRS = TRUE; push @serviceTypes, "ST_DATA_GPRS";
 			$ST_DATA_GPRS_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_GPRS_POSTPAID";
 			$ST_UNIDENT = FALSE;
 		}
-		elsif($d->{CALL_BREAKDOWN_CODE} =~ /WAPAD|NZ1P1|NZ1P2|NZ2P1|NZ3P1|NZ4P1|PZ1P0|PZ2P1|PZ3P1|PZ4P1|NZ1P0|NZ2P0|NZ3P0|NZ4P0|PZ2P0|PZ3P0|PZ4P0|ERDZ1|ERDZ2|ERDZ3|ERDZ4|WAPEU|WAPUS|WDOMM|UKWAP/)
+		elsif($d->{CALL_BREAKDOWN_CODE} =~ /WAPAD|NZ1P1|NZ1P2|NZ2P1|NZ3P1|NZ4P1|PZ1P0|PZ2P1|PZ3P1|PZ4P1|NZ1P0|NZ2P0|NZ3P0|NZ4P0|PZ2P0|PZ3P0|PZ4P0|ERDZ1|ERDZ2|ERDZ3|ERDZ4|WAPEU|WAPUS|WDOMM|UKWAP|WAPBL|WAPRW/)
 		{
 			$ST_DATA = TRUE;
 			$ST_DATA_WAP_POSTPAID = TRUE; push @serviceTypes, "ST_DATA_WAP_POSTPAID";
@@ -219,6 +235,53 @@ sub _aggregate
 			$ST_UNIDENT = FALSE;
 		}
 	}
+
+	# MVNO/WHolesale Partner & Bundle service types
+	if ($ST_VOICE) {
+	    if ($self->isPartner($d->{CALL_IMSI}) ne 0) {
+            $ST_VOICE_PARTNERS = TRUE; push @serviceTypes, "ST_VOICE_PARTNERS";
+            $self->specifySourceForAggRecords("ST_VOICE_PARTNERS",$self->isPartner($d->{CALL_IMSI}));
+        }
+
+		if ($d->{CALL_DISCOUNT} > 0.00) {
+			$ST_VOICE_IN_BUNDLE = TRUE; push @serviceTypes, "ST_VOICE_IN_BUNDLE";
+		}
+		else {
+			$ST_VOICE_OUT_BUNDLE = TRUE; push @serviceTypes, "ST_VOICE_OUT_BUNDLE";
+		}
+	}
+	if ($ST_DATA) {
+		if ($self->isPartner($d->{CALL_IMSI}) ne 0) {
+            $ST_DATA_PARTNERS = TRUE; push @serviceTypes, "ST_DATA_PARTNERS";
+             $self->specifySourceForAggRecords("ST_DATA_PARTNERS",$self->isPartner($d->{CALL_IMSI}));
+        }
+		
+		if ($d->{CALL_DISCOUNT} > 0.00) {
+            $ST_DATA_IN_BUNDLE = TRUE; push @serviceTypes, "ST_DATA_IN_BUNDLE";
+        }
+        else {
+            $ST_DATA_OUT_BUNDLE = TRUE; push @serviceTypes, "ST_DATA_OUT_BUNDLE";
+        }
+	}
+	if ($ST_SMS) {
+		if ($d->{CALL_DISCOUNT} > 0.00) {
+            $ST_SMS_IN_BUNDLE = TRUE; push @serviceTypes, "ST_SMS_IN_BUNDLE";
+        }
+        else {
+            $ST_SMS_OUT_BUNDLE = TRUE; push @serviceTypes, "ST_SMS_OUT_BUNDLE";
+        }
+	}
+	if ($ST_MMS) {
+        if ($d->{CALL_DISCOUNT} > 0.00) {
+            $ST_MMS_IN_BUNDLE = TRUE; push @serviceTypes, "ST_MMS_IN_BUNDLE";
+        }
+        else {
+            $ST_MMS_OUT_BUNDLE = TRUE; push @serviceTypes, "ST_MMS_OUT_BUNDLE";
+        }
+    }
+
+	# Bundle Service Types
+	
 		
 	# ---- USAGE
 
@@ -253,7 +316,8 @@ sub _aggregate
 			$usageType = "SMS";
 
 			if ( defined $d->{CALL_RECORD_TYPE} and $d->{CALL_RECORD_TYPE} eq '20')
-            {
+            {	
+				$ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = TRUE;  push @serviceTypes, "ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO";
 				$ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = TRUE; push @serviceTypes, "ST_SMS_OTHER_OUTBOUND_ROAMERS_MO";
 				$ST_UNIDENT = FALSE;
      	    }
@@ -275,7 +339,8 @@ sub _aggregate
 					$ST_UNIDENT = FALSE;
                 }
                 elsif ($d->{CALL_RECORD_TYPE} eq "30")
-                {
+                {	
+
                     $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT = TRUE; push @serviceTypes, "ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT";
 					$ST_UNIDENT = FALSE;
                 }
@@ -387,8 +452,14 @@ sub _aggregate
 				{
 					if ($d->{CALL_RECORD_TYPE} eq '20')
 					{
-						$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
-						push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+						if ($self->isICCSFreeNumber($d->{CALL_DIALLED_DIGITS})) # dialled digit not in Free of charge number list
+						{	
+							$ST_VOICE_POSTPAID_HOME_MO_FREE = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO_FREE";
+						}
+						else {
+							$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
+							push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+						}
 					}
 					elsif ($d->{CALL_RECORD_TYPE} eq '21')
 					{

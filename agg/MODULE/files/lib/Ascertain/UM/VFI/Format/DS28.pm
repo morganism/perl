@@ -22,7 +22,7 @@ sub init
 	#$self->{trailer_regex} = qr/^$/;
   $self->{currency_factor} = 1; # if in euros then 100, if in cents then 1
   $self->{data_factor} = 1; # if in MB then 1048576, if in bytes then 1
-
+        $self->{decoder} = 'ericssonR13 -' ;
 	my $format = 
 	[
 		{name => 'recordType'},
@@ -117,6 +117,7 @@ sub init
 		{name => 'invocationOfCallHold'},
 		{name => 'lastCalledLocationInformation'},
 		{name => 'lastCallingLocationInformation'},
+		{name => 'lastPartialOutput'},
 		{name => 'levelOfCAMELService'},
 		{
 			name => 'mSCAddress',
@@ -150,6 +151,7 @@ sub init
 		{name => 'outgoingRoute'},
 		{name => 'outputForSubscriber'},
 		{name => 'outputType'},
+		{name => 'partialOutputRecNum'},
 		{name => 'pointCodeAndSubSystemNumber'},
 		{name => 'presentationAndScreeningIndicator'},
 		{name => 'rANAPCauseCode'},

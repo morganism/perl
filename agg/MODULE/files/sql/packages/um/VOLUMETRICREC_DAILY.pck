@@ -33,7 +33,8 @@ create or replace package volumetricrec_daily is
     mrec_category_id        mrec_category_ref.mrec_category_id%type,
     mrec_category_name      mrec_category_ref.category%type,
     graph_id                dgf.graph_ref.graph_id%type,
-    graph_name              dgf.graph_ref.name%type);
+    graph_name              dgf.graph_ref.name%type,
+    parameters              mrec_version_ref.parameters%type);
 
   type value_by_d_period_list is table of number;
   type d_period_list is table of date;
@@ -158,7 +159,14 @@ create or replace package volumetricrec_daily is
 
   function testForBreach(sum_value            number,
                          diff_value           number,
-                         a_threshold_def_data threshold_def_data)
+                         a_threshold_def_data threshold_def_data,
+                         the_mrec_id          integer,
+                         the_d_period_id      date,
+                         lhs_value            number,
+                         rhs_value            number,
+                         forecast_value       IN OUT NOCOPY number,
+                         threshold_test_value IN OUT NOCOPY number,
+                         mrec_def_id          number )
     return severity_data;
 
   function raiseIssue(the_mrec_id            integer,
@@ -170,7 +178,9 @@ create or replace package volumetricrec_daily is
                       lhs_value              number,
                       rhs_value              number,
                       sum_value              number,
-                      diff_value             number) return number;
+                      diff_value             number,
+                      forecast_value         number,
+                      threshold_test_value   number) return number;
 
   function executeOp(op varchar2, lval number, rval number) return boolean
     deterministic;
@@ -282,6 +292,12 @@ create or replace package volumetricrec_daily is
 
   procedure MrecVersionDuplicateRecCheck(the_mrec_ref mrec_ref);
 
+  type parameter_hash is table of varchar2(200)
+    index by varchar2(200);
+  procedure setParameters(all_parameters varchar2);
+
+  procedure updateAggFMrecChartForecasts(start_date date, end_date date, p_mrec_definition_id number);
+
 end volumetricrec_daily;
 /
 create or replace package body volumetricrec_daily is
@@ -293,6 +309,9 @@ create or replace package body volumetricrec_daily is
   global_source_data_array    source_data_array;
   global_source_by_type_array source_by_type_data;
 
+  global_f_mrecs_removed integer;
+  -- parameters
+  global_parameters    parameter_hash;
   ---------------------------------------------------------------
   -- Wrapper of metricReconciliation allowing call from BLE job
   ---------------------------------------------------------------
@@ -309,6 +328,7 @@ create or replace package body volumetricrec_daily is
 
   begin
     global_job_id := a_job_id;
+    global_f_mrecs_removed := 0;
 
     if a_debug_flag = 'yes' then
       global_debug := 1;
@@ -578,6 +598,8 @@ create or replace package body volumetricrec_daily is
 
     rec_interval constant pls_integer := um.etl.getDPeriodResolutionMinutes(sysdate);
   begin
+  
+    global_debug := 1;
 
     -- initialise the mrec_ref
     -- set the d_period_start/end as we batch
@@ -618,6 +640,8 @@ create or replace package body volumetricrec_daily is
       commit;
       logger('metricReconciliationProcBatcher: retMsg: ' || retMsg);
 
+      populateAggFMrecChart(s_date, e_date, a_mrec_def_id);
+
       -- next block
       s_date := e_date;
       e_date := e_date + 1;
@@ -630,9 +654,7 @@ create or replace package body volumetricrec_daily is
 
     -- AGG_F_MREC used by olap reports
     populateAggFMrec(start_date, end_date, a_mrec_def_id);
-
-    -- AGG_F_MREC_CHART used by Reconciliation chart
-    populateAggFMrecChart(start_date, end_date, a_mrec_def_id);
+    updateAggFMrecChartForecasts(start_date, end_date, a_mrec_def_id);
 
     logger('metricReconciliationProcBatcher: Completed');
     return 'metricReconciliationProcBatcher: Completed'; -- TODO !!
@@ -693,6 +715,11 @@ create or replace package body volumetricrec_daily is
     issue_date_raised      date;
     l_d_period_id          date;
     new_data               boolean;
+
+    raise_issue       boolean;
+
+    forecast_value    number;
+    threshold_test_value   number;
 
   begin
     logger('populateFMRec: ');
@@ -796,12 +823,29 @@ create or replace package body volumetricrec_daily is
             the_thresh_ver_id := null;
         end;
 
-        if the_thresh_ver_id is not null then
+        forecast_value := null;
+        threshold_test_value := null;
+        
+        raise_issue := false;
+                
+        if ( trunc(sysdate) - the_d_period_list(i) ) > global_parameters('-issue_grace_period') then
+           raise_issue := true;
+        end if;
+
+        if the_thresh_ver_id is not null and raise_issue then
+
 
           -- test for a threashold breach
           the_severity_data := testForBreach(the_value_by_d_period_list(i),
                                              the_diff_by_d_period_list(i),
-                                             the_threshold_def_data);
+                                             the_threshold_def_data,
+                                             the_mrec_id,
+                                             the_d_period_list(i),
+                                             the_lhs_by_d_period_list(i),
+                                             the_rhs_by_d_period_list(i),
+                                             forecast_value,
+                                             threshold_test_value,
+                                             the_mrec_ref.mrec_definition_id);
 
           if the_severity_data.raise_issue = 'Y' then
             logger('issue detected');
@@ -817,7 +861,9 @@ create or replace package body volumetricrec_daily is
                                    the_lhs_by_d_period_list(i),
                                    the_rhs_by_d_period_list(i),
                                    the_value_by_d_period_list(i),
-                                   the_diff_by_d_period_list(i));
+                                   the_diff_by_d_period_list(i),
+                                   forecast_value,
+                                   threshold_test_value);
 
             -- track the issue_ids (unless Daily Issue Limit has been breached
             if issue_id != IMM.Issues.DAILY_LIMIT_BREACH_FLAG then
@@ -843,7 +889,7 @@ create or replace package body volumetricrec_daily is
         delete from   f_mrec fmr
         where  fmr.d_period_id = the_d_period_list(i)
         and    fmr.mrec_set = 0
-        and    exists (select 1 
+        and    exists (select 1
                        from   um.d_mrec_line_mv mv
                        where mv.mrec_definition_id = the_mrec_ref.mrec_definition_id
                        and   mv.d_mrec_line_id = fmr.d_mrec_line_id
@@ -945,7 +991,7 @@ create or replace package body volumetricrec_daily is
     select d_day_id, to_date(d_day_id || ' 00:00:00', 'DD/MM/RRRR HH24:MI:SS') day_start,
                      to_date(d_day_id || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS') day_end
     from   d_day
-    where  d_day_id between c_start and c_end;
+    where  d_day_id between trunc(c_start) and trunc(c_end);
 
   begin
 
@@ -1043,10 +1089,219 @@ create or replace package body volumetricrec_daily is
   end;
 
 
-    ----------------------------------------------------------------
-    -- Aggregates F_MREC records to populate AGG_F_MREC_CHART
-    --
-    ----------------------------------------------------------------
+  procedure updateAggFMrecChartForecasts(start_date date, end_date date, p_mrec_definition_id number) is
+
+    cursor c_dates (c_start date, c_end date) is
+    select d_day_id, to_date(d_day_id || ' 00:00:00', 'DD/MM/RRRR HH24:MI:SS') day_start,
+                     to_date(d_day_id || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS') day_end
+    from   d_day
+    where  d_day_id between trunc(c_start) and least(trunc(sysdate),trunc(c_end)+28)
+    order by 1;
+
+    cursor  c_blank_forecasts (c_start date, c_end date) is
+    select  d_period_id
+    from    um.agg_f_mrec_chart afmc
+    where   afmc.d_period_id between c_start and c_end
+    and     afmc.forecast is null
+    and     exists (select 1
+                    from   um.d_mrec_line_mv d
+                    where  d.mrec_definition_id = p_mrec_definition_id
+                    and    d.d_mrec_line_id = afmc.d_mrec_line_id
+                   );
+
+  begin
+
+    logger('updateAggFMrecChartForecastData: START. Updating for dates between: ' ||
+       to_char(start_date, 'DD:MM HH24:MI:SS') || ' and ' ||
+       to_char(end_date, 'DD:MM HH24:MI:SS'));
+
+    FOR p_dates in c_dates (start_date, end_date) LOOP
+
+        -- calculate the max(abs(aside),abs(bside)) TODO: should be renamed
+        UPDATE um.agg_f_mrec_chart afmc2
+        SET    afmc2.mrec_perc_plus = (
+                                        select max(abs(sum(mrec)))
+                                        from   um.agg_f_mrec_chart afmc,
+                                               um.d_mrec_line_mv dmreclmv
+                                        where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                        and    afmc.d_period_id = afmc2.d_period_id
+                                        and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                        group by dmreclmv.mrec_definition_id,
+                                                 dmreclmv.mrec_version_id,
+                                                 dmreclmv.line_type,
+                                                 afmc.d_period_id
+                                      )
+         WHERE  afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+         AND    exists (select 1
+                        from   um.d_mrec_line_mv d
+                        where  d.mrec_definition_id = p_mrec_definition_id
+                        and    d.d_mrec_line_id = afmc2.d_mrec_line_id
+                       );
+
+
+        -- calculate the forecast percentage
+        UPDATE um.agg_f_mrec_chart afmc
+        SET    forecast = (  select round(avg(c.mrec),2)
+                             from   um.agg_f_mrec_chart c
+                             where  exists  ( select 1
+                                              from   um.d_mrec_line_mv d
+                                              where  d.mrec_definition_id = p_mrec_definition_id
+                                              and    d.d_mrec_line_id = c.d_mrec_line_id
+                                              and    d.mrec_line_type = 'Reconciliation' )
+                             and    c.d_period_id between afmc.d_period_id - ( global_parameters('-forecast_sample_size') * 7 ) - 1 and afmc.d_period_id -1
+                             and    to_char(c.d_period_id,'DAY HH24') = to_char(afmc.d_period_id,'DAY HH24')
+                             and    ( c.is_comparator = 'Y' or c.is_comparator is null )
+                             and    abs(c.mrec_perc) < 30
+                            )
+        WHERE  afmc.d_period_id between p_dates.day_start and p_dates.day_end
+        AND    exists (select 1
+                       from   um.d_mrec_line_mv d
+                       where  d.mrec_definition_id = p_mrec_definition_id
+                       and    d.d_mrec_line_id = afmc.d_mrec_line_id
+                       );
+
+        FOR p_blank_forecasts IN c_blank_forecasts (p_dates.day_start, p_dates.day_end) LOOP
+
+              -- calculate the forecast percentage
+              UPDATE um.agg_f_mrec_chart afmc
+              SET    forecast = nvl((  select round(avg(c.mrec),2)
+                                   from   um.agg_f_mrec_chart c
+                                   where  exists  ( select 1
+                                                    from   um.d_mrec_line_mv d
+                                                    where  d.mrec_definition_id = p_mrec_definition_id
+                                                    and    d.d_mrec_line_id = c.d_mrec_line_id
+                                                    and    d.mrec_line_type = 'Reconciliation' )
+                                   and    c.d_period_id between afmc.d_period_id - ( global_parameters('-forecast_2nd_sample_size') * 7 ) - 1 and afmc.d_period_id -1
+                                   and    to_char(c.d_period_id,'DAY HH24') = to_char(afmc.d_period_id,'DAY HH24')
+                                   and    ( c.is_comparator = 'Y' or c.is_comparator is null )
+                                   and    abs(c.mrec_perc) < 50
+                                 ),0)
+              WHERE  afmc.d_period_id between p_dates.day_start and p_dates.day_end
+              AND    exists (select 1
+                             from   um.d_mrec_line_mv d
+                             where  d.mrec_definition_id = p_mrec_definition_id
+                             and    d.d_mrec_line_id = afmc.d_mrec_line_id
+                             );
+
+        END LOOP;
+
+/*
+        IF ( ABS(REC_ABSOLUTE-REC_FORECAST) > MAX(ABS(ASIDE),ABS(BSIDE) ) 
+        THEN 
+           MAX(ABS(ASIDE),ABS(BSIDE))
+        ELSE 
+           (REC_ABSOLUTE-REC_FORECAST)*SIGN(REC_ABSOLUTE-REC_FORECAST)
+*/
+
+        -- calculate the frec
+        UPDATE um.agg_f_mrec_chart afmc2
+        SET   -- frec = mrec - nvl(forecast,0)
+               frec = case when abs(mrec - nvl(forecast,0)) > mrec_perc_plus
+                      then 
+                           case when mrec - nvl(forecast,0) < 0 
+                                then -1 * mrec_perc_plus
+                                else mrec_perc_plus
+                           end
+                      else mrec - nvl(forecast,0)
+                      end
+        WHERE  afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+        AND    exists (select 1
+                       from   um.d_mrec_line_mv d
+                       where  d.mrec_definition_id = p_mrec_definition_id
+                       and    d.d_mrec_line_id = afmc2.d_mrec_line_id
+                       );
+
+        BEGIN
+            UPDATE um.agg_f_mrec_chart afmc2
+            SET    frec_perc = round( nvl(frec,0) / mrec_perc_plus ,4) * 100
+            where  afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+            and exists (select 1
+                        from   um.d_mrec_line_mv dmreclmv2
+                        where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                        and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                        and    dmreclmv2.line_type = 0
+                        );
+         EXCEPTION
+            WHEN ZERO_DIVIDE THEN
+
+              UPDATE um.agg_f_mrec_chart afmc2
+              SET    frec_perc = 0.00
+              where afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+              and exists (select 1
+                          from   um.d_mrec_line_mv dmreclmv2
+                          where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                          and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                          )
+              and mrec_perc_plus = 0;
+          END;
+
+          UPDATE um.agg_f_mrec_chart afmc2
+          SET    frec_perc = case when (
+                                          select frec_perc
+                                          from   um.agg_f_mrec_chart afmc,
+                                                 um.d_mrec_line_mv dmreclmv
+                                          where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                          and    afmc.d_period_id = afmc2.d_period_id
+                                          and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                          and    dmreclmv.line_type = 0
+                                        ) < 0 
+                                   then 100 +
+                                        (
+                                          select frec_perc
+                                          from   um.agg_f_mrec_chart afmc,
+                                                 um.d_mrec_line_mv dmreclmv
+                                          where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                          and    afmc.d_period_id = afmc2.d_period_id
+                                          and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                          and    dmreclmv.line_type = 0
+                                        )
+                                   else 100 
+                             end 
+          where afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+          and exists (select 1
+                      from   um.d_mrec_line_mv dmreclmv2
+                      where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                      and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                      and    dmreclmv2.line_type = 1
+                      );
+                   
+          UPDATE um.agg_f_mrec_chart afmc2
+          SET    frec_perc = case when (
+                                          select frec_perc
+                                          from   um.agg_f_mrec_chart afmc,
+                                                 um.d_mrec_line_mv dmreclmv
+                                          where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                          and    afmc.d_period_id = afmc2.d_period_id
+                                          and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                          and    dmreclmv.line_type = 0
+                                        ) > 0 
+                                   then -100 +
+                                        (
+                                          select frec_perc
+                                          from   um.agg_f_mrec_chart afmc,
+                                                 um.d_mrec_line_mv dmreclmv
+                                          where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                          and    afmc.d_period_id = afmc2.d_period_id
+                                          and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                          and    dmreclmv.line_type = 0
+                                        )
+                                   else -100 
+                             end 
+          where afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+          and exists (select 1
+                      from   um.d_mrec_line_mv dmreclmv2
+                      where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                      and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                      and    dmreclmv2.line_type = -1
+                      );      
+                            
+    END LOOP;
+
+  end;
+
+
+
+
   procedure populateAggFMrecChart(start_date date, end_date date, p_mrec_definition_id number) is
     rows integer;
 
@@ -1054,7 +1309,7 @@ create or replace package body volumetricrec_daily is
     select d_day_id, to_date(d_day_id || ' 00:00:00', 'DD/MM/RRRR HH24:MI:SS') day_start,
                      to_date(d_day_id || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS') day_end
     from   d_day
-    where  d_day_id between c_start and c_end;
+    where  d_day_id between trunc(c_start) and trunc(c_end);
 
   begin
 
@@ -1067,31 +1322,29 @@ create or replace package body volumetricrec_daily is
     FOR p_dates in c_dates (start_date, end_date) LOOP
 
         MERGE INTO um.agg_f_mrec_chart afmc
-        USING (SELECT trunc(fm.d_period_id) d_day_id,
+        USING (SELECT      fm.d_period_id,
                            fm.d_mrec_line_id,
                            fm.d_edge_id,
-                           fa.d_node_id,
+                           v.node_id d_node_id,
                            fm.measure_type,
                            sum(fm.mrec) mrec,
                            count(*) f_mrec_count,
                            DBMS_MVIEW.PMARKER(fm.ROWID) f_mrec_pmarker
                       FROM um.f_mrec fm,
-                           um.f_attribute fa,
                            um.d_mrec_line_mv v
-                     WHERE fa.f_attribute_id(+) = fm.f_attribute_id
-                     AND   fm.d_mrec_line_id = v.d_mrec_line_id
+                     WHERE fm.d_mrec_line_id = v.d_mrec_line_id
                      AND   v.mrec_definition_id = p_mrec_definition_id
                      AND   fm.d_period_id between p_dates.day_start and p_dates.day_end
-                     GROUP BY TRUNC(fm.d_period_id),
+                     GROUP BY fm.d_period_id,
                               fm.d_mrec_line_id,
                               fm.d_edge_id,
-                              fa.d_node_id,
+                              v.node_id,
                               fm.measure_type,
                               DBMS_MVIEW.PMARKER(fm.ROWID)) fm
         ON (
-                  afmc.d_day_id = fm.d_day_id
+                  afmc.d_period_id = fm.d_period_id
               and afmc.d_mrec_line_id = fm.d_mrec_line_id
-              and afmc.d_day_id = p_dates.d_day_id
+              and afmc.d_period_id = fm.d_period_id
               and nvl(afmc.d_edge_id,-1) = nvl(fm.d_edge_id,-1)
               and nvl(afmc.d_node_id,-1) = nvl(fm.d_node_id,-1)
               and nvl(afmc.measure_type,-1)= nvl(fm.measure_type,-1)
@@ -1101,39 +1354,127 @@ create or replace package body volumetricrec_daily is
                 afmc.mrec = fm.mrec,
                 afmc.f_mrec_count = fm.f_mrec_count,
                 afmc.f_mrec_pmarker = fm.f_mrec_pmarker
-          WHERE afmc.d_day_id = p_dates.d_day_id
+          WHERE afmc.d_period_id = fm.d_period_id
+          AND   afmc.mrec != fm.mrec
         WHEN NOT MATCHED THEN
           INSERT
-             (d_day_id,
+             (d_period_id,
               d_mrec_line_id,
               d_edge_id,
               d_node_id,
               measure_type,
               mrec,
               f_mrec_count,
-              f_mrec_pmarker
+              f_mrec_pmarker,
+              is_comparator
              )
           VALUES
-              (fm.d_day_id,
+              (fm.d_period_id,
                fm.d_mrec_line_id,
                fm.d_edge_id,
                fm.d_node_id,
                fm.measure_type,
                fm.mrec,
                fm.f_mrec_count,
-               fm.f_mrec_pmarker
+               fm.f_mrec_pmarker,
+               'Y'
               );
 
           rows := rows + SQL%ROWCOUNT;
+
+
+          -- Update the mrec_perc field
+          IF ( SQL%ROWCOUNT > 0 ) THEN
+                BEGIN
+                    UPDATE um.agg_f_mrec_chart afmc2
+                    SET    mrec_perc = round( mrec / (
+                                                      select max(abs(sum(mrec)))
+                                                      from   um.agg_f_mrec_chart afmc,
+                                                             um.d_mrec_line_mv dmreclmv
+                                                      where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                                      and    afmc.d_period_id = afmc2.d_period_id
+                                                      and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                                      group by dmreclmv.mrec_definition_id,
+                                                               dmreclmv.mrec_version_id,
+                                                               dmreclmv.line_type,
+                                                               afmc.d_period_id
+                                                      ) ,4) * 100
+                    where afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+                    and exists (select 1
+                                from   um.d_mrec_line_mv dmreclmv2
+                                where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                                and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                                );
+                 EXCEPTION
+                    WHEN ZERO_DIVIDE THEN
+
+                      UPDATE um.agg_f_mrec_chart afmc2
+                      SET    mrec_perc = 0.00
+                      where afmc2.d_period_id between p_dates.day_start and p_dates.day_end
+                      and exists (select 1
+                                  from   um.d_mrec_line_mv dmreclmv2
+                                  where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                                  and    dmreclmv2.d_mrec_line_id = afmc2.d_mrec_line_id
+                                  )
+                      and 0 = (
+                                select max(abs(mrec))
+                                from   um.agg_f_mrec_chart afmc,
+                                       um.d_mrec_line_mv dmreclmv
+                                where  dmreclmv.mrec_definition_id = p_mrec_definition_id
+                                and    afmc.d_period_id = afmc2.d_period_id
+                                and    afmc.d_mrec_line_id = dmreclmv.d_mrec_line_id
+                                group by dmreclmv.mrec_definition_id,
+                                         dmreclmv.mrec_version_id,
+                                         afmc.d_period_id
+                               );
+                 END;
+
+          END IF;
+
+          UPDATE um.agg_f_mrec_chart afmc
+          SET    is_comparator = 'N'
+          WHERE  exists (select 1
+                         from   um.mrec_issue_jn mij
+                         where  mij.d_period_id = afmc.d_period_id
+                         and    trunc(mij.date_raised) = trunc(sysdate)
+                         and    mij.issue_status = 'O'
+                         and    mij.mrec_definition_id = p_mrec_definition_id)
+          AND    afmc.d_period_id between p_dates.day_start and p_dates.day_end
+          AND    exists (select 1
+                         from   um.d_mrec_line_mv dmreclmv2
+                         where  dmreclmv2.mrec_definition_id = p_mrec_definition_id
+                         and    dmreclmv2.d_mrec_line_id = afmc.d_mrec_line_id
+                         );
+
+
+
+          IF global_f_mrecs_removed = 1 THEN
+
+                  delete from um.agg_f_mrec_chart fc
+                  where  fc.d_period_id  between p_dates.day_start and p_dates.day_end
+                  and    exists (select 1
+                                 from   um.d_mrec_line_mv d
+                                 where  d.d_mrec_line_id = fc.d_mrec_line_id
+                                 and    d.mrec_definition_id = p_mrec_definition_id
+                                )
+                  and   not exists ( select 1
+                                     from   um.f_mrec f
+                                     where  1 =1
+                                     and    f.d_period_id between p_dates.day_start and p_dates.day_end
+                                     and    f.d_period_id = fc.d_period_id
+                                     and    f.d_mrec_line_id = fc.d_mrec_line_id );
+          END IF;
+
 
           COMMIT;
 
     END LOOP;
 
     logger('populateAggFMrecChart: END. Inserted ' || rows ||
-           ' into AGG_F_MREC');
+           ' into AGG_F_MREC_CHART');
 
   end;
+
 
   ----------------------------------------------------------------
   -- Process all LINEs belonging to a SIDE (rhs or lhs)
@@ -1258,14 +1599,15 @@ create or replace package body volumetricrec_daily is
                   fa.d_custom_19_id            as d_custom_19_id,
                   fa.d_custom_20_id            as d_custom_20_id,
                   ff.edr_bytes * adjuster      as mrecval
-             from (select trunc(d_period_id) d_period_id, min(f_file_id) f_file_id, f_attribute_id, sum(edr_bytes) edr_bytes from f_file
+             from (select trunc(d_period_id) d_period_id, min(f_file_id) f_file_id, f_attribute_id, sum(edr_bytes) edr_bytes
+                   from   f_file
+                   where  d_period_id >= the_mrec_ref.d_period_start
+                   and    d_period_id < the_mrec_ref.d_period_end
                    group by trunc(d_period_id), f_attribute_id) ff,
                   f_attribute fa
                   left outer join um.d_edr_type_mv detmv
                                on detmv.d_edr_type_id = fa.d_edr_type_id
             where ff.f_attribute_id = fa.f_attribute_id
-              and ff.d_period_id >= the_mrec_ref.d_period_start
-              and ff.d_period_id < the_mrec_ref.d_period_end
               and fa.d_node_id = the_mrec_line.node_id
 
               and (current_fmo_eqn.source_id = -1 OR
@@ -1339,6 +1681,14 @@ create or replace package body volumetricrec_daily is
 */
            ) fff
     ON (f.f_file_id = fff.f_file_id and f.d_mrec_line_id = fff.d_mrec_line_id and fff.dp = f.d_period_id)
+    WHEN MATCHED THEN
+          UPDATE SET
+                f.mrec = fff.mrecval * sign
+          WHERE f.d_period_id = fff.dp
+          AND   f.d_mrec_line_id = fff.d_mrec_line_id
+          and   f.f_file_id = fff.f_file_id
+          AND   f.mrec != fff.mrecval * sign
+          and   abs(f.mrec) < abs(fff.mrecval)
     WHEN NOT MATCHED THEN
       insert (
          D_PERIOD_ID,
@@ -1426,13 +1776,15 @@ create or replace package body volumetricrec_daily is
                   fa.d_custom_19_id            as d_custom_19_id,
                   fa.d_custom_20_id            as d_custom_20_id,
                   ff.edr_count * adjuster      as mrecval
-             from f_file ff,
+             from (select trunc(d_period_id) d_period_id, min(f_file_id) f_file_id, f_attribute_id, sum(edr_count) edr_count
+                   from   f_file
+                   where  d_period_id >= the_mrec_ref.d_period_start
+                   and    d_period_id < the_mrec_ref.d_period_end
+                   group by trunc(d_period_id), f_attribute_id) ff,
                   f_attribute fa
                   left outer join um.d_edr_type_mv detmv
                                on detmv.d_edr_type_id = fa.d_edr_type_id
             where ff.f_attribute_id = fa.f_attribute_id
-              and ff.d_period_id >= the_mrec_ref.d_period_start
-              and ff.d_period_id < the_mrec_ref.d_period_end
               and fa.d_node_id = the_mrec_line.node_id
 
               and (current_fmo_eqn.source_id = -1 OR
@@ -1507,6 +1859,14 @@ create or replace package body volumetricrec_daily is
 
            ) fff
     ON (f.f_file_id = fff.f_file_id and f.d_mrec_line_id = fff.d_mrec_line_id and fff.dp = f.d_period_id)
+        WHEN MATCHED THEN
+          UPDATE SET
+                f.mrec = fff.mrecval * sign
+          WHERE f.d_period_id = fff.dp
+          AND   f.d_mrec_line_id = fff.d_mrec_line_id
+          and   f.f_file_id = fff.f_file_id
+          AND   f.mrec != fff.mrecval * sign
+          and   abs(f.mrec) < abs(fff.mrecval)
     WHEN NOT MATCHED THEN
       insert (
          D_PERIOD_ID,
@@ -1598,13 +1958,15 @@ create or replace package body volumetricrec_daily is
                   fa.d_custom_19_id            as d_custom_19_id,
                   fa.d_custom_20_id            as d_custom_20_id,
                   ff.edr_duration * adjuster   as mrecval
-             from f_file ff,
-                  f_attribute fa
+             from (select trunc(d_period_id) d_period_id, min(f_file_id) f_file_id, f_attribute_id, sum(edr_duration) edr_duration
+                   from   f_file
+                   where  d_period_id >= the_mrec_ref.d_period_start
+                   and    d_period_id < the_mrec_ref.d_period_end
+                   group by trunc(d_period_id), f_attribute_id) ff,
+                   f_attribute fa
                   left outer join um.d_edr_type_mv detmv
                                on detmv.d_edr_type_id = fa.d_edr_type_id
             where ff.f_attribute_id = fa.f_attribute_id
-              and ff.d_period_id >= the_mrec_ref.d_period_start
-              and ff.d_period_id < the_mrec_ref.d_period_end
               and fa.d_node_id = the_mrec_line.node_id
 
               and (current_fmo_eqn.source_id = -1 OR
@@ -1679,6 +2041,14 @@ create or replace package body volumetricrec_daily is
 
            ) fff
     ON (f.f_file_id = fff.f_file_id and f.d_mrec_line_id = fff.d_mrec_line_id and fff.dp = f.d_period_id)
+    WHEN MATCHED THEN
+          UPDATE SET
+                f.mrec = fff.mrecval * sign
+          WHERE f.d_period_id = fff.dp
+          AND   f.d_mrec_line_id = fff.d_mrec_line_id
+          and   f.f_file_id = fff.f_file_id
+          AND   f.mrec != fff.mrecval * sign
+          and   abs(f.mrec) < abs(fff.mrecval)
     WHEN NOT MATCHED THEN
       insert (
          D_PERIOD_ID,
@@ -1767,14 +2137,16 @@ create or replace package body volumetricrec_daily is
                   fa.d_custom_19_id            as d_custom_19_id,
                   fa.d_custom_20_id            as d_custom_20_id,
                   ff.edr_value * adjuster      as mrecval
-             from f_file ff,
+             from (select trunc(d_period_id) d_period_id, min(f_file_id) f_file_id, f_attribute_id, sum(edr_value) edr_value
+                   from   f_file
+                   where  d_period_id >= the_mrec_ref.d_period_start
+                   and    d_period_id < the_mrec_ref.d_period_end
+                   group by trunc(d_period_id), f_attribute_id) ff,
                   f_attribute fa
                   left outer join um.d_edr_type_mv detmv
                                on detmv.d_edr_type_id = fa.d_edr_type_id
             where ff.f_attribute_id = fa.f_attribute_id
-              and ff.d_period_id >= the_mrec_ref.d_period_start
-              and ff.d_period_id < the_mrec_ref.d_period_end
-              and fa.d_node_id = the_mrec_line.node_id
+               and fa.d_node_id = the_mrec_line.node_id
 
               and (current_fmo_eqn.source_id = -1 OR
                   fa.d_source_id = current_fmo_eqn.source_id)
@@ -1848,6 +2220,14 @@ create or replace package body volumetricrec_daily is
 
            ) fff
     ON (f.f_file_id = fff.f_file_id and f.d_mrec_line_id = fff.d_mrec_line_id and fff.dp = f.d_period_id)
+    WHEN MATCHED THEN
+          UPDATE SET
+                f.mrec = fff.mrecval * sign
+          WHERE f.d_period_id = fff.dp
+          AND   f.d_mrec_line_id = fff.d_mrec_line_id
+          and   f.f_file_id = fff.f_file_id
+          AND   f.mrec != fff.mrecval * sign
+          and   abs(f.mrec) < abs(fff.mrecval)
     WHEN NOT MATCHED THEN
       insert (
          D_PERIOD_ID,
@@ -2090,13 +2470,14 @@ create or replace package body volumetricrec_daily is
 
     the_issue_id_list       number_list := number_list();
     the_date_raised_id_list date_list := date_list();
+    the_d_period_id_list    date_list := date_list();
     issueExists             boolean;
 
   begin
     logger('closeOpenIssues: ');
 
-    select mij.issue_id, mij.date_raised bulk collect
-      into the_issue_id_list, the_date_raised_id_list
+    select mij.issue_id, mij.date_raised, mij.d_period_id bulk collect
+      into the_issue_id_list, the_date_raised_id_list, the_d_period_id_list
       from mrec_issue_jn mij
      where mij.d_period_id >= the_mrec_ref.d_period_start
        and mij.d_period_id < the_mrec_ref.d_period_end
@@ -2121,12 +2502,23 @@ create or replace package body volumetricrec_daily is
         end if;
       end loop;
 
-      forall i in the_issue_id_list.first .. the_issue_id_list.last
+      for i in the_issue_id_list.first .. the_issue_id_list.last loop
+
         delete from mrec_issue_jn mij
-         where mij.d_period_id >= the_mrec_ref.d_period_start
-           and mij.d_period_id < the_mrec_ref.d_period_end
+         where mij.d_period_id = the_d_period_id_list(i)
            and mij.issue_id = the_issue_id_list(i)
            and mij.date_raised = the_date_raised_id_list(i);
+
+        update um.agg_f_mrec_chart c
+        set    is_comparator = 'Y'
+        where  d_period_id = the_d_period_id_list(i)
+        and    exists ( select 1
+                        from   um.d_mrec_line_mv d
+                        where  d.mrec_definition_id = the_mrec_ref.mrec_definition_id
+                        and    d.d_mrec_line_id = c.d_mrec_line_id
+                        and    d.mrec_line_type = 'Reconciliation' );
+      end loop;
+
     end if;
   end;
 
@@ -2214,7 +2606,8 @@ create or replace package body volumetricrec_daily is
              mcr.mrec_category_id,
              mcr.category,
              gr.graph_id,
-             gr.name
+             gr.name,
+             mvr.parameters
         into the_mrec_ref.mrec_version_id,
              the_mrec_ref.mrec_definition_id,
              the_mrec_ref.threshold_definition_id,
@@ -2224,7 +2617,8 @@ create or replace package body volumetricrec_daily is
              the_mrec_ref.mrec_category_id,
              the_mrec_ref.mrec_category_name,
              the_mrec_ref.graph_id,
-             the_mrec_ref.graph_name
+             the_mrec_ref.graph_name,
+             the_mrec_ref.parameters
         from mrec_version_ref    mvr,
              mrec_definition_ref mdr,
              mrec_category_ref   mcr,
@@ -2249,6 +2643,8 @@ create or replace package body volumetricrec_daily is
         -- re-throw any exception
         raise;
     end;
+
+    setParameters(the_mrec_ref.parameters);
 
     -- load mrec data
 
@@ -2382,14 +2778,17 @@ create or replace package body volumetricrec_daily is
   function getGlobalMetricFunction(a_metric_definition_id number)
     return metrictypes.fmo_equation_details is
     a_fmo_equation metrictypes.fmo_equation_details;
+    v_source_id number;
   begin
+
+    v_source_id := to_number(global_parameters('-source'));
 
     --read from fmo_equation
     select mor.metric_operator_id,
            field_type,
            operator,
            adjuster,
-           NVL(source_id, -1),
+           NVL(source_id, v_source_id),
            NVL(source_type_id, -1),
            NVL(edr_type_id, -1),
            NVL(edr_sub_type_id, -1),
@@ -2864,26 +3263,119 @@ create or replace package body volumetricrec_daily is
   -------------------------------------------------------
   function testForBreach(sum_value            number,
                          diff_value           number,
-                         a_threshold_def_data threshold_def_data)
+                         a_threshold_def_data threshold_def_data,
+                         the_mrec_id          integer,
+                         the_d_period_id      date,
+                         lhs_value            number,
+                         rhs_value            number,
+                         forecast_value  IN OUT NOCOPY number,
+                         threshold_test_value IN OUT NOCOPY number,
+                         mrec_def_id          number)
     return severity_data is
 
     the_threshold_sev_data_array threshold_sev_data_array;
     the_threshold_sev_data       threshold_sev_data;
     severity_data_ret            severity_data;
     test_value                   number;
+    frec                         number;
   begin
     the_threshold_sev_data_array := a_threshold_def_data.severity_data;
+
+    -- calculate forecast if forecast_comparison is on
+    if global_parameters('-forecast_comparison') = 'y' then
+
+        begin
+          select round(avg(c.mrec),5)
+          into   forecast_value
+          from   um.agg_f_mrec_chart c
+          where  exists ( select 1
+                          from   um.d_mrec_line_mv d
+                          where  d.mrec_definition_id = mrec_def_id
+                          and    d.d_mrec_line_id = c.d_mrec_line_id
+                          and    d.mrec_line_type = 'Reconciliation' )
+          and    c.d_period_id between the_d_period_id - ( global_parameters('-forecast_sample_size') * 7 ) - 1 and the_d_period_id -1
+          and    to_char(d_period_id,'DAY HH24') = to_char(the_d_period_id,'DAY HH24')
+          and    ( c.is_comparator = 'Y' or c.is_comparator is null );
+       exception
+         when no_data_found then
+               forecast_value := null;
+       end;
+
+       if forecast_value is null then
+
+            begin
+                select round(avg(c.mrec),5)
+                into   forecast_value
+                from   um.agg_f_mrec_chart c
+                where  exists ( select 1
+                                from   um.d_mrec_line_mv d
+                                where  d.mrec_definition_id = mrec_def_id
+                                and    d.d_mrec_line_id = c.d_mrec_line_id
+                                and    d.mrec_line_type = 'Reconciliation' )
+                and    c.d_period_id between the_d_period_id - ( global_parameters('-forecast_2nd_sample_size') * 7 ) - 1 and the_d_period_id -1
+                and    to_char(d_period_id,'DAY HH24') = to_char(the_d_period_id,'DAY HH24')
+                and    is_comparator = 'Y';
+            exception
+               when no_data_found then
+                     forecast_value := null;
+            end;
+        
+       end if;
+       
+    end if;
+
+/*
+    IF ( ABS(REC_ABSOLUTE-REC_FORECAST) > MAX(ABS(ASIDE),ABS(BSIDE) ) 
+    THEN 
+       MAX(ABS(ASIDE),ABS(BSIDE))
+    ELSE 
+       (REC_ABSOLUTE-REC_FORECAST)*SIGN(REC_ABSOLUTE-REC_FORECAST)
+*/
+
+    if abs(sum_value - nvl(forecast_value,0)) > greatest(abs(nvl(lhs_value,0)),abs(nvl(rhs_value,0))) 
+    then
+       if sum_value - nvl(forecast_value,0) < 0 
+       then 
+          frec := greatest(abs(nvl(lhs_value,0)),abs(nvl(rhs_value,0))) * -1;
+       else
+          frec := greatest(abs(nvl(lhs_value,0)),abs(nvl(rhs_value,0)));
+       end if;
+    else 
+       frec := sum_value - nvl(forecast_value,0);
+    end if;          
+
 
     -- If this is a 'Percentage' threshold then test the diff_value
     -- against the threshold value (note that diff_value is actually a percentage difference)
     -- If this is a 'Absolute' threshold then test the sum_value
     -- against the threshold value
+    
     if a_threshold_def_data.threshold_type_name = 'Percentage' then
-      test_value := diff_value;
+
+      if global_parameters('-forecast_comparison') = 'y' then
+
+         if (lhs_value = 0 and rhs_value = 0) then
+            test_value := 0;
+         else
+            test_value := round(frec / ( greatest(abs(nvl(lhs_value,0)),abs(nvl(rhs_value,0)))),5);   
+         end if;
+
+      else
+         test_value := diff_value;
+      end if;
+
     else
       -- 'Absolute'
-      test_value := sum_value;
+
+      if global_parameters('-forecast_comparison') = 'y' then
+         test_value := frec;
+      else
+         test_value := sum_value;
+      end if;
+
     end if;
+ 
+    threshold_test_value := test_value;
 
     for counter in the_threshold_sev_data_array.first .. the_threshold_sev_data_array.last loop
       the_threshold_sev_data := the_threshold_sev_data_array(counter);
@@ -2927,7 +3419,9 @@ create or replace package body volumetricrec_daily is
                       lhs_value              number,
                       rhs_value              number,
                       sum_value              number,
-                      diff_value             number) return number is
+                      diff_value             number,
+                      forecast_value         number,
+                      threshold_test_value   number) return number is
 
     issue_id         number;
     note_text        varchar2(4000);
@@ -2997,7 +3491,11 @@ create or replace package body volumetricrec_daily is
                  '</td></tr><tr><td>i Side:</td><td>' || lhs_value ||
                  '</td></tr><tr><td>j Side:</td><td>' || rhs_value ||
 
-                 '</td></tr><tr><td>Reconciliation:</td><td>' || sum_value;
+                 '</td></tr><tr><td>Reconciliation:</td><td>' || sum_value ||
+                 '</td></tr><tr><td>Forecast Perc:</td><td>' || forecast_value ||
+                 '</td></tr><tr><td>Compare Value:</td><td>' || threshold_test_value
+                 ;
+/*
 
     if diff_value is not null and diff_value = INFINITY_CONST then
       note_text := note_text ||
@@ -3008,7 +3506,7 @@ create or replace package body volumetricrec_daily is
                    '</td></tr><tr><td>Percent Difference:</td><td>' ||
                    diff_value * 100;
     end if;
-
+*/
     note_text := note_text || '</td></tr><tr><td>' || '&' || 'nbsp;' ||
                  '</td></tr><tr><td colspan="2"><b>Threshold Details</b></td></tr><tr><td>Threshold Name:</td><td>' ||
                  the_threshold_def_data.threshold_name ||
@@ -3257,12 +3755,93 @@ create or replace package body volumetricrec_daily is
 
     l_rows := SQL%ROWCOUNT;
 
+    IF (l_rows > 0) THEN
+       global_f_mrecs_removed := 1;
+    END IF;
+
     logger('MrecVersionDuplicateRecCheck: DONE ');
     logger('MrecVersionDuplicateRecCheck: ROWS: ' || l_rows);
 
   end;
 
+    /*
+    Set Parameters.
+
+    unpack parameters into global associative array (global_parameters)
+    for use later on.
+
+  */
+  procedure setParameters(all_parameters varchar2) is
+
+    idx    number;
+    pkey   varchar2(200);
+    pvalue varchar2(4000);
+    params varchar2(10000);
+  begin
+    logger('Mrec Parameters: ' ||
+               all_parameters);
+    idx    := 0;
+    params := all_parameters;
+
+    global_parameters.delete;
+
+    loop
+      idx := instr(params, ' ');
+
+      if (nvl(idx, 0) > 0) then
+        pkey   := lower(substr(params, 1, idx - 1));
+        params := substr(params, idx + 1);      
+
+        idx := instr(params, ' ');
+
+        if (nvl(idx, 0) = 0) then
+          pvalue := lower(params);
+        else
+          pvalue := lower(substr(params, 1, idx - 1));
+        end if;
+
+        params := substr(params, idx + 1);
+        global_parameters(pkey) := pvalue;
+      else
+        exit;
+      end if;
+    end loop;
+
+    -- set core parameters to default value if no
+    -- value exists, this is to avoid no_data_found exceptions
+
+    if not global_parameters.exists('-forecast_comparison') then
+      global_parameters('-forecast_comparison') := 'N';
+    end if;
+
+    if not global_parameters.exists('-source') then
+      global_parameters('-source') := -1;
+    end if;
+
+    if not global_parameters.exists('-forecast_growth') then
+      global_parameters('-forecast_growth') := 1;
+    end if;
+
+    if not global_parameters.exists('-forecast_sample_size') then
+      global_parameters('-forecast_sample_size') := 4;
+    end if;
+
+    if not global_parameters.exists('-forecast_2nd_sample_size') then
+      global_parameters('-forecast_2nd_sample_size') := 12;
+    end if;
+
+    if not global_parameters.exists('-issue_grace_period') then
+      global_parameters('-issue_grace_period') := 0;
+    end if;
+    
+
+  exception
+    when others then
+      logger('setParameters Exception: ' || SUBSTR(SQLERRM, 1, 4000));
+      RAISE_APPLICATION_ERROR(-20001,
+                              'Exception: ' || SUBSTR(SQLERRM, 1, 4000));
+  end;
+
 end volumetricrec_daily;
 /
-
-exit
+exit;

@@ -42,12 +42,15 @@ sub _aggregate
 	my $ST_VOICE_POSTPAID_HOME = FALSE;
 	my $ST_VOICE_POSTPAID_HOME_MO = FALSE;
 	my $ST_VOICE_POSTPAID_HOME_CALL_FWD = FALSE;
+	my $ST_VOICE_PARTNERS = FALSE;
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
 
-	# ONXP 
+	$self->specifySourceInit();
+
+	# ONXP
 	$self->IMSI($d->{IMSI}) if (defined $d->{IMSI});
 
 	if ($d->{Record_Type} eq "20" or $d->{Record_Type} eq "21" or $d->{Record_Type} eq "30")
@@ -57,6 +60,12 @@ sub _aggregate
 		$ST_UNIDENT = FALSE;
 		$ST_VOICE = TRUE; push @serviceTypes, "ST_VOICE";
 		$ST_VOICE_POSTPAID = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID";
+
+		if ($self->isPartner($d->{IMSI}) ne 0) {
+			$ST_VOICE_PARTNERS = TRUE; push @serviceTypes, "ST_VOICE_PARTNERS";
+			$self->specifySourceForAggRecords("ST_VOICE_PARTNERS",$self->isPartner($d->{IMSI}));
+		}
+
 		push @serviceTypes, "ST_ONXP_VOICE_POSTPAID" if ($isOnxp);
 		$self->D_USAGE_TYPE("VOICE");        #AGGREGATOR KEY
 
@@ -67,8 +76,15 @@ sub _aggregate
 
 			if (defined $d->{Record_Type} and $d->{Record_Type} eq "20")
 			{
-				$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
-				push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+				if ($self->isICCSFreeNumber($d->{Dialled_Digits})) # dialled digit not in Free of charge number list
+                                {
+ 	                                $ST_VOICE_POSTPAID_HOME_MO_FREE = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO_FREE";
+                                }
+                                else {
+                                	$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
+                                        push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+                                }
+
 			}
 			elsif (defined $d->{Record_Type} and $d->{Record_Type} eq "21")
 			{
@@ -81,8 +97,8 @@ sub _aggregate
 
 	# ---- TIMESLOT
 	#2010-12-17 11:53:46
-	my $startDate = (defined $d->{Call_End_Date}) ? $d->{Call_End_Date} : "";
-	my $startTime = (defined $d->{Call_End_Time}) ? $d->{Call_End_Time} : "";
+	my $startDate = (defined $d->{Call_Start_Date}) ? $d->{Call_Start_Date} : "";
+	my $startTime = (defined $d->{Call_Start_Time}) ? $d->{Call_Start_Time} : "";
 	my $timeSlot = "20" . $startDate . $startTime;
 	$timeSlot =~ s/^(\d{10}).*/$1/;
 	unless ($timeSlot =~ m/\d{10}/)

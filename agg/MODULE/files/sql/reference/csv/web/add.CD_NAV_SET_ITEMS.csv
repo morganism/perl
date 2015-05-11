@@ -1,12 +1,21 @@
-100010,100010,,Prepaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100012&back=yes,/images/icons/png/regular/72x72/prepaid-voice.png,35000
-100011,100010,,Postpaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100013&back=yes,/images/icons/png/regular/72x72/postpaid-voice.png,35000
-100012,100010,,Prepaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100010&back=yes,/images/icons/png/regular/72x72/prepaid-sms.png,35000
-100013,100010,,Postpaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100011&back=yes,/images/icons/png/regular/72x72/postpaid-sms.png,35000
-100014,100010,,Prepaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100014&back=yes,/images/icons/png/regular/72x72/prepaid-mms.png,35000
-100015,100010,,Postpaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100015&back=yes,/images/icons/png/regular/72x72/postpaid-mms.png,35000
-100016,100010,,Prepaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100016&back=yes,/images/icons/png/regular/72x72/prepaid-data.png,35000
-100017,100010,,Postpaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100017&back=yes,/images/icons/png/regular/72x72/postpaid-data.png,35000
-100018,100010,,Roaming,/web/cd/displayDashboardSetup.do?dashboardId=100018&back=yes,/images/icons/png/regular/72x72/roaming.png,35000
-100019,100010,,Content,/web/cd/displayDashboardSetup.do?dashboardId=100019&back=yes,/images/icons/png/regular/72x72/content.png,35000
+100010,100010,,Prepaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100012&back=yes,/images/icons/png/regular/48x48/prepaid-voice.png,35000
+100011,100010,,Postpaid Voice,/web/cd/displayDashboardSetup.do?dashboardId=100013&back=yes,/images/icons/png/regular/48x48/postpaid-voice.png,35000
+100012,100010,,Prepaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100010&back=yes,/images/icons/png/regular/48x48/prepaid-sms.png,35000
+100013,100010,,Postpaid SMS,/web/cd/displayDashboardSetup.do?dashboardId=100011&back=yes,/images/icons/png/regular/48x48/postpaid-sms.png,35000
+100014,100010,,Prepaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100014&back=yes,/images/icons/png/regular/48x48/prepaid-mms.png,35000
+100015,100010,,Postpaid MMS,/web/cd/displayDashboardSetup.do?dashboardId=100015&back=yes,/images/icons/png/regular/48x48/postpaid-mms.png,35000
+100016,100010,,Prepaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100016&back=yes,/images/icons/png/regular/48x48/prepaid-data.png,35000
+100017,100010,,Postpaid Data,/web/cd/displayDashboardSetup.do?dashboardId=100017&back=yes,/images/icons/png/regular/48x48/postpaid-data.png,35000
+100018,100010,,Roaming,/web/cd/displayDashboardSetup.do?dashboardId=100018&back=yes,/images/icons/png/regular/48x48/roaming.png,35000
+100019,100010,,Content,/web/cd/displayDashboardSetup.do?dashboardId=100019&back=yes,/images/icons/png/regular/48x48/content.png,35000
 101201,1201,,[I18Nweb.cd_nav_set_items.label.Add_Job],/jobs/jobs/selectJobDisplay.do,,20
-
+100020,100010,4000,Interconnect MMS,/web/cd/displayDashboardSetup.do?dashboardId=100021&back=yes,/images/icons/png/regular/48x48/interconnect-mms.png,35001
+100021,100010,4000,Interconnect SMS,/web/cd/displayDashboardSetup.do?dashboardId=100022&back=yes,/images/icons/png/regular/48x48/interconnect-sms.png,35001
+100022,100010,4000,Interconnect Voice,/web/cd/displayDashboardSetup.do?dashboardId=100023&back=yes,/images/icons/png/regular/48x48/interconnect-voice.png,35001
+100050,100020,,Interconnect Routes,/web/emInit.do?emId=100005,,35000
+100051,100020,,Interconnect Exclude Service Centre,/web/emInit.do?emId=100006,,35000
+100052,100020,,Postpaid Voice Home - Free of Charge,/web/emInit.do?emId=100007,,35000
+100053,100020,,VFI Partners,/web/emInit.do?emId=100020,,35000
+100030,100010,,Feed Files,/web/cd/displayDashboardSetup.do?dashboardId=100030&back=yes,/images/icons/png/regular/48x48/feed-files.png,35001
+100031,100010,,Fixed Line Voice,/web/cd/displayDashboardSetup.do?dashboardId=100031&back=yes,/images/icons/png/regular/48x48/fixed-line-voice.png,35001
+100032,100010,,Partners,/web/cd/displayDashboardSetup.do?dashboardId=100032&back=yes,/images/icons/png/regular/48x48/partners.png,35001

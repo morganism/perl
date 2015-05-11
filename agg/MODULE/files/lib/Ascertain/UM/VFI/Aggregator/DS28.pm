@@ -41,15 +41,16 @@ sub _aggregate
 	my $ST_VOICE_POSTPAID = FALSE;
 	my $ST_VOICE_POSTPAID_HOME = FALSE;
 	my $ST_VOICE_POSTPAID_HOME_MO = FALSE;
+	my $ST_VOICE_POSTPAID_HOME_MO_FREE = FALSE;
 	my $ST_VOICE_POSTPAID_HOME_CALL_FWD = FALSE;
 	my $ST_VOICE_PREPAID = FALSE;
 	my $ST_VOICE_PREPAID_HOME = FALSE;
 	my $ST_VOICE_PREPAID_HOME_MO = FALSE;
 	my $ST_VOICE_PREPAID_HOME_CALL_FWD = FALSE;
-	my $ST_VOICE_OUTBOUND_ROAMERS_MO = FALSE;
-	my $ST_VOICE_OUTBOUND_ROAMERS_MT = FALSE;
-	my $ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MO = FALSE;
+	my $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT = FALSE;
 	my $ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT = FALSE;
+    my $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP = FALSE;
+    my $ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP = FALSE;
 	my $ST_VOICE_INBOUND_ROAMERS_MO = FALSE;
 	my $ST_VOICE_INBOUND_ROAMERS_MT = FALSE;
 	my $ST_VOICE_INTERCONNECT = FALSE;
@@ -94,11 +95,23 @@ sub _aggregate
 	my $ST_DATA_WAP_POSTPAID_STRIP = FALSE;
 	my $ST_CONTENT_POSTPAID = FALSE;
 	my $ST_CONTENT_PREPAID = FALSE;
+
+	my $ST_ITC_SMS_IN = FALSE;
+	my $ST_ITC_VOICE = FALSE;
+	my $ST_ITC_VOICE_IN = FALSE;
+	my $ST_ITC_VOICE_OUT = FALSE;
+
+    my $ST_VOICE_PARTNERS = FALSE;
+    my $ST_DATA_PARTNERS = FALSE;
+
+
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
 	$ST_ALL = TRUE; push @serviceTypes, "ST_ALL";
 	
+	$self->specifySourceInit();
+
 	#----------------- RECORD TYPE --------------------
 	my $recordType = $d->{recordType};
 	#----------------- RECORD TYPE --------------------
@@ -151,6 +164,8 @@ sub _aggregate
 	$self->IMSI($callingSubscriberIMSI); # for ONXP
 	my $calledSubscriberIMSI  = $self->decodeIMSI($d->{calledSubscriberIMSI});
 	my $redirectingIMSI       = $self->decodeIMSI($d->{redirectingIMSI});
+    my $calledPartyNumber     = $self->decodeDigitPairs($d->{calledPartyNumber});
+
 	if ($ST_SMS)
 	{
 
@@ -283,6 +298,19 @@ sub _aggregate
 					$ST_VOICE_PREPAID_HOME_CALL_FWD = TRUE; push @serviceTypes, "ST_VOICE_PREPAID_HOME_CALL_FWD";
 				}
 			}
+
+			# Prepaid Roaming MT
+			if (    ($recordType eq "roamingCallForwarding") 
+				and ($calledSubscriberIMSI  =~ /^27201[^1]/)
+			    )
+		    {
+				if ($calledPartyNumber =~ /^..555.*/) {
+					$ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP = TRUE; push (@serviceTypes, "ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT_ARP");
+				}
+				else {
+					$ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT = TRUE; push (@serviceTypes, "ST_VOICE_OUTBOUND_PREPAID_ROAMERS_MT");
+				}
+			}
 		}
 		#ST_VOICE 
 		#and not isICIOrdered
@@ -292,6 +320,10 @@ sub _aggregate
 			my $isOnxp = $self->isOnxpImsi();
 			$ST_VOICE_POSTPAID = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID";
 			push @serviceTypes, "ST_ONXP_VOICE_POSTPAID" if ($isOnxp);
+
+			my $translatedNumber =  $self->decodeDigitPairs($d->{translatedNumber});
+			my $dialledDigit = substr $translatedNumber, 2; 
+
 			if ($ST_HOME_FLAG)
 			{
 				$ST_VOICE_POSTPAID_HOME = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME";
@@ -299,8 +331,15 @@ sub _aggregate
 
 				if ($ST_HOME_MO_FLAG)
 				{
-					$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
-					push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+					if ($self->isICCSFreeNumber( $dialledDigit )) # dialled digit not in Free of charge number list
+                                	{
+                                        	$ST_VOICE_POSTPAID_HOME_MO_FREE = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO_FREE";
+                                	}
+                                	else {
+                                        	$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
+                                        	push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+                                	}
+
 				}
 
 				if ($ST_HOME_CALL_FWD_FLAG)
@@ -312,9 +351,29 @@ sub _aggregate
 			# ST_VOICE_POSTPAID_HOME_MO Rule extended by David Costigan 31-May-2011
 			if (($recordType eq "iSDNOriginating") and ($ST_VOICE_POSTPAID_HOME_MO ne TRUE)) 
 			{
-				$ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
-				push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+				if ($self->isICCSFreeNumber(  $dialledDigit ) ) # dialled digit not in Free of charge number list
+                                {
+ 	                               $ST_VOICE_POSTPAID_HOME_MO_FREE = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO_FREE";
+                                }
+                                else {
+                                       $ST_VOICE_POSTPAID_HOME_MO = TRUE; push @serviceTypes, "ST_VOICE_POSTPAID_HOME_MO";
+                                       push @serviceTypes, "ST_ONXP_VOICE_POSTPAID_HOME_MO" if ($isOnxp);
+                                }
 			}
+
+            # Postpaid Roaming MT
+            if (    ($recordType eq "roamingCallForwarding")
+                and ($calledSubscriberIMSI  =~ /^27201[^1]/)
+                )
+            {
+                if ($calledPartyNumber =~ /^..555.*/) {
+                    $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP = TRUE; push (@serviceTypes, "ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP");
+                }
+                else {
+                    $ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT = TRUE; push (@serviceTypes, "ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT");
+                }
+            }
+
 		}
 
 
@@ -336,10 +395,6 @@ sub _aggregate
                         $ST_VOICE_INBOUND_ROAMERS_MO = TRUE; push @serviceTypes, "ST_VOICE_INBOUND_ROAMERS_MO";
                 }
 
-
-
-
-                #ST_VOICE
                 #and recordType=MS_TERMINATING_
                 #and calledSubscriberIMSI not beings with 27201 except an MVNO IMSI
                 #and teleServiceCode != 12
@@ -356,39 +411,92 @@ sub _aggregate
                 {
                         $ST_VOICE_INBOUND_ROAMERS_MT = TRUE; push @serviceTypes, "ST_VOICE_INBOUND_ROAMERS_MT";
                 }
-
-
-		#"Business rule = ""ST_VOICE
-		#and recordType=MS_ORIGINATING 
-		#and callingSubscriberIMSI beings with 27201 except an MVNO IMSI 
-		#and teleServiceCode != 12 
-		#and teleServiceCode is not null and generic charging digit 0 == '3'"""
-
-		if 
-		(
-			(defined $d->{recordType} and $d->{recordType} eq "mSOriginating") and
-			($callingSubscriberIMSI =~ /^27201[^1]/) and
-			(defined $d->{teleServiceCode} and $d->{teleServiceCode} ne "12")
-		)
-		{
-			if (defined $d->{GenericDigits}->[0])
-			{
-				if ($d->{GenericDigits}->[0] eq "20 03")
-				{
-					$ST_VOICE_OUTBOUND_ROAMERS_MO = TRUE; push (@servicetypes, "ST_VOICE_OUTBOUND_ROAMERS_MO");
-				}
-				elsif ($d->{GenericDigits}->[0] eq "20 05")
-				{
-					$ST_VOICE_OUTBOUND_ROAMERS_MT = TRUE; push (@servicetypes, "ST_VOICE_OUTBOUND_ROAMERS_MT");
-				}
-			}
-		}
-		
 	}
+
+	my $serviceCentreAddress = (defined $d->{serviceCentreAddress}) ? $self->decodeDigitPairs($d->{serviceCentreAddress}) : "";
+
+
+	# INTERCONNECT Service Types
+
+	# SMS Interconnect
+	if (     $recordType eq "mSTerminatingSMSinMSC" 
+#	     and ( defined $d->{incomingRoute} or defined $d->{outgoingRoute} )
+             and not (  $self->isItcExcServiceCentreValue($calledSubscriberIMSI,$serviceCentreAddress) )
+ 	    )
+	{
+		$ST_ITC_SMS_IN = TRUE; push (@serviceTypes, "ST_ITC_SMS_IN");
+	}
+
+    
+	
+    # Voice Interconnect
+    if (     $recordType ne "mSTerminating"
+         and $recordType ne "ISDNOriginating"
+         and $recordType ne "mSOriginatingSMSinMSC"
+         and $recordType ne "mSTerminatingSMSinMSC"
+         and not ( defined $d->{partialOutputRecNum} and not defined $d->{lastPartialOutput} )
+        )
+    {
+
+        my $translatedNumber = (defined $d->{translatedNumber}) ? $self->decodeDigitPairs($d->{translatedNumber}) : "";
+        my $routeMatchType = $self->isItcRouteValue($d->{incomingRoute},$d->{outgoingRoute});
+
+
+        if ( not ( $d->{outgoingRoute} eq "VMSGRI" and $translatedNumber =~ /^113538.5/ )) {
+
+           if ( $routeMatchType eq "OMATCH" )  {
+                $ST_ITC_VOICE_OUT = TRUE; push (@serviceTypes, "ST_ITC_VOICE_OUT");
+                $ST_ITC_VOICE = TRUE; push (@servicetypes, "ST_ITC_VOICE");
+            }
+            elsif ( $routeMatchType eq "IMATCH" and $recordType ne "callForwarding" and $recordType ne "roamingCallForwarding" )
+        	{
+                $ST_ITC_VOICE_IN = TRUE; push (@serviceTypes, "ST_ITC_VOICE_IN");
+                $ST_ITC_VOICE = TRUE; push (@servicetypes, "ST_ITC_VOICE");
+            }
+            elsif ( $routeMatchType eq "FMATCH" or ($routeMatchType eq "IMATCH" and ( $recordType eq "callForwarding" or $recordType eq "roamingCallForwarding" ))) {
+		        if ( defined $d->{tariffClass} and
+     			     ( $d->{tariffClass} eq "00 01" or $d->{tariffClass} eq "00 03" )
+			     and not ( $recordType eq "callForwarding" and $d->{outgoingRoute} eq "SSFDJO" ) ) {
+						
+  			            $ST_ITC_VOICE_OUT = TRUE; push (@serviceTypes, "ST_ITC_VOICE_OUT");
+		    		    $ST_ITC_VOICE = TRUE; push (@servicetypes, "ST_ITC_VOICE");
+
+           		}
+        		elsif ( defined $d->{tariffClass} and $d->{tariffClass} eq "00 02" ) {
+ 
+			            $ST_ITC_VOICE_IN = TRUE; push (@serviceTypes, "ST_ITC_VOICE_IN");
+				        $ST_ITC_VOICE = TRUE; push (@servicetypes, "ST_ITC_VOICE");
+        		}
+            }
+	    }
+
+    }
+
+	# MVNO/WHolesale Partner & Bundle service types
+	if ($ST_VOICE) {
+		my $imsiLookup = "";
+		my $translatedNumber = (defined $d->{translatedNumber}) ? $self->decodeDigitPairs($d->{translatedNumber}) : "";
+
+		if ($recordType eq "callForwarding") { $imsiLookup = $redirectingIMSI; }
+		if ($recordType eq "mSOriginating") { $imsiLookup = $callingSubscriberIMSI; }
+		if ($recordType eq "mSTerminating") { $imsiLookup =  $calledSubscriberIMSI; }
+
+        if (		  $self->isPartner($imsiLookup) ne 0 
+#			and not ( $recordType eq "callForwarding" and $d->{iNServiceTrigger} eq "00 71" )
+#			and not ( $translatedNumber eq "121747" ) 
+	   )    	
+		{
+            $ST_VOICE_PARTNERS = TRUE; push @serviceTypes, "ST_VOICE_PARTNERS";
+			$self->specifySourceForAggRecords("ST_VOICE_PARTNERS",$self->isPartner($imsiLookup));
+        }
+	}
+
+
 	#----------------- SERVICE TYPE --------------------
 	
 
 	my $duration = (defined $d->{chargeableDuration}) ? $self->decodeDuration($d->{chargeableDuration}) : 0;
+
 	# only applies to PREPAID
 	my $revenue = 0;
 	if ($ST_SMS_PREPAID or $ST_VOICE_PREPAID)

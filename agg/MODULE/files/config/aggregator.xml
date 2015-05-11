@@ -10,20 +10,30 @@
 		<parameter name="mss_decoder" value="/usr/revo/ASCERTAIN_BUILD/bin/mss_decode.pl"></parameter><!-- all dirs relative to this -->
 		<parameter name="pid_dir" value="/usr/revo/datafeed/um/pid"></parameter><!-- where to put PID files -->
 		<parameter name="input_batch_size" value="100"></parameter><!-- number of files to process before writing results -->
+		<parameter name="task_out_dir" value="/usr/revo/BUILD/htdocs/finished_tasks"></parameter>
+                <parameter name="task_dir" value="/usr/revo/data/aggregator/task"></parameter>
+                <parameter name="onxp_datafile" value="/usr/revo/data/aggregator/data/onxp.dat"></parameter>
+                <parameter name="itc_route_datafile" value="/usr/revo/data/aggregator/data/interconnect_routes.dat"></parameter>
+                <parameter name="itc_serviceCentre_datafile" value="/usr/revo/data/aggregator/data/itc_excl_service_centre.dat"></parameter>	
+		<parameter name="iccs_free_number_datafile" value="/usr/revo/data/aggregator/data/postpaid_voice_free_of_charge.dat"></parameter>
+		<parameter name="partners_datafile" value="/usr/revo/data/aggregator/data/v_agg_partners.dat"></parameter>
 	</general>
 
 	<!-- Configure each datasource below -->
   <datasource name="DS4" type="fixedwidth">
     <!-- There maybe more than 1 regex container -->
     <!-- BILLMSSP0130162_23.HOLDING -->
-		<regex>^BILLMSS(P\d+).*\.HOLDING</regex>
+		<regex>^BILL.*MSS.(\d+).*\.HOLDING</regex>
     <neid type="value" value="DS4"></neid>
     <input_dir>DS4/in</input_dir>
     <work_dir>DS4/work</work_dir>
     <error_dir>DS4/err</error_dir>
     <output_dir>DS4/out</output_dir>
     <archive_dir>DS4/arc</archive_dir>
-    <log_dir>DS4/log</log_dir>
+	<log_dir>DS4/log</log_dir>
+	     <parameter name="aged_days" value="31"></parameter>
+		      <parameter name="expired_days" value="59"></parameter>
+
   </datasource>
 
   <datasource name="DS5" type="csv">
@@ -362,6 +372,8 @@
         <asn_start_record_tag>GPRSRecord</asn_start_record_tag>
         <asn_end_record_tag>GPRSRecord</asn_end_record_tag>
         <asn_opening_tag>PGW_DECODE</asn_opening_tag>
+        <asn_inner_start_record_tag>ChangeOfServiceCondition</asn_inner_start_record_tag>
+        <asn_inner_end_record_tag>ChangeOfServiceCondition</asn_inner_end_record_tag>
   </datasource>
 
   <datasource name="DS71" type="asn1">
@@ -394,7 +406,63 @@
         <asn_start_record_tag>CallEventRecord</asn_start_record_tag>
         <asn_end_record_tag>CallEventRecord</asn_end_record_tag>
         <asn_opening_tag>SGSN_DECODE</asn_opening_tag>
+        <asn_inner_start_record_tag>ChangeOfCharCondition</asn_inner_start_record_tag>
+        <asn_inner_end_record_tag>ChangeOfCharCondition</asn_inner_end_record_tag>
   </datasource>
+
+  
+   <datasource name="DS73" type="fixedwidth">
+        <regex>^(MR\d{1}C[A-Z][A-Z]\d{1}).*cdr.*$</regex>
+        <neid type="regex" value="$1"></neid>
+        <input_dir>DS73/in</input_dir>
+        <work_dir>DS73/work</work_dir>
+        <output_dir>DS73/out</output_dir>
+        <archive_dir>DS73/arc</archive_dir>
+        <error_dir>DS73/err</error_dir>
+        <log_dir>DS73/log</log_dir>
+        <input_batch_size>5000</input_batch_size>
+   </datasource>
+
+
+   <datasource name="DS74" type="fixedwidth">
+        <regex>^(.*MSS.*)_\d+_\d+_\d+\.cdr.*</regex>
+        <neid type="regex" value="$1"></neid>
+        <input_dir>DS74/in</input_dir>
+        <work_dir>DS74/work</work_dir>
+        <output_dir>DS74/out</output_dir>
+        <archive_dir>DS74/arc</archive_dir>
+        <error_dir>DS74/err</error_dir>
+        <log_dir>DS74/log</log_dir>
+        <input_batch_size>200</input_batch_size>
+   </datasource>
+
+
+   <datasource name="DS75" type="csv">
+        <regex>^MM4_.*\.dat</regex>
+        <neid type="value" value="MM4"></neid>
+        <input_dir>DS75/in</input_dir>
+        <work_dir>DS75/work</work_dir>
+        <output_dir>DS75/out</output_dir>
+        <archive_dir>DS75/arc</archive_dir>
+        <error_dir>DS75/err</error_dir>
+        <log_dir>DS75/log</log_dir>
+        <input_batch_size>100</input_batch_size>
+   </datasource>
+
+
+   <datasource name="DS76" type="csv">
+        <regex>^DWF_\d{8}_\d{6}_.*\.CSV.*</regex>
+        <neid type="value" value="DWF"></neid>
+        <input_dir>DS76/in</input_dir>
+        <work_dir>DS76/work</work_dir>
+        <output_dir>DS76/out</output_dir>
+        <archive_dir>DS76/arc</archive_dir>
+        <error_dir>DS76/err</error_dir>
+        <log_dir>DS76/log</log_dir>
+        <input_batch_size>100</input_batch_size>
+   </datasource>
+
+
 
   <datasource name="DS80" type="csv">
     <!-- There maybe more than 1 regex container -->
@@ -421,5 +489,219 @@
     <archive_dir>DS81/arc</archive_dir>
     <log_dir>DS81/log</log_dir>
   </datasource>
+
+  
+   <datasource name="DS21" type="fixedwidth">
+     <regex>^CDO.*.check</regex>
+     <neid type="value" value="DS21"></neid>
+     <raw_dir>DS21/in</raw_dir>
+     <input_dir>DS21/in</input_dir>
+     <work_dir>DS21/work</work_dir>
+     <output_dir>DS21/out</output_dir>
+     <archive_dir>DS21/arc</archive_dir>
+     <error_dir>DS21/err</error_dir>
+     <log_dir>DS21/log</log_dir>
+   </datasource>
+
+   <datasource name="DS47" type="csv">
+     <regex>^BF_ARP_.*.dat</regex>
+     <neid type="value" value="DS47"></neid>
+     <raw_dir>DS47/in</raw_dir>
+     <input_dir>DS47/in</input_dir>
+     <work_dir>DS47/work</work_dir>
+     <output_dir>DS47/out</output_dir>
+     <archive_dir>DS47/arc</archive_dir>
+     <error_dir>DS47/err</error_dir>
+     <log_dir>DS47/log</log_dir>
+    </datasource>
+
+   <datasource name="DS78" type="fixedwidth">
+     <regex>^CDT.*.CHECK</regex>
+     <neid type="value" value="DS78"></neid>
+     <raw_dir>DS78/in</raw_dir>
+     <input_dir>DS78/in</input_dir>
+     <work_dir>DS78/work</work_dir>
+     <output_dir>DS78/out</output_dir>
+     <archive_dir>DS78/arc</archive_dir>
+     <error_dir>DS78/err</error_dir>
+     <log_dir>DS78/log</log_dir>
+   </datasource>
+
+   <datasource name="DS90" type="csv">
+     <regex>^RAW.XB.G.*.DATA(?!tmp)</regex>
+     <neid type="value" value="DS90"></neid>
+     <raw_dir>DS90/in</raw_dir>
+     <input_dir>DS90/in</input_dir>
+     <work_dir>DS90/work</work_dir>
+     <output_dir>DS90/out</output_dir>
+     <archive_dir>DS90/arc</archive_dir>
+     <error_dir>DS90/err</error_dir>
+     <log_dir>DS90/log</log_dir>
+   </datasource>
+
+
+   <datasource name="DS91" type="csv">
+     <regex>^PERLICO_DAILY_.*.txt(?!tmp)</regex>
+     <neid type="value" value="DS91"></neid>
+     <raw_dir>DS91/in</raw_dir>
+     <input_dir>DS91/in</input_dir>
+     <work_dir>DS91/work</work_dir>
+     <output_dir>DS91/out</output_dir>
+     <archive_dir>DS91/arc</archive_dir>
+     <error_dir>DS91/err</error_dir>
+     <log_dir>DS91/log</log_dir>
+   </datasource>
+
+   <datasource name="DS92" type="csv">
+     <regex>^C08586_Vodafone Ireland Ltd_.*_Inclusive.csv(?!tmp)</regex>
+     <neid type="value" value="DS92"></neid>
+     <raw_dir>DS92/in</raw_dir>
+     <input_dir>DS92/in</input_dir>
+     <work_dir>DS92/work</work_dir>
+     <output_dir>DS92/out</output_dir>
+     <archive_dir>DS92/arc</archive_dir>
+     <error_dir>DS92/err</error_dir>
+     <log_dir>DS92/log</log_dir>
+   </datasource>
+
+   <datasource name="DS93" type="csv">
+     <regex>^Daily_RatingSuspense_.*.csv(?!tmp)</regex>
+     <neid type="value" value="DS93"></neid>
+     <raw_dir>DS93/in</raw_dir>
+     <input_dir>DS93/in</input_dir>
+     <work_dir>DS93/work</work_dir>
+     <output_dir>DS93/out</output_dir>
+     <archive_dir>DS93/arc</archive_dir>
+     <error_dir>DS93/err</error_dir>
+     <log_dir>DS93/log</log_dir>
+   </datasource>
+
+   <datasource name="DS94" type="csv">
+     <regex>^MonthlySuspenseData_.*.csv.decoded</regex>
+     <neid type="value" value="DS94"></neid>
+     <raw_dir>DS94/in</raw_dir>
+     <input_dir>DS94/in</input_dir>
+     <work_dir>DS94/work</work_dir>
+     <output_dir>DS94/out</output_dir>
+     <archive_dir>DS94/arc</archive_dir>
+     <error_dir>DS94/err</error_dir>
+     <log_dir>DS94/log</log_dir>
+   </datasource>
+
+   <datasource name="DS95" type="csv">
+     <regex>^MonthlyBilledData_.*.csv(?!tmp)</regex>
+     <neid type="value" value="DS95"></neid>
+     <raw_dir>DS95/in</raw_dir>
+     <input_dir>DS95/in</input_dir>
+     <work_dir>DS95/work</work_dir>
+     <output_dir>DS95/out</output_dir>
+     <archive_dir>DS95/arc</archive_dir>
+     <error_dir>DS95/err</error_dir>
+     <log_dir>DS95/log</log_dir>
+   </datasource>
+
+   <datasource name="DS96" type="csv">
+     <regex>^VODAFONE_ES_D_.*.DAT.TXT(?!tmp)</regex>
+     <neid type="value" value="DS96"></neid>
+     <raw_dir>DS96/in</raw_dir>
+     <input_dir>DS96/in</input_dir>
+     <work_dir>DS96/work</work_dir>
+     <output_dir>DS96/out</output_dir>
+     <archive_dir>DS96/arc</archive_dir>
+     <error_dir>DS96/err</error_dir>
+     <log_dir>DS96/log</log_dir>
+   </datasource>
+
+   <datasource name="DS98" type="csv">
+     <regex>^Daily_Suspense_.*.csv(?!tmp)</regex>
+     <neid type="value" value="DS98"></neid>
+     <raw_dir>DS98/in</raw_dir>
+     <input_dir>DS98/in</input_dir>
+     <work_dir>DS98/work</work_dir>
+     <output_dir>DS98/out</output_dir>
+     <archive_dir>DS98/arc</archive_dir>
+     <error_dir>DS98/err</error_dir>
+     <log_dir>DS98/log</log_dir>
+     <input_batch_size>1</input_batch_size>
+   </datasource>
+
+   <datasource name="DS99" type="csv">
+     <regex>^Daily_Suspense_.*.csv(?!tmp)</regex>
+     <neid type="value" value="DS99"></neid>
+     <raw_dir>DS99/in</raw_dir>
+     <input_dir>DS99/in</input_dir>
+     <work_dir>DS99/work</work_dir>
+     <output_dir>DS99/out</output_dir>
+     <archive_dir>DS99/arc</archive_dir>
+     <error_dir>DS99/err</error_dir>
+     <log_dir>DS99/log</log_dir>
+     <parameter name="aged_days" value="30"></parameter>
+     <parameter name="expired_days" value="59"></parameter> 
+     
+   </datasource>
+
+
+    <datasource name="DS83" type="ama">
+     <regex>^ama.(\d{4}).(\d{10})</regex>
+     <neid type="value" value="CCS"></neid>
+     <raw_dir>DS83/raw</raw_dir>
+     <input_dir>DS83/in</input_dir>
+     <work_dir>DS83/work</work_dir>
+     <output_dir>DS83/out</output_dir>
+     <archive_dir>DS83/arc</archive_dir>
+     <error_dir>DS83/err</error_dir>
+     <log_dir>DS83/log</log_dir>
+   </datasource>
+
+   <datasource name="DS84" type="ama">
+     <regex>^(\d{7})</regex>
+     <neid type="value" value="CCS"></neid>
+     <raw_dir>DS84/raw</raw_dir>
+     <input_dir>DS84/in</input_dir>
+     <work_dir>DS84/work</work_dir>
+     <output_dir>DS84/out</output_dir>
+     <archive_dir>DS84/arc</archive_dir>
+     <error_dir>DS84/err</error_dir>
+     <log_dir>DS84/log</log_dir>
+   </datasource>
+
+
+   <datasource name="DS85" type="fixedwidth">
+     <regex>^GPRSWAP(\d{5})_(\d{2}).*</regex>
+     <neid type="value" value="CCS"></neid>
+     <raw_dir>DS85/raw</raw_dir>
+     <input_dir>DS85/in</input_dir>
+     <work_dir>DS85/work</work_dir>
+     <output_dir>DS85/out</output_dir>
+     <archive_dir>DS85/arc</archive_dir>
+     <error_dir>DS85/err</error_dir>
+     <log_dir>DS85/log</log_dir>
+   </datasource>
+
+
+  <datasource name="DS86" type="fixedwidth">
+     <regex>^GPRS(\d{5})_(\d{2}).*</regex>
+     <neid type="value" value="CCS"></neid>
+     <raw_dir>DS86/raw</raw_dir>
+     <input_dir>DS86/in</input_dir>
+     <work_dir>DS86/work</work_dir>
+     <output_dir>DS86/out</output_dir>
+     <archive_dir>DS86/arc</archive_dir>
+     <error_dir>DS86/err</error_dir>
+     <log_dir>DS86/log</log_dir>
+   </datasource>
+
+   <datasource name="DS7" type="ama">
+     <regex>^bill_calldata_(\d{10}).txt</regex>
+     <neid type="value" value="DS7"></neid>
+     <raw_dir>DS7/raw</raw_dir>
+     <input_dir>DS7/in</input_dir>
+     <work_dir>DS7/work</work_dir>
+     <output_dir>DS7/out</output_dir>
+     <archive_dir>DS7/arc</archive_dir>
+     <error_dir>DS7/err</error_dir>
+     <log_dir>DS7/log</log_dir>
+   </datasource>
+
 
 </aggregator>

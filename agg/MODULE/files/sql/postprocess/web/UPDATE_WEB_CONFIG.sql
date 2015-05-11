@@ -26,4 +26,11 @@ update web.chart_parameters_ref set parameters='table=JOBS.V_JOB_SUMMARY_MATRIX_
 
 delete from web.cd_dashboard_detail where cd_dashboard_id=1200 and type_id=1008 and instance_id=1203;
 
+
+update web.menu_item
+set    value = replace(value, 'Special:Allpages','')
+where  menu_item_id = 1602;
+
+commit;
+
 exit;

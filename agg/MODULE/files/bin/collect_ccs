@@ -1,0 +1,22 @@
+#!/bin/bash
+
+DATADIR=$HOME/datafeed/um/DS83
+#DATADIR=$HOME/data/gdl/input/DS83
+
+LOG_DIR=/usr/revo/datafeed/log/
+#LOG_DIR=$HOME/data/logs/system/
+
+DATE=`date '+%Y%m%d'`
+echo Running $0 at `date`
+LOG_DIR=/usr/revo/datafeed/log/
+
+
+for file in `ls $DATADIR/raw/ama\.[0-9][0-9][0-9][0-9]\.gz`
+do
+
+  echo "Moving $file to $DATADIR/in/`basename $file .gz`.$DATE.gz"
+  mv "$file" "$DATADIR/in/`basename $file .gz`.$DATE.gz"
+
+done
+
+echo "$0 Done."

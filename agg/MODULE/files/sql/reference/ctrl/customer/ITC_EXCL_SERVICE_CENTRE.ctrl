@@ -1,0 +1,16 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.ITC_EXCL_SERVICE_CENTRE
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.ITC_EXCL_SERVICE_CENTRE
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+	called_subscriber_imsi,
+	service_centre_address,
+	EXCLUDE
+)

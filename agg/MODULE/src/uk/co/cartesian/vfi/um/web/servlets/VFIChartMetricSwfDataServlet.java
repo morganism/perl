@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import uk.co.cartesian.vfi.um.persistence.dao.MetricChartDAO;
+import uk.co.cartesian.vfi.um.persistence.dao.VFIMetricChartDAO;
 import uk.co.cartesian.ascertain.um.web.action.chartmetric.ChartableMetric;
 import uk.co.cartesian.ascertain.utils.database.DBCleaner;
 import uk.co.cartesian.ascertain.utils.log.LogInitialiser;
@@ -98,7 +98,7 @@ extends HttpServlet
         DBCleaner cleaner = new DBCleaner();
         try
         {
-            rs = MetricChartDAO.getMetricData(
+            rs = VFIMetricChartDAO.getMetricData(
             	fromDate,
             	toDate,
             	metricId,

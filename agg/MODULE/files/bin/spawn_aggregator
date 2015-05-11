@@ -4,7 +4,7 @@ use strict;
 use diagnostics;
 use Data::Dumper;
 
-use constant MAX_PROCESSES => 4;
+use constant MAX_PROCESSES => 9;
 my $dataDir = "/usr/revo/datafeed/um";
 my $hostName = `hostname`; chomp $hostName;
 my $runList = "$dataDir/$hostName.runlist";
@@ -50,9 +50,9 @@ foreach my $elt (@inputFileCounts)
     my $rhc = runningHereCount();
     if ($rhc < MAX_PROCESSES)
     {
-      $ENV{ASCERTAIN_BUILD} = "/usr/revo/ASCERTAIN_BUILD";
+	$ENV{AGGREGATOR_BUILD} = "/usr/revo/AGGREGATOR_BUILD";
 	  #$ENV{PERL5LIB} = "/usr/revo/usr/local/lib/site_perl:/usr/revo/usr/local/lib/5.8.8";
-      $ENV{PERL5LIB} = "/usr/revo/lib/lib/perl5/site_perl/5.8.8:/usr/revo/lib/lib64/perl5/site_perl/5.8.8/x86_64-linux-thread-multi:/usr/revo/lib/lib64/perl5/5.8.8/x86_64-linux-thread-multi";
+      $ENV{PERL5LIB} = "/usr/revo/lib/lib/perl5/site_perl/5.8.8:/usr/revo/lib/lib64/perl5/site_perl/5.8.8/x86_64-linux-thread-multi:/usr/revo/lib/lib64/perl5/5.8.8/x86_64-linux-thread-multi:/opt/OV/nonOV/perl/a/lib/curr";
       $cmd .= ' &';
 my $date = `date +"%Y%m%d %H%M%S"`;
 chomp($date);

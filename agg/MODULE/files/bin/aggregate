@@ -1,14 +1,14 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ##################################################
 # script   : aggregate
 # author   : Cartesian Limited
 # author   : msziraki
 # date     : Thu Oct 28 11:55:58 BST 2010
-# $Revision: 1.67 $
+# $Revision: 1.78 $
 ##################################################
 my $Revision = "";
 my $number = "";
-my $version = "$Revision: 1.67 $number";
+my $version = "$Revision: 1.78 $number";
 
 # N.B.: add lexically scoped variables and assign them in getArgs ($file, below)
 #use DBI;
@@ -20,11 +20,13 @@ use Data::Dumper;
 use English qw( -no_match_vars );
 use File::Copy;
 use IO::File;;
+use POSIX;
 
 use lib "$ENV{AGGREGATOR_BUILD}/lib";
 
 use XML::Simple;
 use Ascertain::UM::Readers::Reader;
+use Ascertain::UM::Readers::AMA;
 use Ascertain::UM::Readers::CSV;
 use Ascertain::UM::Readers::FixedWidth;
 use Ascertain::UM::Readers::ASN1_Simple;
@@ -42,6 +44,7 @@ use constant YES => "yes";
 
 use constant READER_CSV   => "csv";
 use constant READER_FIXED => "fixedwidth";
+use constant READER_AMA   => "ama";
 use constant READER_ASN1  => "asn1";
 
 use constant LOGGER_NAME => "AggregatorLog";
@@ -192,6 +195,39 @@ if (defined $generalConfig->{parameter}->{onxp_datafile}->{value})
 	my $onxpDataFile = $generalConfig->{parameter}->{onxp_datafile}->{value};
 	loadOnxpDataFile($onxpDataFile) if (-e $onxpDataFile);
 }
+
+# Load Interconnect Route data file if present
+my $itcRouteData = {}; 
+if (defined $generalConfig->{parameter}->{itc_route_datafile}->{value})
+{
+        my $itcRouteDataFile = $generalConfig->{parameter}->{itc_route_datafile}->{value};
+        loadIctRouteData($itcRouteDataFile) if (-e $itcRouteDataFile);
+}
+
+# Load Interconnect Exclude Service Centre file if present
+my $itcServiceCentreData = [];
+if (defined $generalConfig->{parameter}->{itc_serviceCentre_datafile}->{value})
+{
+        my $itcServiceCentreDataFile = $generalConfig->{parameter}->{itc_serviceCentre_datafile}->{value};
+        loadIctServiceCentreData($itcServiceCentreDataFile) if (-e $itcServiceCentreDataFile);
+}
+
+# Load ICCS Free Dialled Digits file if present
+my $ICCSFreeNumbersData = [];
+if (defined $generalConfig->{parameter}->{iccs_free_number_datafile}->{value})
+{
+        my $ICCSFreeNumberDataFile = $generalConfig->{parameter}->{iccs_free_number_datafile}->{value};
+        loadICCSFreeNumberData($ICCSFreeNumberDataFile) if (-e $ICCSFreeNumberDataFile);
+}
+
+# Load MVO/Wholesale partners file if present
+my $PartnerData = [];
+if (defined $generalConfig->{parameter}->{partners_datafile}->{value})
+{
+        my $PartnersDataFile = $generalConfig->{parameter}->{partners_datafile}->{value};
+        loadPartnersData($PartnersDataFile) if (-e $PartnersDataFile);
+}
+
 
 # we want chunks of input_batch_size
 my $batchSize = $generalConfig->{parameter}->{input_batch_size}->{value};
@@ -389,10 +425,17 @@ while (@oInputFiles_Batch = splice (@oInputFiles, 0, $batchSize))
 			debugger => \&debugger,
 			timeslot_validity_window => $tsvw,
 			currency_factor => $oFormat->getCurrencyFactor(),
-			data_factor => $oFormat->getDataFactor()
+			data_factor => $oFormat->getDataFactor(),
+			parameters => $config->{parameter}
 		}
 	);
+
 	$oAggregator->setOnxpList($onxpData);
+	$oAggregator->setIntRouteList($itcRouteData);
+	$oAggregator->setIntServiceCentreList($itcServiceCentreData);
+	$oAggregator->setICCSFreeNumberList($ICCSFreeNumbersData);
+	$oAggregator->setPartnersList($PartnerData);
+
 	if (defined $oTask)
 	{
 		# this is where we use the biz rules to drill into the edr files and extract 
@@ -587,6 +630,14 @@ while (@oInputFiles_Batch = splice (@oInputFiles, 0, $batchSize))
     writeAggregatedFile() unless($single or $printRecord or (defined $oTask));
 
     $nonAggregatedRecCount = $oAggregator->getNonAggregatedRecordsWritten();
+
+    if (defined $generalConfig->{parameter}->{itc_route_datafile}->{value})
+	{
+	        my $itcRouteDataFile = $generalConfig->{parameter}->{itc_route_datafile}->{value};
+		if ($dataSource eq "DS74" ) { 
+	        	saveMergedIctRouteData($itcRouteDataFile) if (-e $itcRouteDataFile);
+		}
+    }
 }
 
 my $hms = $oSW_Log->hms($oSW_Log->getElapsedTime());
@@ -604,6 +655,7 @@ if ($count)
 	}
 	$exitCode = EXIT_WARNING;
 }
+
 logger("Finished.");
 if (defined $oTask)
 {
@@ -630,6 +682,144 @@ sub loadOnxpDataFile
 	close ONXP;
 	logger("Loaded $i IMSIs from file.");
 }
+
+sub loadIctRouteData
+{
+	my $itcRouteDataFile = shift;
+        logger("Interconnect Routes Data File [$itcRouteDataFile] has been defined in the config file [$configFile] and exists.");
+        logger("Loading Interconnect Route Data File");
+	
+	my $i = 0; # count the number of msisdn read
+        open(ITCDAT, $itcRouteDataFile);
+		flock(ITCDAT,2);
+        while (<ITCDAT>)
+        {
+		chomp;
+        my ($inRoute, $outRoute, $flag, $desc) = split /,/;
+		$inRoute =~ s/^\s+|\s+$//g;
+		$outRoute =~ s/^\s+|\s+$//g;
+		$flag =~ s/^\s+|\s+$//g;
+		
+		$itcRouteData->{$inRoute}->{$outRoute} = {flag=>$flag,desc=>$desc};
+
+		$i++;
+
+	}
+	close(ITCDAT);
+	logger("Loaded $i ITC Routes from file.");
+
+}
+
+sub saveMergedIctRouteData
+{
+    my $itcRouteDataFile = shift;
+	my $itcRouteDataTempFile = $itcRouteDataFile . "_temp";
+
+    logger("Merging new Interconnect Routes into Data File");
+
+	my $routesNew = $oAggregator->getIntRouteList();
+	$itcRouteData = $routesNew;
+
+    open(ITCDAT2,">",$itcRouteDataTempFile);
+    flock(ITCDAT2, 2);
+
+	foreach my $inRoute (keys %$routesNew) {
+	    while (my ($outRoute, $values) = each %{ $routesNew->{$inRoute} } ) {
+		my $flag = $values->{flag};
+		my $desc = $values->{desc};
+	        print ITCDAT2 "$inRoute,$outRoute,$flag,$desc\n";
+	    }
+	}
+ 	close(ITCDAT2);
+
+	open(ITCDAT,$itcRouteDataFile);
+    flock(ITCDAT,2);
+
+	if (-e $itcRouteDataTempFile) {
+		copy ($itcRouteDataTempFile, $itcRouteDataFile);
+		logger("Merged ITC Routes file complete.");
+	}
+	close(ITCDAT);
+}
+
+
+sub loadIctServiceCentreData
+{
+        my $itcServiceCentreDataFile = shift;
+        logger("Interconnect Service Centre File [$itcServiceCentreDataFile] has been defined in the config file [$configFile] and exists.");
+        logger("Loading Interconnect Service Centre Data File");
+
+        my $i = 0; # count the number of msisdn read
+        open(ITCDAT, $itcServiceCentreDataFile);
+        while (<ITCDAT>)
+        {
+                chomp;
+                my ($calledSubsImsi,$serviceCentre, $excludeFlag) = split /,/;
+                                $calledSubsImsi =~ s/^\s+|\s+$//g;
+                $serviceCentre =~ s/^\s+|\s+$//g;
+                $excludeFlag =~ s/^\s+|\s+$//g;
+
+                if ( $excludeFlag eq "Y" ) {
+                        push(@$itcServiceCentreData, $calledSubsImsi . ";" . $serviceCentre);
+                }
+
+                $i++;
+        }
+        close ITCDAT;
+
+        logger("Loaded $i ITC Service Centres from file.");
+
+}
+
+sub loadICCSFreeNumberData
+{
+        my $ICCSFreeNumberDataFile = shift;
+        logger("ICCS Free Number Data File [$ICCSFreeNumberDataFile] has been defined in the config file [$configFile] and exists.");
+        logger("Loading ICCS Free Number Data File");
+
+        my $i = 0; # count the number of msisdn read
+        open(DAT, $ICCSFreeNumberDataFile);
+        while (<DAT>)
+        {
+                chomp;
+                my ($dialledDigits, $description) = split /,/;
+
+                $dialledDigits =~ s/^\s+|\s+$//g;
+		push(@$ICCSFreeNumbersData, $dialledDigits);
+                $i++;
+        }
+        close DAT;
+
+        logger("Loaded $i ICCS Free numbers from file.");
+
+}
+
+sub loadPartnersData
+{
+        my $PartnersDataFile = shift;
+        logger("Partners Data File [$ParntersDataFile] has been defined in the config file [$configFile] and exists.");
+        logger("Loading Partners Data File");
+
+        my $i = 0; # count the number of msisdn read
+        open(DAT, $PartnersDataFile);
+        while (<DAT>)
+        {
+                chomp;
+                my ($partnerName,$prefix,$IMSIStartRange,$IMSIEndRange,$sourceDesc) = split /,/;
+				
+				push(@$PartnerData,{partnerName=>$partnerName, 
+										 prefix=>$prefix,
+										 startIMSI=>$IMSIStartRange,
+										 endIMSI=>$IMSIEndRange,
+										 sourceDesc=>$sourceDesc});
+                $i++;
+        }
+        close DAT;
+
+        logger("Loaded $i partners from file.");
+}
+
+
 
 sub setTaskState
 {
@@ -1092,7 +1282,20 @@ sub getFilesFromDir
 			{
 				if ($fileNumber < $batchSize)
 				{
-					logger("\tFound valid file: [$f]");
+					my $tsfile = $d . "/$f";
+					my $write_secs = (stat($tsfile))[9];
+					my $fileSize = (stat($tsfile))[7];
+
+					my $fileDate = POSIX::strftime( "%Y%m%d", localtime( ( stat $tsfile )[9] ) );
+					logger("\tFound valid file: [$f] \tTimestamp: " . scalar localtime($write_secs));
+	
+					if ($f =~ / /){
+						my $spaceFilename = "\"" . $d . "/$f\"";
+						$f =~ s/ /_/g;
+						my $newFilename = $d . "/$f";
+						system("mv $spaceFilename $newFilename");
+					}				
+
 					my $oInputFile = new Ascertain::UM::VFI::InputFile
 					(
 						{
@@ -1102,7 +1305,9 @@ sub getFilesFromDir
 							edr_file_name => $f,
 							current_dir => $d,
 							file_number => $fileNumber++,
-							logger => \&logger
+							logger => \&logger,
+							timestamp => $fileDate,
+							filesize => $fileSize
 						}
 					);
 
@@ -1156,8 +1361,15 @@ sub getReader
 			$args->{asn_start_record_tag} = $config->{asn_start_record_tag};
 		 	$args->{asn_end_record_tag} = $config->{asn_end_record_tag};
 
+			$args->{asn_inner_start_record_tag} = $config->{asn_inner_start_record_tag};
+			$args->{asn_inner_end_record_tag} = $config->{asn_inner_end_record_tag};
+
 			return new Ascertain::UM::Readers::ASN1_Simple($args);
 		}	
+	}
+	elsif ($args->{type} eq READER_AMA)
+	{
+		return new Ascertain::UM::Readers::AMA($args);
 	}
 	else
 	{

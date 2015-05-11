@@ -30,6 +30,8 @@ sub new
 	$self->{logger} = $args->{logger};
 	$self->{debugger} = $args->{debugger};
 	$self->{timeslot_validity_window} = $args->{timeslot_validity_window}; # don't write records older than this many days
+	$self->{parameters} = $args->{parameters};
+
 	$self->{aggregation} = {}; # this will hold the dimensions, and counters
 	$self->{input_file_lookup} = {}; # this will provide a file lookup 
 	$self->{currency_factor} = defined ($args->{currency_factor}) ? $args->{currency_factor} : 1;  # from Format object if in euros then 1, if in cents then 100
@@ -58,6 +60,7 @@ sub aggregate
 	$self->{record} = $args->{record};
 	$self->{reader_object} = $args->{reader_object};
 	$self->{input_file_obj}->incrementAggregatedLineCount(); # do this for every subclass
+	$self->{total_aggregated_line_count}++; # keep track of total
 	$self->_aggregate($args); # now call the sub class method
 }
 
@@ -198,6 +201,212 @@ sub setOnxpList
 	my $self = shift;
 	$self->{onxp_list} = shift;
 }
+
+sub isItcRouteValue
+{
+    my $self = shift;
+
+    my $inRoute = shift;
+    my $outRoute = shift;
+
+    my $star = "*";
+
+    if ($inRoute eq "" or (not defined $inRoute) ) {
+        $inRoute = "NULL";
+    }
+
+    if ($outRoute eq "" or (not defined $outRoute) ) {
+        $outRoute = "NULL";
+    }
+
+    if ( defined $inRoute and defined $outRoute ) {
+        if ( $self->{itc_routes}->{$star}->{$outRoute}->{flag} eq "Y") {
+            return "OMATCH";
+        }
+        elsif ( $self->{itc_routes}->{$inRoute}->{$star}->{flag} eq "Y") {
+            return "IMATCH";
+        }
+        elsif (  $self->{itc_routes}->{$inRoute}->{$outRoute}->{flag} eq "Y") {
+            return "FMATCH";
+        }
+        else {
+            return "NOMATCH";
+        }
+    }
+    else {
+        return "NOMATCH";
+    }
+}
+
+sub addItcRouteValue
+{
+    my $self = shift;
+
+    my $inRoute = shift;
+    my $outRoute = shift;
+
+    if ($inRoute eq "" or (not defined $inRoute) ) {
+        $inRoute = "NULL";
+    }
+
+    if ($outRoute eq "" or (not defined $outRoute) ) {
+        $outRoute = "NULL";
+    }
+
+
+    if ( defined $inRoute and defined $outRoute ) {
+        if ( not exists $self->{itc_routes}->{$inRoute}->{$outRoute}->{flag} ) {
+			$self->{itc_routes}->{$inRoute}->{$outRoute}->{flag} = "Y";
+			$self->{itc_routes}->{$inRoute}->{$outRoute}->{desc} = $self->{runtime} . ": Added by system";
+        }
+        elsif ( $self->{itc_routes}->{$inRoute}->{$outRoute}->{flag} eq "N" ) {
+            # Update to Y
+	    $self->{itc_routes}->{$inRoute}->{$outRoute}->{flag} = "Y";
+            $self->{itc_routes}->{$inRoute}->{$outRoute}->{desc} = $self->{runtime} . ": Updated to Y by system";
+        }
+    }
+}
+
+sub setPartnersList
+{
+    my $self = shift;
+    $self->{partners} = shift;
+}
+
+sub getPartnersList
+{
+    my $self = shift;
+    return $self->{itc_routes};
+}
+
+sub setIntRouteList 
+{
+	my $self = shift;
+    $self->{itc_routes} = shift;
+	
+}
+
+sub getIntRouteList
+{
+	my $self = shift;
+	return $self->{itc_routes};
+}
+
+sub isPartner 
+{
+	my $self = shift;
+	my $subsIMSI = shift;
+
+	if (defined $subsIMSI ) {
+		for my $partner (@{$self->{partners}}) 
+		{
+			if ($subsIMSI >= $partner->{startIMSI} and $subsIMSI <= $partner->{endIMSI} ) 
+			{
+				return $partner->{sourceDesc};
+			}
+		}
+		return 0;
+	}
+    else {
+            return 0;
+    }
+}
+
+sub isItcExcServiceCentreValue
+{
+        my $self = shift;
+
+                my $calledSubsImsi = shift;
+        my $serviceCentre = shift;
+
+                my $imsi_match = FALSE;
+                my $serviceCentre_match = FALSE;
+
+        if ( defined $serviceCentre and defined $calledSubsImsi ) {
+
+                        for my $sc (@{$self->{itc_serviceCentres}}) {
+                                my ($imsiExpr, $serviceCentreExpr) = split (/;/,$sc);
+
+                                # imsi negative match test
+                                if ($imsiExpr =~ /^!/) {
+                                        $imsiExpr =~ s/!//g;
+                                        if ($calledSubsImsi !~ /^$imsiExpr/) {
+                                                $imsi_match = TRUE;
+                                        }
+                                }
+                                # imsi match test
+                                else {
+                                        if ($calledSubsImsi =~ /^$imsiExpr/) {
+                                $imsi_match = TRUE;
+                        }
+                                }
+
+                                # Service Centre Negative match test
+                                if ($serviceCentreExpr =~ /^!/) {
+                                        $serviceCentreExpr =~ s/!//g;
+                                        if ($serviceCentre !~ /^$serviceCentreExpr/) {
+                                                $serviceCentre_match = TRUE;
+                                        }
+                                }
+                                # Service Centre match test
+                                else {
+                                        if ($serviceCentre =~ /^$serviceCentreExpr/) {
+                                                $serviceCentre_match = TRUE;
+                        }
+                                }
+
+
+                                if ($imsi_match and $serviceCentre_match) {
+                                        return TRUE;
+                                }
+
+                                $imsi_match = FALSE;
+                                $serviceCentre_match = FALSE;
+                        }
+                        return FALSE;
+        }
+        else {
+            return FALSE;
+        }
+}
+
+sub setIntServiceCentreList
+{
+        my $self = shift;
+        $self->{itc_serviceCentres} = shift;
+}
+
+
+sub isICCSFreeNumber
+{
+        my $self = shift;
+
+        my $dialledDigit = shift;
+
+	$dialledDigit =~ s/\s+//g;
+
+        if ( defined $dialledDigit ) {
+	
+                for my $dd (@{$self->{itc_freeNumbers}}) {
+                        if ($dialledDigit =~ /^$dd$/) {
+                                return TRUE;
+                        }
+                }
+                return FALSE;
+        }
+        else {
+                return FALSE;
+        }
+}
+
+sub setICCSFreeNumberList
+{
+        my $self = shift;
+        $self->{itc_freeNumbers} = shift;
+}
+
+
+
 # choose either addAggregatedResults or in non-aggregation mode write the record
 sub process
 {
@@ -289,20 +498,42 @@ sub addAggregatedResults
 		{
 			$value /= $self->{data_factor}; # convert from bytes to MB
 		}
-		#$self->{aggregation}->{
-		#	$self->D_USAGE_TYPE}->{
-		#		$self->D_NEID}->{
-		#			$self->D_EDR_FILENAME}->{
-		#				$self->D_TIMESLOT}->{
-		#					$self->D_SERVICE_TYPE}->{$counter} += $value;
+		
+		my $sourceDesc = "";
+
+                if (exists $self->{definedSource}->{$self->D_SERVICE_TYPE}) {
+                        $sourceDesc = $self->{definedSource}->{$self->D_SERVICE_TYPE};
+                }
+                else {
+                        $sourceDesc = $neId;
+                }
+
 		$self->{aggregation}->{
 			$fileNumber}->{
 				$self->D_USAGE_TYPE}->{
-					$neId}->{
+					$sourceDesc}->{
 						$self->D_TIMESLOT}->{
 							$self->D_SERVICE_TYPE}->{$counter} += $value;
 	}
 }
+
+
+sub specifySourceForAggRecords {
+
+    my $self = shift;
+    my $serviceType = shift;
+    my $sourceDesc = shift;
+
+    $self->{definedSource}->{$serviceType} = $sourceDesc;
+
+}
+
+sub specifySourceInit {
+
+    undef $self->{definedSource};
+}
+
+
 
 sub writeAggregatedFile
 {
@@ -314,6 +545,9 @@ sub writeAggregatedFile
 	my $errorDir = $args->{error_dir};
 
 	my $ds = $self->{aggregation};
+	my $dsr = $self->{aggregation_removed};
+	my $dsm = { %$ds, %$dsr };
+
 	my $dataSource = $self->{data_source};
 
 	TIMESLOT:
@@ -323,6 +557,7 @@ sub writeAggregatedFile
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($seconds); 
 	# Join the date and microseconds
 	my $runtimemicro = sprintf "%4d%02d%02d%02d%02d%02d%06d", $year+1900,$mon+1,$mday,$hour,$min,$sec,$microseconds; 
+	my $dateByHour = sprintf   "%4d%02d%02d%02d", $year+1900,$mon+1,$mday,$hour;
 
 	my $outputFile = "$outputDir/$runtimemicro.$dataSource.out";
 	my $errorFile  = "$errorDir/$runtimemicro.$dataSource.err";
@@ -337,19 +572,27 @@ sub writeAggregatedFile
 	my $work_fh = $out_fh;
 	my $work_rc;
 
-  foreach my $fileNumber (sort keys %{$ds})
+
+  foreach my $fileNumber (sort keys %{$dsm})
   {
 		my $edrFileName = $self->{input_file_lookup}->{$fileNumber}->getEdrFileName();
-		foreach my $usageType (sort keys %{$ds->{$fileNumber}})
+		my $edrFileDate = $self->{input_file_lookup}->{$fileNumber}->getTimestamp();
+		my $edrFileSize = $self->{input_file_lookup}->{$fileNumber}->getEdrFileSize();
+		
+		my $edrNeId = $self->{input_file_lookup}->{$fileNumber}->getNeId();
+		my $rejectedCount = 0;
+
+		foreach my $usageType (sort keys %{$dsm->{$fileNumber}})
 		{
-			foreach my $neId (sort keys %{$ds->{$fileNumber}->{$usageType}})
+			foreach my $neId (sort keys %{$dsm->{$fileNumber}->{$usageType}})
 			{
-				foreach my $timeSlot (sort keys %{$ds->{$fileNumber}->{$usageType}->{$neId}})
+				foreach my $timeSlot (sort keys %{$dsm->{$fileNumber}->{$usageType}->{$neId}})
 				{
 					$self->{debugger}("Writing data for : file [$fileNumber : $edrFileName] usage [$usageType] neid [$neId] slot [$timeSlot]");
 					unless ($self->isTimeSlotValid($timeSlot))
 					{
 						$self->{logger}("Found old data for time slot : $timeSlot, moving to: error_dir");
+						$rejectedCount++;
 						$work_fh = $err_fh;
 						$work_rc = \$err_rc;
 					}
@@ -374,9 +617,21 @@ sub writeAggregatedFile
 				}
 			}
 		}
+
+		# Output File Metric Service Type
+		if ($rejectedCount > 0) {
+			print $out_fh "$currentDir,$edrFileName,$edrNeId,$dataSource.FILE.${edrFileDate}00,FILE,${edrFileDate}00,ST_AGG_REJECTED,$rejectedCount,0,$edrFileSize,0.0\n";
+		}
+		elsif (exists $dsr->{$fileNumber}) {
+    	        	print $work_fh "$currentDir,$edrFileName,$edrNeId,$dataSource.FILE.${edrFileDate}00,FILE,${edrFileDate}00,ST_AGG_FAILED,1,0,$edrFileSize,0.0\n";
+        	}
+       		else {
+            		print $work_fh "$currentDir,$edrFileName,$edrNeId,$dataSource.FILE.${edrFileDate}00,FILE,${edrFileDate}00,ST_AGG_SUCCESS,1,0,$edrFileSize,0.0\n";
+        	}
+		$out_rc++;
 	}
 	
-	# TODO: SET TO DEBUG ONLY 
+
 	if( exists( $self->{timeslotError} ) && scalar( keys( %{ $self->{timeslotError} } ) ) )
 	{
 	    $self->{logger}( "Timeslot problems were found for following recordtypes:" );
@@ -386,7 +641,19 @@ sub writeAggregatedFile
 	       $self->{logger}( "\t" . $type . " - " . $self->{timeslotError}{$type} . " instances" );
 	    }
     }
+
+	opendir my $dir, "$errorDir" or die "Cannot open $errorDir directory: $!";
+	my @errFiles = readdir $dir;
+	closedir $dir;
 	
+	for my $erroredFile (@errFiles) {
+		if ($erroredFile =~ /err_decoded$/) {
+			print $out_fh "$currentDir,$erroredFile,UNKNOWN,$dataSource.FILE.${dateByHour},FILE,${dateByHour},ST_AGG_FAILED,1,0,0,0.0\n";
+			$out_rc++;
+			move($errorDir . "/" . $erroredFile, $errorDir . "/" . $erroredFile . "_reported");
+		}
+	}
+
 	close $out_fh;
 	close $err_fh;
 	if ($out_rc > 0)
@@ -414,6 +681,7 @@ sub removeFailedFileResults
 	my $fileName = $self->{input_file_lookup}->{$fileNumber}->getEdrFileName();
 
 	$self->{logger}("Removing results for failed file number [$fileNumber][$fileName].");
+	$self->{aggregation_removed}->{$fileNumber} = $self->{aggregation}->{$fileNumber};
 	delete $self->{aggregation}->{$fileNumber};
 }
 
@@ -431,7 +699,8 @@ sub getInputRecordCount
 sub getAggregatedRecordCount
 {
 	my $self = shift;
-	return scalar(keys %{$self->{aggregator_bucket}});
+	return $self->{total_aggregated_line_count};
+	#return scalar(keys %{$self->{aggregator_bucket}});
 }
 
 sub getUnAggregatedRecordCount
@@ -679,3 +948,4 @@ sub decodeTimeslot
 }
 
 1;
+

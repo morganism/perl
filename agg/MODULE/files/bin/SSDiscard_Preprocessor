@@ -1,0 +1,65 @@
+#!/bin/bash
+
+export BASEDIR=$HOME
+export AGGREGATOR_BUILD=$BASEDIR/AGGREGATOR_BUILD
+
+#DATADIR=datafeed/um
+DATADIR=data/gdl/input
+DS=DS94
+
+FILE_PATTERN="MonthlySuspenseData_*.csv"
+FINDDIR="$BASEDIR/$DATADIR/$DS/raw"
+OUTDIR="$BASEDIR/$DATADIR/$DS/in"
+ARCDIR="$BASEDIR/$DATADIR/$DS/arc_preprocess"
+
+FILES=${FINDDIR}/${FILE_PATTERN}
+
+echo "Starting GZ uncompress: find $FINDDIR -follow -type f -name ${FILE_PATTERN}.gz -exec gunzip -f {} \;"
+CMD=`find $FINDDIR -follow -type f -name "${FILE_PATTERN}.gz" -exec gunzip -f {} \;`
+
+echo "Starting GZ uncompress: find $ARCDIR -follow -type f -name ${FILE_PATTERN}.gz -exec gunzip -f {} \;"
+CMD=`find $ARCDIR -follow -type f -name "${FILE_PATTERN}.gz" -exec gunzip -f {} \;`
+
+prevDate=19990101000001
+
+# Loop through the new files in the RAW directory
+for newfile in `ls $FILES`
+do
+
+    filename="${newfile##*/}"
+
+    # Get date of the new file
+    temp=${filename#*_}
+    datenew=${temp%.csv}
+
+    COMPAREFILE="none.txt"
+     
+    # Loop through the old already processed files
+    for oldfile in `ls -r ${ARCDIR}/${FILE_PATTERN}`   
+    do
+         oldfilename="${oldfile##*/}"
+         temp=${oldfilename#*_}
+         dateold=${temp%.csv}
+
+         if (($datenew > $dateold)) && (($dateold > 19990101000001)); then
+              #Use file in arc dir
+              COMPAREFILE=$oldfile
+              break;
+         fi 
+    done
+
+    if [ -f $COMPAREFILE ]; then
+         echo "Using $oldfile to remove duplicates from $newfile"
+         `head -1 $newfile > $OUTDIR/$filename.decoded`
+         `comm <(sort $oldfile) <(sort $newfile) -3 -1 >> $OUTDIR/$filename.decoded`
+          mv $newfile $ARCDIR
+    else 
+         echo "No prev file found"
+         cp $newfile $ARCDIR
+         mv $newfile $OUTDIR/$filename.decoded
+    fi
+
+done
+
+echo Done
+

@@ -1,0 +1,21 @@
+----------------------------------------------
+-- Cartesian Limited
+-- Table: CUSTOMER.PARTNERS
+-- CSV ctrl file
+----------------------------------------------
+LOAD DATA
+  INTO TABLE CUSTOMER.PARTNERS
+  APPEND
+  FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+  TRAILING NULLCOLS
+(
+ 	PARTNER_ID,
+	PARTNER_NAME,
+	TYPE,                      
+	DESCRIPTION,
+	PREFIX ,
+	IMSI_START_RANGE,
+	IMSI_END_RANGE,
+	SOURCE_ID 
+)

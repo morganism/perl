@@ -1,9 +1,9 @@
 create or replace procedure populate_um_staging ( p_job_id in  NUMBER
-                                                         , p_batch_id   NUMBER
-                                                         , p_table_name VARCHAR2
-                                                         , p_partition  VARCHAR2 default 'Y'
-                                                         , p_debug      VARCHAR2 default 'Y'
-                                                         ) IS
+                                                , p_batch_id   NUMBER
+                                                , p_table_name VARCHAR2
+                                                , p_partition  VARCHAR2 default 'Y'
+                                                , p_debug      VARCHAR2 default 'Y'
+                                                ) IS
 /*****************************************************************************************
 ** Procedure populate_um_staging.prc
 **
@@ -27,10 +27,13 @@ v_sql varchar2(8000);
 
 v_DS          varchar2(10);
 v_cap         integer;
+v_cap_default integer;
 v_sysdate     date;
 v_offset_date date;
 v_cap_date    date;
 v_max_age     date;
+
+v_node_id     number;
 
 v_default_edr_type number;
 
@@ -53,10 +56,9 @@ left join
 on m.multi_job_id = c.parent_job_id
 where j.job_id = p_job_id;
 
-
 -- the cap parameter - the number of days after which we give up recalculating
 select pv.value
-into v_cap
+into v_cap_default
 from       utils.parameter_values pv
 inner join utils.parameter_set_ref psr
    on psr.parameter_set_id = pv.parameter_set_id
@@ -74,11 +76,33 @@ utils.putmessage(v_ModuleName, v_Message, p_job_id, p_debug);
 
 -- Now work out the cut-off dates used below
 select trunc(v_sysdate - dff.latency)
-      ,trunc(v_sysdate - dff.latency - v_cap)
+      ,trunc(v_sysdate - dff.latency - nvl(dff.cap,v_cap_default))
 into  v_offset_date
      ,v_cap_date
 from customer.data_feed_frequency_ref dff
 where dff.node = v_DS;
+
+-- get node_id
+
+begin
+  select node_id
+  into   v_node_id
+  from   dgf.node_ref
+  where  description = v_DS;
+exception
+    when others then
+      
+         begin            
+           select node_id
+	   into   v_node_id
+           from   customer.data_feed_frequency_ref f
+           where  f.node = v_DS;         
+         exception
+            when others then
+    
+                 v_node_id := -1;
+         end;
+end;
 
 -- Load Staged Data can't handle records which don't have a matching d_period date
 select min(d_period_id) into v_max_age from um.d_period;
@@ -109,20 +133,62 @@ utils.putmessage(v_ModuleName, v_Message, p_job_id, p_debug);
 -- exists in um.log_record. From this point on, the presence of a non-null value
 -- in log_record_id indicates that the STAGING record has been represented.
 -----------------------------------------------------------------------------------
+
 v_sql := 'update '||p_table_name||' stg'||
-'   set (stg.log_record_id) ='||
-'       (select max(lr.log_record_id)'|| -- log_record has multiple entries per d_period_id
-'          from um.log_record lr'||
-'         where lr.file_name = stg.currentdir'|| -- note that currentdir also contains the filename in edr_filename
-'           and stg.timeslot = lr.d_period_id '||
-'           and lr.d_period_id > '''||v_cap_date||''''||
-'        ) '||
-'where exists (select null'||
-'              from um.log_record lr'||
-'             where lr.file_name = stg.currentdir'||
-'               and stg.timeslot = lr.d_period_id '||
-'               and stg.timeslot > '''||v_cap_date||''''|| -- 3) b)
-'             )';
+'         set    log_record_id = (select max(lr.log_record_id) '||
+'                                 from   um.log_record lr,     '||
+'                                        dgf.node_ref nr,      '||
+'                               (                              '||
+'                                select *                      '||
+'                                from   um.source_desc_ref     '||
+'                                union                         '||
+'                                select ' || v_node_id || ', ''UNKNOWN'', -1 '||
+'                                from   dual                                '||
+'                               ) sd                                        '||
+'                        where lr.node_id = nr.node_id                      '||
+'                        and   lr.source_id = sd.source_id                  '||
+'                        and   nr.description = substr(stg.umidentifier,1,instr(stg.umidentifier,''.'') -1)   '||
+'                        and  (    sd.source_description = stg.neid  '||
+'                               or ( not exists ( '||
+'                                                select 1 '||
+'                                                from   um.source_desc_ref sd '||
+'                                                where  sd.node_id = nr.node_id '||
+'                                                and    sd.source_description = stg.neid  '||
+'                                               ) '||
+'                                    and lr.source_id = -1  '||
+'                                  ) '||
+'                              ) '||
+'                        and lr.file_name = stg.currentdir '|| -- note that currentdir also contains the filename in edr_filename
+'                        and stg.timeslot = lr.d_period_id '||
+'                        and lr.d_period_id > '''||v_cap_date||''''||
+'                      ) '||
+'where exists (  select 1 '||
+'                from   um.log_record lr,                   '||
+'                       dgf.node_ref nr,                    '||
+'                       (                                   '||
+'                        select *                           '||
+'                        from   um.source_desc_ref          '||
+'                        union                              '||
+'                        select ' || v_node_id || ', ''UNKNOWN'', -1        '||
+'                        from   dual '||
+'                       ) sd  '||
+'                where lr.node_id = nr.node_id '||
+'                and   lr.source_id = sd.source_id '||
+'                and   nr.description = substr(stg.umidentifier,1,instr(stg.umidentifier,''.'') -1)  '||
+'                and  (    sd.source_description = stg.neid   '||
+'                       or ( not exists ( '||
+'                                        select 1 '||
+'                                        from   um.source_desc_ref sd '||
+'                                        where  sd.node_id = nr.node_id '||
+'                                        and    sd.source_description = stg.neid  '||
+'                                       ) '||
+'                            and lr.source_id = -1  '||
+'                          ) '||
+'                      ) '||
+'                and lr.file_name = stg.currentdir  '||-- note that currentdir also contains the filename in edr_filename
+'                and stg.timeslot = lr.d_period_id   '||
+'                and lr.d_period_id > '''||v_cap_date||''''||
+'              ) ';
 
 execute immediate v_sql;
 
@@ -143,20 +209,62 @@ v_start := v_end;
 --
 -- Is there a faster way to do this reliably?
 --
+
+
 v_sql := 'update '||p_table_name||' stg'||
-'   set (stg.log_record_id) ='||
-'       (select max(lrs.log_record_id)'|| -- log_record has multiple entries per d_period_id
-'          from um.log_record_STAGING lrs'||
-'         where lrs.file_name = stg.currentdir'||
-'         and   stg.timeslot = lrs.sample_date '||
-'        ) '||
-'where stg.log_record_id is null '||
-'and   exists (select 1'||
-'              from um.log_record_STAGING lrs'||
-'             where lrs.file_name = stg.currentdir'||
-'               and stg.timeslot = lrs.sample_date '||
-'               and stg.timeslot > '''||v_cap_date||''''|| -- 3) b)
-'             )';
+'         set    log_record_id = (select max(lrs.log_record_id) '||
+'                                 from   um.log_record_STAGING lrs,     '||
+'                                        dgf.node_ref nr,      '||
+'                               (                              '||
+'                                select *                      '||
+'                                from   um.source_desc_ref     '||
+'                                union                         '||
+'                                select ' || v_node_id || ', ''UNKNOWN'', -1 '||
+'                                from   dual                                '||
+'                               ) sd                                        '||
+'                        where lrs.node_id = nr.node_id                      '||
+'                        and   lrs.source_id = sd.source_id                  '||
+'                        and   nr.description = substr(stg.umidentifier,1,instr(stg.umidentifier,''.'') -1)   '||
+'                        and  (    sd.source_description = stg.neid  '||
+'                               or ( not exists ( '||
+'                                                select 1 '||
+'                                                from   um.source_desc_ref sd '||
+'                                                where  sd.node_id = nr.node_id '||
+'                                                and    sd.source_description = stg.neid  '||
+'                                               ) '||
+'                                    and lrs.source_id = -1  '||
+'                                  ) '||
+'                              ) '||
+'                        and lrs.file_name = stg.currentdir '|| -- note that currentdir also contains the filename in edr_filename
+'                        and stg.timeslot = lrs.sample_date '||
+'                      ) '||
+'where exists (  select 1 '||
+'                from   um.log_record_STAGING lrs,          '||
+'                       dgf.node_ref nr,                    '||
+'                       (                                   '||
+'                        select *                           '||
+'                        from   um.source_desc_ref          '||
+'                        union                              '||
+'                        select ' || v_node_id || ', ''UNKNOWN'', -1        '||
+'                        from   dual '||
+'                       ) sd  '||
+'                where lrs.node_id = nr.node_id '||
+'                and   lrs.source_id = sd.source_id '||
+'                and   nr.description = substr(stg.umidentifier,1,instr(stg.umidentifier,''.'') -1)  '||
+'                and  (    sd.source_description = stg.neid   '||
+'                       or ( not exists ( '||
+'                                        select 1 '||
+'                                        from   um.source_desc_ref sd '||
+'                                        where  sd.node_id = nr.node_id '||
+'                                        and    sd.source_description = stg.neid  '||
+'                                       ) '||
+'                            and lrs.source_id = -1  '||
+'                          ) '||
+'                      ) '||
+'                and lrs.file_name = stg.currentdir  '||-- note that currentdir also contains the filename in edr_filename
+'                and stg.timeslot = lrs.sample_date         '||
+'                and stg.timeslot > '''||v_cap_date||''''||
+'              ) ';
 
 execute immediate v_sql;
 
@@ -354,8 +462,8 @@ v_sql := 'insert into um.f_file_staging'||
 '          '||p_batch_id||' BATCH_ID,'||
 '             stg.sample_date,'||
 '             um.seq_f_file_id.nextval              F_FILE_ID,'||
-'             nvl(nr.node_id, -1)                   D_NODE_ID,'||
-'             nvl(sd.source_id, -1)                 D_SOURCE_ID,'||
+'             stg.node_id                           D_NODE_ID,'||
+'             stg.source_id                         D_SOURCE_ID,'||
 '             nvl(detm.d_edr_type_id,'||v_default_edr_type||') D_EDR_TYPE_ID,'||
 '             100                                   D_MEASURE_TYPE_ID,'||
 '             null                                  D_BILLING_TYPE_ID,'||
@@ -380,19 +488,25 @@ v_sql := 'insert into um.f_file_staging'||
 '                     ,sumduration'||       -- and deriving the columns that need processing
 '                     ,sumbytes'||
 '                     ,sumvalue'||
-'                 from '||p_table_name||') stg'||
+'                     ,nvl(nr.node_id, -1) node_id ' ||
+'                     ,nvl(sd.source_id, -1) source_id ' ||
+'                 from '||p_table_name ||  ' s '||
+'                 left join dgf.node_ref nr ' ||
+'                      on nr.description = substr(s.umidentifier,1,instr(s.umidentifier,''.'') -1)'||
+'                 left join um.source_desc_ref sd ' ||
+'                      on  sd.source_description = s.neid'||
+'                      and sd.node_id = nr.node_id '||
+'             ) stg'||
 '        inner join um.log_record_staging   lr'||
 '           on lr.file_name          = stg.fileandpath'||
 '          and lr.sample_date        = stg.sample_date'||
+'          and lr.node_id            = stg.node_id '||
+'          and lr.source_id          = stg.source_id '||
 -- LR insert above creates 1 rec per combination of
 -- stg_fileandpath, node_id, source_id and stg_timeslot
 -- but we don't need to join back to it using all these keys
-'         left join um.source_desc_ref               sd'||
-'           on sd.source_description = stg.source_description'||
 '         left join um.d_custom_01                   c1'||
 '           on c1.custom_type = stg.servicetype'||
-'         left join dgf.node_ref                     nr'||
-'           on nr.description = substr(stg.umidentifier,1,instr(stg.umidentifier,''.'') -1)'||
 '          left join um.d_edr_type_mv detm'||
 '           on upper(detm.edr_type) = upper(stg.usagetype)'||
 '          and detm.edr_direction = ''Other'''||
@@ -481,5 +595,4 @@ execute immediate v_sql;
 
 end populate_um_staging;
 /
-
 exit

@@ -11,65 +11,15 @@
 100271,(M) Import ER4 Files Jupiter TAP 1 Output ,-daemon no -load_type 1 -mapping 100061,5000
 100272,(M) Import ER4 Files MIS Output ,-daemon no -load_type 1 -mapping 100062,5000
 100273,(M) Import CCN Prepaid Data,-daemon no -load_type 1 -mapping 100063,5000
-100274,(M) Import MMSC Files Output (Nokia),-daemon no -load_type 1 -mapping 100064,5000
+100274,(M) Import Raw MMS Files Output (Nokia),-daemon no -load_type 1 -mapping 100064,5000
 100275,(M) Import CCN Prepaid MMS,-daemon no -load_type 1 -mapping 100065,5000
-100276,(M) Import EMM stripped records ,-daemon no -load_type 1 -mapping 100066,5000
 100277,(M) Import EMM Session to Mediation,-daemon no -load_type 1 -mapping 100067,5000
 100278,(M) Import GPRS ICCS records,-daemon no -load_type 1 -mapping 100068,5000
-100279,(M) Import NGME e-GCDR  Records,-daemon no -load_type 1 -mapping 100069,5000
 100280,(M) Import MMS ICCS TAP1,-daemon no -load_type 1 -mapping 100070,5000
 100281,(M) Import Eircom / BT Usage,-daemon no -load_type 1 -mapping 100071,5000
 100286,(M) Import Syniverse,-daemon no -load_type 1 -mapping 100076,5000
 100287,(M) Import EMM NGIN raw,-daemon no -load_type 1 -mapping 100077,5000
 100288,(M) Import EMM NGIN correlated,-daemon no -load_type 1 -mapping 100078,5000
-100510,(M) Node DS65,-node 100100 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100511,(M) Node DS49,-node 100101 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100512,(M) Node DS28,-node 100102 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100513,(M) Node DS44,-node 100103 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100514,(M) Node DS56,-node 100104 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100515,(M) Node DS20,-node 100105 -match 100000 -daemon no -offset 3 --terminatetime 23:59:59,1
-100516,(M) Node DS8,-node 100106 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100517,(M) Node DS54,-node 100107 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100518,(M) Node DS48,-node 100108 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100519,(M) Node DS53,-node 100109 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100520,(M) Node DS23,-node 100110 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
-100530,(M) Node DS6,-node 100120 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
-100531,(M) Node DS81,-node 100121 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100532,(M) Node DS40,-node 100122 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100533,(M) Node DS80,-node 100123 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100534,(M) Node DS12,-node 100124 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100550,(M) Node DS5,-node 100140 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100551,(M) Node DS55,-node 100141 -match 100000 -daemon no -offset 2 --terminatetime 23:59:59,1
-100552,(M) Node DS4,-node 100142 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100553,(M) Node DS11,-node 100143 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100554,(M) Node DS39,-node 100144 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100555,(M) Node DS33,-node 100145 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100556,(M) Node DS64,-node 100146 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100557,(M) Node DS45,-node 100147 -match 100000 -daemon no -offset 7 --terminatetime 23:59:59,1
-100710,(M) Forecasts multi-job for node 100100,-node_id 100100 -offset 1,35004
-100711,(M) Forecasts multi-job for node 100101,-node_id 100101 -offset 1,35004
-100712,(M) Forecasts multi-job for node 100102,-node_id 100102 -offset 1,35004
-100713,(M) Forecasts multi-job for node 100103,-node_id 100103 -offset 1,35004
-100714,(M) Forecasts multi-job for node 100104,-node_id 100104 -offset 1,35004
-100715,(M) Forecasts multi-job for node 100105,-node_id 100105 -offset 3,35004
-100716,(M) Forecasts multi-job for node 100106,-node_id 100106 -offset 1,35004
-100717,(M) Forecasts multi-job for node 100107,-node_id 100107 -offset 1,35004
-100718,(M) Forecasts multi-job for node 100108,-node_id 100108 -offset 1,35004
-100719,(M) Forecasts multi-job for node 100109,-node_id 100109 -offset 1,35004
-100720,(M) Forecasts multi-job for node 100110,-node_id 100110 -offset 7,35004
-100730,(M) Forecasts multi-job for node 100120,-node_id 100120 -offset 7,35004
-100731,(M) Forecasts multi-job for node 100121,-node_id 100121 -offset 1,35004
-100732,(M) Forecasts multi-job for node 100122,-node_id 100122 -offset 1,35004
-100733,(M) Forecasts multi-job for node 100123,-node_id 100123 -offset 1,35004
-100734,(M) Forecasts multi-job for node 100124,-node_id 100124 -offset 1,35004
-100750,(M) Forecasts multi-job for node 100140,-node_id 100140 -offset 1,35004
-100751,(M) Forecasts multi-job for node 100141,-node_id 100141 -offset 2,35004
-100752,(M) Forecasts multi-job for node 100142,-node_id 100142 -offset 1,35004
-100753,(M) Forecasts multi-job for node 100143,-node_id 100143 -offset 1,35004
-100754,(M) Forecasts multi-job for node 100144,-node_id 100144 -offset 1,35004
-100755,(M) Forecasts multi-job for node 100145,-node_id 100145 -offset 1,35004
-100756,(M) Forecasts multi-job for node 100146,-node_id 100146 -offset 1,35004
-100757,(M) Forecasts multi-job for node 100147,-node_id 100147 -offset 7,35004
 101000,(M) Run All,,1
 102000,(M) Import Multi-job,,5000
 103000,(M) Post-Import Multi Job,-daemon no -gatherStatsOption 3,1
@@ -96,8 +46,6 @@
 105128,(M) MMS ICCS vs ICCS Unbilled (count) - ST_MMS_POSTPAID_HOME_MO - EDR Count,-mrec_id 100028 -num_days 21 -offset 28,35005
 105129,(M) EMM data vs CCN Data (bytes) - ST_DATA_GPRS_PREPAID - EDR Bytes,-mrec_id 100029 -num_days 21 -offset 28,35005
 105130,(M) EMM data vs CCN Data (bytes) - ST_DATA_WAP_PREPAID - EDR Bytes,-mrec_id 100030 -num_days 21 -offset 28,35005
-105131,(M) NGME vs EMM data (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100031 -num_days 21 -offset 28,35005
-105132,(M) NGME vs EMM data (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100032 -num_days 21 -offset 28,35005
 105133,(M) EMM data vs GPRS ICCS (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes,-mrec_id 100033 -num_days 21 -offset 28,35005
 105134,(M) EMM data vs WAP ICCS (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes,-mrec_id 100034 -num_days 21 -offset 28,35005
 105135,(M) GPRS ICCS vs ICCS Unbilled (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes,-mrec_id 100035 -num_days 21 -offset 28,35005
@@ -125,23 +73,240 @@
 100289,(M) Import PGW,-daemon no -load_type 1 -mapping 100079,5000
 100290,(M) Import SGW,-daemon no -load_type 1 -mapping 100080,5000
 100291,(M) Import SGSN,-daemon no -load_type 1 -mapping 100081,5000
-100558,(M) Node DS70,-node 100150 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100559,(M) Node DS71,-node 100151 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100560,(M) Node DS72,-node 100152 -match 100000 -daemon no -offset 1 --terminatetime 23:59:59,1
-100758,(M) Forecasts multi-job for node 100150,-node_id 100150 -offset 1,35004
-100759,(M) Forecasts multi-job for node 100151,-node_id 100151 -offset 1,35004
-100760,(M) Forecasts multi-job for node 100152,-node_id 100152 -offset 1,35004
-105160,(M) PGW vs SGSN (bytes) - ST_DATA_2G - EDR Bytes,-mrec_id 100060 -num_days 7 -offset 8,35005
-105161,(M) PGW vs SGSN (bytes) - ST_DATA_3G - EDR Bytes,-mrec_id 100061 -num_days 7 -offset 8,35005
-105162,(M) PGW vs SGW (bytes) - ST_DATA_4G - EDR Bytes,-mrec_id 100062 -num_days 7 -offset 8,35005
-105163,(M) PGW vs SGW (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100063 -num_days 7 -offset 8,35005
-105164,(M) PGW vs SGSN (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100064 -num_days 7 -offset 8,35005
-105165,(M) SGSN vs SGW (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100065 -num_days 7 -offset 8,35005
-105166,(M) PGW vs SGW (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100066 -num_days 7 -offset 8,35005
-105167,(M) PGW vs SGSN (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100067 -num_days 7 -offset 8,35005
-105168,(M) SGSN vs SGW (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100068 -num_days 7 -offset 8,35005
-105169,(M) PGW vs EMM Data (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100069 -num_days 7 -offset 8,35005
-105170,(M) PGW vs EMM Data (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100070 -num_days 7 -offset 8,35005
-105171,(M) PGW vs EMM Data (bytes) - ST_DATA_2G - EDR Bytes,-mrec_id 100071 -num_days 7 -offset 8,35005
-105172,(M) PGW vs EMM Data (bytes) - ST_DATA_3G - EDR Bytes,-mrec_id 100072 -num_days 7 -offset 8,35005
-105173,(M) PGW vs EMM Data (bytes) - ST_DATA_4G - EDR Bytes,-mrec_id 100073 -num_days 7 -offset 8,35005
+105160,(M) EMM data vs SGSN (bytes) - ST_DATA_2G - EDR Bytes,-mrec_id 100060 -num_days 7 -offset 8,35005
+105161,(M) EMM data vs SGSN (bytes) - ST_DATA_3G - EDR Bytes,-mrec_id 100061 -num_days 7 -offset 8,35005
+105162,(M) EMM data vs SGW (bytes) - ST_DATA_4G - EDR Bytes,-mrec_id 100062 -num_days 7 -offset 8,35005
+105169,(M) EMM data vs PGW (bytes) - ST_DATA_GPRS - EDR Bytes,-mrec_id 100069 -num_days 7 -offset 8,35005
+105170,(M) EMM data vs PGW (bytes) - ST_DATA_WAP - EDR Bytes,-mrec_id 100070 -num_days 7 -offset 8,35005
+100292,(M) Import SMS Interconnect,-daemon no -load_type 1 -mapping 100090,5000
+100293,(M) Import MSS Interconnect,-daemon no -load_type 1 -mapping 100091,5000
+100294,(M) Import MMS Interconnect,-daemon no -load_type 1 -mapping 100092,5000
+100295,(M) Import DWF Interconnect,-daemon no -load_type 1 -mapping 100093,5000
+105180,(M) SMSC vs SMS Ict (count) - ST_ITC_SMS_OUT - EDR Count,-mrec_id 100100 -num_days 7 -offset 8,35005
+105181,(M) MSS vs MSS Ict (count) - ST_ITC_SMS_IN - EDR Count,-mrec_id 100101 -num_days 7 -offset 8,35005
+105182,(M) MSS vs MSS Ict (count) - ST_ITC_VOICE_OUT - EDR Count,-mrec_id 100102 -num_days 7 -offset 8,35005
+105183,(M) MSS vs MSS Ict (duration) - ST_ITC_VOICE_OUT - EDR Duration,-mrec_id 100103 -num_days 7 -offset 8,35005
+105184,(M) Raw MMS vs MMS Ict (count) - ST_ITC_MMS_OUT - EDR Count,-mrec_id 100104 -num_days 7 -offset 8,35005
+105185,(M) Raw MMS vs MMS Ict (bytes) - ST_ITC_MMS_OUT - EDR Bytes,-mrec_id 100105 -num_days 7 -offset 8,35005
+105186,(M) SMS Ict vs DWF Interconnect (count) - ST_ITC_SMS_OUT  - EDR Count,-mrec_id 100106 -num_days 7 -offset 9,35005
+105187,(M) MSS Ict vs DWF Interconnect (count) - ST_ITC_VOICE_OUT - EDR Count,-mrec_id 100107 -num_days 7 -offset 9,35005
+105188,(M) MSS Ict vs DWF Interconnect (duration) - ST_ITC_VOICE_OUT -  EDR Duration,-mrec_id 100108 -num_days 7 -offset 9,35005
+105189,(M) MMS Ict vs DWF Interconnect (count) - ST_ITC_MMS_OUT - EDR Count,-mrec_id 100109 -num_days 7 -offset 9,35005
+105190,(M) MMS Ict vs DWF Interconnect (bytes) - ST_ITC_MMS_OUT - EDR Bytes,-mrec_id 100110 -num_days 7 -offset 9,35005
+105191,(M) MSS vs MSS Ict (count) - ST_ITC_VOICE_IN - EDR Count,-mrec_id 100111 -num_days 7 -offset 8,35005
+105192,(M) MSS vs MSS Ict (duration) - ST_ITC_VOICE_IN - EDR Duration,-mrec_id 100112 -num_days 7 -offset 8,35005
+105193,(M) Raw MMS vs MMS Ict (count) - ST_ITC_MMS_IN - EDR Count,-mrec_id 100113 -num_days 7 -offset 8,35005
+105194,(M) Raw MMS vs MMS Ict (bytes) - ST_ITC_MMS_IN - EDR Bytes,-mrec_id 100114 -num_days 7 -offset 8,35005
+105195,(M) MSS Ict vs DWF Interconnect (count) - ST_ITC_SMS_IN  - EDR Count,-mrec_id 100115 -num_days 7 -offset 9,35005
+105196,(M) MSS Ict vs DWF Interconnect (count) - ST_ITC_VOICE_IN - EDR Count,-mrec_id 100116 -num_days 7 -offset 9,35005
+105197,(M) MSS Ict vs DWF Interconnect (duration) - ST_ITC_VOICE_IN -  EDR Duration,-mrec_id 100117 -num_days 7 -offset 9,35005
+105198,(M) MMS Ict vs DWF Interconnect (count) - ST_ITC_MMS_IN - EDR Count,-mrec_id 100118 -num_days 7 -offset 9,35005
+105199,(M) MMS Ict vs DWF Interconnect (bytes) - ST_ITC_MMS_IN - EDR Bytes,-mrec_id 100119 -num_days 7 -offset 9,35005
+100296,(M) Import TAPIN MO,-daemon no -load_type 1 -mapping 100094,5000
+100297,(M) Import MMSC ARP,-daemon no -load_type 1 -mapping 100095,5000
+100298,(M) Import GMSC ICCS (Roaming MT),-daemon no -load_type 1 -mapping 100096,5000
+105200,(M) MSS vs GMSC ICCS (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count,-mrec_id 100120 -num_days 7 -offset 8,35005
+105201,(M) GMSC ICCS vs ICCS Unbilled (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count,-mrec_id 100121 -num_days 21 -offset 28,35005
+105202,(M) TAPIN MO vs ICCS Unbilled (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count,-mrec_id 100122 -num_days 21 -offset 28,35005
+105203,(M) GMSC ICCS vs ICCS Unbilled (Duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration,-mrec_id 100123 -num_days 21 -offset 28,35005
+105204,(M) TAPIN MO vs ICCS Unbilled (Duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration,-mrec_id 100124 -num_days 21 -offset 28,35005
+105205,(M) MMSC - MMSC ARP vs MMS ICCS (Count) - ST_MMS_POSTPAID,-mrec_id 100125 -num_days 7 -offset 8,35005
+105206,(M) MMSC - MMSC ARP vs MMS CCN (Count) - ST_MMS_PREPAID,-mrec_id 100126 -num_days 7 -offset 8,35005
+105207,(M) MMSC - MMSC ARP vs MMS ICCS + MMS CCN (Count) - ST_MMS,-mrec_id 100127 -num_days 7 -offset 8,35005
+105208,(M) PGW vs EMM Data (Bytes) - ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes,-mrec_id 100128 -num_days 7 -offset 8,35005
+105209,(M) PGW vs EMM Data (Bytes) - ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes,-mrec_id 100129 -num_days 7 -offset 8,35005
+105210,(M) MSS vs GMSC ICCS (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count (Daily),-mrec_id 100130 -num_days 7 -offset 8,35005
+105211,(M) GMSC ICCS vs ICCS Unbilled (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count (Daily),-mrec_id 100131 -num_days 21 -offset 28,35005
+105212,(M) TAPIN MO vs ICCS Unbilled (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count (Daily),-mrec_id 100132 -num_days 21 -offset 28,35005
+105213,(M) GMSC ICCS vs ICCS Unbilled (Duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration (Daily),-mrec_id 100133 -num_days 21 -offset 28,35005
+105214,(M) TAPIN MO vs ICCS Unbilled (Duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration (Daily),-mrec_id 100134 -num_days 21 -offset 28,35005
+105215,(M) MMSC - MMSC ARP vs MMS ICCS (Count) - ST_MMS_POSTPAID (Daily),-mrec_id 100135 -num_days 7 -offset 8,35005
+105216,(M) MMSC - MMSC ARP vs MMS CCN (Count) - ST_MMS_PREPAID (Daily),-mrec_id 100136 -num_days 7 -offset 8,35005
+105217,(M) MMSC - MMSC ARP vs MMS ICCS + MMS CCN (Count) - ST_MMS (Daily),-mrec_id 100137 -num_days 7 -offset 8,35005
+105218,(M) PGW vs EMM Data (Bytes) - ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes (Daily),-mrec_id 100138 -num_days 7 -offset 8,35005
+105219,(M) PGW vs EMM Data (Bytes) - ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes (Daily),-mrec_id 100139 -num_days 7 -offset 8,35005
+100300,(M) Import BT,-daemon no -load_type 1 -mapping 100101,5000
+100301,(M) Import Eircom,-daemon no -load_type 1 -mapping 100100,5000
+100302,(M) Import C&W,-daemon no -load_type 1 -mapping 100102,5000
+100303,(M) Import VOIP,-daemon no -load_type 1 -mapping 100106,5000
+100304,(M) Import SingleServe Rated,-daemon no -load_type 1 -mapping 100103,5000
+100305,(M) Import SingleServe Rated Suspense,-daemon no -load_type 1 -mapping 100108,5000
+100306,(M) Import SingleServe Rated Suspense History,-daemon no -load_type 1 -mapping 100109,5000
+100307,(M) Import SingleServe Billed,-daemon no -load_type 1 -mapping 100105,5000
+100308,(M) Import SingleServe Rated Discarded,-daemon no -load_type 1 -mapping 100104,5000
+100570,(M) Node DS90,-node 100170 -node_id 100170 -daemon no -offset 1 --terminatetime 23:59:59,1
+100571,(M) Node DS91,-node 100171 -node_id 100171 -daemon no -offset 1 --terminatetime 23:59:59,1
+100572,(M) Node DS92,-node 100172 -node_id 100172 -daemon no -offset 1 --terminatetime 23:59:59,1
+100573,(M) Node DS93,-node 100173 -node_id 100173 -daemon no -offset 1 --terminatetime 23:59:59,1
+100574,(M) Node DS94,-node 100174 -node_id 100174 -daemon no -offset 1 --terminatetime 23:59:59,1
+100575,(M) Node DS95,-node 100175 -node_id 100175 -daemon no -offset 1 --terminatetime 23:59:59,1
+100576,(M) Node DS96,-node 100176 -node_id 100176 -daemon no -offset 1 --terminatetime 23:59:59,1
+100577,(M) Node DS98,-node 100177 -node_id 100177 -daemon no -offset 1 --terminatetime 23:59:59,1
+100578,(M) Node DS99,-node 100178 -node_id 100178 -daemon no -offset 1 --terminatetime 23:59:59,1
+101570,(M) Node Matching DS90,,1
+101571,(M) Node Matching DS91,,1
+101572,(M) Node Matching DS92,,1
+101573,(M) Node Matching DS93,,1
+101574,(M) Node Matching DS94,,1
+101575,(M) Node Matching DS95,,1
+101576,(M) Node Matching DS96,,1
+101577,(M) Node Matching DS98,,1
+101578,(M) Node Matching DS99,,1
+105230,(M) MSS vs TAPOUT (Count) - ST_VOICE_PARTNERS - EDR Count,-mrec_id 100150 -num_days 7 -offset 8,35005
+105231,(M) MSS vs TAPOUT (Count) - ST_VOICE_PARTNERS - EDR Count (Daily),-mrec_id 100151 -num_days 7 -offset 8,35005
+105232,(M) SGSN vs TAPOUT (Count) - ST_DATA_PARTNERS - EDR Count,-mrec_id 100152 -num_days 7 -offset 8,35005
+105233,(M) SGSN vs TAPOUT (Count) - ST_DATA_PARTNERS - EDR Count (Daily),-mrec_id 100153 -num_days 7 -offset 8,35005
+105234,(M) SGSN vs TAPOUT (Bytes) - ST_DATA_PARTNERS - EDR Bytes,-mrec_id 100154 -num_days 7 -offset 8,35005
+105235,(M) SGSN vs TAPOUT (Bytes) - ST_DATA_PARTNERS - EDR Bytes (Daily),-mrec_id 100155 -num_days 7 -offset 8,35005
+105236,(M) SS Rated vs SS Billed (Count) - ST_VOICE - EDR Count,-mrec_id 100156 -num_days 27 -offset 28,35005
+105237,(M) SS Rated vs SS Billed (Count) - ST_VOICE - EDR Count (Daily),-mrec_id 100157 -num_days 27 -offset 28,35005
+105238,(M) SS Rated vs SS Billed (Value) - ST_VOICE - EDR Value,-mrec_id 100158 -num_days 27 -offset 28,35005
+105239,(M) SS Rated vs SS Billed (Value) - ST_VOICE - EDR Value (Daily),-mrec_id 100159 -num_days 27 -offset 28,35005
+105240,(M) EIRCOM vs SS Rated (count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count (Daily),-mrec_id 100160 -num_days 7 -offset 8,35005
+105241,(M) BT vs SS Rated (count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count (Daily),-mrec_id 100161 -num_days 7 -offset 8,35005
+105242,(M) C&W vs SS Rated (count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count (Daily),-mrec_id 100162 -num_days 7 -offset 8,35005
+105243,(M) VOIP vs SS Rated (count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count (Daily),-mrec_id 100163 -num_days 7 -offset 8,35005
+105244,(M) EIRCOM vs SS Rated (Count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count,-mrec_id 100164 -num_days 7 -offset 8,35005
+105245,(M) BT vs SS Rated (Count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count,-mrec_id 100165 -num_days 7 -offset 8,35005
+105246,(M) C&W vs SS Rated (Count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count,-mrec_id 100166 -num_days 7 -offset 8,35005
+105247,(M) VOIP vs SS Rated (Count) - ST_VOICE - ST_VOICE_SUSPENSE - EDR Count,-mrec_id 100167 -num_days 7 -offset 8,35005
+105248,(M) EIRCOM vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily),-mrec_id 100168 -num_days 27 -offset 28,35005
+105249,(M) BT vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily),-mrec_id 100169 -num_days 27 -offset 28,35005
+105250,(M) C&W vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily),-mrec_id 100170 -num_days 27 -offset 28,35005
+105251,(M) VOIP vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily),-mrec_id 100171 -num_days 27 -offset 28,35005
+105252,(M) EIRCOM vs SS Billed (Count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count,-mrec_id 100172 -num_days 27 -offset 28,35005
+105253,(M) BT vs SS Billed (Count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count,-mrec_id 100173 -num_days 27 -offset 28,35005
+105254,(M) C&W vs SS Billed (Count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count,-mrec_id 100174 -num_days 27 -offset 28,35005
+105255,(M) VOIP vs SS Billed (Count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count,-mrec_id 100175 -num_days 27 -offset 28,35005
+100510,(M) Node DS65,-node 100100 -node_id 100100 daemon no -offset 1 --terminatetime 23:59:59,1
+100511,(M) Node DS49,-node 100101 -node_id 100101 daemon no -offset 1 --terminatetime 23:59:59,1
+100512,(M) Node DS28,-node 100102 -node_id 100102 daemon no -offset 1 --terminatetime 23:59:59,1
+100513,(M) Node DS44,-node 100103 -node_id 100103 daemon no -offset 1 --terminatetime 23:59:59,1
+100515,(M) Node DS20,-node 100105 -node_id 100105 daemon no -offset 3 --terminatetime 23:59:59,1
+100516,(M) Node DS8,-node 100106 -node_id 100106 daemon no -offset 1 --terminatetime 23:59:59,1
+100517,(M) Node DS54,-node 100107 -node_id 100107 daemon no -offset 1 --terminatetime 23:59:59,1
+100518,(M) Node DS48,-node 100108 -node_id 100108 daemon no -offset 1 --terminatetime 23:59:59,1
+100520,(M) Node DS23,-node 100110 -node_id 100110 daemon no -offset 7 --terminatetime 23:59:59,1
+100530,(M) Node DS6,-node 100120 -node_id 100120 daemon no -offset 7 --terminatetime 23:59:59,1
+100531,(M) Node DS81,-node 100121 -node_id 100121 daemon no -offset 1 --terminatetime 23:59:59,1
+100532,(M) Node DS40,-node 100122 -node_id 100122 daemon no -offset 1 --terminatetime 23:59:59,1
+100533,(M) Node DS80,-node 100123 -node_id 100123 daemon no -offset 1 --terminatetime 23:59:59,1
+100534,(M) Node DS12,-node 100124 -node_id 100124 daemon no -offset 1 --terminatetime 23:59:59,1
+100550,(M) Node DS5,-node 100140 -node_id 100140 daemon no -offset 1 --terminatetime 23:59:59,1
+100551,(M) Node DS55/DS86,-node 100141 -node_id 100141 daemon no -offset 2 --terminatetime 23:59:59,1
+100552,(M) Node DS4,-node 100142 -node_id 100142 daemon no -offset 1 --terminatetime 23:59:59,1
+100553,(M) Node DS11,-node 100143 -node_id 100143 daemon no -offset 1 --terminatetime 23:59:59,1
+100554,(M) Node DS39/DS85,-node 100144 -node_id 100144 daemon no -offset 1 --terminatetime 23:59:59,1
+100555,(M) Node DS33,-node 100145 -node_id 100145 daemon no -offset 1 --terminatetime 23:59:59,1
+100556,(M) Node DS64,-node 100146 -node_id 100146 daemon no -offset 1 --terminatetime 23:59:59,1
+100557,(M) Node DS45,-node 100147 -node_id 100147 daemon no -offset 7 --terminatetime 23:59:59,1
+100558,(M) Node DS70,-node 100150 -node_id 100150 daemon no -offset 1 --terminatetime 23:59:59,1
+100559,(M) Node DS71,-node 100151 -node_id 100151 daemon no -offset 1 --terminatetime 23:59:59,1
+100560,(M) Node DS72,-node 100152 -node_id 100152 daemon no -offset 1 --terminatetime 23:59:59,1
+100561,(M) Node DS73,-node 100160 -node_id 100160 daemon no -offset 1 --terminatetime 23:59:59,1
+100562,(M) Node DS74,-node 100161 -node_id 100161 daemon no -offset 1 --terminatetime 23:59:59,1
+100563,(M) Node DS75,-node 100162 -node_id 100162 daemon no -offset 1 --terminatetime 23:59:59,1
+100564,(M) Node DS76,-node 100163 -node_id 100163 daemon no -offset 2 --terminatetime 23:59:59,1
+100565,(M) Node DS21,-node 100164 -node_id 100164 daemon no -offset 1 --terminatetime 23:59:59,1
+100566,(M) Node DS47,-node 100165 -node_id 100165 daemon no -offset 1 --terminatetime 23:59:59,1
+100567,(M) Node DS78,-node 100166 -node_id 100166 daemon no -offset 1 --terminatetime 23:59:59,1
+101510,(M) Node Matching DS65,,1
+101511,(M) Node Matching DS49,,1
+101512,(M) Node Matching DS28,,1
+101513,(M) Node Matching DS44,,1
+101515,(M) Node Matching DS20,,1
+101516,(M) Node Matching DS8,,1
+101517,(M) Node Matching DS54,,1
+101518,(M) Node Matching DS48,,1
+101520,(M) Node Matching DS23,,1
+101530,(M) Node Matching DS6,,1
+101531,(M) Node Matching DS81,,1
+101532,(M) Node Matching DS40,,1
+101533,(M) Node Matching DS80,,1
+101534,(M) Node Matching DS12,,1
+101550,(M) Node Matching DS5,,1
+101551,(M) Node Matching DS55/DS86,,1
+101552,(M) Node Matching DS4,,1
+101553,(M) Node Matching DS11,,1
+101554,(M) Node Matching DS39/DS85,,1
+101555,(M) Node Matching DS33,,1
+101556,(M) Node Matching DS64,,1
+101557,(M) Node Matching DS45,,1
+101558,(M) Node Matching DS70,,1
+101559,(M) Node Matching DS71,,1
+101560,(M) Node Matching DS72,,1
+101561,(M) Node Matching DS73,,1
+101562,(M) Node Matching DS74,,1
+101563,(M) Node Matching DS75,,1
+101564,(M) Node Matching DS76,,1
+101565,(M) Node Matching DS21,,1
+101566,(M) Node Matching DS47,,1
+101567,(M) Node Matching DS78,,1
+108000,(M) All Node Metrics,,35002
+108101,(M) Node Metrics DS11,-node 100143,35002
+108102,(M) Node Metrics DS12,-node 100124,35002
+108103,(M) Node Metrics DS20,-node 100105,35002
+108104,(M) Node Metrics DS21,-node 100164,35002
+108105,(M) Node Metrics DS23,-node 100110,35002
+108106,(M) Node Metrics DS28,-node 100102,35002
+108107,(M) Node Metrics DS33,-node 100145,35002
+108108,(M) Node Metrics DS39/DS85,-node 100144,35002
+108109,(M) Node Metrics DS4,-node 100142,35002
+108110,(M) Node Metrics DS40,-node 100122,35002
+108111,(M) Node Metrics DS44,-node 100103,35002
+108112,(M) Node Metrics DS45,-node 100147,35002
+108113,(M) Node Metrics DS47,-node 100165,35002
+108114,(M) Node Metrics DS48,-node 100108,35002
+108115,(M) Node Metrics DS49,-node 100101,35002
+108116,(M) Node Metrics DS5,-node 100140,35002
+108117,(M) Node Metrics DS54,-node 100107,35002
+108118,(M) Node Metrics DS55/DS86,-node 100141,35002
+108119,(M) Node Metrics DS6,-node 100120,35002
+108120,(M) Node Metrics DS64,-node 100146,35002
+108121,(M) Node Metrics DS65,-node 100100,35002
+108122,(M) Node Metrics DS70,-node 100150,35002
+108123,(M) Node Metrics DS71,-node 100151,35002
+108124,(M) Node Metrics DS72,-node 100152,35002
+108125,(M) Node Metrics DS73,-node 100160,35002
+108126,(M) Node Metrics DS74,-node 100161,35002
+108127,(M) Node Metrics DS75,-node 100162,35002
+108128,(M) Node Metrics DS76,-node 100163,35002
+108129,(M) Node Metrics DS78,-node 100166,35002
+108130,(M) Node Metrics DS8,-node 100106,35002
+108131,(M) Node Metrics DS80,-node 100123,35002
+108132,(M) Node Metrics DS81,-node 100121,35002
+118133,(M) Node Metrics DS90,-node 100170,35002
+118134,(M) Node Metrics DS91,-node 100171,35002
+118135,(M) Node Metrics DS92,-node 100172,35002
+118136,(M) Node Metrics DS93,-node 100173,35002
+118137,(M) Node Metrics DS94,-node 100174,35002
+118138,(M) Node Metrics DS95,-node 100175,35002
+118139,(M) Node Metrics DS96,-node 100176,35002
+118140,(M) Node Metrics DS98,-node 100177,35002
+118141,(M) Node Metrics DS99,-node 100178,35002
+105257,(M) MSS vs TAPOUT (Duration) - ST_VOICE_PARTNERS - EDR Duration (Daily),-mrec_id 100181 -num_days 7 -offset 8,35005
+105256,(M) MSS vs TAPOUT (Duration) - ST_VOICE_PARTNERS - EDR Duration,-mrec_id 100180 -num_days 7 -offset 8,35005
+101580,(M) Node Matching DS83,,1
+101581,(M) Node Matching DS84,,1
+101582,(M) Node Matching DS85,,1
+100579,(M) Node DS83,-node 100180 -node_id 100180 -daemon no -offset 1 --terminatetime 23:59:59,1
+100580,(M) Node DS84,-node 100181 -node_id 100181 -daemon no -offset 1 --terminatetime 23:59:59,1
+100581,(M) Node DS7,-node 100182 -node_id 100182 -daemon no -offset 1 --terminatetime 23:59:59,1
+100309,(M) Import CCS Intermediate,-daemon no -load_type 1 -mapping 100110,5000
+100310,(M) Import CCS Daily,-daemon no -load_type 1 -mapping 100111,5000
+100311,(M) Import ICCS WAP (CCS),-daemon no -load_type 1 -mapping 100112,5000
+100312,(M) Import ICCS GPRS (CCS),-daemon no -load_type 1 -mapping 100113,5000
+100313,(M) Import ICCS Billed,-daemon no -load_type 1 -mapping 100114,5000
+105258,(M) CCS Intermediate vs CCS Daily (value) - ST_ALL - EDR Value,-mrec_id 100182 -num_days 7 -offset 8,35005
+105259,(M) CCS Intermediate vs CCS Daily (value) - ST_ALL - EDR Bytes,-mrec_id 100183 -num_days 7 -offset 8,35005
+105260,(M) CCS Intermediate vs CCS Daily (value) - ST_ALL - EDR Count,-mrec_id 100184 -num_days 7 -offset 8,35005
+105261,(M) CCS vs WAP ICCS (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes (Daily),-mrec_id 100185 -num_days 7 -offset 8,35005
+105262,(M) CCS  vs GPRS ICCS (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily),-mrec_id 100186 -num_days 7 -offset 8,35005
+105263,(M) CCS Intermediate vs CCS Daily (value) - ST_ALL - EDR Value (Daily),-mrec_id 100187 -num_days 7 -offset 8,35005
+105264,(M) GPRS ICCS vs ICCS Billed (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily),-mrec_id 100188 -num_days 59 -offset 60,35005
+105265,(M) WAP ICCS vs ICCS Billed (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes (Daily),-mrec_id 100189 -num_days 59 -offset 60,35005
+105266,(M) CCS vs WAP ICCS (bytes) - ST_DATA _STRIP - EDR Bytes (Daily),-mrec_id 100190 -num_days 7 -offset 8,35005
+105267,(M) CCS vs GPRS ICCS (bytes) - ST_DATA _STRIP - EDR Bytes (Daily),-mrec_id 100191 -num_days 7 -offset 8,35005
+118142,(M) Node Metrics DS83,-node 100180,35002
+118143,(M) Node Metrics DS84,-node 100181,35002
+118144,(M) Node Metrics DS7,-node 100182,35002

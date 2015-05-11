@@ -1,3 +1,902 @@
 100002,Used to check that values do not deviate by more than 15.0% on a weekday,100002,,A,
 100003,Used to check that values do not deviate by more than 20.0% on a weekend,100003,,A,
-
+100100,MSS: ST_ITC_VOICE_IN - EDR Duration - Metric Threshold,100100,,I,20131101
+100101,MSS: ST_ITC_VOICE_IN - EDR Count - Metric Threshold,100101,,I,20131101
+100102,MSS: ST_ITC_VOICE_OUT - EDR Count - Metric Threshold,100102,,I,20131101
+100103,MSS: ST_ITC_VOICE_OUT - EDR Duration - Metric Threshold,100103,,I,20131101
+100104,MSS: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Count - Metric Threshold,100104,,I,20131101
+100105,MSS: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Value - Metric Threshold,100105,,I,20131101
+100106,MSS: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Duration - Metric Threshold,100106,,I,20131101
+100107,SMSC: ST_ITC_SMS_OUT - EDR Count - Metric Threshold,100107,,I,20131101
+100108,MSS Interconnect: ST_ITC_VOICE_IN - EDR Count - Metric Threshold,100108,,I,20131101
+100109,MSS Interconnect: ST_ITC_VOICE_IN - EDR Duration - Metric Threshold,100109,,I,20131101
+100110,Raw MMS: ST_ITC_MMS_OUT - EDR Bytes - Metric Threshold,100110,,I,20131101
+100111,Raw MMS: ST_ITC_MMS_OUT - EDR Count - Metric Threshold,100111,,I,20131101
+100112,Raw MMS: ST_ITC_MMS_IN - EDR Bytes - Metric Threshold,100112,,I,20131101
+100113,Raw MMS: ST_ITC_MMS_IN - EDR Count - Metric Threshold,100113,,I,20131101
+100114,SMS Interconnect: ST_ALL - EDR Count - Metric Threshold,100114,,I,20131101
+100115,SMS Interconnect: ST_ITC_SMS_OUT - EDR Count - Metric Threshold,100115,,I,20131101
+100116,MSS Interconnect: ST_ALL - EDR Count - Metric Threshold,100116,,I,20131101
+100117,MSS Interconnect: ST_ALL - EDR Duration - Metric Threshold,100117,,I,20131101
+100118,MSS Interconnect: ST_ITC_VOICE_OUT - EDR Count - Metric Threshold,100118,,I,20131101
+100119,MSS Interconnect: ST_ITC_VOICE_OUT - EDR Duration - Metric Threshold,100119,,I,20131101
+100120,MMS Interconnect: ST_ALL - EDR Count - Metric Threshold,100120,,I,20131101
+100121,MMS Interconnect: ST_ALL - EDR Bytes - Metric Threshold,100121,,I,20131101
+100122,MSS: ST_ITC_SMS_IN - EDR Count - Metric Threshold,100122,,I,20131101
+100123,MSS Interconnect: ST_ITC_VOICE_IN - EDR Count - Metric Threshold,100123,,I,20131101
+100124,MMS Interconnect: ST_ITC_MMS_OUT - EDR Bytes - Metric Threshold,100124,,I,20131101
+100125,MMS Interconnect: ST_ITC_MMS_OUT - EDR Count - Metric Threshold,100125,,I,20131101
+100126,MMS Interconnect: ST_ITC_MMS_IN - EDR Bytes - Metric Threshold,100126,,I,20131101
+100127,MMS Interconnect: ST_ITC_MMS_IN - EDR Count - Metric Threshold,100127,,I,20131101
+100128,DWF Output Record: ST_ALL - EDR Count - Metric Threshold,100128,,I,20131101
+100129,DWF Output Record: ST_ALL - EDR Duration - Metric Threshold,100129,,I,20131101
+100130,DWF Output Record: ST_ALL - EDR Value - Metric Threshold,100130,,I,20131101
+100131,DWF Output Record: ST_ALL - EDR Bytes - Metric Threshold,100131,,I,20131101
+100132,MSS Interconnect: ST_ITC_VOICE_IN - EDR Duration - Metric Threshold,100132,,I,20131101
+100133,DWF Output Record: ST_ITC_VOICE_IN - EDR Count - Metric Threshold,100133,,I,20131101
+100134,DWF Output Record: ST_ITC_VOICE_IN - EDR Duration - Metric Threshold,100134,,I,20131101
+100135,DWF Output Record: ST_ITC_MMS_OUT - EDR Bytes - Metric Threshold,100135,,I,20131101
+100136,DWF Output Record: ST_ITC_MMS_OUT - EDR Count - Metric Threshold,100136,,I,20131101
+100137,DWF Output Record: ST_ITC_MMS_IN - EDR Bytes - Metric Threshold,100137,,I,20131101
+100138,DWF Output Record: ST_ITC_MMS_IN - EDR Count - Metric Threshold,100138,,I,20131101
+100139,DWF Output Record: ST_ITC_SMS_OUT - EDR Count - Metric Threshold,100139,,I,20131101
+100140,DWF Output Record: ST_ITC_SMS_OUT - EDR Value - Metric Threshold,100140,,I,20131101
+100141,DWF Output Record: ST_ITC_VOICE_OUT - EDR Count - Metric Threshold,100141,,I,20131101
+100142,DWF Output Record: ST_ITC_VOICE_OUT - EDR Duration - Metric Threshold,100142,,I,20131101
+100143,DWF Output Record: ST_ITC_VOICE_OUT - EDR Value - Metric Threshold,100143,,I,20131101
+100144,ICCS Unbilled: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Bytes (Absolute) - Metric Threshold,100144,,A,20131101
+100145,ICCS Unbilled: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Count (Absolute) - Metric Threshold,100145,,A,20131101
+100146,ICCS Unbilled: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Value (Absolute) - Metric Threshold,100146,,A,20131101
+100147,ICCS Unbilled: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Duration (Absolute) - Metric Threshold,100147,,A,20131101
+100148,GSM: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Count (Absolute)  - Metric Threshold,100148,,A,20131101
+100149,GSM: ST_VOICE_POSTPAID_HOME_MO_FREE - EDR Duration (Absolute)  - Metric Threshold,100149,,A,20131101
+100200,SMSC vs SMS Ict (count) - ST_ITC_SMS_OUT - EDR Count - Reconciliation Threshold,100200,,I,20131101
+100201,MSS vs MSS Ict (count) - ST_ITC_SMS_IN - EDR Count - Reconciliation Threshold,100201,,I,20131101
+100202,MSS vs MSS Ict (count) - ST_ITC_VOICE_OUT - EDR Count - Reconciliation Threshold,100202,,I,20131101
+100203,MSS vs MSS Ict (duration) - ST_ITC_VOICE_OUT - EDR Duration - Reconciliation Threshold,100203,,I,20131101
+100204,Raw MMS vs MMS Ict (count) - ST_ITC_MMS_OUT - EDR Count - Reconciliation Threshold,100204,,I,20131101
+100205,Raw MMS vs MMS Ict (bytes) - ST_ITC_MMS_OUT - EDR Bytes - Reconciliation Threshold,100205,,I,20131101
+100206,SMS Ict vs DWF Interconnect (count) - ST_ITC_SMS_OUT - EDR Count - Reconciliation Threshold,100206,,I,20131101
+100207,MSS Ict vs DWF Interconnect (count) - ST_ITC_VOICE_OUT - EDR Count - Reconciliation Threshold,100207,,I,20131101
+100208,MSS Ict vs DWF Interconnect (duration) - ST_ITC_VOICE_OUT -  EDR Duration - Reconciliation Threshold,100208,,I,20131101
+100209,MMS Ict vs DWF Interconnect (count) - ST_ITC_MMS_OUT - EDR Count - Reconciliation Threshold,100209,,I,20131101
+100210,MMS Ict vs DWF Interconnect (bytes) - ST_ITC_MMS_OUT - EDR Bytes - Reconciliation Threshold,100210,,I,20131101
+100230,DWF Output Record: ST_ITC_VOICE_IN - EDR Value - Metric Threshold,100230,,I,20131101
+100231,DWF Output Record: ST_ITC_SMS_IN - EDR Value - Metric Threshold,100231,,I,20131101
+100232,DWF Output Record: ST_ITC_SMS_IN - EDR Count - Metric Threshold,100232,,I,20131101
+100233,DWF Output Record: ST_ITC_MMS_IN - EDR Value - Metric Threshold,100233,,I,20131101
+100234,DWF Output Record: ST_ITC_MMS_OUT - EDR Value - Metric Threshold,100234,,I,20131101
+100235,MSS: ST_ITC_NOROUTE - EDR Count (Absolute) - Metric Threshold,100235,,I,20131101
+100240,MSS vs MSS Ict (count) - ST_ITC_VOICE_IN - EDR Count - Reconciliation Threshold,100240,,I,20131101
+100241,MSS vs MSS Ict (duration) - ST_ITC_VOICE_IN - EDR Duration - Reconciliation Threshold,100241,,I,20131101
+100242,Raw MMS vs MMS Ict (count) - ST_ITC_MMS_OUT - EDR Count - Reconciliation Threshold,100242,,I,20131101
+100243,Raw MMS vs MMS Ict (bytes) - ST_ITC_MMS_OUT - EDR Bytes - Reconciliation Threshold,100243,,I,20131101
+100244,MSS Ict vs DWF Interconnect (count) - ST_ITC_SMS_IN - EDR Count - Reconciliation Threshold,100244,,I,20131101
+100245,MSS Ict vs DWF Interconnect (count) - ST_ITC_VOICE_IN - EDR Count - Reconciliation Threshold,100245,,I,20131101
+100246,MSS Ict vs DWF Interconnect (duration) - ST_ITC_VOICE_IN -  EDR Duration - Reconciliation Threshold,100246,,I,20131101
+100247,MMS Ict vs DWF Interconnect (count) - ST_ITC_MMS_IN - EDR Count - Reconciliation Threshold,100247,,I,20131101
+100248,MMS Ict vs DWF Interconnect (bytes) - ST_ITC_MMS_IN - EDR Bytes - Reconciliation Threshold,100248,,I,20131101
+100266,MSS vs GMSC ICCS (Count) . ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count - Reconciliation Threshold,100266,,I,20131101
+100267,GMSC ICCS vs ICCS Unbilled (Count) . ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count - Reconciliation Threshold,100267,,I,20131101
+100268,TAPIN MO vs ICCS Unbilled (Count) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count - Reconciliation Threshold,100268,,I,20131101
+100269,GMSC ICCS vs ICCS Unbilled (Duration) . ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration - Reconciliation Threshold,100269,,I,20131101
+100270,TAPIN MO vs ICCS Unbilled (Duration) - ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration - Reconciliation Threshold,100270,,I,20131101
+100271,MMSC - MMSC ARP vs MMS ICCS (Count) - ST_MMS_POSTPAID - EDR Count - Reconciliation Threshold,100271,,I,20131101
+100272,MMSC - MMSC ARP vs MMS CCN (Count) - ST_MMS_PREPAID - EDR Count - Reconciliation Threshold,100272,,I,20131101
+100273,MMSC - MMSC ARP vs MMS ICCS + MMS CCN (Count) - ST_MMS - EDR Count - Reconciliation Threshold,100273,,I,20131101
+100274,PGW vs EMM Data (Bytes) - ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes - Reconciliation Threshold,100274,,I,20131101
+100275,PGW vs EMM Data (Bytes) - ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes - Reconciliation Threshold,100275,,I,20131101
+100300,EMM Data: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,100300,,I,20131101
+100301,EMM Data: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,100301,,I,20131101
+100302,EMM Data: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,100302,,I,20131101
+100303,EMM Data: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,100303,,I,20131101
+100304,GMSC: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count - Metric Threshold,100304,,I,20131101
+100305,GMSC: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration - Metric Threshold,100305,,I,20131101
+100306,ICCS Unbilled: ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count - Metric Threshold,100306,,I,20131101
+100307,ICCS Unbilled: ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Value - Metric Threshold,100307,,I,20131101
+100308,MMSC ARP: ST_MMS_POSTPAID - EDR Bytes - Metric Threshold,100308,,I,20131101
+100309,MMSC ARP: ST_MMS_POSTPAID - EDR Count - Metric Threshold,100309,,I,20131101
+100310,MMSC ARP: ST_MMS_POSTPAID_ARP - EDR Count - Metric Threshold,100310,,I,20131101
+100311,MMSC ARP: ST_MMS_POSTPAID_HOME_MO - EDR Bytes - Metric Threshold,100311,,I,20131101
+100312,MMSC ARP: ST_MMS_POSTPAID_HOME_MO - EDR Count - Metric Threshold,100312,,I,20131101
+100313,MMSC ARP: ST_MMS_POSTPAID_HOME_MO_ARP - EDR Count - Metric Threshold,100313,,I,20131101
+100314,MMSC ARP: ST_MMS_PREPAID - EDR Bytes - Metric Threshold,100314,,I,20131101
+100315,MMSC ARP: ST_MMS_PREPAID - EDR Count - Metric Threshold,100315,,I,20131101
+100316,MMSC ARP: ST_MMS_PREPAID_ARP - EDR Count - Metric Threshold,100316,,I,20131101
+100317,MMSC ARP: ST_MMS_PREPAID_HOME_MO - EDR Bytes - Metric Threshold,100317,,I,20131101
+100318,MMSC ARP: ST_MMS_PREPAID_HOME_MO - EDR Count - Metric Threshold,100318,,I,20131101
+100319,MMSC ARP: ST_MMS_PREPAID_HOME_MO_ARP - EDR Count - Metric Threshold,100319,,I,20131101
+100320,MSS: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Count - Metric Threshold,100320,,I,20131101
+100321,MSS: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT - EDR Duration - Metric Threshold,100321,,I,20131101
+100322,MSS: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Count - Metric Threshold,100322,,I,20131101
+100323,MSS: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MT_ARP - EDR Duration - Metric Threshold,100323,,I,20131101
+100324,PGW: ST_DATA_2G_ARP - EDR Count - Metric Threshold,100324,,I,20131101
+100325,PGW: ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Bytes - Metric Threshold,100325,,I,20131101
+100326,PGW: ST_DATA_2G_OUTBOUND_ROAMERS_ARP - EDR Count - Metric Threshold,100326,,I,20131101
+100327,PGW: ST_DATA_3G_ARP - EDR Count - Metric Threshold,100327,,I,20131101
+100328,PGW: ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Bytes - Metric Threshold,100328,,I,20131101
+100329,PGW: ST_DATA_3G_OUTBOUND_ROAMERS_ARP - EDR Count - Metric Threshold,100329,,I,20131101
+100330,PGW: ST_DATA_4G_ARP - EDR Count - Metric Threshold,100330,,I,20131101
+100331,PGW: ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Bytes - Metric Threshold,100331,,I,20131101
+100332,PGW: ST_DATA_4G_OUTBOUND_ROAMERS_ARP - EDR Count - Metric Threshold,100332,,I,20131101
+100333,PGW: ST_DATA_GPRS_ARP - EDR Count - Metric Threshold,100333,,I,20131101
+100334,PGW: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,100334,,I,20131101
+100335,PGW: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,100335,,I,20131101
+100336,PGW: ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Bytes - Metric Threshold,100336,,I,20131101
+100337,PGW: ST_DATA_GPRS_OUTBOUND_ROAMERS_ARP - EDR Count - Metric Threshold,100337,,I,20131101
+100338,PGW: ST_DATA_WAP_ARP - EDR Count - Metric Threshold,100338,,I,20131101
+100339,PGW: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,100339,,I,20131101
+100340,PGW: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,100340,,I,20131101
+100341,PGW: ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Bytes - Metric Threshold,100341,,I,20131101
+100342,PGW: ST_DATA_WAP_OUTBOUND_ROAMERS_ARP - EDR Count - Metric Threshold,100342,,I,20131101
+100343,SMS ICCS: ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count - Metric Threshold,100343,,I,20131101
+100344,SMSC: ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count - Metric Threshold,100344,,I,20131101
+100345,SMSC: ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO_ARP - EDR Count - Metric Threshold,100345,,I,20131101
+100346,TAPIN MO: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Count - Metric Threshold,100346,,I,20131101
+100347,TAPIN MO: ST_VOICE_OUTBOUND_POSTPAID_ROAMERS_MO - EDR Duration - Metric Threshold,100347,,I,20131101
+100401,CCN Data: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100401,,A,20140821
+100402,CCN MMS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100402,,A,20140821
+100403,CCN SMS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100403,,A,20140821
+100404,DWF Output Record: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100404,,A,20140821
+100405,EMM NGIN: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100405,,A,20140821
+100406,EMM data: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100406,,A,20140821
+100407,ER ICCS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100407,,A,20140821
+100408,ER MIS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100408,,A,20140821
+100409,GMSC ICCS (Roaming MT): ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100409,,A,20140821
+100410,GPRS ICCS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100410,,A,20140821
+100411,GSM Strip: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100411,,A,20140821
+100412,GSM: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100412,,A,20140821
+100413,ICCS Unbilled: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100413,,A,20140821
+100414,MIS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100414,,A,20140821
+100415,MMS ICCS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100415,,A,20140821
+100416,MMS Interconnect: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100416,,A,20140821
+100417,MMSC ARP: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100417,,A,20140821
+100418,MSS Interconnect: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100418,,A,20140821
+100419,MSS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100419,,A,20140821
+100420,NGIN raw: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100420,,A,20140821
+100421,PGW: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100421,,A,20140821
+100422,Raw MMS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100422,,A,20140821
+100423,SGSN: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100423,,A,20140821
+100424,SGW: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100424,,A,20140821
+100425,SMS ICCS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100425,,A,20140821
+100426,SMS Interconnect: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100426,,A,20140821
+100427,SMS Strip: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100427,,A,20140821
+100428,SMSC: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100428,,A,20140821
+100429,TAPIN MO: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100429,,A,20140821
+100430,Tapin: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100430,,A,20140821
+100431,Tapout: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100431,,A,20140821
+100432,WAP ICCS: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,100432,,A,20140821
+100433,ST_AGG_FAILED - EDR Count (Daily) - Metric Threshold,100433,,A,20140821
+100434,ST_AGG_REJECTED - EDR Count (Daily) - Metric Threshold,100434,,A,20140821
+101001,BT: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101001,,I,20141001
+101002,BT: ST_ALL - EDR Count - Metric Threshold,101002,,I,20141001
+101003,BT: ST_ALL - EDR Duration - Metric Threshold,101003,,I,20141001
+101004,BT: ST_ALL - EDR Value - Metric Threshold,101004,,I,20141001
+101005,BT: ST_VOICE - EDR Count (Daily) - Metric Threshold,101005,,I,20141001
+101006,BT: ST_VOICE - EDR Count - Metric Threshold,101006,,I,20141001
+101007,BT: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101007,,I,20141001
+101008,BT: ST_VOICE - EDR Duration - Metric Threshold,101008,,I,20141001
+101009,BT: ST_VOICE_DOM - EDR Count (Daily) - Metric Threshold,101009,,I,20141001
+101010,BT: ST_VOICE_DOM - EDR Count - Metric Threshold,101010,,I,20141001
+101011,BT: ST_VOICE_DOM - EDR Duration (Daily) - Metric Threshold,101011,,I,20141001
+101012,BT: ST_VOICE_DOM - EDR Duration - Metric Threshold,101012,,I,20141001
+101013,BT: ST_VOICE_FO - EDR Count (Daily) - Metric Threshold,101013,,I,20141001
+101014,BT: ST_VOICE_FO - EDR Count - Metric Threshold,101014,,I,20141001
+101015,BT: ST_VOICE_FO - EDR Duration (Daily) - Metric Threshold,101015,,I,20141001
+101016,BT: ST_VOICE_FO - EDR Duration - Metric Threshold,101016,,I,20141001
+101017,BT: ST_VOICE_INTL - EDR Count (Daily) - Metric Threshold,101017,,I,20141001
+101018,BT: ST_VOICE_INTL - EDR Count - Metric Threshold,101018,,I,20141001
+101019,BT: ST_VOICE_INTL - EDR Duration (Daily) - Metric Threshold,101019,,I,20141001
+101020,BT: ST_VOICE_INTL - EDR Duration - Metric Threshold,101020,,I,20141001
+101021,C&W: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101021,,I,20141001
+101022,C&W: ST_ALL - EDR Count - Metric Threshold,101022,,I,20141001
+101023,C&W: ST_ALL - EDR Duration - Metric Threshold,101023,,I,20141001
+101024,C&W: ST_ALL - EDR Value - Metric Threshold,101024,,I,20141001
+101025,C&W: ST_VOICE - EDR Count (Daily) - Metric Threshold,101025,,I,20141001
+101026,C&W: ST_VOICE - EDR Count - Metric Threshold,101026,,I,20141001
+101027,C&W: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101027,,I,20141001
+101028,C&W: ST_VOICE - EDR Duration - Metric Threshold,101028,,I,20141001
+101029,C&W: ST_VOICE_FT - EDR Count (Daily) - Metric Threshold,101029,,I,20141001
+101030,C&W: ST_VOICE_FT - EDR Count - Metric Threshold,101030,,I,20141001
+101031,C&W: ST_VOICE_FT - EDR Duration (Daily) - Metric Threshold,101031,,I,20141001
+101032,C&W: ST_VOICE_FT - EDR Duration - Metric Threshold,101032,,I,20141001
+101033,Eircom: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101033,,I,20141001
+101034,Eircom: ST_ALL - EDR Count - Metric Threshold,101034,,I,20141001
+101035,Eircom: ST_ALL - EDR Duration - Metric Threshold,101035,,I,20141001
+101036,Eircom: ST_ALL - EDR Value - Metric Threshold,101036,,I,20141001
+101037,Eircom: ST_VOICE - EDR Count (Daily) - Metric Threshold,101037,,I,20141001
+101038,Eircom: ST_VOICE - EDR Count - Metric Threshold,101038,,I,20141001
+101039,Eircom: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101039,,I,20141001
+101040,Eircom: ST_VOICE - EDR Duration - Metric Threshold,101040,,I,20141001
+101041,Eircom: ST_VOICE_DOM - EDR Count (Daily) - Metric Threshold,101041,,I,20141001
+101042,Eircom: ST_VOICE_DOM - EDR Count - Metric Threshold,101042,,I,20141001
+101043,Eircom: ST_VOICE_DOM - EDR Duration (Daily) - Metric Threshold,101043,,I,20141001
+101044,Eircom: ST_VOICE_DOM - EDR Duration - Metric Threshold,101044,,I,20141001
+101045,Eircom: ST_VOICE_FO - EDR Count (Daily) - Metric Threshold,101045,,I,20141001
+101046,Eircom: ST_VOICE_FO - EDR Count - Metric Threshold,101046,,I,20141001
+101047,Eircom: ST_VOICE_FO - EDR Duration (Daily) - Metric Threshold,101047,,I,20141001
+101048,Eircom: ST_VOICE_FO - EDR Duration - Metric Threshold,101048,,I,20141001
+101049,Eircom: ST_VOICE_INTL - EDR Count (Daily) - Metric Threshold,101049,,I,20141001
+101050,Eircom: ST_VOICE_INTL - EDR Count - Metric Threshold,101050,,I,20141001
+101051,Eircom: ST_VOICE_INTL - EDR Duration (Daily) - Metric Threshold,101051,,I,20141001
+101052,Eircom: ST_VOICE_INTL - EDR Duration - Metric Threshold,101052,,I,20141001
+101053,MSS: ST_VOICE_PARTNERS - EDR Count (Daily) - Metric Threshold,101053,,I,20141001
+101054,MSS: ST_VOICE_PARTNERS - EDR Count - Metric Threshold,101054,,I,20141001
+101055,MSS: ST_VOICE_PARTNERS - EDR Duration (Daily) - Metric Threshold,101055,,I,20141001
+101056,MSS: ST_VOICE_PARTNERS - EDR Duration - Metric Threshold,101056,,I,20141001
+101057,SGSN: ST_DATA_PARTNERS - EDR Bytes (Daily) - Metric Threshold,101057,,I,20141001
+101058,SGSN: ST_DATA_PARTNERS - EDR Bytes - Metric Threshold,101058,,I,20141001
+101059,SGSN: ST_DATA_PARTNERS - EDR Count (Daily) - Metric Threshold,101059,,I,20141001
+101060,SGSN: ST_DATA_PARTNERS - EDR Count - Metric Threshold,101060,,I,20141001
+101061,SS Billed: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101061,,I,20141001
+101062,SS Billed: ST_ALL - EDR Count - Metric Threshold,101062,,I,20141001
+101063,SS Billed: ST_ALL - EDR Duration - Metric Threshold,101063,,I,20141001
+101064,SS Billed: ST_ALL - EDR Value - Metric Threshold,101064,,I,20141001
+101065,SS Billed: ST_SMS - EDR Count (Daily) - Metric Threshold,101065,,I,20141001
+101066,SS Billed: ST_SMS - EDR Count - Metric Threshold,101066,,I,20141001
+101067,SS Billed: ST_SMS - EDR Value (Daily) - Metric Threshold,101067,,I,20141001
+101068,SS Billed: ST_SMS - EDR Value - Metric Threshold,101068,,I,20141001
+101069,SS Billed: ST_VOICE - EDR Count (Daily) - Metric Threshold,101069,,I,20141001
+101070,SS Billed: ST_VOICE - EDR Count - Metric Threshold,101070,,I,20141001
+101071,SS Billed: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101071,,I,20141001
+101072,SS Billed: ST_VOICE - EDR Duration - Metric Threshold,101072,,I,20141001
+101073,SS Billed: ST_VOICE - EDR Value (Daily) - Metric Threshold,101073,,I,20141001
+101074,SS Billed: ST_VOICE - EDR Value - Metric Threshold,101074,,I,20141001
+101075,SS Billed: ST_VOICE_ANCILIARY - EDR Count (Daily) - Metric Threshold,101075,,I,20141001
+101076,SS Billed: ST_VOICE_ANCILIARY - EDR Count - Metric Threshold,101076,,I,20141001
+101077,SS Billed: ST_VOICE_ANCILIARY - EDR Duration (Daily) - Metric Threshold,101077,,I,20141001
+101078,SS Billed: ST_VOICE_ANCILIARY - EDR Duration - Metric Threshold,101078,,I,20141001
+101079,SS Billed: ST_VOICE_ANCILIARY - EDR Value (Daily) - Metric Threshold,101079,,I,20141001
+101080,SS Billed: ST_VOICE_ANCILIARY - EDR Value - Metric Threshold,101080,,I,20141001
+101081,SS Billed: ST_VOICE_DOM - EDR Count (Daily) - Metric Threshold,101081,,I,20141001
+101082,SS Billed: ST_VOICE_DOM - EDR Count - Metric Threshold,101082,,I,20141001
+101083,SS Billed: ST_VOICE_DOM - EDR Duration (Daily) - Metric Threshold,101083,,I,20141001
+101084,SS Billed: ST_VOICE_DOM - EDR Duration - Metric Threshold,101084,,I,20141001
+101085,SS Billed: ST_VOICE_DOM - EDR Value (Daily) - Metric Threshold,101085,,I,20141001
+101086,SS Billed: ST_VOICE_DOM - EDR Value - Metric Threshold,101086,,I,20141001
+101087,SS Billed: ST_VOICE_DQ - EDR Count (Daily) - Metric Threshold,101087,,I,20141001
+101088,SS Billed: ST_VOICE_DQ - EDR Count - Metric Threshold,101088,,I,20141001
+101089,SS Billed: ST_VOICE_DQ - EDR Duration (Daily) - Metric Threshold,101089,,I,20141001
+101090,SS Billed: ST_VOICE_DQ - EDR Duration - Metric Threshold,101090,,I,20141001
+101091,SS Billed: ST_VOICE_DQ - EDR Value (Daily) - Metric Threshold,101091,,I,20141001
+101092,SS Billed: ST_VOICE_DQ - EDR Value - Metric Threshold,101092,,I,20141001
+101093,SS Billed: ST_VOICE_FO - EDR Count (Daily) - Metric Threshold,101093,,I,20141001
+101094,SS Billed: ST_VOICE_FO - EDR Count - Metric Threshold,101094,,I,20141001
+101095,SS Billed: ST_VOICE_FO - EDR Duration (Daily) - Metric Threshold,101095,,I,20141001
+101096,SS Billed: ST_VOICE_FO - EDR Duration - Metric Threshold,101096,,I,20141001
+101097,SS Billed: ST_VOICE_FO - EDR Value (Daily) - Metric Threshold,101097,,I,20141001
+101098,SS Billed: ST_VOICE_FO - EDR Value - Metric Threshold,101098,,I,20141001
+101099,SS Billed: ST_VOICE_FT - EDR Count (Daily) - Metric Threshold,101099,,I,20141001
+101100,SS Billed: ST_VOICE_FT - EDR Count - Metric Threshold,101100,,I,20141001
+101101,SS Billed: ST_VOICE_FT - EDR Duration (Daily) - Metric Threshold,101101,,I,20141001
+101102,SS Billed: ST_VOICE_FT - EDR Duration - Metric Threshold,101102,,I,20141001
+101103,SS Billed: ST_VOICE_FT - EDR Value (Daily) - Metric Threshold,101103,,I,20141001
+101104,SS Billed: ST_VOICE_FT - EDR Value - Metric Threshold,101104,,I,20141001
+101105,SS Billed: ST_VOICE_INBOUND - EDR Count (Daily) - Metric Threshold,101105,,I,20141001
+101106,SS Billed: ST_VOICE_INBOUND - EDR Count - Metric Threshold,101106,,I,20141001
+101107,SS Billed: ST_VOICE_INBOUND - EDR Duration (Daily) - Metric Threshold,101107,,I,20141001
+101108,SS Billed: ST_VOICE_INBOUND - EDR Duration - Metric Threshold,101108,,I,20141001
+101109,SS Billed: ST_VOICE_INBOUND - EDR Value (Daily) - Metric Threshold,101109,,I,20141001
+101110,SS Billed: ST_VOICE_INBOUND - EDR Value - Metric Threshold,101110,,I,20141001
+101111,SS Billed: ST_VOICE_INTERNET - EDR Count (Daily) - Metric Threshold,101111,,I,20141001
+101112,SS Billed: ST_VOICE_INTERNET - EDR Count - Metric Threshold,101112,,I,20141001
+101113,SS Billed: ST_VOICE_INTERNET - EDR Duration (Daily) - Metric Threshold,101113,,I,20141001
+101114,SS Billed: ST_VOICE_INTERNET - EDR Duration - Metric Threshold,101114,,I,20141001
+101115,SS Billed: ST_VOICE_INTERNET - EDR Value (Daily) - Metric Threshold,101115,,I,20141001
+101116,SS Billed: ST_VOICE_INTERNET - EDR Value - Metric Threshold,101116,,I,20141001
+101117,SS Billed: ST_VOICE_INTL - EDR Count (Daily) - Metric Threshold,101117,,I,20141001
+101118,SS Billed: ST_VOICE_INTL - EDR Count - Metric Threshold,101118,,I,20141001
+101119,SS Billed: ST_VOICE_INTL - EDR Duration (Daily) - Metric Threshold,101119,,I,20141001
+101120,SS Billed: ST_VOICE_INTL - EDR Duration - Metric Threshold,101120,,I,20141001
+101121,SS Billed: ST_VOICE_INTL - EDR Value (Daily) - Metric Threshold,101121,,I,20141001
+101122,SS Billed: ST_VOICE_INTL - EDR Value - Metric Threshold,101122,,I,20141001
+101123,SS Billed: ST_VOICE_INTL_FREE - EDR Count (Daily) - Metric Threshold,101123,,I,20141001
+101124,SS Billed: ST_VOICE_INTL_FREE - EDR Count - Metric Threshold,101124,,I,20141001
+101125,SS Billed: ST_VOICE_INTL_FREE - EDR Duration (Daily) - Metric Threshold,101125,,I,20141001
+101126,SS Billed: ST_VOICE_INTL_FREE - EDR Duration - Metric Threshold,101126,,I,20141001
+101127,SS Billed: ST_VOICE_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,101127,,I,20141001
+101128,SS Billed: ST_VOICE_IN_BUNDLE - EDR Count - Metric Threshold,101128,,I,20141001
+101129,SS Billed: ST_VOICE_IN_BUNDLE - EDR Duration (Daily) - Metric Threshold,101129,,I,20141001
+101130,SS Billed: ST_VOICE_IN_BUNDLE - EDR Duration - Metric Threshold,101130,,I,20141001
+101131,SS Billed: ST_VOICE_IN_BUNDLE - EDR Value (Daily) - Metric Threshold,101131,,I,20141001
+101132,SS Billed: ST_VOICE_IN_BUNDLE - EDR Value - Metric Threshold,101132,,I,20141001
+101133,SS Billed: ST_VOICE_LOW_CALL - EDR Count (Daily) - Metric Threshold,101133,,I,20141001
+101134,SS Billed: ST_VOICE_LOW_CALL - EDR Count - Metric Threshold,101134,,I,20141001
+101135,SS Billed: ST_VOICE_LOW_CALL - EDR Duration (Daily) - Metric Threshold,101135,,I,20141001
+101136,SS Billed: ST_VOICE_LOW_CALL - EDR Duration - Metric Threshold,101136,,I,20141001
+101137,SS Billed: ST_VOICE_LOW_CALL - EDR Value (Daily) - Metric Threshold,101137,,I,20141001
+101138,SS Billed: ST_VOICE_LOW_CALL - EDR Value - Metric Threshold,101138,,I,20141001
+101139,SS Billed: ST_VOICE_MT - EDR Count (Daily) - Metric Threshold,101139,,I,20141001
+101140,SS Billed: ST_VOICE_MT - EDR Count - Metric Threshold,101140,,I,20141001
+101141,SS Billed: ST_VOICE_MT - EDR Duration (Daily) - Metric Threshold,101141,,I,20141001
+101142,SS Billed: ST_VOICE_MT - EDR Duration - Metric Threshold,101142,,I,20141001
+101143,SS Billed: ST_VOICE_MT - EDR Value (Daily) - Metric Threshold,101143,,I,20141001
+101144,SS Billed: ST_VOICE_MT - EDR Value - Metric Threshold,101144,,I,20141001
+101145,SS Billed: ST_VOICE_MT_INTL - EDR Count (Daily) - Metric Threshold,101145,,I,20141001
+101146,SS Billed: ST_VOICE_MT_INTL - EDR Count - Metric Threshold,101146,,I,20141001
+101147,SS Billed: ST_VOICE_MT_INTL - EDR Duration (Daily) - Metric Threshold,101147,,I,20141001
+101148,SS Billed: ST_VOICE_MT_INTL - EDR Duration - Metric Threshold,101148,,I,20141001
+101149,SS Billed: ST_VOICE_MT_INTL - EDR Value (Daily) - Metric Threshold,101149,,I,20141001
+101150,SS Billed: ST_VOICE_MT_INTL - EDR Value - Metric Threshold,101150,,I,20141001
+101151,SS Billed: ST_VOICE_NGN - EDR Count (Daily) - Metric Threshold,101151,,I,20141001
+101152,SS Billed: ST_VOICE_NGN - EDR Count - Metric Threshold,101152,,I,20141001
+101153,SS Billed: ST_VOICE_NGN - EDR Duration (Daily) - Metric Threshold,101153,,I,20141001
+101154,SS Billed: ST_VOICE_NGN - EDR Duration - Metric Threshold,101154,,I,20141001
+101155,SS Billed: ST_VOICE_NGN - EDR Value (Daily) - Metric Threshold,101155,,I,20141001
+101156,SS Billed: ST_VOICE_NGN - EDR Value - Metric Threshold,101156,,I,20141001
+101157,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,101157,,I,20141001
+101158,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Count - Metric Threshold,101158,,I,20141001
+101159,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Duration (Daily) - Metric Threshold,101159,,I,20141001
+101160,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Duration - Metric Threshold,101160,,I,20141001
+101161,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,101161,,I,20141001
+101162,SS Billed: ST_VOICE_OUT_BUNDLE - EDR Value - Metric Threshold,101162,,I,20141001
+101163,SS Billed: ST_VOICE_PREMIUM - EDR Count (Daily) - Metric Threshold,101163,,I,20141001
+101164,SS Billed: ST_VOICE_PREMIUM - EDR Count - Metric Threshold,101164,,I,20141001
+101165,SS Billed: ST_VOICE_PREMIUM - EDR Duration (Daily) - Metric Threshold,101165,,I,20141001
+101166,SS Billed: ST_VOICE_PREMIUM - EDR Duration - Metric Threshold,101166,,I,20141001
+101167,SS Billed: ST_VOICE_PREMIUM - EDR Value (Daily) - Metric Threshold,101167,,I,20141001
+101168,SS Billed: ST_VOICE_PREMIUM - EDR Value - Metric Threshold,101168,,I,20141001
+101169,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Count (Daily) - Metric Threshold,101169,,I,20141001
+101170,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Count - Metric Threshold,101170,,I,20141001
+101171,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Duration (Daily) - Metric Threshold,101171,,I,20141001
+101172,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Duration - Metric Threshold,101172,,I,20141001
+101173,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Value (Daily) - Metric Threshold,101173,,I,20141001
+101174,SS Billed: ST_VOICE_PREMIUM_INTL - EDR Value - Metric Threshold,101174,,I,20141001
+101175,SS Billed: ST_VOICE_PROMOTIONAL - EDR Count (Daily) - Metric Threshold,101175,,I,20141001
+101176,SS Billed: ST_VOICE_PROMOTIONAL - EDR Count - Metric Threshold,101176,,I,20141001
+101177,SS Billed: ST_VOICE_PROMOTIONAL - EDR Duration (Daily) - Metric Threshold,101177,,I,20141001
+101178,SS Billed: ST_VOICE_PROMOTIONAL - EDR Duration - Metric Threshold,101178,,I,20141001
+101179,SS Billed: ST_VOICE_PROMOTIONAL - EDR Value (Daily) - Metric Threshold,101179,,I,20141001
+101180,SS Billed: ST_VOICE_PROMOTIONAL - EDR Value - Metric Threshold,101180,,I,20141001
+101181,SS Billed: ST_VOICE_VOIP - EDR Count (Daily) - Metric Threshold,101181,,I,20141001
+101182,SS Billed: ST_VOICE_VOIP - EDR Count - Metric Threshold,101182,,I,20141001
+101183,SS Billed: ST_VOICE_VOIP - EDR Duration (Daily) - Metric Threshold,101183,,I,20141001
+101184,SS Billed: ST_VOICE_VOIP - EDR Duration - Metric Threshold,101184,,I,20141001
+101185,SS Billed: ST_VOICE_VOIP - EDR Value (Daily) - Metric Threshold,101185,,I,20141001
+101186,SS Billed: ST_VOICE_VOIP - EDR Value - Metric Threshold,101186,,I,20141001
+101187,SS Discarded: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101187,,I,20141001
+101188,SS Discarded: ST_ALL - EDR Count - Metric Threshold,101188,,I,20141001
+101189,SS Discarded: ST_ALL - EDR Duration - Metric Threshold,101189,,I,20141001
+101190,SS Discarded: ST_ALL - EDR Value - Metric Threshold,101190,,I,20141001
+101191,SS Discarded: ST_DISCARDED - EDR Count (Daily) - Metric Threshold,101191,,I,20141001
+101192,SS Discarded: ST_DISCARDED - EDR Count - Metric Threshold,101192,,I,20141001
+101193,SS Discarded: ST_VOICE_DISCARDED - EDR Count (Daily) - Metric Threshold,101193,,I,20141001
+101194,SS Discarded: ST_VOICE_DISCARDED - EDR Count - Metric Threshold,101194,,I,20141001
+101195,SS Rated Suspense History: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101195,,I,20141001
+101196,SS Rated Suspense History: ST_ALL - EDR Count - Metric Threshold,101196,,I,20141001
+101197,SS Rated Suspense History: ST_ALL - EDR Duration - Metric Threshold,101197,,I,20141001
+101198,SS Rated Suspense History: ST_ALL - EDR Value - Metric Threshold,101198,,I,20141001
+101199,SS Rated Suspense History: ST_SUSPENSE - EDR Count (Daily) - Metric Threshold,101199,,I,20141001
+101200,SS Rated Suspense History: ST_SUSPENSE - EDR Count - Metric Threshold,101200,,I,20141001
+101201,SS Rated Suspense History: ST_VOICE_AGED - EDR Count (Daily) - Metric Threshold,101201,,I,20141001
+101202,SS Rated Suspense History: ST_VOICE_AGED - EDR Count - Metric Threshold,101202,,I,20141001
+101203,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Count (Daily) - Metric Threshold,101203,,I,20141001
+101204,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Count - Metric Threshold,101204,,I,20141001
+101205,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Count (Daily) - Metric Threshold,101205,,I,20141001
+101206,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Count - Metric Threshold,101206,,I,20141001
+101207,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Duration (Daily) - Metric Threshold,101207,,I,20141001
+101208,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Duration - Metric Threshold,101208,,I,20141001
+101209,SS Rated Suspense: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101209,,I,20141001
+101210,SS Rated Suspense: ST_ALL - EDR Count - Metric Threshold,101210,,I,20141001
+101211,SS Rated Suspense: ST_ALL - EDR Duration - Metric Threshold,101211,,I,20141001
+101212,SS Rated Suspense: ST_ALL - EDR Value - Metric Threshold,101212,,I,20141001
+101213,SS Rated Suspense: ST_SUSPENSE - EDR Count (Daily) - Metric Threshold,101213,,I,20141001
+101214,SS Rated Suspense: ST_SUSPENSE - EDR Count - Metric Threshold,101214,,I,20141001
+101215,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Count (Daily) - Metric Threshold,101215,,I,20141001
+101216,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Count - Metric Threshold,101216,,I,20141001
+101217,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Duration (Daily) - Metric Threshold,101217,,I,20141001
+101218,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Duration - Metric Threshold,101218,,I,20141001
+101219,SS Rated: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101219,,I,20141001
+101220,SS Rated: ST_ALL - EDR Count - Metric Threshold,101220,,I,20141001
+101221,SS Rated: ST_ALL - EDR Duration - Metric Threshold,101221,,I,20141001
+101222,SS Rated: ST_ALL - EDR Value - Metric Threshold,101222,,I,20141001
+101223,SS Rated: ST_SMS - EDR Count (Daily) - Metric Threshold,101223,,I,20141001
+101224,SS Rated: ST_SMS - EDR Count - Metric Threshold,101224,,I,20141001
+101225,SS Rated: ST_SMS - EDR Value (Daily) - Metric Threshold,101225,,I,20141001
+101226,SS Rated: ST_SMS - EDR Value - Metric Threshold,101226,,I,20141001
+101227,SS Rated: ST_VOICE - EDR Count (Daily) - Metric Threshold,101227,,I,20141001
+101228,SS Rated: ST_VOICE - EDR Count - Metric Threshold,101228,,I,20141001
+101229,SS Rated: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101229,,I,20141001
+101230,SS Rated: ST_VOICE - EDR Duration - Metric Threshold,101230,,I,20141001
+101231,SS Rated: ST_VOICE - EDR Value (Daily) - Metric Threshold,101231,,I,20141001
+101232,SS Rated: ST_VOICE - EDR Value - Metric Threshold,101232,,I,20141001
+101233,SS Rated: ST_VOICE_ANCILIARY - EDR Count (Daily) - Metric Threshold,101233,,I,20141001
+101234,SS Rated: ST_VOICE_ANCILIARY - EDR Count - Metric Threshold,101234,,I,20141001
+101235,SS Rated: ST_VOICE_ANCILIARY - EDR Duration (Daily) - Metric Threshold,101235,,I,20141001
+101236,SS Rated: ST_VOICE_ANCILIARY - EDR Duration - Metric Threshold,101236,,I,20141001
+101237,SS Rated: ST_VOICE_ANCILIARY - EDR Value (Daily) - Metric Threshold,101237,,I,20141001
+101238,SS Rated: ST_VOICE_ANCILIARY - EDR Value - Metric Threshold,101238,,I,20141001
+101239,SS Rated: ST_VOICE_DOM - EDR Count (Daily) - Metric Threshold,101239,,I,20141001
+101240,SS Rated: ST_VOICE_DOM - EDR Count - Metric Threshold,101240,,I,20141001
+101241,SS Rated: ST_VOICE_DOM - EDR Duration (Daily) - Metric Threshold,101241,,I,20141001
+101242,SS Rated: ST_VOICE_DOM - EDR Duration - Metric Threshold,101242,,I,20141001
+101243,SS Rated: ST_VOICE_DOM - EDR Value (Daily) - Metric Threshold,101243,,I,20141001
+101244,SS Rated: ST_VOICE_DOM - EDR Value - Metric Threshold,101244,,I,20141001
+101245,SS Rated: ST_VOICE_DQ - EDR Count (Daily) - Metric Threshold,101245,,I,20141001
+101246,SS Rated: ST_VOICE_DQ - EDR Count - Metric Threshold,101246,,I,20141001
+101247,SS Rated: ST_VOICE_DQ - EDR Duration (Daily) - Metric Threshold,101247,,I,20141001
+101248,SS Rated: ST_VOICE_DQ - EDR Duration - Metric Threshold,101248,,I,20141001
+101249,SS Rated: ST_VOICE_DQ - EDR Value (Daily) - Metric Threshold,101249,,I,20141001
+101250,SS Rated: ST_VOICE_DQ - EDR Value - Metric Threshold,101250,,I,20141001
+101251,SS Rated: ST_VOICE_FO - EDR Count (Daily) - Metric Threshold,101251,,I,20141001
+101252,SS Rated: ST_VOICE_FO - EDR Count - Metric Threshold,101252,,I,20141001
+101253,SS Rated: ST_VOICE_FO - EDR Duration (Daily) - Metric Threshold,101253,,I,20141001
+101254,SS Rated: ST_VOICE_FO - EDR Duration - Metric Threshold,101254,,I,20141001
+101255,SS Rated: ST_VOICE_FO - EDR Value (Daily) - Metric Threshold,101255,,I,20141001
+101256,SS Rated: ST_VOICE_FO - EDR Value - Metric Threshold,101256,,I,20141001
+101257,SS Rated: ST_VOICE_FT - EDR Count (Daily) - Metric Threshold,101257,,I,20141001
+101258,SS Rated: ST_VOICE_FT - EDR Count - Metric Threshold,101258,,I,20141001
+101259,SS Rated: ST_VOICE_FT - EDR Duration (Daily) - Metric Threshold,101259,,I,20141001
+101260,SS Rated: ST_VOICE_FT - EDR Duration - Metric Threshold,101260,,I,20141001
+101261,SS Rated: ST_VOICE_FT - EDR Value (Daily) - Metric Threshold,101261,,I,20141001
+101262,SS Rated: ST_VOICE_FT - EDR Value - Metric Threshold,101262,,I,20141001
+101263,SS Rated: ST_VOICE_INBOUND - EDR Count (Daily) - Metric Threshold,101263,,I,20141001
+101264,SS Rated: ST_VOICE_INBOUND - EDR Count - Metric Threshold,101264,,I,20141001
+101265,SS Rated: ST_VOICE_INBOUND - EDR Duration (Daily) - Metric Threshold,101265,,I,20141001
+101266,SS Rated: ST_VOICE_INBOUND - EDR Duration - Metric Threshold,101266,,I,20141001
+101267,SS Rated: ST_VOICE_INBOUND - EDR Value (Daily) - Metric Threshold,101267,,I,20141001
+101268,SS Rated: ST_VOICE_INBOUND - EDR Value - Metric Threshold,101268,,I,20141001
+101269,SS Rated: ST_VOICE_INTERNET - EDR Count (Daily) - Metric Threshold,101269,,I,20141001
+101270,SS Rated: ST_VOICE_INTERNET - EDR Count - Metric Threshold,101270,,I,20141001
+101271,SS Rated: ST_VOICE_INTERNET - EDR Duration (Daily) - Metric Threshold,101271,,I,20141001
+101272,SS Rated: ST_VOICE_INTERNET - EDR Duration - Metric Threshold,101272,,I,20141001
+101273,SS Rated: ST_VOICE_INTERNET - EDR Value (Daily) - Metric Threshold,101273,,I,20141001
+101274,SS Rated: ST_VOICE_INTERNET - EDR Value - Metric Threshold,101274,,I,20141001
+101275,SS Rated: ST_VOICE_INTL - EDR Count (Daily) - Metric Threshold,101275,,I,20141001
+101276,SS Rated: ST_VOICE_INTL - EDR Count - Metric Threshold,101276,,I,20141001
+101277,SS Rated: ST_VOICE_INTL - EDR Duration (Daily) - Metric Threshold,101277,,I,20141001
+101278,SS Rated: ST_VOICE_INTL - EDR Duration - Metric Threshold,101278,,I,20141001
+101279,SS Rated: ST_VOICE_INTL - EDR Value (Daily) - Metric Threshold,101279,,I,20141001
+101280,SS Rated: ST_VOICE_INTL - EDR Value - Metric Threshold,101280,,I,20141001
+101281,SS Rated: ST_VOICE_INTL_FREE - EDR Count (Daily) - Metric Threshold,101281,,I,20141001
+101282,SS Rated: ST_VOICE_INTL_FREE - EDR Count - Metric Threshold,101282,,I,20141001
+101283,SS Rated: ST_VOICE_INTL_FREE - EDR Duration (Daily) - Metric Threshold,101283,,I,20141001
+101284,SS Rated: ST_VOICE_INTL_FREE - EDR Duration - Metric Threshold,101284,,I,20141001
+101285,SS Rated: ST_VOICE_LOW_CALL - EDR Count (Daily) - Metric Threshold,101285,,I,20141001
+101286,SS Rated: ST_VOICE_LOW_CALL - EDR Count - Metric Threshold,101286,,I,20141001
+101287,SS Rated: ST_VOICE_LOW_CALL - EDR Duration (Daily) - Metric Threshold,101287,,I,20141001
+101288,SS Rated: ST_VOICE_LOW_CALL - EDR Duration - Metric Threshold,101288,,I,20141001
+101289,SS Rated: ST_VOICE_LOW_CALL - EDR Value (Daily) - Metric Threshold,101289,,I,20141001
+101290,SS Rated: ST_VOICE_LOW_CALL - EDR Value - Metric Threshold,101290,,I,20141001
+101291,SS Rated: ST_VOICE_MT - EDR Count (Daily) - Metric Threshold,101291,,I,20141001
+101292,SS Rated: ST_VOICE_MT - EDR Count - Metric Threshold,101292,,I,20141001
+101293,SS Rated: ST_VOICE_MT - EDR Duration (Daily) - Metric Threshold,101293,,I,20141001
+101294,SS Rated: ST_VOICE_MT - EDR Duration - Metric Threshold,101294,,I,20141001
+101295,SS Rated: ST_VOICE_MT - EDR Value (Daily) - Metric Threshold,101295,,I,20141001
+101296,SS Rated: ST_VOICE_MT - EDR Value - Metric Threshold,101296,,I,20141001
+101297,SS Rated: ST_VOICE_MT_INTL - EDR Count (Daily) - Metric Threshold,101297,,I,20141001
+101298,SS Rated: ST_VOICE_MT_INTL - EDR Count - Metric Threshold,101298,,I,20141001
+101299,SS Rated: ST_VOICE_MT_INTL - EDR Duration (Daily) - Metric Threshold,101299,,I,20141001
+101300,SS Rated: ST_VOICE_MT_INTL - EDR Duration - Metric Threshold,101300,,I,20141001
+101301,SS Rated: ST_VOICE_MT_INTL - EDR Value (Daily) - Metric Threshold,101301,,I,20141001
+101302,SS Rated: ST_VOICE_MT_INTL - EDR Value - Metric Threshold,101302,,I,20141001
+101303,SS Rated: ST_VOICE_NGN - EDR Count (Daily) - Metric Threshold,101303,,I,20141001
+101304,SS Rated: ST_VOICE_NGN - EDR Count - Metric Threshold,101304,,I,20141001
+101305,SS Rated: ST_VOICE_NGN - EDR Duration (Daily) - Metric Threshold,101305,,I,20141001
+101306,SS Rated: ST_VOICE_NGN - EDR Duration - Metric Threshold,101306,,I,20141001
+101307,SS Rated: ST_VOICE_NGN - EDR Value (Daily) - Metric Threshold,101307,,I,20141001
+101308,SS Rated: ST_VOICE_NGN - EDR Value - Metric Threshold,101308,,I,20141001
+101309,SS Rated: ST_VOICE_PREMIUM - EDR Count (Daily) - Metric Threshold,101309,,I,20141001
+101310,SS Rated: ST_VOICE_PREMIUM - EDR Count - Metric Threshold,101310,,I,20141001
+101311,SS Rated: ST_VOICE_PREMIUM - EDR Duration (Daily) - Metric Threshold,101311,,I,20141001
+101312,SS Rated: ST_VOICE_PREMIUM - EDR Duration - Metric Threshold,101312,,I,20141001
+101313,SS Rated: ST_VOICE_PREMIUM - EDR Value (Daily) - Metric Threshold,101313,,I,20141001
+101314,SS Rated: ST_VOICE_PREMIUM - EDR Value - Metric Threshold,101314,,I,20141001
+101315,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Count (Daily) - Metric Threshold,101315,,I,20141001
+101316,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Count - Metric Threshold,101316,,I,20141001
+101317,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Duration (Daily) - Metric Threshold,101317,,I,20141001
+101318,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Duration - Metric Threshold,101318,,I,20141001
+101319,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Value (Daily) - Metric Threshold,101319,,I,20141001
+101320,SS Rated: ST_VOICE_PREMIUM_INTL - EDR Value - Metric Threshold,101320,,I,20141001
+101321,SS Rated: ST_VOICE_PROMOTIONAL - EDR Count (Daily) - Metric Threshold,101321,,I,20141001
+101322,SS Rated: ST_VOICE_PROMOTIONAL - EDR Count - Metric Threshold,101322,,I,20141001
+101323,SS Rated: ST_VOICE_PROMOTIONAL - EDR Duration (Daily) - Metric Threshold,101323,,I,20141001
+101324,SS Rated: ST_VOICE_PROMOTIONAL - EDR Duration - Metric Threshold,101324,,I,20141001
+101325,SS Rated: ST_VOICE_PROMOTIONAL - EDR Value (Daily) - Metric Threshold,101325,,I,20141001
+101326,SS Rated: ST_VOICE_PROMOTIONAL - EDR Value - Metric Threshold,101326,,I,20141001
+101327,SS Rated: ST_VOICE_VOIP - EDR Count (Daily) - Metric Threshold,101327,,I,20141001
+101328,SS Rated: ST_VOICE_VOIP - EDR Count - Metric Threshold,101328,,I,20141001
+101329,SS Rated: ST_VOICE_VOIP - EDR Duration (Daily) - Metric Threshold,101329,,I,20141001
+101330,SS Rated: ST_VOICE_VOIP - EDR Duration - Metric Threshold,101330,,I,20141001
+101331,SS Rated: ST_VOICE_VOIP - EDR Value (Daily) - Metric Threshold,101331,,I,20141001
+101332,SS Rated: ST_VOICE_VOIP - EDR Value - Metric Threshold,101332,,I,20141001
+101333,Tapout: ST_DATA_PARTNERS - EDR Bytes (Daily) - Metric Threshold,101333,,I,20141001
+101334,Tapout: ST_DATA_PARTNERS - EDR Bytes - Metric Threshold,101334,,I,20141001
+101335,Tapout: ST_DATA_PARTNERS - EDR Count (Daily) - Metric Threshold,101335,,I,20141001
+101336,Tapout: ST_DATA_PARTNERS - EDR Count - Metric Threshold,101336,,I,20141001
+101337,Tapout: ST_VOICE_PARTNERS - EDR Count (Daily) - Metric Threshold,101337,,I,20141001
+101338,Tapout: ST_VOICE_PARTNERS - EDR Count - Metric Threshold,101338,,I,20141001
+101339,Tapout: ST_VOICE_PARTNERS - EDR Duration (Daily) - Metric Threshold,101339,,I,20141001
+101340,Tapout: ST_VOICE_PARTNERS - EDR Duration - Metric Threshold,101340,,I,20141001
+101341,VOIP: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,101341,,I,20141001
+101342,VOIP: ST_ALL - EDR Count - Metric Threshold,101342,,I,20141001
+101343,VOIP: ST_ALL - EDR Duration - Metric Threshold,101343,,I,20141001
+101344,VOIP: ST_ALL - EDR Value - Metric Threshold,101344,,I,20141001
+101345,VOIP: ST_VOICE - EDR Count (Daily) - Metric Threshold,101345,,I,20141001
+101346,VOIP: ST_VOICE - EDR Count - Metric Threshold,101346,,I,20141001
+101347,VOIP: ST_VOICE - EDR Duration (Daily) - Metric Threshold,101347,,I,20141001
+101348,VOIP: ST_VOICE - EDR Duration - Metric Threshold,101348,,I,20141001
+101349,VOIP: ST_VOICE_DOM - EDR Count (Daily) - Metric Threshold,101349,,I,20141001
+101350,VOIP: ST_VOICE_DOM - EDR Count - Metric Threshold,101350,,I,20141001
+101351,VOIP: ST_VOICE_DOM - EDR Duration (Daily) - Metric Threshold,101351,,I,20141001
+101352,VOIP: ST_VOICE_DOM - EDR Duration - Metric Threshold,101352,,I,20141001
+101353,VOIP: ST_VOICE_FO - EDR Count (Daily) - Metric Threshold,101353,,I,20141001
+101354,VOIP: ST_VOICE_FO - EDR Count - Metric Threshold,101354,,I,20141001
+101355,VOIP: ST_VOICE_FO - EDR Duration (Daily) - Metric Threshold,101355,,I,20141001
+101356,VOIP: ST_VOICE_FO - EDR Duration - Metric Threshold,101356,,I,20141001
+101357,VOIP: ST_VOICE_INTL - EDR Count (Daily) - Metric Threshold,101357,,I,20141001
+101358,VOIP: ST_VOICE_INTL - EDR Count - Metric Threshold,101358,,I,20141001
+101359,VOIP: ST_VOICE_INTL - EDR Duration (Daily) - Metric Threshold,101359,,I,20141001
+101360,VOIP: ST_VOICE_INTL - EDR Duration - Metric Threshold,101360,,I,20141001
+101501,GPRS ICCS: ST_DATA_PARTNERS - EDR Count (Daily) (Absolute) - Metric Threshold,101501,,I,20141001
+101502,GSM: ST_VOICE_PARTNERS - EDR Count (Daily) (Absolute) - Metric Threshold,101502,,I,20141001
+101503,ICCS Unbilled: ST_DATA_PARTNERS - EDR Count (Daily) (Absolute) - Metric Threshold,101503,,I,20141001
+101504,ICCS Unbilled: ST_VOICE_PARTNERS - EDR Count (Daily) (Absolute) - Metric Threshold,101504,,I,20141001
+101505,WAP ICCS: ST_DATA_PARTNERS - EDR Count (Daily) (Absolute) - Metric Threshold,101505,,I,20141001
+102150,MSS vs TAPOUT (Count) - ST_VOICE_PARTNERS - EDR Count - Reconciliation Threshold,102150,,I,20141001
+102151,MSS vs TAPOUT (Count) - ST_VOICE_PARTNERS - EDR Count (Daily) - Reconciliation Threshold,102151,,I,20141001
+102152,SGSN vs TAPOUT (Count) - ST_DATA_PARTNERS - EDR Count - Reconciliation Threshold,102152,,I,20141001
+102153,SGSN vs TAPOUT (Count) - ST_DATA_PARTNERS - EDR Count (Daily) - Reconciliation Threshold,102153,,I,20141001
+102154,SGSN vs TAPOUT (Bytes) - ST_DATA_PARTNERS - EDR Bytes - Reconciliation Threshold,102154,,I,20141001
+102155,SGSN vs TAPOUT (Bytes) - ST_DATA_PARTNERS - EDR Bytes (Daily) - Reconciliation Threshold,102155,,I,20141001
+102156,SS Rated vs SS Billed (Count) - ST_VOICE - EDR Count - Reconciliation Threshold,102156,,I,20141001
+102157,SS Rated vs SS Billed (Count) - ST_VOICE - EDR Count (Daily) - Reconciliation Threshold,102157,,I,20141001
+102158,SS Rated vs SS Billed (Value) - ST_VOICE - EDR Value - Reconciliation Threshold,102158,,I,20141001
+102159,SS Rated vs SS Billed (Value) - ST_VOICE - EDR Value (Daily) - Reconciliation Threshold,102159,,I,20141001
+102160,EIRCOM vs SS Rated (count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count (Daily) - Reconciliation Threshold,102160,,I,20141001
+102161,BT vs SS Rated (count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count (Daily) - Reconciliation Threshold,102161,,I,20141001
+102162,C&W vs SS Rated (count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count (Daily) - Reconciliation Threshold,102162,,I,20141001
+102163,VOIP vs SS Rated (count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count (Daily) - Reconciliation Threshold,102163,,I,20141001
+102164,EIRCOM vs SS Rated (Count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count - Reconciliation Threshold,102164,,I,20141001
+102165,BT vs SS Rated (Count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count - Reconciliation Threshold,102165,,I,20141001
+102166,C&W vs SS Rated (Count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count - Reconciliation Threshold,102166,,I,20141001
+102167,VOIP vs SS Rated (Count) - ST_VOICE + ST_VOICE_SUSPENSE - EDR Count - Reconciliation Threshold,102167,,I,20141001
+102168,EIRCOM vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily) - Reconciliation Threshold,102168,,I,20141001
+102169,BT vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily) - Reconciliation Threshold,102169,,I,20141001
+102201,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102201,,I,20141001
+102202,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Bytes - Metric Threshold,102202,,I,20141001
+102203,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,102203,,I,20141001
+102204,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Count - Metric Threshold,102204,,I,20141001
+102205,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Value (Daily) - Metric Threshold,102205,,I,20141001
+102206,ICCS Unbilled: ST_DATA_IN_BUNDLE - EDR Value - Metric Threshold,102206,,I,20141001
+102207,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102207,,I,20141001
+102208,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Bytes - Metric Threshold,102208,,I,20141001
+102209,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,102209,,I,20141001
+102210,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Count - Metric Threshold,102210,,I,20141001
+102211,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,102211,,I,20141001
+102212,ICCS Unbilled: ST_DATA_OUT_BUNDLE - EDR Value - Metric Threshold,102212,,I,20141001
+102213,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102213,,I,20141001
+102214,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Bytes - Metric Threshold,102214,,I,20141001
+102215,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,102215,,I,20141001
+102216,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Count - Metric Threshold,102216,,I,20141001
+102217,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Value (Daily)  - Metric Threshold,102217,,I,20141001
+102218,ICCS Unbilled: ST_MMS_IN_BUNDLE - EDR Value - Metric Threshold,102218,,I,20141001
+102219,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102219,,I,20141001
+102220,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Bytes - Metric Threshold,102220,,I,20141001
+102221,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,102221,,I,20141001
+102222,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Count - Metric Threshold,102222,,I,20141001
+102223,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,102223,,I,20141001
+102224,ICCS Unbilled: ST_MMS_OUT_BUNDLE - EDR Value - Metric Threshold,102224,,I,20141001
+102225,ICCS Unbilled: ST_SMS_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,102225,,I,20141001
+102226,ICCS Unbilled: ST_SMS_IN_BUNDLE - EDR Count - Metric Threshold,102226,,I,20141001
+102227,ICCS Unbilled: ST_SMS_IN_BUNDLE - EDR Value (Daily) - Metric Threshold,102227,,I,20141001
+102228,ICCS Unbilled: ST_SMS_IN_BUNDLE - EDR Value - Metric Threshold,102228,,I,20141001
+102229,ICCS Unbilled: ST_SMS_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,102229,,I,20141001
+102230,ICCS Unbilled: ST_SMS_OUT_BUNDLE - EDR Count - Metric Threshold,102230,,I,20141001
+102231,ICCS Unbilled: ST_SMS_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,102231,,I,20141001
+102232,ICCS Unbilled: ST_SMS_OUT_BUNDLE - EDR Value - Metric Threshold,102232,,I,20141001
+102233,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,102233,,I,20141001
+102234,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Count - Metric Threshold,102234,,I,20141001
+102235,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Duration (Daily) - Metric Threshold,102235,,I,20141001
+102236,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Duration - Metric Threshold,102236,,I,20141001
+102237,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Value (Daily) - Metric Threshold,102237,,I,20141001
+102238,ICCS Unbilled: ST_VOICE_IN_BUNDLE - EDR Value - Metric Threshold,102238,,I,20141001
+102239,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,102239,,I,20141001
+102240,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Count - Metric Threshold,102240,,I,20141001
+102241,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Duration (Daily) - Metric Threshold,102241,,I,20141001
+102242,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Duration - Metric Threshold,102242,,I,20141001
+102243,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,102243,,I,20141001
+102244,ICCS Unbilled: ST_VOICE_OUT_BUNDLE - EDR Value - Metric Threshold,102244,,I,20141001
+102401,BT: ST_UNIDENT - EDR Count - Metric Threshold,102401,,I,20141001
+102402,BT: ST_UNIDENT - EDR Duration - Metric Threshold,102402,,I,20141001
+102403,BT: ST_UNIDENT - EDR Value - Metric Threshold,102403,,I,20141001
+102404,BT: ST_VOICE - EDR Value (Daily) - Metric Threshold,102404,,I,20141001
+102405,BT: ST_VOICE - EDR Value - Metric Threshold,102405,,I,20141001
+102406,BT: ST_VOICE_DOM - EDR Value (Daily) - Metric Threshold,102406,,I,20141001
+102407,BT: ST_VOICE_DOM - EDR Value - Metric Threshold,102407,,I,20141001
+102408,BT: ST_VOICE_FO - EDR Value (Daily) - Metric Threshold,102408,,I,20141001
+102409,BT: ST_VOICE_FO - EDR Value - Metric Threshold,102409,,I,20141001
+102410,BT: ST_VOICE_INTL - EDR Value (Daily) - Metric Threshold,102410,,I,20141001
+102411,BT: ST_VOICE_INTL - EDR Value - Metric Threshold,102411,,I,20141001
+102412,C&W: ST_UNIDENT - EDR Count - Metric Threshold,102412,,I,20141001
+102413,C&W: ST_UNIDENT - EDR Duration - Metric Threshold,102413,,I,20141001
+102414,C&W: ST_UNIDENT - EDR Value - Metric Threshold,102414,,I,20141001
+102415,C&W: ST_VOICE - EDR Value (Daily) - Metric Threshold,102415,,I,20141001
+102416,C&W: ST_VOICE - EDR Value - Metric Threshold,102416,,I,20141001
+102417,C&W: ST_VOICE_FT - EDR Value (Daily) - Metric Threshold,102417,,I,20141001
+102418,C&W: ST_VOICE_FT - EDR Value - Metric Threshold,102418,,I,20141001
+102419,Eircom: ST_UNIDENT - EDR Count - Metric Threshold,102419,,I,20141001
+102420,Eircom: ST_UNIDENT - EDR Duration - Metric Threshold,102420,,I,20141001
+102421,Eircom: ST_UNIDENT - EDR Value - Metric Threshold,102421,,I,20141001
+102422,Eircom: ST_VOICE - EDR Value (Daily) - Metric Threshold,102422,,I,20141001
+102423,Eircom: ST_VOICE - EDR Value - Metric Threshold,102423,,I,20141001
+102424,Eircom: ST_VOICE_DOM - EDR Value (Daily) - Metric Threshold,102424,,I,20141001
+102425,Eircom: ST_VOICE_DOM - EDR Value - Metric Threshold,102425,,I,20141001
+102426,Eircom: ST_VOICE_FO - EDR Value (Daily) - Metric Threshold,102426,,I,20141001
+102427,Eircom: ST_VOICE_FO - EDR Value - Metric Threshold,102427,,I,20141001
+102428,Eircom: ST_VOICE_INTL - EDR Value (Daily) - Metric Threshold,102428,,I,20141001
+102429,Eircom: ST_VOICE_INTL - EDR Value - Metric Threshold,102429,,I,20141001
+102430,ICCS Unbilled: ST_DATA_PARTNERS - EDR Value (Daily) - Metric Threshold,102430,,I,20141001
+102431,ICCS Unbilled: ST_DATA_PARTNERS - EDR Value - Metric Threshold,102431,,I,20141001
+102432,ICCS Unbilled: ST_VOICE_PARTNERS - EDR Value (Daily) - Metric Threshold,102432,,I,20141001
+102433,ICCS Unbilled: ST_VOICE_PARTNERS - EDR Value - Metric Threshold,102433,,I,20141001
+102434,SGSN: ST_DATA_PARTNERS - EDR Value (Daily) - Metric Threshold,102434,,I,20141001
+102435,SGSN: ST_DATA_PARTNERS - EDR Value - Metric Threshold,102435,,I,20141001
+102436,SS Billed: ST_UNIDENT - EDR Count - Metric Threshold,102436,,I,20141001
+102437,SS Billed: ST_UNIDENT - EDR Duration - Metric Threshold,102437,,I,20141001
+102438,SS Billed: ST_UNIDENT - EDR Value - Metric Threshold,102438,,I,20141001
+102439,SS Billed: ST_VOICE_INTL_FREE - EDR Value (Daily) - Metric Threshold,102439,,I,20141001
+102440,SS Billed: ST_VOICE_INTL_FREE - EDR Value - Metric Threshold,102440,,I,20141001
+102441,SS Discarded: ST_DISCARDED - EDR Value (Daily) - Metric Threshold,102441,,A,20141001
+102442,SS Discarded: ST_DISCARDED - EDR Value - Metric Threshold,102442,,A,20141001
+102443,SS Discarded: ST_UNIDENT - EDR Count - Metric Threshold,102443,,I,20141001
+102444,SS Discarded: ST_UNIDENT - EDR Duration - Metric Threshold,102444,,I,20141001
+102445,SS Discarded: ST_UNIDENT - EDR Value - Metric Threshold,102445,,I,20141001
+102446,SS Discarded: ST_VOICE_DISCARDED - EDR Value (Daily) - Metric Threshold,102446,,A,20141001
+102447,SS Discarded: ST_VOICE_DISCARDED - EDR Value - Metric Threshold,102447,,A,20141001
+102448,SS Rated Suspense History: ST_SUSPENSE - EDR Value (Daily) - Metric Threshold,102448,,I,20141001
+102449,SS Rated Suspense History: ST_SUSPENSE - EDR Value - Metric Threshold,102449,,I,20141001
+102450,SS Rated Suspense History: ST_UNIDENT - EDR Count - Metric Threshold,102450,,I,20141001
+102451,SS Rated Suspense History: ST_UNIDENT - EDR Duration - Metric Threshold,102451,,I,20141001
+102452,SS Rated Suspense History: ST_UNIDENT - EDR Value - Metric Threshold,102452,,I,20141001
+102453,SS Rated Suspense History: ST_VOICE_AGED - EDR Duration (Daily) - Metric Threshold,102453,,I,20141001
+102454,SS Rated Suspense History: ST_VOICE_AGED - EDR Duration - Metric Threshold,102454,,I,20141001
+102455,SS Rated Suspense History: ST_VOICE_AGED - EDR Value (Daily) - Metric Threshold,102455,,I,20141001
+102456,SS Rated Suspense History: ST_VOICE_AGED - EDR Value - Metric Threshold,102456,,I,20141001
+102457,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Duration (Daily) - Metric Threshold,102457,,I,20141001
+102458,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Duration - Metric Threshold,102458,,I,20141001
+102459,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Value (Daily) - Metric Threshold,102459,,I,20141001
+102460,SS Rated Suspense History: ST_VOICE_EXPIRING - EDR Value - Metric Threshold,102460,,I,20141001
+102461,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Value (Daily) - Metric Threshold,102461,,I,20141001
+102462,SS Rated Suspense History: ST_VOICE_SUSPENSE - EDR Value - Metric Threshold,102462,,I,20141001
+102463,SS Rated Suspense: ST_SUSPENSE - EDR Value (Daily) - Metric Threshold,102463,,I,20141001
+102464,SS Rated Suspense: ST_SUSPENSE - EDR Value - Metric Threshold,102464,,I,20141001
+102465,SS Rated Suspense: ST_UNIDENT - EDR Count - Metric Threshold,102465,,I,20141001
+102466,SS Rated Suspense: ST_UNIDENT - EDR Duration - Metric Threshold,102466,,I,20141001
+102467,SS Rated Suspense: ST_UNIDENT - EDR Value - Metric Threshold,102467,,I,20141001
+102468,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Value (Daily) - Metric Threshold,102468,,I,20141001
+102469,SS Rated Suspense: ST_VOICE_SUSPENSE - EDR Value - Metric Threshold,102469,,I,20141001
+102470,SS Rated: ST_UNIDENT - EDR Count - Metric Threshold,102470,,I,20141001
+102471,SS Rated: ST_UNIDENT - EDR Duration - Metric Threshold,102471,,I,20141001
+102472,SS Rated: ST_UNIDENT - EDR Value - Metric Threshold,102472,,I,20141001
+102473,SS Rated: ST_VOICE_INTL_FREE - EDR Value (Daily) - Metric Threshold,102473,,I,20141001
+102474,SS Rated: ST_VOICE_INTL_FREE - EDR Value - Metric Threshold,102474,,I,20141001
+102475,Tapout: ST_DATA_PARTNERS - EDR Value (Daily) - Metric Threshold,102475,,I,20141001
+102476,Tapout: ST_DATA_PARTNERS - EDR Value - Metric Threshold,102476,,I,20141001
+102477,Tapout: ST_VOICE_PARTNERS - EDR Value (Daily) - Metric Threshold,102477,,I,20141001
+102478,Tapout: ST_VOICE_PARTNERS - EDR Value - Metric Threshold,102478,,I,20141001
+102479,VOIP: ST_UNIDENT - EDR Count - Metric Threshold,102479,,I,20141001
+102480,VOIP: ST_UNIDENT - EDR Duration - Metric Threshold,102480,,I,20141001
+102481,VOIP: ST_UNIDENT - EDR Value - Metric Threshold,102481,,I,20141001
+102482,VOIP: ST_VOICE - EDR Value (Daily) - Metric Threshold,102482,,I,20141001
+102483,VOIP: ST_VOICE - EDR Value - Metric Threshold,102483,,I,20141001
+102484,VOIP: ST_VOICE_DOM - EDR Value (Daily) - Metric Threshold,102484,,I,20141001
+102485,VOIP: ST_VOICE_DOM - EDR Value - Metric Threshold,102485,,I,20141001
+102486,VOIP: ST_VOICE_FO - EDR Value (Daily) - Metric Threshold,102486,,I,20141001
+102487,VOIP: ST_VOICE_FO - EDR Value - Metric Threshold,102487,,I,20141001
+102488,VOIP: ST_VOICE_INTL - EDR Value (Daily) - Metric Threshold,102488,,I,20141001
+102489,VOIP: ST_VOICE_INTL - EDR Value - Metric Threshold,102489,,I,20141001
+102501,GPRS ICCS: ST_DATA_PARTNERS - EDR Bytes (Daily) - Metric Threshold,102501,,I,20141001
+102502,GPRS ICCS: ST_DATA_PARTNERS - EDR Bytes - Metric Threshold,102502,,I,20141001
+102503,GPRS ICCS: ST_DATA_PARTNERS - EDR Count - Metric Threshold,102503,,I,20141001
+102504,GPRS ICCS: ST_DATA_PARTNERS - EDR Value (Daily) - Metric Threshold,102504,,I,20141001
+102505,GPRS ICCS: ST_DATA_PARTNERS - EDR Value - Metric Threshold,102505,,I,20141001
+102506,GSM: ST_VOICE_PARTNERS - EDR Duration (Daily) - Metric Threshold,102506,,I,20141001
+102507,GSM: ST_VOICE_PARTNERS - EDR Duration - Metric Threshold,102507,,I,20141001
+102508,GSM: ST_VOICE_PARTNERS - EDR Value (Daily) - Metric Threshold,102508,,I,20141001
+102509,GSM: ST_VOICE_PARTNERS - EDR Value - Metric Threshold,102509,,I,20141001
+102510,SS Discarded: ST_DISCARDED - EDR Duration (Daily) - Metric Threshold,102510,,I,20141001
+102511,SS Discarded: ST_DISCARDED - EDR Duration - Metric Threshold,102511,,I,20141001
+102512,SS Discarded: ST_VOICE_DISCARDED - EDR Duration (Daily) - Metric Threshold,102512,,I,20141001
+102513,SS Discarded: ST_VOICE_DISCARDED - EDR Duration - Metric Threshold,102513,,I,20141001
+102514,SS Rated Suspense History: ST_SUSPENSE - EDR Duration (Daily) - Metric Threshold,102514,,I,20141001
+102515,SS Rated Suspense History: ST_SUSPENSE - EDR Duration - Metric Threshold,102515,,I,20141001
+102516,SS Rated Suspense: ST_SUSPENSE - EDR Duration (Daily) - Metric Threshold,102516,,I,20141001
+102517,SS Rated Suspense: ST_SUSPENSE - EDR Duration - Metric Threshold,102517,,I,20141001
+102518,WAP ICCS: ST_DATA_PARTNERS - EDR Bytes (Daily) - Metric Threshold,102518,,I,20141001
+102519,WAP ICCS: ST_DATA_PARTNERS - EDR Bytes - Metric Threshold,102519,,I,20141001
+102520,WAP ICCS: ST_DATA_PARTNERS - EDR Count - Metric Threshold,102520,,I,20141001
+102521,WAP ICCS: ST_DATA_PARTNERS - EDR Value (Daily) - Metric Threshold,102521,,I,20141001
+102522,WAP ICCS: ST_DATA_PARTNERS - EDR Value - Metric Threshold,102522,,I,20141001
+102550,MSS vs TAPOUT (Duration) - ST_VOICE_PARTNERS - EDR Duration - Reconciliation Threshold,102550,,I,20141001
+102551,MSS vs TAPOUT (Duration) - ST_VOICE_PARTNERS - EDR Duration (Daily) - Reconciliation Threshold,102551,,I,20141001
+102601,CCS AMA Daily: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,102601,,I,20141001
+102602,CCS AMA Daily: ST_ALL - EDR Bytes (Daily) - Metric Threshold,102602,,I,20141001
+102603,CCS AMA Daily: ST_ALL - EDR Bytes - Metric Threshold,102603,,I,20141001
+102604,CCS AMA Daily: ST_ALL - EDR Count (Daily) - Metric Threshold,102604,,I,20141001
+102605,CCS AMA Daily: ST_ALL - EDR Count - Metric Threshold,102605,,I,20141001
+102606,CCS AMA Daily: ST_ALL - EDR Value (Daily) - Metric Threshold,102606,,I,20141001
+102607,CCS AMA Daily: ST_ALL - EDR Value - Metric Threshold,102607,,I,20141001
+102608,CCS AMA Daily: ST_DATA - EDR Bytes (Daily) - Metric Threshold,102608,,I,20141001
+102609,CCS AMA Daily: ST_DATA - EDR Bytes - Metric Threshold,102609,,I,20141001
+102610,CCS AMA Daily: ST_DATA - EDR Count (Daily) - Metric Threshold,102610,,I,20141001
+102611,CCS AMA Daily: ST_DATA - EDR Count - Metric Threshold,102611,,I,20141001
+102612,CCS AMA Daily: ST_DATA - EDR Value (Daily) - Metric Threshold,102612,,I,20141001
+102613,CCS AMA Daily: ST_DATA - EDR Value - Metric Threshold,102613,,I,20141001
+102614,CCS AMA Daily: ST_DATA_2G - EDR Bytes (Daily) - Metric Threshold,102614,,I,20141001
+102615,CCS AMA Daily: ST_DATA_2G - EDR Bytes - Metric Threshold,102615,,I,20141001
+102616,CCS AMA Daily: ST_DATA_2G - EDR Count (Daily) - Metric Threshold,102616,,I,20141001
+102617,CCS AMA Daily: ST_DATA_2G - EDR Count - Metric Threshold,102617,,I,20141001
+102618,CCS AMA Daily: ST_DATA_2G - EDR Value (Daily) - Metric Threshold,102618,,I,20141001
+102619,CCS AMA Daily: ST_DATA_2G - EDR Value - Metric Threshold,102619,,I,20141001
+102620,CCS AMA Daily: ST_DATA_3G - EDR Bytes (Daily) - Metric Threshold,102620,,I,20141001
+102621,CCS AMA Daily: ST_DATA_3G - EDR Bytes - Metric Threshold,102621,,I,20141001
+102622,CCS AMA Daily: ST_DATA_3G - EDR Count (Daily) - Metric Threshold,102622,,I,20141001
+102623,CCS AMA Daily: ST_DATA_3G - EDR Count - Metric Threshold,102623,,I,20141001
+102624,CCS AMA Daily: ST_DATA_3G - EDR Value (Daily) - Metric Threshold,102624,,I,20141001
+102625,CCS AMA Daily: ST_DATA_3G - EDR Value - Metric Threshold,102625,,I,20141001
+102626,CCS AMA Daily: ST_DATA_4G - EDR Bytes (Daily) - Metric Threshold,102626,,I,20141001
+102627,CCS AMA Daily: ST_DATA_4G - EDR Bytes - Metric Threshold,102627,,I,20141001
+102628,CCS AMA Daily: ST_DATA_4G - EDR Count (Daily) - Metric Threshold,102628,,I,20141001
+102629,CCS AMA Daily: ST_DATA_4G - EDR Count - Metric Threshold,102629,,I,20141001
+102630,CCS AMA Daily: ST_DATA_4G - EDR Value (Daily) - Metric Threshold,102630,,I,20141001
+102631,CCS AMA Daily: ST_DATA_4G - EDR Value - Metric Threshold,102631,,I,20141001
+102632,CCS AMA Daily: ST_DATA_GPRS - EDR Bytes (Daily) - Metric Threshold,102632,,I,20141001
+102633,CCS AMA Daily: ST_DATA_GPRS - EDR Bytes - Metric Threshold,102633,,I,20141001
+102634,CCS AMA Daily: ST_DATA_GPRS - EDR Count (Daily) - Metric Threshold,102634,,I,20141001
+102635,CCS AMA Daily: ST_DATA_GPRS - EDR Count - Metric Threshold,102635,,I,20141001
+102636,CCS AMA Daily: ST_DATA_GPRS - EDR Value (Daily) - Metric Threshold,102636,,I,20141001
+102637,CCS AMA Daily: ST_DATA_GPRS - EDR Value - Metric Threshold,102637,,I,20141001
+102638,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes (Daily) - Metric Threshold,102638,,I,20141001
+102639,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,102639,,I,20141001
+102640,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count (Daily) - Metric Threshold,102640,,I,20141001
+102641,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,102641,,I,20141001
+102642,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value (Daily) - Metric Threshold,102642,,I,20141001
+102643,CCS AMA Daily: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value - Metric Threshold,102643,,I,20141001
+102644,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily) - Metric Threshold,102644,,I,20141001
+102645,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Bytes - Metric Threshold,102645,,I,20141001
+102646,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Count (Daily) - Metric Threshold,102646,,I,20141001
+102647,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Count - Metric Threshold,102647,,I,20141001
+102648,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Value (Daily) - Metric Threshold,102648,,I,20141001
+102649,CCS AMA Daily: ST_DATA_GPRS_POSTPAID - EDR Value - Metric Threshold,102649,,I,20141001
+102650,CCS AMA Daily: ST_DATA_WAP - EDR Bytes (Daily) - Metric Threshold,102650,,I,20141001
+102651,CCS AMA Daily: ST_DATA_WAP - EDR Bytes - Metric Threshold,102651,,I,20141001
+102652,CCS AMA Daily: ST_DATA_WAP - EDR Count (Daily) - Metric Threshold,102652,,I,20141001
+102653,CCS AMA Daily: ST_DATA_WAP - EDR Count - Metric Threshold,102653,,I,20141001
+102654,CCS AMA Daily: ST_DATA_WAP - EDR Value (Daily) - Metric Threshold,102654,,I,20141001
+102655,CCS AMA Daily: ST_DATA_WAP - EDR Value - Metric Threshold,102655,,I,20141001
+102656,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes (Daily) - Metric Threshold,102656,,I,20141001
+102657,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,102657,,I,20141001
+102658,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count (Daily) - Metric Threshold,102658,,I,20141001
+102659,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,102659,,I,20141001
+102660,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value (Daily) - Metric Threshold,102660,,I,20141001
+102661,CCS AMA Daily: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value - Metric Threshold,102661,,I,20141001
+102662,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Bytes (Daily) - Metric Threshold,102662,,I,20141001
+102663,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Bytes - Metric Threshold,102663,,I,20141001
+102664,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Count (Daily) - Metric Threshold,102664,,I,20141001
+102665,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Count - Metric Threshold,102665,,I,20141001
+102666,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Value (Daily) - Metric Threshold,102666,,I,20141001
+102667,CCS AMA Daily: ST_DATA_WAP_POSTPAID - EDR Value - Metric Threshold,102667,,I,20141001
+102668,CCS AMA Intermediate: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,102668,,I,20141001
+102669,CCS AMA Intermediate: ST_ALL - EDR Bytes (Daily) - Metric Threshold,102669,,I,20141001
+102670,CCS AMA Intermediate: ST_ALL - EDR Bytes - Metric Threshold,102670,,I,20141001
+102671,CCS AMA Intermediate: ST_ALL - EDR Count (Daily) - Metric Threshold,102671,,I,20141001
+102672,CCS AMA Intermediate: ST_ALL - EDR Count - Metric Threshold,102672,,I,20141001
+102673,CCS AMA Intermediate: ST_ALL - EDR Value (Daily) - Metric Threshold,102673,,I,20141001
+102674,CCS AMA Intermediate: ST_ALL - EDR Value - Metric Threshold,102674,,I,20141001
+102675,CCS AMA Intermediate: ST_DATA - EDR Bytes (Daily) - Metric Threshold,102675,,I,20141001
+102676,CCS AMA Intermediate: ST_DATA - EDR Bytes - Metric Threshold,102676,,I,20141001
+102677,CCS AMA Intermediate: ST_DATA - EDR Count (Daily) - Metric Threshold,102677,,I,20141001
+102678,CCS AMA Intermediate: ST_DATA - EDR Count - Metric Threshold,102678,,I,20141001
+102679,CCS AMA Intermediate: ST_DATA - EDR Value (Daily) - Metric Threshold,102679,,I,20141001
+102680,CCS AMA Intermediate: ST_DATA - EDR Value - Metric Threshold,102680,,I,20141001
+102681,CCS AMA Intermediate: ST_DATA_GPRS - EDR Bytes (Daily) - Metric Threshold,102681,,I,20141001
+102682,CCS AMA Intermediate: ST_DATA_GPRS - EDR Bytes - Metric Threshold,102682,,I,20141001
+102683,CCS AMA Intermediate: ST_DATA_GPRS - EDR Count (Daily) - Metric Threshold,102683,,I,20141001
+102684,CCS AMA Intermediate: ST_DATA_GPRS - EDR Count - Metric Threshold,102684,,I,20141001
+102685,CCS AMA Intermediate: ST_DATA_GPRS - EDR Value (Daily) - Metric Threshold,102685,,I,20141001
+102686,CCS AMA Intermediate: ST_DATA_GPRS - EDR Value - Metric Threshold,102686,,I,20141001
+102687,CCS AMA Intermediate: ST_DATA_WAP - EDR Bytes (Daily) - Metric Threshold,102687,,I,20141001
+102688,CCS AMA Intermediate: ST_DATA_WAP - EDR Bytes - Metric Threshold,102688,,I,20141001
+102689,CCS AMA Intermediate: ST_DATA_WAP - EDR Count (Daily) - Metric Threshold,102689,,I,20141001
+102690,CCS AMA Intermediate: ST_DATA_WAP - EDR Count - Metric Threshold,102690,,I,20141001
+102691,CCS AMA Intermediate: ST_DATA_WAP - EDR Value (Daily) - Metric Threshold,102691,,I,20141001
+102692,CCS AMA Intermediate: ST_DATA_WAP - EDR Value - Metric Threshold,102692,,I,20141001
+102693,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes (Daily) - Metric Threshold,102693,,I,20141001
+102694,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,102694,,I,20141001
+102695,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count (Daily) - Metric Threshold,102695,,I,20141001
+102696,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,102696,,I,20141001
+102697,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value (Daily) - Metric Threshold,102697,,I,20141001
+102698,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS - EDR Value - Metric Threshold,102698,,I,20141001
+102699,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Bytes (Daily) - Metric Threshold,102699,,I,20141001
+102700,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Bytes - Metric Threshold,102700,,I,20141001
+102701,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Count (Daily) - Metric Threshold,102701,,I,20141001
+102702,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Count - Metric Threshold,102702,,I,20141001
+102703,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Value (Daily) - Metric Threshold,102703,,I,20141001
+102704,GPRS ICCS: ST_DATA_GPRS_OUTBOUND_ROAMERS_STRIP - EDR Value - Metric Threshold,102704,,I,20141001
+102705,GPRS ICCS: ST_DATA_STRIP - EDR Bytes (Daily) - Metric Threshold,102705,,I,20141001
+102706,GPRS ICCS: ST_DATA_STRIP - EDR Bytes - Metric Threshold,102706,,I,20141001
+102707,GPRS ICCS: ST_DATA_STRIP - EDR Count (Daily) - Metric Threshold,102707,,I,20141001
+102708,GPRS ICCS: ST_DATA_STRIP - EDR Count - Metric Threshold,102708,,I,20141001
+102709,GPRS ICCS: ST_DATA_STRIP - EDR Value (Daily) - Metric Threshold,102709,,I,20141001
+102710,GPRS ICCS: ST_DATA_STRIP - EDR Value - Metric Threshold,102710,,I,20141001
+102711,ICCS Billed: ST_AGG_SUCCESS - EDR Count (Daily) - Metric Threshold,102711,,I,20141001
+102712,ICCS Billed: ST_ALL - EDR Bytes (Daily) - Metric Threshold,102712,,I,20141001
+102713,ICCS Billed: ST_ALL - EDR Bytes - Metric Threshold,102713,,I,20141001
+102714,ICCS Billed: ST_ALL - EDR Count (Daily) - Metric Threshold,102714,,I,20141001
+102715,ICCS Billed: ST_ALL - EDR Count - Metric Threshold,102715,,I,20141001
+102716,ICCS Billed: ST_ALL - EDR Value (Daily) - Metric Threshold,102716,,I,20141001
+102717,ICCS Billed: ST_ALL - EDR Value - Metric Threshold,102717,,I,20141001
+102718,ICCS Billed: ST_DATA - EDR Bytes (Daily) - Metric Threshold,102718,,I,20141001
+102719,ICCS Billed: ST_DATA - EDR Bytes - Metric Threshold,102719,,I,20141001
+102720,ICCS Billed: ST_DATA - EDR Count (Daily) - Metric Threshold,102720,,I,20141001
+102721,ICCS Billed: ST_DATA - EDR Count - Metric Threshold,102721,,I,20141001
+102722,ICCS Billed: ST_DATA - EDR Value (Daily) - Metric Threshold,102722,,I,20141001
+102723,ICCS Billed: ST_DATA - EDR Value - Metric Threshold,102723,,I,20141001
+102724,ICCS Billed: ST_DATA_GPRS - EDR Bytes (Daily) - Metric Threshold,102724,,I,20141001
+102725,ICCS Billed: ST_DATA_GPRS - EDR Bytes - Metric Threshold,102725,,I,20141001
+102726,ICCS Billed: ST_DATA_GPRS - EDR Count (Daily) - Metric Threshold,102726,,I,20141001
+102727,ICCS Billed: ST_DATA_GPRS - EDR Count - Metric Threshold,102727,,I,20141001
+102728,ICCS Billed: ST_DATA_GPRS - EDR Value (Daily) - Metric Threshold,102728,,I,20141001
+102729,ICCS Billed: ST_DATA_GPRS - EDR Value - Metric Threshold,102729,,I,20141001
+102730,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily) - Metric Threshold,102730,,I,20141001
+102731,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Bytes - Metric Threshold,102731,,I,20141001
+102732,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Count (Daily) - Metric Threshold,102732,,I,20141001
+102733,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Count - Metric Threshold,102733,,I,20141001
+102734,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Value (Daily) - Metric Threshold,102734,,I,20141001
+102735,ICCS Billed: ST_DATA_GPRS_POSTPAID - EDR Value - Metric Threshold,102735,,I,20141001
+102736,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102736,,I,20141001
+102737,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Bytes - Metric Threshold,102737,,I,20141001
+102738,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Count (Daily) - Metric Threshold,102738,,I,20141001
+102739,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Count - Metric Threshold,102739,,I,20141001
+102740,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Value (Daily) - Metric Threshold,102740,,I,20141001
+102741,ICCS Billed: ST_DATA_IN_BUNDLE - EDR Value - Metric Threshold,102741,,I,20141001
+102742,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Bytes (Daily) - Metric Threshold,102742,,I,20141001
+102743,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Bytes - Metric Threshold,102743,,I,20141001
+102744,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Count (Daily) - Metric Threshold,102744,,I,20141001
+102745,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Count - Metric Threshold,102745,,I,20141001
+102746,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Value (Daily) - Metric Threshold,102746,,I,20141001
+102747,ICCS Billed: ST_DATA_OUT_BUNDLE - EDR Value - Metric Threshold,102747,,I,20141001
+102748,ICCS Billed: ST_DATA_WAP - EDR Bytes (Daily) - Metric Threshold,102748,,I,20141001
+102749,ICCS Billed: ST_DATA_WAP - EDR Bytes - Metric Threshold,102749,,I,20141001
+102750,ICCS Billed: ST_DATA_WAP - EDR Count (Daily) - Metric Threshold,102750,,I,20141001
+102751,ICCS Billed: ST_DATA_WAP - EDR Count - Metric Threshold,102751,,I,20141001
+102752,ICCS Billed: ST_DATA_WAP - EDR Value (Daily) - Metric Threshold,102752,,I,20141001
+102753,ICCS Billed: ST_DATA_WAP - EDR Value - Metric Threshold,102753,,I,20141001
+102754,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Bytes (Daily) - Metric Threshold,102754,,I,20141001
+102755,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Bytes - Metric Threshold,102755,,I,20141001
+102756,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Count (Daily) - Metric Threshold,102756,,I,20141001
+102757,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Count - Metric Threshold,102757,,I,20141001
+102758,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Value (Daily) - Metric Threshold,102758,,I,20141001
+102759,ICCS Billed: ST_DATA_WAP_POSTPAID - EDR Value - Metric Threshold,102759,,I,20141001
+102760,WAP ICCS: ST_DATA_STRIP - EDR Bytes (Daily) - Metric Threshold,102760,,I,20141001
+102761,WAP ICCS: ST_DATA_STRIP - EDR Bytes - Metric Threshold,102761,,I,20141001
+102762,WAP ICCS: ST_DATA_STRIP - EDR Count (Daily) - Metric Threshold,102762,,I,20141001
+102763,WAP ICCS: ST_DATA_STRIP - EDR Count - Metric Threshold,102763,,I,20141001
+102764,WAP ICCS: ST_DATA_STRIP - EDR Value (Daily) - Metric Threshold,102764,,I,20141001
+102765,WAP ICCS: ST_DATA_STRIP - EDR Value - Metric Threshold,102765,,I,20141001
+102766,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes (Daily) - Metric Threshold,102766,,I,20141001
+102767,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Bytes - Metric Threshold,102767,,I,20141001
+102768,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count (Daily) - Metric Threshold,102768,,I,20141001
+102769,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Count - Metric Threshold,102769,,I,20141001
+102770,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value (Daily) - Metric Threshold,102770,,I,20141001
+102771,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS - EDR Value - Metric Threshold,102771,,I,20141001
+102772,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Bytes (Daily) - Metric Threshold,102772,,I,20141001
+102773,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Bytes - Metric Threshold,102773,,I,20141001
+102774,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Count (Daily) - Metric Threshold,102774,,I,20141001
+102775,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Count - Metric Threshold,102775,,I,20141001
+102776,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Value (Daily) - Metric Threshold,102776,,I,20141001
+102777,WAP ICCS: ST_DATA_WAP_OUTBOUND_ROAMERS_STRIP - EDR Value - Metric Threshold,102777,,I,20141001
+102169,BT vs SS Billed (count) - ST_VOICE - ST_VOICE_SUSPENSE - ST_VOICE_DISCARDED - EDR Count (Daily) - Reconciliation Threshold,102169,,I,20141001
+102182,CCS Intermediate vs CCS Daily (Value) - ST_ALL - EDR Value - Reconciliation Threshold,102182,,I,20141001
+102183,CCS Intermediate vs CCS Daily (Bytes) - ST_ALL - EDR Bytes - Reconciliation Threshold,102183,,I,20141001
+102184,CCS Intermediate vs CCS Daily (Count) - ST_ALL - EDR Count - Reconciliation Threshold,102184,,I,20141001
+102185,CCS vs WAP ICCS (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes (Daily) - Reconciliation Threshold,102185,,I,20141001
+102186,CCS  vs GPRS ICCS (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily) - Reconciliation Threshold,102186,,I,20141001
+102187,CCS Intermediate vs CCS Daily (value) - ST_ALL - EDR Value (Daily) - Reconciliation Threshold,102187,,I,20141001
+102188,GPRS ICCS vs ICCS Billed (bytes) - ST_DATA_GPRS_POSTPAID - EDR Bytes (Daily) - Reconciliation Threshold,102188,,I,20141001
+102189,WAP ICCS vs ICCS Billed (bytes) - ST_DATA_WAP_POSTPAID - EDR Bytes (Daily) - Reconciliation Threshold,102189,,I,20141001
+102190,CCS vs WAP ICCS (bytes) - ST_DATA _STRIP - EDR Bytes (Daily) - Reconciliation Threshold,102190,,I,20141001
+102191,CCS vs GPRS ICCS (bytes) ?ST_DATA _STRIP - EDR Bytes (Daily) - Reconciliation Threshold,102191,,I,20141001
+102193,CCS Intermediate vs CCS Daily (Count) - ST_ALL - EDR Count (Daily) - Reconciliation Threshold,102193,,I,20141001
+102192,CCS Intermediate vs CCS Daily (Bytes) - ST_ALL - EDR Bytes (Daily) - Reconciliation Threshold,102192,,I,20141001

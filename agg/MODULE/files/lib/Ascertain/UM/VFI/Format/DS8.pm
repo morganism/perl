@@ -32,7 +32,7 @@ sub init
 		{name => 'AcceptTime', bytes => -1},
 		{name => 'FirstinBatch', bytes => -1},
 		{name => 'CallDirection', bytes => -1},
-		{name => 'Distribution', bytes => -1},
+		{name => 'PrepaidServerIdentity', bytes => -1},
 		{name => 'DestinationIMSI', bytes => -1},
 		{name => 'ClosedUserGroup', bytes => -1},
 		{name => 'CUGType', bytes => -1},

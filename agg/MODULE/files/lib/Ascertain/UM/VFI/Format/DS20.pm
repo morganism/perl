@@ -19,7 +19,7 @@ sub init
 	$self->{has_trailer} = TRUE;
 	$self->{trailer_regex} = qr/^Total number of CDR's: (\d+).*/;
 	$self->{currency_factor} = 1; # if in euros then 100, if in cents then 1
-	$self->{data_factor} = 1; # if in MB then 1048576, if in bytes then 1
+	$self->{data_factor} = 1048576; # if in MB then 1048576, if in bytes then 1
 
 	my $format = 
 	[

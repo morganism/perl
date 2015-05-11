@@ -123,19 +123,19 @@ ber_check_tags(asn_codec_ctx_t *opt_codec_ctx,
 		case -1: RETURN(RC_FAIL);
 		case 0: RETURN(RC_WMORE);
 		}
-		if ( strcmp( td->name, "Padding" )==0 ) {
-		  ASN_DEBUG("HACKING %s",td->name);
-		  len_len = 0;
-		  tlv_len = 0;
-		} else { 
-			tlv_constr = BER_TLV_CONSTRUCTED(ptr);
-			len_len = ber_fetch_length(tlv_constr,
-			(const char *)ptr + tag_len, size - tag_len, &tlv_len);
-			switch(len_len) {
-			case -1: RETURN(RC_FAIL);
-			case 0: RETURN(RC_WMORE);
-			}
-		}
+                if ( strcmp( td->name, "Padding" )==0 ) {
+                  ASN_DEBUG("HACKING %s",td->name);
+                  len_len = 0;
+                  tlv_len = 0;
+                } else {
+                        tlv_constr = BER_TLV_CONSTRUCTED(ptr);
+                        len_len = ber_fetch_length(tlv_constr,
+                        (const char *)ptr + tag_len, size - tag_len, &tlv_len);
+                        switch(len_len) {
+                        case -1: RETURN(RC_FAIL);
+                        case 0: RETURN(RC_WMORE);
+                        }
+                }
 		ASN_DEBUG("Advancing %ld in ANY case",
 			(long)(tag_len + len_len));
 		ADVANCE(tag_len + len_len);
@@ -157,73 +157,74 @@ ber_check_tags(asn_codec_ctx_t *opt_codec_ctx,
 		case -1: RETURN(RC_FAIL);
 		case 0: RETURN(RC_WMORE);
 		}
-		if ( strcmp( td->name, "Padding" )==0 ) {
-		  ASN_DEBUG("HACKING %s",td->name);
-		  len_len = 0;
-		  tlv_len = 0;
-		} else { 
-		tlv_constr = BER_TLV_CONSTRUCTED(ptr);
-		/*
-		 * If {I}, don't check anything.
-		 * If {I,B,C}, check B and C unless we're at I.
-		 */
-		if(tag_mode != 0 && step == 0) {
-			/*
-			 * We don't expect tag to match here.
-			 * It's just because we don't know how the tag
-			 * is supposed to look like.
-			 */
-		} else {
-		    assert(tagno >= 0);	/* Guaranteed by the code above */
-		    if(tlv_tag != td->tags[tagno]) {
-			/*
-			 * Unexpected tag. Too bad.
-			 */
-		    	ASN_DEBUG("Expected: %s, "
-				"expectation failed (tn=%d, tm=%d)",
-				ber_tlv_tag_string(td->tags[tagno]),
-				tagno, tag_mode
-			);
-			RETURN(RC_FAIL);
-		    }
-		}
 
-		/*
-		 * Attention: if there are more tags expected,
-		 * ensure that the current tag is presented
-		 * in constructed form (it contains other tags!).
-		 * If this one is the last one, check that the tag form
-		 * matches the one given in descriptor.
-		 */
-		if(tagno < (td->tags_count - 1)) {
-			if(tlv_constr == 0) {
-				ASN_DEBUG("tlv_constr = %d, expfail",
-					tlv_constr);
-				RETURN(RC_FAIL);
-			}
-		} else {
-			if(last_tag_form != tlv_constr
-			&& last_tag_form != -1) {
-				ASN_DEBUG("last_tag_form %d != %d",
-					last_tag_form, tlv_constr);
-				RETURN(RC_FAIL);
-			}
-		}
+               if ( strcmp( td->name, "Padding" )==0 ) {
+                  ASN_DEBUG("HACKING %s",td->name);
+                  len_len = 0;
+                  tlv_len = 0;
+                } else {
+                tlv_constr = BER_TLV_CONSTRUCTED(ptr);
+                /*
+                 * If {I}, don't check anything.
+                 * If {I,B,C}, check B and C unless we're at I.
+                 */
+                if(tag_mode != 0 && step == 0) {
+                        /*
+                         * We don't expect tag to match here.
+                         * It's just because we don't know how the tag
+                         * is supposed to look like.
+                         */
+                } else {
+                    assert(tagno >= 0); /* Guaranteed by the code above */
+                    if(tlv_tag != td->tags[tagno]) {
+                        /*
+                         * Unexpected tag. Too bad.
+                         */
+                        ASN_DEBUG("Expected: %s, "
+                                "expectation failed (tn=%d, tm=%d)",
+                                ber_tlv_tag_string(td->tags[tagno]),
+                                tagno, tag_mode
+                        );
+                        RETURN(RC_FAIL);
+                    }
+                }
 
-		/*
-		 * Fetch and process L from TLV.
-		 */
+                /*
+                 * Attention: if there are more tags expected,
+                 * ensure that the current tag is presented
+                 * in constructed form (it contains other tags!).
+                 * If this one is the last one, check that the tag form
+                 * matches the one given in descriptor.
+                 */
+                if(tagno < (td->tags_count - 1)) {
+                        if(tlv_constr == 0) {
+                                ASN_DEBUG("tlv_constr = %d, expfail",
+                                        tlv_constr);
+                                RETURN(RC_FAIL);
+                        }
+                } else {
+                        if(last_tag_form != tlv_constr
+                        && last_tag_form != -1) {
+                                ASN_DEBUG("last_tag_form %d != %d",
+                                        last_tag_form, tlv_constr);
+                                RETURN(RC_FAIL);
+                        }
+                }
 
-		ASN_DEBUG("td name %s",td->name);
-		len_len = ber_fetch_length(tlv_constr,
-			(const char *)ptr + tag_len, size - tag_len, &tlv_len);
-		ASN_DEBUG("Fetchinig len = %ld, tag_len", (long)len_len,(long)tag_len);
-		switch(len_len) {
-		case -1: RETURN(RC_FAIL);
-		case 0: RETURN(RC_WMORE);
-		}
-}
-ASN_DEBUG("not failed");
+                /*
+                 * Fetch and process L from TLV.
+                 */
+
+                ASN_DEBUG("td name %s",td->name);
+                len_len = ber_fetch_length(tlv_constr,
+                        (const char *)ptr + tag_len, size - tag_len, &tlv_len);
+                ASN_DEBUG("Fetchinig len = %ld, tag_len", (long)len_len,(long)tag_len);
+                switch(len_len) {
+                case -1: RETURN(RC_FAIL);
+                case 0: RETURN(RC_WMORE);
+                }
+       }
+
 		/*
 		 * FIXME
 		 * As of today, the chain of tags
@@ -260,7 +261,6 @@ ASN_DEBUG("not failed");
 			limit_len    = tlv_len + tag_len + len_len;
 			if(limit_len < 0) {
 				/* Too great tlv_len value? */
-				ASN_DEBUG("Too great tlv_len value? ");
 				RETURN(RC_FAIL);
 			}
 		} else if(limit_len != tlv_len + tag_len + len_len) {

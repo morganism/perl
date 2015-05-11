@@ -111,14 +111,16 @@ extends Action
 		"       to_char(fm.comparison,'99999999990D9999') as comparison,\n" + 
 		"       fm.is_issue,\n" + 
 		"       fm.is_comparator\n" + 
-		"  from (" +
-		"    select max(f_metric_id) KEEP (DENSE_RANK FIRST ORDER BY creation_date DESC) f_metric_id\n" +
-	    "         from um.f_metric fm\n" +
-	    "         group by d_period_id, d_node_id, d_edge_id, d_source_id, metric_definition_id, metric_operator_id, d_call_type_id, d_customer_type_id, d_payment_type_id) maxfm,\n" +
-		"    f_metric fm, metric_definition_ref mdr\n" +
+		"  from ( \n" +
+		"        select f.*, \n" + 
+                "               rank() OVER ( partition by f.d_period_id, d_metric_id, d_node_id, d_edge_id, \n" + 
+		"               d_source_id, source_type_id, f.edr_type_id, f.edr_sub_type_id ORDER BY creation_date ) rank \n" +
+		"        from   um.f_metric f \n" +
+		"	) fm \n " +
+		"    , metric_definition_ref mdr\n" +
 		"  where 1=1\n" +
-		"  and maxfm.f_metric_id = fm.f_metric_id\n" +
-		"  and fm.metric_definition_id = mdr.metric_definition_id \n";
+		"  and fm.metric_definition_id = mdr.metric_definition_id \n" + 
+		"  and fm.rank = 1 \n";
 	/**
 	 */
 	public ActionForward execute(ActionMapping mapping,

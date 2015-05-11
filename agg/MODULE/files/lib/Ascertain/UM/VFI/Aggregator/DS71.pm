@@ -43,6 +43,10 @@ sub _aggregate
 	my $ST_DATA_2G = FALSE;
 	my $ST_DATA_3G = FALSE;
         my $ST_DATA_4G = FALSE;
+	
+        my $ST_DATA_4G_INBOUND_ROAMERS = FALSE;
+        my $ST_DATA_4G_DOMESTIC = FALSE;
+
 	my $ST_UNIDENT = TRUE;
 
 	my @serviceTypes; # each time a service type tests TRUE push it
@@ -100,6 +104,13 @@ sub _aggregate
         }
         elsif (defined $d->{rATType} and $d->{rATType} eq "6") # EUTRAN / 4G
         {
+		if (defined $subscriberIMSI and $subscriberIMSI =~ /^27201/ ) {
+                        $ST_DATA_4G_DOMESTIC = TRUE; push @serviceTypes, "ST_DATA_4G_DOMESTIC";
+                }
+                else {
+                        $ST_DATA_4G_INBOUND_ROAMERS = TRUE; push @serviceTypes, "ST_DATA_4G_INBOUND_ROAMERS";
+                }
+		
                 $ST_DATA_4G = TRUE; push @serviceTypes, "ST_DATA_4G";
                 $ST_UNIDENT = FALSE;
         }

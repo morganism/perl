@@ -68,6 +68,7 @@ sub _aggregate
 	my $ST_SMS_PREPAID                   = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MO  = FALSE;
 	my $ST_SMS_OTHER_INBOUND_ROAMERS_MT  = FALSE;
+	my $ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = FALSE;
 	my $ST_SMS_OTHER_OUTBOUND_ROAMERS_MT = FALSE;
 	my $ST_SMS_ROAMING_MO_PREPAID = FALSE;
@@ -121,7 +122,8 @@ sub _aggregate
 	}
 
 	if (defined $d->{Service_Id} and $d->{Service_Id} =~ /^8[6789]/)
-	{
+	{	
+		$ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO = TRUE; push @serviceTypes, "ST_SMS_OUTBOUND_POSTPAID_ROAMERS_MO";
 		$ST_SMS_OTHER_OUTBOUND_ROAMERS_MO = TRUE; push @serviceTypes, "ST_SMS_OTHER_OUTBOUND_ROAMERS_MO";
 	}
 	#-- SERVICE_TYPE ----------------------------------------------------------------

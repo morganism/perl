@@ -8,6 +8,7 @@ mkdir -p $HOME/data/gdl/input/DS8
 mkdir -p $HOME/data/gdl/input/DS11
 mkdir -p $HOME/data/gdl/input/DS12
 mkdir -p $HOME/data/gdl/input/DS20
+mkdir -p $HOME/data/gdl/input/DS21
 mkdir -p $HOME/data/gdl/input/DS23
 mkdir -p $HOME/data/gdl/input/DS28
 mkdir -p $HOME/data/gdl/input/DS33
@@ -15,6 +16,7 @@ mkdir -p $HOME/data/gdl/input/DS39
 mkdir -p $HOME/data/gdl/input/DS40
 mkdir -p $HOME/data/gdl/input/DS44
 mkdir -p $HOME/data/gdl/input/DS45
+mkdir -p $HOME/data/gdl/input/DS47
 mkdir -p $HOME/data/gdl/input/DS48
 mkdir -p $HOME/data/gdl/input/DS49
 mkdir -p $HOME/data/gdl/input/DS53
@@ -26,8 +28,28 @@ mkdir -p $HOME/data/gdl/input/DS65
 mkdir -p $HOME/data/gdl/input/DS70
 mkdir -p $HOME/data/gdl/input/DS71
 mkdir -p $HOME/data/gdl/input/DS72
+mkdir -p $HOME/data/gdl/input/DS73
+mkdir -p $HOME/data/gdl/input/DS74
+mkdir -p $HOME/data/gdl/input/DS75
+mkdir -p $HOME/data/gdl/input/DS76
+mkdir -p $HOME/data/gdl/input/DS78
+mkdir -p $HOME/data/gdl/input/DS7
 mkdir -p $HOME/data/gdl/input/DS80
 mkdir -p $HOME/data/gdl/input/DS81
+mkdir -p $HOME/data/gdl/input/DS83
+mkdir -p $HOME/data/gdl/input/DS84
+mkdir -p $HOME/data/gdl/input/DS85
+mkdir -p $HOME/data/gdl/input/DS86
+mkdir -p $HOME/data/gdl/input/DS90
+mkdir -p $HOME/data/gdl/input/DS91
+mkdir -p $HOME/data/gdl/input/DS92
+mkdir -p $HOME/data/gdl/input/DS93
+mkdir -p $HOME/data/gdl/input/DS94
+mkdir -p $HOME/data/gdl/input/DS95
+mkdir -p $HOME/data/gdl/input/DS96
+mkdir -p $HOME/data/gdl/input/DS98
+mkdir -p $HOME/data/gdl/input/DS99
+
 
 mkdir -p $HOME/data/gdl/accepted/DS4
 mkdir -p $HOME/data/gdl/accepted/DS5
@@ -36,6 +58,7 @@ mkdir -p $HOME/data/gdl/accepted/DS8
 mkdir -p $HOME/data/gdl/accepted/DS11
 mkdir -p $HOME/data/gdl/accepted/DS12
 mkdir -p $HOME/data/gdl/accepted/DS20
+mkdir -p $HOME/data/gdl/accepted/DS21
 mkdir -p $HOME/data/gdl/accepted/DS23
 mkdir -p $HOME/data/gdl/accepted/DS28
 mkdir -p $HOME/data/gdl/accepted/DS33
@@ -43,6 +66,7 @@ mkdir -p $HOME/data/gdl/accepted/DS39
 mkdir -p $HOME/data/gdl/accepted/DS40
 mkdir -p $HOME/data/gdl/accepted/DS44
 mkdir -p $HOME/data/gdl/accepted/DS45
+mkdir -p $HOME/data/gdl/accepted/DS47
 mkdir -p $HOME/data/gdl/accepted/DS48
 mkdir -p $HOME/data/gdl/accepted/DS49
 mkdir -p $HOME/data/gdl/accepted/DS53
@@ -54,8 +78,32 @@ mkdir -p $HOME/data/gdl/accepted/DS65
 mkdir -p $HOME/data/gdl/accepted/DS70
 mkdir -p $HOME/data/gdl/accepted/DS71
 mkdir -p $HOME/data/gdl/accepted/DS72
+mkdir -p $HOME/data/gdl/accepted/DS73
+mkdir -p $HOME/data/gdl/accepted/DS74
+mkdir -p $HOME/data/gdl/accepted/DS75
+mkdir -p $HOME/data/gdl/accepted/DS76
+mkdir -p $HOME/data/gdl/accepted/DS78
 mkdir -p $HOME/data/gdl/accepted/DS80
 mkdir -p $HOME/data/gdl/accepted/DS81
+mkdir -p $HOME/data/gdl/accepted/DS83
+mkdir -p $HOME/data/gdl/accepted/DS84
+mkdir -p $HOME/data/gdl/accepted/DS85
+mkdir -p $HOME/data/gdl/accepted/DS86
+mkdir -p $HOME/data/gdl/accepted/DS7
+mkdir -p $HOME/data/gdl/accepted/DS90
+mkdir -p $HOME/data/gdl/accepted/DS91
+mkdir -p $HOME/data/gdl/accepted/DS92
+mkdir -p $HOME/data/gdl/accepted/DS93
+mkdir -p $HOME/data/gdl/accepted/DS94
+mkdir -p $HOME/data/gdl/accepted/DS95
+mkdir -p $HOME/data/gdl/accepted/DS96
+mkdir -p $HOME/data/gdl/accepted/DS98
+mkdir -p $HOME/data/gdl/accepted/DS99
+
+
+
+
+
 
 mkdir -p $HOME/data/gdl/rejected/DS4
 mkdir -p $HOME/data/gdl/rejected/DS5
@@ -64,6 +112,7 @@ mkdir -p $HOME/data/gdl/rejected/DS8
 mkdir -p $HOME/data/gdl/rejected/DS11
 mkdir -p $HOME/data/gdl/rejected/DS12
 mkdir -p $HOME/data/gdl/rejected/DS20
+mkdir -p $HOME/data/gdl/rejected/DS21
 mkdir -p $HOME/data/gdl/rejected/DS23
 mkdir -p $HOME/data/gdl/rejected/DS28
 mkdir -p $HOME/data/gdl/rejected/DS33
@@ -71,6 +120,7 @@ mkdir -p $HOME/data/gdl/rejected/DS39
 mkdir -p $HOME/data/gdl/rejected/DS40
 mkdir -p $HOME/data/gdl/rejected/DS44
 mkdir -p $HOME/data/gdl/rejected/DS45
+mkdir -p $HOME/data/gdl/rejected/DS47
 mkdir -p $HOME/data/gdl/rejected/DS48
 mkdir -p $HOME/data/gdl/rejected/DS49
 mkdir -p $HOME/data/gdl/rejected/DS53
@@ -82,8 +132,28 @@ mkdir -p $HOME/data/gdl/rejected/DS65
 mkdir -p $HOME/data/gdl/rejected/DS70
 mkdir -p $HOME/data/gdl/rejected/DS71
 mkdir -p $HOME/data/gdl/rejected/DS72
+mkdir -p $HOME/data/gdl/rejected/DS73
+mkdir -p $HOME/data/gdl/rejected/DS74
+mkdir -p $HOME/data/gdl/rejected/DS75
+mkdir -p $HOME/data/gdl/rejected/DS76
+mkdir -p $HOME/data/gdl/rejected/DS78
 mkdir -p $HOME/data/gdl/rejected/DS80
 mkdir -p $HOME/data/gdl/rejected/DS81
+mkdir -p $HOME/data/gdl/rejected/DS90
+mkdir -p $HOME/data/gdl/rejected/DS91
+mkdir -p $HOME/data/gdl/rejected/DS92
+mkdir -p $HOME/data/gdl/rejected/DS93
+mkdir -p $HOME/data/gdl/rejected/DS94
+mkdir -p $HOME/data/gdl/rejected/DS95
+mkdir -p $HOME/data/gdl/rejected/DS96
+mkdir -p $HOME/data/gdl/rejected/DS98
+mkdir -p $HOME/data/gdl/rejected/DS99
+mkdir -p $HOME/data/gdl/rejected/DS83
+mkdir -p $HOME/data/gdl/rejected/DS84
+mkdir -p $HOME/data/gdl/rejected/DS85
+mkdir -p $HOME/data/gdl/rejected/DS86
+mkdir -p $HOME/data/gdl/rejected/DS7
+
 
 mkdir -p $HOME/data/gdl/bad/DS4
 mkdir -p $HOME/data/gdl/bad/DS5
@@ -92,6 +162,7 @@ mkdir -p $HOME/data/gdl/bad/DS8
 mkdir -p $HOME/data/gdl/bad/DS11
 mkdir -p $HOME/data/gdl/bad/DS12
 mkdir -p $HOME/data/gdl/bad/DS20
+mkdir -p $HOME/data/gdl/bad/DS21
 mkdir -p $HOME/data/gdl/bad/DS23
 mkdir -p $HOME/data/gdl/bad/DS28
 mkdir -p $HOME/data/gdl/bad/DS33
@@ -99,6 +170,7 @@ mkdir -p $HOME/data/gdl/bad/DS39
 mkdir -p $HOME/data/gdl/bad/DS40
 mkdir -p $HOME/data/gdl/bad/DS44
 mkdir -p $HOME/data/gdl/bad/DS45
+mkdir -p $HOME/data/gdl/bad/DS47
 mkdir -p $HOME/data/gdl/bad/DS48
 mkdir -p $HOME/data/gdl/bad/DS49
 mkdir -p $HOME/data/gdl/bad/DS53
@@ -110,8 +182,28 @@ mkdir -p $HOME/data/gdl/bad/DS65
 mkdir -p $HOME/data/gdl/bad/DS70
 mkdir -p $HOME/data/gdl/bad/DS71
 mkdir -p $HOME/data/gdl/bad/DS72
+mkdir -p $HOME/data/gdl/bad/DS73
+mkdir -p $HOME/data/gdl/bad/DS74
+mkdir -p $HOME/data/gdl/bad/DS75
+mkdir -p $HOME/data/gdl/bad/DS76
+mkdir -p $HOME/data/gdl/bad/DS78
 mkdir -p $HOME/data/gdl/bad/DS80
 mkdir -p $HOME/data/gdl/bad/DS81
+mkdir -p $HOME/data/gdl/bad/DS90
+mkdir -p $HOME/data/gdl/bad/DS91
+mkdir -p $HOME/data/gdl/bad/DS92
+mkdir -p $HOME/data/gdl/bad/DS93
+mkdir -p $HOME/data/gdl/bad/DS94
+mkdir -p $HOME/data/gdl/bad/DS95
+mkdir -p $HOME/data/gdl/bad/DS96
+mkdir -p $HOME/data/gdl/bad/DS98
+mkdir -p $HOME/data/gdl/bad/DS99
+
+mkdir -p $HOME/data/gdl/bad/DS83
+mkdir -p $HOME/data/gdl/bad/DS84
+mkdir -p $HOME/data/gdl/bad/DS85
+mkdir -p $HOME/data/gdl/bad/DS86
+mkdir -p $HOME/data/gdl/bad/DS7
 
 mkdir -p $HOME/data/gdl/log/DS4
 mkdir -p $HOME/data/gdl/log/DS5
@@ -120,6 +212,7 @@ mkdir -p $HOME/data/gdl/log/DS8
 mkdir -p $HOME/data/gdl/log/DS11
 mkdir -p $HOME/data/gdl/log/DS12
 mkdir -p $HOME/data/gdl/log/DS20
+mkdir -p $HOME/data/gdl/log/DS21
 mkdir -p $HOME/data/gdl/log/DS23
 mkdir -p $HOME/data/gdl/log/DS28
 mkdir -p $HOME/data/gdl/log/DS33
@@ -127,6 +220,7 @@ mkdir -p $HOME/data/gdl/log/DS39
 mkdir -p $HOME/data/gdl/log/DS40
 mkdir -p $HOME/data/gdl/log/DS44
 mkdir -p $HOME/data/gdl/log/DS45
+mkdir -p $HOME/data/gdl/log/DS47
 mkdir -p $HOME/data/gdl/log/DS48
 mkdir -p $HOME/data/gdl/log/DS49
 mkdir -p $HOME/data/gdl/log/DS53
@@ -138,8 +232,29 @@ mkdir -p $HOME/data/gdl/log/DS65
 mkdir -p $HOME/data/gdl/log/DS70
 mkdir -p $HOME/data/gdl/log/DS71
 mkdir -p $HOME/data/gdl/log/DS72
+mkdir -p $HOME/data/gdl/log/DS73
+mkdir -p $HOME/data/gdl/log/DS74
+mkdir -p $HOME/data/gdl/log/DS75
+mkdir -p $HOME/data/gdl/log/DS76
+mkdir -p $HOME/data/gdl/log/DS78
 mkdir -p $HOME/data/gdl/log/DS80
 mkdir -p $HOME/data/gdl/log/DS81
+mkdir -p $HOME/data/gdl/log/DS90
+mkdir -p $HOME/data/gdl/log/DS91
+mkdir -p $HOME/data/gdl/log/DS92
+mkdir -p $HOME/data/gdl/log/DS93
+mkdir -p $HOME/data/gdl/log/DS94
+mkdir -p $HOME/data/gdl/log/DS95
+mkdir -p $HOME/data/gdl/log/DS96
+mkdir -p $HOME/data/gdl/log/DS98
+mkdir -p $HOME/data/gdl/log/DS99
+
+mkdir -p $HOME/data/gdl/log/DS83
+mkdir -p $HOME/data/gdl/log/DS84
+mkdir -p $HOME/data/gdl/log/DS85
+mkdir -p $HOME/data/gdl/log/DS86
+mkdir -p $HOME/data/gdl/log/DS7
+
 
 mkdir -p $HOME/data/sqlldr/logs/customer
 mkdir -p $HOME/data/sqlldr/bad/customer
@@ -170,6 +285,13 @@ mkdir -p $HOME/data/gdl/input/DS20/in
 mkdir -p $HOME/data/gdl/input/DS20/log
 mkdir -p $HOME/data/gdl/input/DS20/out
 mkdir -p $HOME/data/gdl/input/DS20/work
+
+mkdir -p $HOME/data/gdl/input/DS21/arc
+mkdir -p $HOME/data/gdl/input/DS21/err
+mkdir -p $HOME/data/gdl/input/DS21/in
+mkdir -p $HOME/data/gdl/input/DS21/log
+mkdir -p $HOME/data/gdl/input/DS21/out
+mkdir -p $HOME/data/gdl/input/DS21/work
 
 mkdir -p $HOME/data/gdl/input/DS23/arc
 mkdir -p $HOME/data/gdl/input/DS23/err
@@ -228,28 +350,94 @@ mkdir -p $HOME/data/gdl/input/DS28/work_P03_ODD
 mkdir -p $HOME/data/gdl/input/DS28/work_P04_EVEN
 mkdir -p $HOME/data/gdl/input/DS28/work_P04_ODD
 
+
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_00
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_01
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_02
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_03
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_04
+mkdir -p $HOME/data/gdl/input/DS28/arc_680_91 
+mkdir -p $HOME/data/gdl/input/DS28/err_680_00
+mkdir -p $HOME/data/gdl/input/DS28/err_680_01
+mkdir -p $HOME/data/gdl/input/DS28/err_680_02
+mkdir -p $HOME/data/gdl/input/DS28/err_680_03
+mkdir -p $HOME/data/gdl/input/DS28/err_680_04
+mkdir -p $HOME/data/gdl/input/DS28/err_680_91
+mkdir -p $HOME/data/gdl/input/DS28/err_680 
+mkdir -p $HOME/data/gdl/input/DS28/in_680
+mkdir -p $HOME/data/gdl/input/DS28/log_680_00
+mkdir -p $HOME/data/gdl/input/DS28/log_680_01
+mkdir -p $HOME/data/gdl/input/DS28/log_680_02 
+mkdir -p $HOME/data/gdl/input/DS28/log_680_03 
+mkdir -p $HOME/data/gdl/input/DS28/log_680_04 
+mkdir -p $HOME/data/gdl/input/DS28/log_680_91
+mkdir -p $HOME/data/gdl/input/DS28/work_680_00 
+mkdir -p $HOME/data/gdl/input/DS28/work_680_01 
+mkdir -p $HOME/data/gdl/input/DS28/work_680_02 
+mkdir -p $HOME/data/gdl/input/DS28/work_680_03 
+mkdir -p $HOME/data/gdl/input/DS28/work_680_04 
+mkdir -p $HOME/data/gdl/input/DS28/work_680_91 
+mkdir -p $HOME/data/gdl/input/DS28/work_680 
+
+
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_00 
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_01 
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_02 
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_03 
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_04 
+mkdir -p $HOME/data/gdl/input/DS28/arc_706_91 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_00 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_01 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_02 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_03 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_04 
+mkdir -p $HOME/data/gdl/input/DS28/err_706_91 
+mkdir -p $HOME/data/gdl/input/DS28/err_706 
+mkdir -p $HOME/data/gdl/input/DS28/in_706
+mkdir -p $HOME/data/gdl/input/DS28/log_706_00 
+mkdir -p $HOME/data/gdl/input/DS28/log_706_01 
+mkdir -p $HOME/data/gdl/input/DS28/log_706_02 
+mkdir -p $HOME/data/gdl/input/DS28/log_706_03 
+mkdir -p $HOME/data/gdl/input/DS28/log_706_04 
+mkdir -p $HOME/data/gdl/input/DS28/log_706_91
+mkdir -p $HOME/data/gdl/input/DS28/work_706_00 
+mkdir -p $HOME/data/gdl/input/DS28/work_706_01 
+mkdir -p $HOME/data/gdl/input/DS28/work_706_02 
+mkdir -p $HOME/data/gdl/input/DS28/work_706_03 
+mkdir -p $HOME/data/gdl/input/DS28/work_706_04 
+mkdir -p $HOME/data/gdl/input/DS28/work_706_91 
+mkdir -p $HOME/data/gdl/input/DS28/work_706 
+
 mkdir -p $HOME/data/gdl/input/DS33/arc
 mkdir -p $HOME/data/gdl/input/DS33/arc_P01
 mkdir -p $HOME/data/gdl/input/DS33/arc_P02
 mkdir -p $HOME/data/gdl/input/DS33/arc_P03
 mkdir -p $HOME/data/gdl/input/DS33/arc_P04
+mkdir -p $HOME/data/gdl/input/DS33/arc_680
+mkdir -p $HOME/data/gdl/input/DS33/arc_706
 mkdir -p $HOME/data/gdl/input/DS33/err
 mkdir -p $HOME/data/gdl/input/DS33/err_P01
 mkdir -p $HOME/data/gdl/input/DS33/err_P02
 mkdir -p $HOME/data/gdl/input/DS33/err_P03
 mkdir -p $HOME/data/gdl/input/DS33/err_P04
+mkdir -p $HOME/data/gdl/input/DS33/err_680
+mkdir -p $HOME/data/gdl/input/DS33/err_706
 mkdir -p $HOME/data/gdl/input/DS33/in
 mkdir -p $HOME/data/gdl/input/DS33/log
 mkdir -p $HOME/data/gdl/input/DS33/log_P01
 mkdir -p $HOME/data/gdl/input/DS33/log_P02
 mkdir -p $HOME/data/gdl/input/DS33/log_P03
 mkdir -p $HOME/data/gdl/input/DS33/log_P04
+mkdir -p $HOME/data/gdl/input/DS33/log_680
+mkdir -p $HOME/data/gdl/input/DS33/log_706
 mkdir -p $HOME/data/gdl/input/DS33/out
 mkdir -p $HOME/data/gdl/input/DS33/work
 mkdir -p $HOME/data/gdl/input/DS33/work_P01
 mkdir -p $HOME/data/gdl/input/DS33/work_P02
 mkdir -p $HOME/data/gdl/input/DS33/work_P03
 mkdir -p $HOME/data/gdl/input/DS33/work_P04
+mkdir -p $HOME/data/gdl/input/DS33/work_680
+mkdir -p $HOME/data/gdl/input/DS33/work_706
 
 mkdir -p $HOME/data/gdl/input/DS39/arc
 mkdir -p $HOME/data/gdl/input/DS39/err
@@ -278,6 +466,13 @@ mkdir -p $HOME/data/gdl/input/DS45/in
 mkdir -p $HOME/data/gdl/input/DS45/log
 mkdir -p $HOME/data/gdl/input/DS45/out
 mkdir -p $HOME/data/gdl/input/DS45/work
+
+mkdir -p $HOME/data/gdl/input/DS47/arc
+mkdir -p $HOME/data/gdl/input/DS47/err
+mkdir -p $HOME/data/gdl/input/DS47/in
+mkdir -p $HOME/data/gdl/input/DS47/log
+mkdir -p $HOME/data/gdl/input/DS47/out
+mkdir -p $HOME/data/gdl/input/DS47/work
 
 mkdir -p $HOME/data/gdl/input/DS48/arc
 mkdir -p $HOME/data/gdl/input/DS48/err
@@ -400,6 +595,48 @@ mkdir -p $HOME/data/gdl/input/DS72/out
 mkdir -p $HOME/data/gdl/input/DS72/raw
 mkdir -p $HOME/data/gdl/input/DS72/work
 
+
+mkdir -p $HOME/data/gdl/input/DS73/arc
+mkdir -p $HOME/data/gdl/input/DS73/err
+mkdir -p $HOME/data/gdl/input/DS73/in
+mkdir -p $HOME/data/gdl/input/DS73/log
+mkdir -p $HOME/data/gdl/input/DS73/out
+mkdir -p $HOME/data/gdl/input/DS73/raw
+mkdir -p $HOME/data/gdl/input/DS73/work
+
+mkdir -p $HOME/data/gdl/input/DS74/arc
+mkdir -p $HOME/data/gdl/input/DS74/err
+mkdir -p $HOME/data/gdl/input/DS74/in
+mkdir -p $HOME/data/gdl/input/DS74/log
+mkdir -p $HOME/data/gdl/input/DS74/out
+mkdir -p $HOME/data/gdl/input/DS74/raw
+mkdir -p $HOME/data/gdl/input/DS74/work
+
+mkdir -p $HOME/data/gdl/input/DS75/arc
+mkdir -p $HOME/data/gdl/input/DS75/err
+mkdir -p $HOME/data/gdl/input/DS75/in
+mkdir -p $HOME/data/gdl/input/DS75/log
+mkdir -p $HOME/data/gdl/input/DS75/out
+mkdir -p $HOME/data/gdl/input/DS75/raw
+mkdir -p $HOME/data/gdl/input/DS75/work
+
+mkdir -p $HOME/data/gdl/input/DS76/arc
+mkdir -p $HOME/data/gdl/input/DS76/err
+mkdir -p $HOME/data/gdl/input/DS76/in
+mkdir -p $HOME/data/gdl/input/DS76/log
+mkdir -p $HOME/data/gdl/input/DS76/out
+mkdir -p $HOME/data/gdl/input/DS76/raw
+mkdir -p $HOME/data/gdl/input/DS76/work
+
+mkdir -p $HOME/data/gdl/input/DS78/arc
+mkdir -p $HOME/data/gdl/input/DS78/err
+mkdir -p $HOME/data/gdl/input/DS78/in
+mkdir -p $HOME/data/gdl/input/DS78/log
+mkdir -p $HOME/data/gdl/input/DS78/out
+mkdir -p $HOME/data/gdl/input/DS78/raw
+mkdir -p $HOME/data/gdl/input/DS78/work
+
+
 mkdir -p $HOME/data/gdl/input/DS80/arc
 mkdir -p $HOME/data/gdl/input/DS80/err
 mkdir -p $HOME/data/gdl/input/DS80/in
@@ -420,3 +657,113 @@ mkdir -p $HOME/data/gdl/input/DS8/in
 mkdir -p $HOME/data/gdl/input/DS8/log
 mkdir -p $HOME/data/gdl/input/DS8/out
 mkdir -p $HOME/data/gdl/input/DS8/work
+
+mkdir -p $HOME/data/gdl/input/DS90/arc
+mkdir -p $HOME/data/gdl/input/DS90/err
+mkdir -p $HOME/data/gdl/input/DS90/in
+mkdir -p $HOME/data/gdl/input/DS90/log
+mkdir -p $HOME/data/gdl/input/DS90/out
+mkdir -p $HOME/data/gdl/input/DS90/work
+
+mkdir -p $HOME/data/gdl/input/DS91/arc
+mkdir -p $HOME/data/gdl/input/DS91/err
+mkdir -p $HOME/data/gdl/input/DS91/in
+mkdir -p $HOME/data/gdl/input/DS91/log
+mkdir -p $HOME/data/gdl/input/DS91/out
+mkdir -p $HOME/data/gdl/input/DS91/work
+
+mkdir -p $HOME/data/gdl/input/DS92/arc
+mkdir -p $HOME/data/gdl/input/DS92/err
+mkdir -p $HOME/data/gdl/input/DS92/in
+mkdir -p $HOME/data/gdl/input/DS92/log
+mkdir -p $HOME/data/gdl/input/DS92/out
+mkdir -p $HOME/data/gdl/input/DS92/work
+
+mkdir -p $HOME/data/gdl/input/DS93/arc
+mkdir -p $HOME/data/gdl/input/DS93/arc/preprocess
+mkdir -p $HOME/data/gdl/input/DS93/raw
+mkdir -p $HOME/data/gdl/input/DS93/err
+mkdir -p $HOME/data/gdl/input/DS93/err_preprocess
+mkdir -p $HOME/data/gdl/input/DS93/in
+mkdir -p $HOME/data/gdl/input/DS93/log
+mkdir -p $HOME/data/gdl/input/DS93/out
+mkdir -p $HOME/data/gdl/input/DS93/work
+mkdir -p $HOME/data/gdl/input/DS93/work_preprocess
+
+mkdir -p $HOME/data/gdl/input/DS94/arc
+mkdir -p $HOME/data/gdl/input/DS94/err
+mkdir -p $HOME/data/gdl/input/DS94/in
+mkdir -p $HOME/data/gdl/input/DS94/log
+mkdir -p $HOME/data/gdl/input/DS94/out
+mkdir -p $HOME/data/gdl/input/DS94/work
+mkdir -p $HOME/data/gdl/input/DS94/raw
+mkdir -p $HOME/data/gdl/input/DS93/arc_preprocess
+
+mkdir -p $HOME/data/gdl/input/DS95/arc
+mkdir -p $HOME/data/gdl/input/DS95/err
+mkdir -p $HOME/data/gdl/input/DS95/in
+mkdir -p $HOME/data/gdl/input/DS95/log
+mkdir -p $HOME/data/gdl/input/DS95/out
+mkdir -p $HOME/data/gdl/input/DS95/work
+
+mkdir -p $HOME/data/gdl/input/DS96/arc
+mkdir -p $HOME/data/gdl/input/DS96/err
+mkdir -p $HOME/data/gdl/input/DS96/in
+mkdir -p $HOME/data/gdl/input/DS96/log
+mkdir -p $HOME/data/gdl/input/DS96/out
+mkdir -p $HOME/data/gdl/input/DS96/work
+
+mkdir -p $HOME/data/gdl/input/DS98/arc
+mkdir -p $HOME/data/gdl/input/DS98/err
+mkdir -p $HOME/data/gdl/input/DS98/in
+mkdir -p $HOME/data/gdl/input/DS98/log
+mkdir -p $HOME/data/gdl/input/DS98/out
+mkdir -p $HOME/data/gdl/input/DS98/work
+
+
+mkdir -p $HOME/data/gdl/input/DS99/arc
+mkdir -p $HOME/data/gdl/input/DS99/err
+mkdir -p $HOME/data/gdl/input/DS99/in
+mkdir -p $HOME/data/gdl/input/DS99/log
+mkdir -p $HOME/data/gdl/input/DS99/out
+mkdir -p $HOME/data/gdl/input/DS99/work
+
+mkdir -p $HOME/data/gdl/input/DS83/arc
+mkdir -p $HOME/data/gdl/input/DS83/err
+mkdir -p $HOME/data/gdl/input/DS83/in
+mkdir -p $HOME/data/gdl/input/DS83/log
+mkdir -p $HOME/data/gdl/input/DS83/out
+mkdir -p $HOME/data/gdl/input/DS83/work
+mkdir -p $HOME/data/gdl/input/DS83/raw
+
+mkdir -p $HOME/data/gdl/input/DS84/arc
+mkdir -p $HOME/data/gdl/input/DS84/err
+mkdir -p $HOME/data/gdl/input/DS84/in
+mkdir -p $HOME/data/gdl/input/DS84/log
+mkdir -p $HOME/data/gdl/input/DS84/out
+mkdir -p $HOME/data/gdl/input/DS84/work
+
+mkdir -p $HOME/data/gdl/input/DS85/arc
+mkdir -p $HOME/data/gdl/input/DS85/err
+mkdir -p $HOME/data/gdl/input/DS85/in
+mkdir -p $HOME/data/gdl/input/DS85/log
+mkdir -p $HOME/data/gdl/input/DS85/out
+mkdir -p $HOME/data/gdl/input/DS85/work
+
+mkdir -p $HOME/data/gdl/input/DS86/arc
+mkdir -p $HOME/data/gdl/input/DS86/err
+mkdir -p $HOME/data/gdl/input/DS86/in
+mkdir -p $HOME/data/gdl/input/DS86/log
+mkdir -p $HOME/data/gdl/input/DS86/out
+mkdir -p $HOME/data/gdl/input/DS86/work
+
+
+mkdir -p $HOME/data/gdl/input/DS7/arc
+mkdir -p $HOME/data/gdl/input/DS7/err
+mkdir -p $HOME/data/gdl/input/DS7/in
+mkdir -p $HOME/data/gdl/input/DS7/raw
+mkdir -p $HOME/data/gdl/input/DS7/log
+mkdir -p $HOME/data/gdl/input/DS7/out
+mkdir -p $HOME/data/gdl/input/DS7/work
+
+

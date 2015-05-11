@@ -5,8 +5,7 @@ NEID=$2
 ODD_EVEN=$3
 PRE_POST=$4
 
-export BASEDIR=/usr/revo
-#export BASEDIR=$HOME
+export BASEDIR=$HOME
 export AGGREGATOR_BUILD=$BASEDIR/AGGREGATOR_BUILD
 
 DATADIR=datafeed/um
@@ -30,7 +29,7 @@ fi
 
 if [ $DS = "DS28" ] ; then 
 	if [ -z $NEID ] || [ -z $ODD_EVEN ] || [ -z $PRE_POST ] ; then
-		echo "Usage decode_wrapper DS28 NEID ODD_EVEN PRE_POST... where NEID in P0[1234], ODD_EVEN in (ODD|EVEN) and PRE_POST in (PRE|POST)"
+		echo "Usage decode_wrapper DS28 NEID ODD_EVEN PRE_POST... where NEID in (P01|P02|P03|P04|680|706), ODD_EVEN in (ODD|EVEN) and PRE_POST in (PRE|POST)"
 		exit 1
 	fi
 	
@@ -73,14 +72,21 @@ if [ $DS = "DS28" ]; then
 		PATTERN="02468"
 	fi
 
-	FILE_PATTERN="MSS${NEID}*${FILETYPE}*[$PATTERN]"
-	FINDDIR="$BASEDIR/$DATADIR/DS28/raw_${NEID}_${PRE_POST}"
+	if [ $NEID = "680" ] || [ $NEID = "706" ] ; then
+		FILE_PATTERN="${NEID}MSS*${FILETYPE}*[$PATTERN]"
+		TMPDIR="$BASEDIR/$DATADIR/${DS}/work_${NEID}"
+		ERRDIR="$BASEDIR/$DATADIR/${DS}/err_${NEID}"
+	else
+		FILE_PATTERN="MSS${NEID}*${FILETYPE}*[$PATTERN]"
+		TMPDIR="$BASEDIR/$DATADIR/${DS}/work_${NEID}_${ODD_EVEN}"
+		ERRDIR="$BASEDIR/$DATADIR/${DS}/err_${NEID}_${ODD_EVEN}"
+	fi	
+
+	FINDDIR="$BASEDIR/$DATADIR/DS28/raw"
 	OUTDIR="$BASEDIR/$DATADIR/DS28/in_${NEID}"
 	ARCDIR="$BASEDIR/$DATADIR/DS28/arc"
-	TMPDIR="$BASEDIR/$DATADIR/${DS}/work_${NEID}_${ODD_EVEN}"
-        ERRDIR="$BASEDIR/$DATADIR/${DS}/err_${NEID}_${ODD_EVEN}"
 	FORMAT="MSS"
-	ASN1_DECODE="$BASEDIR/AGGREGATOR_BUILD/bin/asn1_decode.pl -format $FORMAT -processChunks ";
+	ASN1_DECODE="$BASEDIR/AGGREGATOR_BUILD/bin/asn1_decode.pl -format $FORMAT";
 
 else
 
