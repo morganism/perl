@@ -23,9 +23,9 @@ use warnings;
 
 use Data::Dumper;
 
-use lib "../lib";
+use lib $ENV{CONFIG_FILE_SRC} . "/lib";
 use ConfigFile;
-my $file = shift || "/home/morgan/src/git/perl/config/bin/test.xml";
+my $file = shift || $ENV{CONFIG_FILE_SRC} . "/bin/test.xml";
 
 my $c = new ConfigFile({filename=>$file});
 print Dumper($c->{xpath});
