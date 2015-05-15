@@ -10,7 +10,7 @@
 ####for libs:
  [libs](https://github.com/morganism/perl/tree/master/agg/MODULE/files/lib/Ascertain/UM)
 
-####for readers (for each flie type: csv, fixed width, ASN.1, etc.) see:
+####for readers (for each file type: csv, fixed width, ASN.1, etc.) see:
  [readers](https://github.com/morganism/perl/tree/master/agg/MODULE/files/lib/Ascertain/UM/Readers)
 
 ####for formats (input record layout) see:
