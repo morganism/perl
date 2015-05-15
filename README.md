@@ -1,4 +1,2 @@
-Readme info goes here
-and here
+Various perl projects 
 
-http://morganism.github.io/perl/
